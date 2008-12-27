@@ -1,0 +1,114 @@
+
+Примеры использования mod_rewrite
+
+	
+Документ написан на 90%. 1 мая 2008 года.
+
+
+Подробное описание модуля mod_rewrite можно найти здесь
+
+Посетители веб-сайта авторизуются при помощи стандартной авторизации (AuthType BasicAuth). Необходимо по ссылке /home/первая буква логина/ показывать содержимое их домашних каталогов.
+
+RewriteEngine on
+RewriteCond %{REMOTE _ USER} != ""
+RewriteCond /home/(.)/(%{REMOTE_USER}) -d
+RewriteRule (.*) /home/%2/$1
+
+
+Жесткий запрет посещений нашего веб-сайта для робота поисковой системы Google
+
+RewriteEngine on
+
+RewriteCond %{USER_AGENT} Googlebot
+RewriteRule .* - [F]
+
+# Другой вариант возвращает вместо ошибки 403 ( FORBIDDEN ) ошибку 404 ( NOT _ FOUND ) 
+RewriteCond %{USER_AGENT} Googlebot
+RewriteRule .* - [R=404]
+
+
+Закрыть доступ к веб-сайту в рабочее время
+
+RewriteEngine on
+
+RewriteCond %{TIME_HOUR}%{TIME_MIN} > 900
+RewriteCond %{TIME_HOUR}%{TIME_MIN} < 1800
+RewriteRule .* - [ F ] 
+
+
+Если на вашем сайте есть очень ценные картинки или архивы и вы не хотите чтобы кто-то размещал их (если архивы, то ссылки на них) на своих страницах, создавая таким образом бесполезный трафик для вашего сайта, вы можете запретить скачивание ресурсов, проверяя поле заголовка HTTP_REFERER. для каталога:
+
+RewriteEngine on
+
+RewriteBase   /img/
+RewriteCond %{HTTP_REFERER} !^$
+RewriteRule .* - [ F ] 
+
+
+и для определенных типов файлов
+
+RewriteEngine on
+
+RewriteBase   /img/
+RewriteCond %{HTTP_REFERER} !^$
+RewriteRule \.(jpe?g|gif|png|css|swf)$ - [ F ] 
+
+
+В связи с неоднозначностью записи расширения HTML файлов (.htm или .html), некоторые пользователи могут ошибочно набрать адрес страницы. Для автоматического исправления такого рода ошибок, можно воспользоваться mod_rewrite.
+
+RewriteEngine on
+
+RewriteBase   /
+RewriteRule ^(.*)\.htm$  $1.html [R=permanent] 
+
+
+Необходимо запрос любой страницы сайта отправлять на одну (будет написано что сайт временно ен доступен), но в то же время нужно оставить его открытым для поисковых машин. То есть для клиентов сайт закрыт, а для индексации - открыт.
+
+RewriteEngine on
+
+RewriteBase   /
+RewriteCond %{HTTP_USER_AGENT} !^yandex.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} !^googlebot.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} !^gaisbot.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} !^rambler.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} !^aport.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} !^metacrawler.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} !^msnbot.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} !^crawler.* [NC,OR]
+RewriteRule ^/$ - [L,R] 
+
+
+Перенаправление несуществующих URL на другой веб-сервер
+
+RewriteEngine on
+
+RewriteBase   /
+RewriteCond /your/docroot/%{REQUEST_FILENAME} !-f
+RewriteRule ^(.+) http://webserverB.dom/$1  
+
+
+Проблема здесь в том, что это будет работать только для страниц находяшихся внутри DocumentRoot. Тогда как вы можете добавить больше условий (например ещё и для управления домашними каталогами, и т.д.) есть лучший вариант:
+
+RewriteEngine on
+
+RewriteBase   /
+RewriteCond /your/docroot/%{REQUEST_FILENAME} !-U
+RewriteRule ^(.+) http://webserverB.dom/$1  
+
+
+Сайт перенесен с одного домена на другой с domain.com на domain2.com
+
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^www\.domain\.com$ [R=301,1]
+RewriteRule ^(.*)$ http://www.domain2.com/$1
+
+
+Часто хостинговые провайдеры накладывают ограничение на количество уикальных сайтов, и зачастую под это ограничение попадают и поддомены. Данное ограничение можно обойти средствами .htaccess. Например мы хотим направить поддомен forum.yourdomain.net на директорию ~/forum для этого необходимо направить нужные поддомены на папку с остновным сайтом и создать вложенную директорию например forum
+
+
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^forum\.yuordomain\.net$ [NC]
+RewriteCond %{REQUEST_URI} !^/forum/$ [NC]
+RewriteRule (.*) /forum/$1 [L]
