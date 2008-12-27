@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_SERVER['DOCUMENT_ROOT'])) {
     $rootPath = $_SERVER['DOCUMENT_ROOT'];
 } else {

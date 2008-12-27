@@ -2,16 +2,13 @@
 /**
  * Short description for file
  *
- * Long description for file (if any)...
- *
- * LICENSE: Some license information
- *
- * @copyright  2008 Zend Technologies
+ * @package Core
+ * @copyright  2008 PTA Studio
  * @license    http://framework.zend.com/license   BSD License
  * @version    $Id:$
- * @link       http://framework.zend.com/package/PackageName
- * @since      File available since Release 1.5.0
+ * @author Taras Pavuk <tpavuk@gmail.com>
 */
+
 abstract class PTA_Object extends PTA_DB
 {
 	private $_prefix = null;

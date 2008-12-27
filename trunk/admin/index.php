@@ -1,4 +1,13 @@
 <?php
+/**
+ * Short description for file
+ *
+ * @package Core
+ * @copyright  2008 PTA Studio
+ * @license    http://framework.zend.com/license   BSD License
+ * @version    $Id:$
+ * @author Taras Pavuk <tpavuk@gmail.com>
+*/
 
 error_reporting(E_ALL);
 ini_set('dipslay_errors', 1);

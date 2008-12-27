@@ -1,10 +1,14 @@
 <?php
 /**
- * Catrgorys
- *  
- * @author taras
- * @version 
- */
+ * Short description for file
+ *
+ * @package Core
+ * @copyright  2008 PTA Studio
+ * @license    http://framework.zend.com/license   BSD License
+ * @version    $Id:$
+ * @author Taras Pavuk <tpavuk@gmail.com>
+*/
+
 class PTA_DB_Table extends Zend_Db_Table_Abstract
 {
     /**

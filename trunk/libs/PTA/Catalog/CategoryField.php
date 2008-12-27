@@ -1,4 +1,14 @@
 <?php
+/**
+ * Short description for file
+ *
+ * @package Catalog
+ * @copyright  2008 PTA Studio
+ * @license    http://framework.zend.com/license   BSD License
+ * @version    $Id:$
+ * @author Taras Pavuk <tpavuk@gmail.com>
+*/
+
 class PTA_Catalog_CategoryField extends PTA_DB_Object 
 {
     private $_categoryId;
