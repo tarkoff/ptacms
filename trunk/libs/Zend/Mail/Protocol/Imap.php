@@ -17,7 +17,7 @@
  * @subpackage Protocol
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Imap.php 9282 2008-04-22 18:21:46Z nico $
+ * @version    $Id$
  */
 
 

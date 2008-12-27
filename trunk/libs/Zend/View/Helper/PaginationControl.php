@@ -16,7 +16,7 @@
  * @package    Zend_View
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PaginationControl.php 11763 2008-10-09 01:39:04Z mratzloff $
+ * @version    $Id$
  */
 
 /**

@@ -16,7 +16,7 @@
  * @package   Zend_Locale
  * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Locale.php 10081 2008-07-14 13:05:48Z thomas $
+ * @version   $Id$
  */
 
 /**

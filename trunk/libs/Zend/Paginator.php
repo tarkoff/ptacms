@@ -16,7 +16,7 @@
  * @package    Zend_Paginator
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Paginator.php 11773 2008-10-09 07:29:01Z norm2782 $
+ * @version    $Id$
  */
 
 /**

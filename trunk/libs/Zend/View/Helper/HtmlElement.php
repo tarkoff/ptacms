@@ -17,7 +17,7 @@
  * @subpackage Helper
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HtmlElement.php 11290 2008-09-08 18:39:34Z matthew $
+ * @version    $Id$
  */
 
 /**

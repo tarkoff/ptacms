@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Proxy.php 11881 2008-10-11 20:04:58Z alexander $
+ * @version    $Id$
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */

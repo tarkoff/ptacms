@@ -17,7 +17,7 @@
  * @subpackage Zend_Auth_Adapter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OpenId.php 10096 2008-07-15 15:11:25Z dmitry $
+ * @version    $Id$
  */
 
 

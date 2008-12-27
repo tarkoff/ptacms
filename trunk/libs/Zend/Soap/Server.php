@@ -32,7 +32,7 @@ require_once 'Zend/Soap/Server/Exception.php';
  * @uses       Zend_Server_Interface
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Server.php 10761 2008-08-07 16:41:00Z matthew $
+ * @version    $Id$
  */
 class Zend_Soap_Server implements Zend_Server_Interface
 {

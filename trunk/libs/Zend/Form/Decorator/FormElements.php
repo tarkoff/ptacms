@@ -37,7 +37,7 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  * @subpackage Decorator
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormElements.php 10277 2008-07-22 15:24:18Z matthew $
+ * @version    $Id$
  */
 class Zend_Form_Decorator_FormElements extends Zend_Form_Decorator_Abstract
 {

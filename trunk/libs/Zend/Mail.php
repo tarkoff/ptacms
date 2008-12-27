@@ -16,7 +16,7 @@
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 9222 2008-04-14 13:48:41Z yoshida@zend.co.jp $
+ * @version    $Id$
  */
 
 

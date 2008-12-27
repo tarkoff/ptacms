@@ -16,7 +16,7 @@
  * @package    Zend_Cache
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cache.php 11817 2008-10-10 04:24:20Z yoshida@zend.co.jp $
+ * @version    $Id$
  */
 
 

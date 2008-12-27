@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Response
- * @version    $Id: Response.php 11818 2008-10-10 05:08:02Z yoshida@zend.co.jp $
+ * @version    $Id$
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
