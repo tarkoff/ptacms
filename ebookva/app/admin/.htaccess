@@ -1,0 +1,20 @@
+Options +FollowSymlinks
+Options -Indexes
+
+AddDefaultCharset UTF-8
+
+RewriteEngine on
+
+RewriteBase /
+
+RewriteRule ^.htaccess$ - [F]
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+
+#RewriteRule ^([a-zA-Z_]*)/([a-zA-Z0-9]*)/([a-zA-Z0-9]*)/?$ admin/index.php?Controler=$1&Action=$2&Entity=$3 [L]
+
+#RewriteRule ^admin/([a-zA-Z_]+)/add/?$ admin/index.php?Module=$1&Action=Edit&EntryId=$2 [L]
+#RewriteRule ^admin/([a-zA-Z_]+)/edit/([a-zA-Z0-9])\.html admin/index.php?Module=$1&Action=Edit&EntryId=$2 [L]
+#RewriteRule ^admin/([a-zA-Z_]+)/list/([a-zA-Z0-9])\.html admin/index.php?Module=$1&Action=List&Page=$2 [L]
+RewriteRule !\.(js|ico|swf|gif|jpg|png|css|xml)$ admin/index.php [L]
