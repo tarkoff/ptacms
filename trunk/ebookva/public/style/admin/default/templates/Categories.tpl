@@ -4,6 +4,9 @@
 {if $data->tplMode == 'edit'}
 	{include file=Categories/editForm.tpl data=$data->editForm}
 {/if}
-{if $data->tplMode == 'categoryFields'}
-	{include file=Categories/editFieldsForm.tpl form=$data->editFieldsForm}
+{if $data->tplMode == 'addFields'}
+	{include file=Categories/addFieldsForm.tpl form=$data->addFieldsForm}
+{/if}
+{if $data->tplMode == 'delFields'}
+	{include file=Categories/delFieldsForm.tpl form=$data->delFieldsForm}
 {/if}

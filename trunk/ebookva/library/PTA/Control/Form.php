@@ -66,10 +66,10 @@ abstract class PTA_Control_Form extends PTA_Object
             foreach ($elements as $element) {
                 //list($name) = explode('[', $element->getName());
                 $name = $element->getName();
-var_dump($element->getName(), $name);
-                $fullName = $this->getPrefix() . '_' . $name;
-                if (in_array(strtolower($name), $dataKeys)) {
-                    $value = $data->{strtolower($name)};                    
+//var_dump($element->getName(), $name);
+                $fullName = $this->getPrefix() . "_$name";
+                if (isset($data->{$name})) {
+                    $value = $data->{$name};                    
                 } else {
                     $value = $this->getHttpVar($fullName);
                 }
@@ -80,7 +80,6 @@ var_dump($element->getName(), $name);
                 $element->run();
             }
         }
-//var_dump($data);        
         return $data;
     }
     
@@ -119,15 +118,9 @@ var_dump($element->getName(), $name);
         $data = array();
         foreach ($elements as $element) {
             $element->setName($this->getPrefix() . '_' . $element->getName());
-            $prefix = $element->getPrefix();
-            if (isset($data[$prefix])) {
-            	$data[$prefix] = (array)$data[$prefix];
-            	$data[$prefix][] = $element->toString();
-            } else {
-            	$data[$element->getPrefix()] = $element->toString();
-            }
+           	$data[$element->getPrefix()] = $element->toString();
         }
-        
+//var_dump($data);        
         usort($data, array($this, "sortData"));
         $object->data = $data;
          
