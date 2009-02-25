@@ -35,7 +35,7 @@ class Categories extends PTA_WebModule
         if (!empty($itemId)) {
             $this->_category->loadById($itemId);
         }
-
+var_dump($action);
         switch (ucfirst($action)) {
             case 'Add': 
                     $this->editAction();
@@ -49,8 +49,12 @@ class Categories extends PTA_WebModule
                     $this->editAction();
             break;
             
-            case 'Fields':
-                    $this->fieldsAction();
+            case 'AddFields':
+                    $this->addFieldsAction();
+            break;
+            
+            case 'DelFields':
+                    $this->delFieldsAction();
             break;
             
             case 'Delete':
@@ -85,7 +89,8 @@ class Categories extends PTA_WebModule
         $view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
         
         $view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
-        $view->addCommonAction('Fields', $this->getModuleUrl() . 'Fields/Category', 'fields.png');
+        $view->addCommonAction('Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');
+        $view->addCommonAction('Fields', $this->getModuleUrl() . 'delFields/Category', 'fields.png');
         $view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'remove.png');
     }
     
@@ -95,14 +100,19 @@ class Categories extends PTA_WebModule
         $this->redirect($this->getModuleUrl());
     }
     
-    public function fieldsAction()
+    public function addFieldsAction()
     {
-        $this->setVar('tplMode', 'categoryFields');
+        $this->setVar('tplMode', 'addFields');
         
-        $editForm = new Categories_editFieldsForm('editFieldsForm', $this->_category);
+        $editForm = new Categories_addFieldsForm('addFieldsForm', $this->_category);
         $this->addVisual($editForm);
-        
-        
     }
         
+    public function delFieldsAction()
+    {
+        $this->setVar('tplMode', 'delFields');
+        
+        $editForm = new Categories_delFieldsForm('delFieldsForm', $this->_category);
+        $this->addVisual($editForm);
+    }
 }

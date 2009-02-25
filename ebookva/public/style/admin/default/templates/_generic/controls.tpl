@@ -24,7 +24,7 @@
 {/if}
 
 {if $field->type == 'Checkbox'}
-	<input type="checkbox" name="{$field->name}{if !empty($field->arrayMode)}[{$field->index}]{/if}" id="{$field->name}" {if !empty($field->checked)}checked="checked"{/if} {if !empty($field->cssClass)}class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if} value="{if !empty($field->value)}{$field->value}{/if}"/>
+	<input type="checkbox" name="{$field->name}{if !empty($index)}[{$index}]{/if}" id="{$field->name}" {if !empty($field->checked)}checked="checked"{/if} {if !empty($field->cssClass)}class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if} value="{if !empty($field->value)}{$field->value}{/if}"/>
 {/if}
 
 {if $field->type == 'Submit'}

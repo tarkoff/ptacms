@@ -55,4 +55,28 @@ class PTA_Control_Form_Select extends PTA_Control_Form_Field
         $this->setVar('options', (array)$options);
     }
     
+    /**
+     * build option from array by setted fields
+     *
+     * @param array $data
+     * @param string $valueField
+     * @param string $labelField
+     * @return array
+     */
+    public function setOptionsFromArray($data, $valueField, $labelField)
+    {
+    	if (!is_array($data)) {
+    		return array();
+    	}
+
+    	$resData = array();
+    	foreach ($data as $field) {
+    		$resData[] = array(@$field[$valueField], $field[$labelField]);
+    	}
+    	
+    	$this->setOptions($resData);
+    	return $resData;
+    	
+    }
+    
 }

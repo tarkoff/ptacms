@@ -151,42 +151,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
         
         return null;
     }
-    
-    /**
-     * set mode for field like name="field[1]"...
-     *
-     * @param boolean $mode
-     */
-    public function setArrayMode($mode = false)
-    {
-        $this->setVar('arrayMode', (boolean)$mode);
-    }
-    
-    /**
-     * return current array mode
-     *
-     * @return boolean
-     */
-    public function getArrayMode()
-    {
-        return $this->getVar('arrayMode');
-    }
-    
-    /**
-     * set data for array mode
-     *
-     * @param array $data
-     */
-    public function setArrayData($data)
-    {
-        if (!empty($data)) {
-            $this->setArrayMode(true);
-            $this->setVar('arrayData', (array)$data);
-        } else {
-            $this->setArrayMode(false);
-        }
-    }
-    
+        
     public function setIndex($value)
     {
         $this->setVar('index', $value);

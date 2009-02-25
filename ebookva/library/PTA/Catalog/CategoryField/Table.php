@@ -18,16 +18,46 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
     protected $_primary = 'CATEGORIESFIELDS_ID';
     protected $_sequence = true;
     
-    
-    public function getFieldsByCategory($categoryId)
+    /**
+     * find all category fields
+     *
+     * @param unknown_type $categoryId
+     * @param unknown_type $equal
+     * @return unknown
+     */
+    public function getFieldsByCategory($categoryId, $equal = true)
     {
-        $select = $this->select()->where(
-                                        $this->getFieldByAlias('categoryId') . '=?',
-                                        (int)$categoryId
-                                    );
+    	$select = $this->select()->from(
+    								$this->getTableName(),
+    								array_values($this->getFields())
+    							);
+    	if ($equal) {
+        	$select->where(
+        				$this->getFieldByAlias('categoryId') . ' = ?',
+                	    (int)$categoryId
+                    );
+    	} else {
+        	$select->where(
+            	        $this->getFieldByAlias('categoryId') . ' <> ?',
+                	    (int)$categoryId
+                    );
+    	}
+        $fieldsTable = new PTA_Catalog_Field_Table();
+    	$select->join(
+    				array('fields' => $fieldsTable->getTableName()),
+    				$this->getFullFieldName('fieldId') . ' = fields.' . $fieldsTable->getPrimary(),
+    				array('fields.' . $fieldsTable->getFieldByAlias('title'))
+    			);
+    	
         $select->order($this->getFieldByAlias('sortOrder'));
+        $select->setIntegrityCheck(false);
 
         return $this->fetchAll($select)->toArray();
+    }
+    
+    public function getFieldsByNotCategory($categoryId)
+    {
+    	return $this->getFieldsByCategory($categoryId, false);
     }
     
     public function clearbyCategoryId($categoryId)
