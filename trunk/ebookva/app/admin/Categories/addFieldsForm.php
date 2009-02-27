@@ -20,7 +20,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
         
         parent::__construct($prefix);
         
-        $this->setTitle('Category Fields Add Form');
+        $this->setTitle('Add Category Fields Form');
     }
     
     public function initForm()
@@ -28,12 +28,12 @@ class Categories_addFieldsForm extends PTA_Control_Form
         $categoryFieldTable = new PTA_Catalog_CategoryField_Table();
         $fieldsTable = new PTA_Catalog_Field_Table();
         
-        $notCategoryFields = (array)$categoryFieldTable->getFieldsByNotCategory($this->_category->getId());
-                							
+        $notCategoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), false, true);
+ var_dump($notCategoryFields);               							
         $select = new PTA_Control_Form_Select('fieldId', 'Fields For Adding', true);
         $select->setOptionsFromArray(
         			$notCategoryFields,
-        			$categoryFieldTable->getFieldByAlias('fieldId'),
+        			$fieldsTable->getPrimary(),
         			$fieldsTable->getFieldByAlias('title')
         		);
         $select->addOption(array(0, '- Empty -'));
@@ -44,7 +44,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
         $sortOrder->setSortOrder(200);
         $this->addVisual($sortOrder);
         
-        $submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+        $submit = new PTA_Control_Form_Submit('submit', 'Add Field', true, 'Save');
         $submit->setSortOrder(300);
         $this->addVisual($submit);
     }
@@ -55,7 +55,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
         
         //$this->_category->loadTo($data);
         $data->sortOrder = 10;
-        $data->submit = 'save';
+        $data->submit = 'Add Field';
 
         return $data;
     }
@@ -65,7 +65,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
         $invalidFields = $this->validate($data);
         if (!empty($invalidFields)) {
             foreach ($invalidFields as $field) {
-                echo 'Filed ' . $field->getLabel() . ' is required!<br />';
+                echo 'Field "' . $field->getLabel() . '" is required!<br />';
             }
             
             return false;

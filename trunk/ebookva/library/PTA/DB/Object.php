@@ -58,8 +58,7 @@ abstract class PTA_DB_Object extends PTA_Object
             return false;
         }
         
-        $this->loadFrom(current($info));
-        return true;
+        return $this->loadFrom(current($info));
     }
     
 	/**

@@ -15,6 +15,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
      * The default table name 
      */
     protected $_sequence = true;
+    private static $_tables;
     
     protected $_dbFields;
     
@@ -205,5 +206,44 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
         
         return $this->delete($where);
 	}
-    
+	
+	/**
+	 * Get table object by class
+	 *
+	 * @param string $objectClass
+	 * @return PTA_DB_Table
+	 */
+	public static function get($objectClass)
+	{
+		$className = str_replace('PTA_', '' , $objectClass);
+		$className = str_replace('_Table', '' , $objectClass);
+		$className = "PTA_{$className}_Table";
+		
+		if (!empty($_tables[$className])) {
+			return $_tables[$className];
+		}
+
+		if (class_exists($className, true)) {
+			$table = new $className;
+			self::$_tables[$className] = &$table;
+			return self::$_tables[$className];
+		}
+		
+		return null;
+	}
+	
+	private function _buildNewObject($data)
+	{
+		$newObject = $this->getTableObject();
+		return $newObject->loadFrom($data);
+	}
+	
+	public function getTableObject()
+	{
+		$objectClass = str_replace('_Table', '' , get_class($this));
+		if (class_exists($objectClass, true)) {
+			return new $objectClass('objectFromTable_' . rand(0, 1000));
+		}
+		return null;
+	}
 }
