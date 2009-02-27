@@ -35,7 +35,7 @@ class Categories extends PTA_WebModule
         if (!empty($itemId)) {
             $this->_category->loadById($itemId);
         }
-var_dump($action);
+
         switch (ucfirst($action)) {
             case 'Add': 
                     $this->editAction();

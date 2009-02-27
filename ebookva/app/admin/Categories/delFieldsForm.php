@@ -20,7 +20,7 @@ class Categories_delFieldsForm extends PTA_Control_Form
         
         parent::__construct($prefix);
         
-        $this->setTitle('Category Fields Remove Form');
+        $this->setTitle('Remove Category Fields Form');
     }
     
     public function initForm()
@@ -30,7 +30,7 @@ class Categories_delFieldsForm extends PTA_Control_Form
         
         $categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId());
 
-        $select = new PTA_Control_Form_Select('fieldId', 'Fields For Adding', true);
+        $select = new PTA_Control_Form_Select('categoryFieldId', 'Fields For Adding', true);
         $select->setOptionsFromArray(
         			$categoryFields,
         			$categoryFieldTable->getPrimary(),
@@ -40,7 +40,7 @@ class Categories_delFieldsForm extends PTA_Control_Form
         $select->setSortOrder(100);
         $this->addVisual($select);
         
-        $submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+        $submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save');
         $submit->setSortOrder(300);
         $this->addVisual($submit);
     }
@@ -60,7 +60,7 @@ class Categories_delFieldsForm extends PTA_Control_Form
         
         //$this->_category->loadTo($data);
         $data->sortOrder = 10;
-        $data->submit = 'save';
+        $data->submit = 'Remove Field';
 
         return $data;
     }
@@ -70,25 +70,19 @@ class Categories_delFieldsForm extends PTA_Control_Form
         $invalidFields = $this->validate($data);
         if (!empty($invalidFields)) {
             foreach ($invalidFields as $field) {
-                echo 'Filed ' . $field->getLabel() . ' is required!<br />';
+                echo 'Field "' . $field->getLabel() . '" is required!<br />';
             }
             
             return false;
         }
 
 
-        if (!empty($data->fieldId)) {
-        	$fieldId = (int)$data->fieldId;
-        	$categoryField = new PTA_Catalog_CategoryField('field_' . $fieldId);
-            $categoryField->setCategoryid($this->_category->getId());
-            $categoryField->setFieldId($fieldId);
-            if (empty($data->sortOrder)) {
-            	$sortOrder = 0;
-            } else {
-            	$sortOrder = (int)$data->sortOrder;
-            }
-            $categoryField->setSortOrder($sortOrder);
-        	if ($categoryField->save()) {
+        if (!empty($data->categoryFieldId)) {
+        	$categoryFieldId = (int)$data->categoryFieldId;
+        	$categoryField = new PTA_Catalog_CategoryField('delField');
+        	$categoryField = $categoryField->loadById($categoryFieldId);
+
+        	if ($categoryField->remove()) {
             	$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
         	}
         }
