@@ -38,6 +38,12 @@ class Fields_editForm extends PTA_Control_Form
         $alias->setCssClass('textField');
         $this->addVisual($alias);
         
+        $fields = PTA_Control_Form_Field::getPossibleFields();
+        $fieldType = new PTA_Control_Form_Select('fieldType', 'Field Type', true, $fields);
+        $fieldType->setSortOrder(300);
+        $fieldType->setCssClass('textField');
+        $this->addVisual($fieldType);
+        
         $submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
         $submit->setSortOrder(400);
         $this->addVisual($submit);

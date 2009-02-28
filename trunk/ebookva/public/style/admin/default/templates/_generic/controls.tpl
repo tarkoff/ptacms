@@ -1,4 +1,5 @@
-{if $field->type == 'Text'}
+{pta_const name="PTA_Control_Form_Field::TYPE_TEXT" to="fieldType"}
+{if $field->type == $fieldType}
 	<input type="text" name="{$field->name}" id="{$field->name}" value="{$field->value}" {if !empty($field->cssClass)}class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if}/>
 {/if}
 
@@ -6,7 +7,8 @@
 	<textarea name="{$field->name}" id="{$field->name}"{if !empty($field->cssClass)} class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if}>{if !empty($field->value)}{$field->value}{/if}</textarea>
 {/if}
 
-{if $field->type == 'Select'}
+{pta_const name="PTA_Control_Form_Field::TYPE_SELECT" to="fieldType"}
+{if $field->type == $fieldType}
     <select name="{$field->name}" id="{$field->name}"{if !empty($field->cssClass)} class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if}>
     {if empty($field->value)}
     	{assign var="selected" value="0"}
@@ -23,10 +25,12 @@
     </select>
 {/if}
 
-{if $field->type == 'Checkbox'}
+{pta_const name="PTA_Control_Form_Field::TYPE_CHECKBOX" to="fieldType"}
+{if $field->type == $fieldType}
 	<input type="checkbox" name="{$field->name}{if !empty($index)}[{$index}]{/if}" id="{$field->name}" {if !empty($field->checked)}checked="checked"{/if} {if !empty($field->cssClass)}class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if} value="{if !empty($field->value)}{$field->value}{/if}"/>
 {/if}
 
-{if $field->type == 'Submit'}
+{pta_const name="PTA_Control_Form_Field::TYPE_SUBMIT" to="fieldType"}
+{if $field->type == $fieldType}
 	<input type="submit" name="{$field->name}" id="{$field->name}" value="{$field->value}" {if !empty($field->cssClass)}class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if}/>
 {/if}

@@ -57,7 +57,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
     private function _getFieldsByCategory($categoryIds, $equal = true)
     {
     	$categoryIds = (array)$categoryIds;
-var_dump($categoryIds);    	
+//var_dump($categoryIds);    	
     	$fieldsTable = PTA_DB_Table::get('Catalog_Field');
     	
     	$select = $this->select()->from(
@@ -80,6 +80,7 @@ var_dump($categoryIds);
     		
     		$select->where('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' not in (?)', $categoryIds);
     	}
+    	$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
         $select->order('categoriesFields.' . $this->getFieldByAlias('sortOrder'));
         $select->setIntegrityCheck(false);
 var_dump($select->assemble());

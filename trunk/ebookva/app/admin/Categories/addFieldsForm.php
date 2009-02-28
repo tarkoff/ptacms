@@ -20,7 +20,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
         
         parent::__construct($prefix);
         
-        $this->setTitle('Add Category Fields Form');
+        $this->setTitle('Add Fields To "' . $category->getTitle() . '" Category');
     }
     
     public function initForm()
