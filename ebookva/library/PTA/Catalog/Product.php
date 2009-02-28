@@ -20,14 +20,14 @@ class PTA_Catalog_Product extends PTA_DB_Object
     private $_date;
     private $_customFields = array();
     
-    private $_fieldsTable;
+    private $_categoryFieldTable;
     private $_valuesTable;
     
     public function __construct($prefix)
     {
         parent::__construct($prefix);
         
-        $this->_fieldsTable = new PTA_Catalog_Field_Table();
+        $this->_categoryFieldTable = new PTA_Catalog_CategoryField_Table();
         $this->_valuesTable = new PTA_Catalog_Value_Table();
     }
             
@@ -38,9 +38,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
     
     public function setCategoryId($value)
     {
-        $this->_categoryId = (int)$value;
-        
-        $this->_customFields = $this->_fieldsTable->getFieldsByCategoryId((int)$value);
+        $this->_categoryId = (int)$value;        
     }
     
     public function getUrl()

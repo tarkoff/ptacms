@@ -58,7 +58,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
      * @param array $options
      * @return PTA_Control_Form_Field
      */
-    public static function getFieldByFieldType($fieldType, $prefix, $options = null)
+    public static function getFieldByType($fieldType, $prefix, $options = null)
     {
     	$field = null;
     	switch ($fieldType) {
@@ -95,12 +95,12 @@ abstract class PTA_Control_Form_Field extends PTA_Object
     		break;
     	}
     	
-    	$fied = $this->_setOptions($field, $options);
+    	$fied = self::_setOptions($field, $options);
     	
     	return $field;
     }
     
-    private function _setOptions($field, $options)
+    private static function _setOptions($field, $options)
     {
     	$options = (array)$options;
     	if (empty($field) || empty($options)) {

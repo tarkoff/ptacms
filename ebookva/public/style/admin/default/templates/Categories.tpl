@@ -10,3 +10,6 @@
 {if $data->tplMode == 'delFields'}
 	{include file=Categories/delFieldsForm.tpl form=$data->delFieldsForm}
 {/if}
+{if $data->tplMode == 'addProduct'}
+	{include file=Categories/addProductForm.tpl form=$data->addProductForm}
+{/if}

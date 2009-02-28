@@ -30,7 +30,28 @@ class Categories_addProductForm extends PTA_Control_Form
         
         $categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
 var_dump($categoryFields);
-        
+		$name = $fieldsTable->getFieldByAlias('alias');
+		$title = $fieldsTable->getFieldByAlias('title');
+		$sortOrder = $categoryFieldTable->getFieldByAlias('sortOrder');
+		$fieldId = $categoryFieldTable->getFieldByAlias('fieldId');
+		$fieldType = $fieldsTable->getFieldByAlias('fieldType');
+
+		foreach ($categoryFields as $fieldArray) {
+			$options = array(
+						'name' => $fieldArray[$name],
+						'label' => $fieldArray[$title],
+						'sortOrder' => $fieldArray[$sortOrder]
+			);
+			
+			$field = PTA_Control_Form_Field::getFieldByType(
+													$fieldArray[$fieldType], 
+													"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
+													$options
+											);
+			if (!empty($field)) {
+				$this->addVisual($field);
+			}
+		}
         $submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save');
         $submit->setSortOrder(300);
         $this->addVisual($submit);
