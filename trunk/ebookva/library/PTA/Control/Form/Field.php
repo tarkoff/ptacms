@@ -5,7 +5,7 @@
  * @package Core
  * @copyright  2008 PTA Studio
  * @license    http://framework.zend.com/license   BSD License
- * @version    $Id: Field.php 5 2008-12-27 18:39:21Z TPavuk $
+ * @version    $Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
@@ -31,6 +31,11 @@ abstract class PTA_Control_Form_Field extends PTA_Object
         $this->setValue($value);
     }
     
+    /**
+     * Retrun possible field types
+     *
+     * @return array
+     */
     public static function getPossibleFields()
     {
     	return array(
@@ -43,6 +48,73 @@ abstract class PTA_Control_Form_Field extends PTA_Object
     				array(self::TYPE_CHECKBOX, 'Checkbox'),
     				array(self::TYPE_FIELDSGROUP, 'Fields Group')
     			);
+    }
+    
+    /**
+     * Get Form field by field type
+     *
+     * @param int $fieldType
+     * @param string $prefix
+     * @param array $options
+     * @return PTA_Control_Form_Field
+     */
+    public static function getFieldByFieldType($fieldType, $prefix, $options = null)
+    {
+    	$field = null;
+    	switch ($fieldType) {
+    		case self::TYPE_TEXT:
+    			$field = new PTA_Control_Form_Text($prefix);
+    		break;
+
+    		case self::TYPE_TEXTAREA:
+    			$field = new PTA_Control_Form_TextArea($prefix);
+    		break;
+    		
+    		case self::TYPE_CHECKBOX:
+    			$field = new PTA_Control_Form_Checkbox($prefix);
+    		break;
+
+    		case self::TYPE_RADIOGROUP:
+    			$field = new PTA_Control_Form_RadioGroup($prefix);
+    		break;
+
+    		case self::TYPE_SUBMIT:
+    			$field = new PTA_Control_Form_Submit($prefix);
+    		break;
+
+    		case self::TYPE_IMAGE:
+    			$field = null;
+    		break;
+
+    		case self::TYPE_SELECT:
+    			$field = new PTA_Control_Form_Select($prefix);
+    		break;
+
+    		case self::TYPE_FIELDSGROUP:
+    			$fied = new PTA_Control_Form_FieldsGroup($prefix);
+    		break;
+    	}
+    	
+    	$fied = $this->_setOptions($field, $options);
+    	
+    	return $field;
+    }
+    
+    private function _setOptions($field, $options)
+    {
+    	$options = (array)$options;
+    	if (empty($field) || empty($options)) {
+    		return null;
+    	}
+    	
+    	foreach ($options as $option => $value) {
+    		$method = "set{$option}";
+    		if (method_exists($field, $method)) {
+    			call_user_func_array(array($field, $method), $value); 
+    		}
+    	}
+    	
+    	return $field;
     }
     
     public function setPrefix($value)
