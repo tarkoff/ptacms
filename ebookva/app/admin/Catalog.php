@@ -5,7 +5,7 @@
  * @package Core
  * @copyright  2008 PTA Studio
  * @license    http://framework.zend.com/license   BSD License
- * @version    $Id: Catalog.php 4 2008-12-27 16:43:31Z TPavuk $
+ * @version    $Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
