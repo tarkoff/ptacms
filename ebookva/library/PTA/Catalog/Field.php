@@ -13,6 +13,7 @@ class PTA_Catalog_Field extends PTA_DB_Object
 {
     private $_title;
     private $_alias;
+    private $_fieldType;
             
     public function getCategoryid()
     {
@@ -54,4 +55,13 @@ class PTA_Catalog_Field extends PTA_DB_Object
         $this->_alias = $alais;
     }
     
+    public function getFieldType()
+    {
+        return $this->_fieldType;
+    }
+    
+    public function setFieldType($fieldType)
+    {
+        $this->_fieldType = $fieldType;
+    }
 }

@@ -11,14 +11,14 @@
 
 abstract class PTA_Control_Form_Field extends PTA_Object 
 {
-    const TYPE_TEXT = 'Text';
-    const TYPE_TEXTAREA = 'TextArea';
-    const TYPE_RADIOGROUP = 'RadioGroup';
-    const TYPE_SUBMIT = 'Submit';
-    const TYPE_IMAGE = 'Image';
-    const TYPE_SELECT = 'Select';
-    const TYPE_CHECKBOX = 'Checkbox';
-    const TYPE_FIELDSGROUP = 'FieldsGroup';
+    const TYPE_TEXT = 1;
+    const TYPE_TEXTAREA = 2;
+    const TYPE_RADIOGROUP = 3;
+    const TYPE_SUBMIT = 4;
+    const TYPE_IMAGE = 5;
+    const TYPE_SELECT = 6;
+    const TYPE_CHECKBOX = 7;
+    const TYPE_FIELDSGROUP = 8;
     
     /**
      * 
@@ -29,6 +29,20 @@ abstract class PTA_Control_Form_Field extends PTA_Object
         $this->setLabel($label);
         $this->setMandatory($mandatory);
         $this->setValue($value);
+    }
+    
+    public static function getPossibleFields()
+    {
+    	return array(
+    				array(self::TYPE_TEXT, 'Text'),
+    				array(self::TYPE_TEXTAREA, 'Text Area'),
+    				array(self::TYPE_RADIOGROUP, 'Radio Group'),
+    				array(self::TYPE_SUBMIT, 'Submit'),
+    				array(self::TYPE_IMAGE, 'Image'),
+    				array(self::TYPE_SELECT, 'Select'),
+    				array(self::TYPE_CHECKBOX, 'Checkbox'),
+    				array(self::TYPE_FIELDSGROUP, 'Fields Group')
+    			);
     }
     
     public function setPrefix($value)

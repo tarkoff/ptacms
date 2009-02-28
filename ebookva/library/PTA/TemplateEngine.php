@@ -19,7 +19,7 @@ class PTA_TemplateEngine extends PTA_Object
     private function __construct()
     {
         $this->setPrefix('templateEngine');
-      }
+  	}
  
       private function __clone()
       {
@@ -37,7 +37,7 @@ class PTA_TemplateEngine extends PTA_Object
     public function init()
     {
         $this->_smarty = &Zend_Registry::get('Smarty');
-        
+        $smartyExtention = new PTA_Smarty_Extention($this->_smarty);        
     }
 
     public function registerTemplate($prefix, $tplFile)

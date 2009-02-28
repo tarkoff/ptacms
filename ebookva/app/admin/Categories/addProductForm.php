@@ -8,7 +8,7 @@
  * @version    $Id: editFieldsForm.php 5 2008-12-27 18:39:21Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-class Categories_delFieldsForm extends PTA_Control_Form 
+class Categories_addProductForm extends PTA_Control_Form 
 {
     private $_category;
     /**
@@ -20,7 +20,7 @@ class Categories_delFieldsForm extends PTA_Control_Form
         
         parent::__construct($prefix);
         
-        $this->setTitle('Remove Fields From "' . $category->getTitle() . '" Category');
+        $this->setTitle('Add Product To "' . $category->getTitle() . '" Category');
     }
     
     public function initForm()
@@ -28,30 +28,25 @@ class Categories_delFieldsForm extends PTA_Control_Form
         $categoryFieldTable = new PTA_Catalog_CategoryField_Table();
         $fieldsTable = new PTA_Catalog_Field_Table();
         
-        $categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId());
-
-        $select = new PTA_Control_Form_Select('categoryFieldId', 'Fields For Adding', true);
+        $notCategoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), false, true);
+ var_dump($notCategoryFields);               							
+        $select = new PTA_Control_Form_Select('fieldId', 'Fields For Adding', true);
         $select->setOptionsFromArray(
-        			$categoryFields,
-        			$categoryFieldTable->getPrimary(),
+        			$notCategoryFields,
+        			$fieldsTable->getPrimary(),
         			$fieldsTable->getFieldByAlias('title')
         		);
         $select->addOption(array(0, '- Empty -'));
         $select->setSortOrder(100);
         $this->addVisual($select);
         
-        $submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save');
+        $sortOrder = new PTA_Control_Form_Text('sortOrder', 'Sort Order', true, 'test');
+        $sortOrder->setSortOrder(200);
+        $this->addVisual($sortOrder);
+        
+        $submit = new PTA_Control_Form_Submit('submit', 'Add Field', true, 'Save');
         $submit->setSortOrder(300);
         $this->addVisual($submit);
-    }
-    
-    private function _filterFields($fields, $firstField, $secondField)
-    {
-    	$resData = array();
-    	foreach ($fields as $field) {
-    		$resData[] = array(@$field[$firstField], $field[$secondField]);
-    	}
-    	return $resData;
     }
     
     public function onLoad()
@@ -60,7 +55,7 @@ class Categories_delFieldsForm extends PTA_Control_Form
         
         //$this->_category->loadTo($data);
         $data->sortOrder = 10;
-        $data->submit = 'Remove Field';
+        $data->submit = 'Add Field';
 
         return $data;
     }
@@ -77,12 +72,18 @@ class Categories_delFieldsForm extends PTA_Control_Form
         }
 
 
-        if (!empty($data->categoryFieldId)) {
-        	$categoryFieldId = (int)$data->categoryFieldId;
-        	$categoryField = new PTA_Catalog_CategoryField('delField');
-        	$categoryField = $categoryField->loadById($categoryFieldId);
-
-        	if ($categoryField->remove()) {
+        if (!empty($data->fieldId)) {
+        	$fieldId = (int)$data->fieldId;
+        	$categoryField = new PTA_Catalog_CategoryField('field_' . $fieldId);
+            $categoryField->setCategoryid($this->_category->getId());
+            $categoryField->setFieldId($fieldId);
+            if (empty($data->sortOrder)) {
+            	$sortOrder = 0;
+            } else {
+            	$sortOrder = (int)$data->sortOrder;
+            }
+            $categoryField->setSortOrder($sortOrder);
+        	if ($categoryField->save()) {
             	$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
         	}
         }

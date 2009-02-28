@@ -49,6 +49,10 @@ class Categories extends PTA_WebModule
                     $this->editAction();
             break;
             
+            case 'AddProduct':
+                    $this->addProductAction();
+            break;
+            
             case 'AddFields':
                     $this->addFieldsAction();
             break;
@@ -89,8 +93,9 @@ class Categories extends PTA_WebModule
         $view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
         
         $view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
-        $view->addCommonAction('Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');
-        $view->addCommonAction('Fields', $this->getModuleUrl() . 'delFields/Category', 'fields.png');
+        $view->addCommonAction('Add Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');
+        $view->addCommonAction('Remove Fields', $this->getModuleUrl() . 'delFields/Category', 'fields.png');
+        $view->addCommonAction('Add Product', $this->getModuleUrl() . 'addProduct/Category', 'addItem.png');
         $view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'remove.png');
     }
     
@@ -113,6 +118,14 @@ class Categories extends PTA_WebModule
         $this->setVar('tplMode', 'delFields');
         
         $editForm = new Categories_delFieldsForm('delFieldsForm', $this->_category);
+        $this->addVisual($editForm);
+    }
+    
+    public function addProductAction()
+    {
+        $this->setVar('tplMode', 'addProduct');
+        
+        $editForm = new Categories_addProductForm('addProductForm', $this->_category);
         $this->addVisual($editForm);
     }
 }
