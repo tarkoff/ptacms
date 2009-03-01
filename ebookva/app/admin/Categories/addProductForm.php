@@ -10,28 +10,64 @@
 */
 class Categories_addProductForm extends PTA_Control_Form 
 {
+    private $_product;
     private $_category;
     /**
      * 
      */
-    public function __construct($prefix, $category)
+    public function __construct($prefix, $product)
     {
-        $this->_category = $category;
-        
+        $this->_product = $product;
+        $this->_category = new PTA_Catalog_Category('category');
+        $this->_category->loadById($product->getCategoryId());
+
         parent::__construct($prefix);
         
-        $this->setTitle('Remove Fields From "' . $category->getTitle() . '" Category');
+        $this->setTitle('Add Product To "' . $this->_category->getTitle() . '" Category');
     }
     
     public function initForm()
     {
-        $categoryFieldTable = new PTA_Catalog_CategoryField_Table();
-        $fieldsTable = new PTA_Catalog_Field_Table();
+    	$this->_initStaticFields();
+    	$this->_initDinamicFields();
+    	
+        $submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Book');
+        $submit->setSortOrder(1000);
+        $this->addVisual($submit);
+    }
+    
+    private function _initStaticFields()
+    {
+    	$title = new PTA_Control_Form_Text('title', 'Book Title');
+    	$title->setSortOrder(10);
+    	$this->addVisual($title);
+    	
+    	$url = new PTA_Control_Form_Text('url', 'Book URL');
+    	$url->setSortOrder(20);
+    	$this->addVisual($url);
+    	
+    	$image = new PTA_Control_Form_Text('image', 'Book Photo');
+    	$image->setSortOrder(30);
+    	$this->addVisual($image);
+    	
+    	$desc = new PTA_Control_Form_TextArea('shortDescr', 'Book Description');
+    	$desc->setSortOrder(40);
+    	$this->addVisual($desc);
+    	
+    	
+    }
+
+    private function _initDinamicFields()
+    {
+        $categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+        $fieldsTable = PTA_DB_Table::get('Catalog_Field');
         
         $categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
-//var_dump($categoryFields);
-$aaa = new PTA_Catalog_Product('product');
-$aaa->setCategoryId($this->_category->getId());
+        if ($this->_product->getId()) {
+        	$fieldsValues = $this->_product->buildCustomFields($categoryFields);
+        } else {
+        	$fieldsValues = array();
+        }
         
 		$name = $fieldsTable->getFieldByAlias('alias');
 		$title = $fieldsTable->getFieldByAlias('title');
@@ -39,11 +75,12 @@ $aaa->setCategoryId($this->_category->getId());
 		$fieldId = $categoryFieldTable->getFieldByAlias('fieldId');
 		$fieldType = $fieldsTable->getFieldByAlias('fieldType');
 
+		$orderPosition = 100;
 		foreach ($categoryFields as $fieldArray) {
 			$options = array(
 						'name' => $fieldArray[$name],
 						'label' => $fieldArray[$title],
-						'sortOrder' => $fieldArray[$sortOrder]
+						'sortOrder' => (empty($fieldArray[$sortOrder]) ? ++$orderPosition : $fieldArray[$sortOrder])
 			);
 			
 			$field = PTA_Control_Form_Field::getFieldByType(
@@ -51,15 +88,13 @@ $aaa->setCategoryId($this->_category->getId());
 													"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
 													$options
 											);
+			$field->setValue(@$fieldsValues[$fieldArray[$name]]);
 			if (!empty($field)) {
 				$this->addVisual($field);
 			}
 		}
-        $submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save');
-        $submit->setSortOrder(300);
-        $this->addVisual($submit);
     }
-    
+
     private function _filterFields($fields, $firstField, $secondField)
     {
     	$resData = array();
@@ -68,18 +103,18 @@ $aaa->setCategoryId($this->_category->getId());
     	}
     	return $resData;
     }
-    
+/*    
     public function onLoad()
     {
         $data = new stdClass();
-        
+ var_dump($this->getVisualAll());       
         //$this->_category->loadTo($data);
         $data->sortOrder = 10;
         $data->submit = 'Remove Field';
 
         return $data;
     }
-    
+*/    
     public function onSubmit(&$data)
     {
         $invalidFields = $this->validate($data);
@@ -91,17 +126,12 @@ $aaa->setCategoryId($this->_category->getId());
             return false;
         }
 
-
-        if (!empty($data->categoryFieldId)) {
-        	$categoryFieldId = (int)$data->categoryFieldId;
-        	$categoryField = new PTA_Catalog_CategoryField('delField');
-        	$categoryField = $categoryField->loadById($categoryFieldId);
-
-        	if ($categoryField->remove()) {
-            	$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
-        	}
+var_dump($data);
+        $this->_product->loadFrom($data);
+var_dump($this->_product);
+        if ($this->_product->save()) {
+            $this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
         }
-        
     }
     
     

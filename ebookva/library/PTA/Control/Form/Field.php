@@ -106,7 +106,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
     	if (empty($field) || empty($options)) {
     		return null;
     	}
-    	
+
     	foreach ($options as $option => $value) {
     		$method = "set{$option}";
     		if (method_exists($field, $method)) {

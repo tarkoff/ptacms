@@ -71,7 +71,12 @@ abstract class PTA_Control_Form extends PTA_Object
                 if (isset($data->{$name})) {
                     $value = $data->{$name};                    
                 } else {
-                    $value = $this->getHttpVar($fullName);
+                	if ($this->submitted()) {
+                		$value = $this->getHttpVar($fullName);
+                	} else {
+                		$value = $element->getValue();
+                	}
+                	
                 }
                
                 $element->setValue($value);
@@ -141,7 +146,7 @@ abstract class PTA_Control_Form extends PTA_Object
     public function addVisual($element)
     {
         $element->setFormPrefix($this->getPrefix());
-        $this->_elements[] = $element;
+        $this->_elements[$element->getName()] = $element;
     }
     
     public function getMethod()
