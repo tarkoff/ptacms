@@ -38,9 +38,44 @@ class PTA_Catalog_Product extends PTA_DB_Object
     
     public function setCategoryId($value)
     {
-        $this->_categoryId = (int)$value;        
+        $this->_categoryId = (int)$value;
+        if ($this->getId()) {
+        	$this->_buildCustomFields();
+        }        
     }
     
+    private function _buildCustomFields()
+    {
+        $fields = (array)$this->_categoryFieldTable->getFieldsByCategory($this->_categoryId, true, true);
+    	
+    	if (empty($fields)) {
+    		return;
+    	}
+
+    	$fieldId = $this->_categoryFieldTable->getPrimary();
+		$alias = PTA_DB_Table::get('Catalog_Field')->getFieldByAlias('alias');
+		
+		$customFields = array();
+    	foreach ($fields as $field) {
+    		$customFields[$field[$fieldId]] = $field[$alias];
+    	}
+    	
+    	$fieldsValues = (array)$this->_valuesTable->getValuesByProductId($this->getId());
+    	
+    	$fieldIdField = $this->_valuesTable->getFieldByAlias('fieldId');
+    	foreach ($customFields as $fieldId => $fieldAlias) {
+    		$this->_customFields[$fieldAlias] = @$fieldsValues[$fieldIdField];
+    	}
+var_dump($this->_customFields);
+    }
+
+    public function loadById($id)
+    {
+    	parent::loadById($id);
+    	
+    	$this->_buildCustomFields();
+    }
+
     public function getUrl()
     {
         return $this->_url;

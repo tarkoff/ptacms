@@ -29,7 +29,10 @@ class Categories_addProductForm extends PTA_Control_Form
         $fieldsTable = new PTA_Catalog_Field_Table();
         
         $categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
-var_dump($categoryFields);
+//var_dump($categoryFields);
+$aaa = new PTA_Catalog_Product('product');
+$aaa->setCategoryId($this->_category->getId());
+        
 		$name = $fieldsTable->getFieldByAlias('alias');
 		$title = $fieldsTable->getFieldByAlias('title');
 		$sortOrder = $categoryFieldTable->getFieldByAlias('sortOrder');
