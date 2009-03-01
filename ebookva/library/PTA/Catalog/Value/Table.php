@@ -19,11 +19,11 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
     protected $_sequence = true;
     
     
-    public function getFieldsByCategoryId($categoryId)
+    public function getValuesByProductId($productId)
     {
         $select = $this->select()->where(
-                                        $this->getFieldByAlias('category') . '=?',
-                                        (int)$categoryId
+                                        $this->getFieldByAlias('productId') . '=?',
+                                        (int)$productId
                                     );
         $res = $this->fetchAll($select)->toArray();
 //var_dump($res);        
