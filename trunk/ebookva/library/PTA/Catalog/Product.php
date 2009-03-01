@@ -20,15 +20,9 @@ class PTA_Catalog_Product extends PTA_DB_Object
     private $_date;
     private $_customFields = array();
     
-    private $_categoryFieldTable;
-    private $_valuesTable;
-    
     public function __construct($prefix)
     {
         parent::__construct($prefix);
-        
-        $this->_categoryFieldTable = new PTA_Catalog_CategoryField_Table();
-        $this->_valuesTable = new PTA_Catalog_Value_Table();
     }
             
     public function getCategoryId()
@@ -40,19 +34,24 @@ class PTA_Catalog_Product extends PTA_DB_Object
     {
         $this->_categoryId = (int)$value;
         if ($this->getId()) {
-        	$this->_buildCustomFields();
+        	$this->customFeilds = $this->buildCustomFields();
         }        
     }
     
-    private function _buildCustomFields()
+    public function buildCustomFields($fields = null)
     {
-        $fields = (array)$this->_categoryFieldTable->getFieldsByCategory($this->_categoryId, true, true);
+    	$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+    	$valuesTable = PTA_DB_Table::get('Catalog_Value');
     	
     	if (empty($fields)) {
-    		return;
+        	$fields = (array)$valuesTable->getFieldsByCategory($this->_categoryId, true, true);
+    	}
+    	
+    	if (empty($fields)) {
+    		return array();
     	}
 
-    	$fieldId = $this->_categoryFieldTable->getPrimary();
+    	$fieldId = $categoryFieldTable->getPrimary();
 		$alias = PTA_DB_Table::get('Catalog_Field')->getFieldByAlias('alias');
 		
 		$customFields = array();
@@ -60,20 +59,58 @@ class PTA_Catalog_Product extends PTA_DB_Object
     		$customFields[$field[$fieldId]] = $field[$alias];
     	}
     	
-    	$fieldsValues = (array)$this->_valuesTable->getValuesByProductId($this->getId());
+    	$fieldsValues = (array)$valuesTable->getValuesByProductId($this->getId());
     	
-    	$fieldIdField = $this->_valuesTable->getFieldByAlias('fieldId');
+    	$fieldIdField = $valuesTable->getFieldByAlias('fieldId');
+    	$resultFields = array();
     	foreach ($customFields as $fieldId => $fieldAlias) {
-    		$this->_customFields[$fieldAlias] = @$fieldsValues[$fieldIdField];
+    		$resultFields[$fieldAlias] = @$fieldsValues[$fieldIdField];
     	}
-var_dump($this->_customFields);
+//var_dump($resultFields);
+		return $resultFields;
     }
+ /*   
+	function __get($customField)
+	{
+		if (isset($this->_customFields[$customField])) {
+			return $this->_customFields[$customField];
+		}
+		
+		throw new PTA_Exception('Exception: ' . get_class($this) . "::{$customField} unknown property");
+	}
+	
+	function __set($customField, $value)
+	{
+		if (isset($this->_customFields[$customField])) {
+			$this->_customFields[$customField] = $value;
+		}
+		
+		throw new PTA_Exception('Exception: ' . get_class($this) . "::{$customField} unknown property");
+	}
+	
+	function __call($method, $args)
+	{
+		if (!empty($this->_customFields)) {
+			foreach ($this->_customFields as $alias => $vale) {
+				$getMethod = "get{$alias}";
+				$setMethod = "set{$alias}";
+				if ($method == $getMethod) {
+					return $this->$getMethod();
+				} elseif ($method == $setMethod) {
+					return call_user_func_array(array($this, $setMethod), $args);
+				}
+			}
+		}
+
+		throw new PTA_Exception('Exception: ' . get_class($this) . "::{$method} unknown method called");
+	}
+*/
 
     public function loadById($id)
     {
     	parent::loadById($id);
     	
-    	$this->_buildCustomFields();
+    	$this->_customFields = $this->buildCustomFields();
     }
 
     public function getUrl()

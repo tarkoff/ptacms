@@ -125,7 +125,9 @@ class Categories extends PTA_WebModule
     {
         $this->setVar('tplMode', 'addProduct');
         
-        $editForm = new Categories_addProductForm('addProductForm', $this->_category);
+        $product = new PTA_Catalog_Product('product');
+        $product->setCategoryId($this->_category->getId());
+        $editForm = new Categories_addProductForm('addProductForm', $product);
         $this->addVisual($editForm);
     }
 }
