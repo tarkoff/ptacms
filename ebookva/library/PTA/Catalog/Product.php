@@ -19,6 +19,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
     private $_shortDescr;
     private $_date;
     private $_customFields = array();
+    private static $_customFieldsMeatData = array();
     
     public function __construct($prefix)
     {
@@ -36,6 +37,15 @@ class PTA_Catalog_Product extends PTA_DB_Object
         if ($this->getId()) {
         	$this->customFeilds = $this->buildCustomFields();
         }        
+    }
+    
+    public static function getCustomFieldsMetaData($categoryId)
+    {
+    	if (empty($categoryId)) {
+    		return null;
+    	}
+
+    	return PTA_DB_Table::get('Catalog_CategoryField')->getFieldsByCategory($categoryId, true, true);
     }
     
     public function buildCustomFields($fields = null)
@@ -59,15 +69,19 @@ class PTA_Catalog_Product extends PTA_DB_Object
     		$customFields[$field[$fieldId]] = $field[$alias];
     	}
     	
-    	$fieldsValues = (array)$valuesTable->getValuesByProductId($this->getId());
+    	if ($this->getId()) {
+    		$fieldsValues = (array)$valuesTable->getValuesByProductId($this->getId());
+    	} else {
+    		$fieldsValues = array();
+    	}
     	
     	$fieldIdField = $valuesTable->getFieldByAlias('fieldId');
     	$resultFields = array();
     	foreach ($customFields as $fieldId => $fieldAlias) {
     		$resultFields[$fieldAlias] = @$fieldsValues[$fieldIdField];
     	}
-//var_dump($resultFields);
-		return $resultFields;
+
+    	return $resultFields;
     }
     
     public function getCustomFields()
@@ -85,20 +99,12 @@ class PTA_Catalog_Product extends PTA_DB_Object
     		return false;
     	}
 
-    	$customFields = $this->getCustomFields();
-    	$data = (array)$data;
-    	//var_dump($customFields);
-    	foreach ($customFields as $alias => $fieldValue) {
-    		if (isset($data[$alias])) {
-    			$customFields[$alias] = $data[$alias];
-    			//$customFields[$alias] = 11;
-    		}
-    	}
-    	
+//    	$customFields = $this->getCustomFields();
+
     	$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
     	$valuesTable = PTA_DB_Table::get('Catalog_Value');
     	
-       	$fields = (array)$categoryFieldTable->getFieldsByCategory($this->_categoryId, true, true);
+       	$fields = (array)self::getCustomFieldsMetaData($this->_categoryId);
     	
     	if (empty($fields)) {
     		return array();
@@ -106,46 +112,33 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
     	$fieldFieldId = $categoryFieldTable->getPrimary();
 		$fieldAlias = PTA_DB_Table::get('Catalog_Field')->getFieldByAlias('alias');
-/*		
-		$customFields = array();
-    	foreach ($fields as $field) {
-    		if (isset($data[$alias])) {
-    			$customFields[$field[$fieldId]] = $field[$alias];
-    		}
-    	}
-*/    	
-    	$valuesprimary = $valuesTable->getPrimary();
+
     	$valuesFieldId = $valuesTable->getFieldByAlias('fieldId');
     	$valuesProductId = $valuesTable->getFieldByAlias('productId');
     	$valuesValue = $valuesTable->getFieldByAlias('value');
- //var_dump($fields);
- 		
- 		foreach ($fields as $field) {
+
+    	$valuesTable->getAdapter()->beginTransaction();
+    	$valuesTable->clearByFields(array('productId' => $this->getId()));
+    	foreach ($fields as $field) {
  			$alias = $field[$fieldAlias];
- 			if (isset($customFields[$alias])) {
+ 			if (isset($data->$alias)) {
+ 				$customFields[$alias] = $data->$alias;
  				$resultData = array();
  				$resultData[$valuesFieldId]= $field[$fieldFieldId];
  				$resultData[$valuesProductId] = $this->getId();
  				$resultData[$valuesValue] = $customFields[$alias];
  			}
- 			var_dump($fieldFieldId,$resultData);
- 		}
  
- return ;   	
-        try {
-            if ($fieldsValues[$valuesprimary]) {
-                $where = $this->_table->getAdapter()->quoteInto("$valuesprimary = ?", (int)$fieldsValues[$valuesprimary]);
-                $result = $valuesTable->update($data, $where);
-            } else {
-                $result = $valuesTable->insert($data);
-            }
-        } catch (PTA_Exception $e) {
-            echo $e->getMessage();
-            return false;
-        }
+        	try {
+                $result = $valuesTable->insert($resultData);
+        	} catch (PTA_Exception $e) {
+            	echo $e->getMessage();
+            	//return false;
+        	}
+ 		}
+ 		$valuesTable->getAdapter()->commit();
         
         return $result;
- 					
     }
  /*   
 	function __get($customField)
