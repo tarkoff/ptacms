@@ -23,14 +23,19 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
     {
         parent::__construct($config);
 
-        if (empty($this->_dbFields)) {
+        if (!$this->_getCols()) {
         	$this->initStaticFields();
         }
 
-        if (!empty($this->_cols)) {
+        if ($this->_getCols()) {
         	$aliases = array_map(array($this, '_FieldToAlias'), (array)$this->_cols);
         	$this->_dbFields = array_combine((array)$aliases, (array)$this->_cols);
         }
+    }
+    
+    public function lastInsertedId()
+    {
+    	return $this->getAdapter()->lastInsertId($this->getTableName(), $this->getPrimary());
     }
     
     public function initStaticFields()
@@ -245,5 +250,35 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 			return new $objectClass('objectFromTable_' . rand(0, 1000));
 		}
 		return null;
+	}
+	
+	/**
+	 * Find by fields
+	 *
+	 * @param array $fields
+	 * @param array $values
+	 */
+	public function findByFields($fields, $values)
+	{
+		if (empty($fields) || empty($values)) {
+			return null;
+		}
+		
+		$fields = (array)$fields;
+		$values = (array)$values;
+		
+		$select = $this->select();
+		foreach ($fields as $fieldId => $fieldAlias) {
+			$dbField = $this->getFieldByAlias($fieldAlias);
+			if (!empty($dbField)) {
+				if (empty($values[$fieldId])) {
+					$select->where("{$dbField} is null");
+				} else {
+					$select->where("{$dbField} = ?", mysql_real_escape_string($values[$fieldId]));
+				}
+			}
+		}
+		
+		return $this->fetchAll($select)->toArray();
 	}
 }

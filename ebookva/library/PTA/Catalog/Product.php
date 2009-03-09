@@ -44,7 +44,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
     	$valuesTable = PTA_DB_Table::get('Catalog_Value');
     	
     	if (empty($fields)) {
-        	$fields = (array)$valuesTable->getFieldsByCategory($this->_categoryId, true, true);
+        	$fields = (array)$categoryFieldTable->getFieldsByCategory($this->_categoryId, true, true);
     	}
     	
     	if (empty($fields)) {
@@ -68,6 +68,84 @@ class PTA_Catalog_Product extends PTA_DB_Object
     	}
 //var_dump($resultFields);
 		return $resultFields;
+    }
+    
+    public function getCustomFields()
+    {
+    	if (empty($this->_customFields)) {
+    		$this->_customFields = $this->buildCustomFields();
+    	}
+    	
+    	return $this->_customFields;
+    }
+    
+    public function saveCustomFields($data)
+    {
+    	if (!$this->getId()) {
+    		return false;
+    	}
+
+    	$customFields = $this->getCustomFields();
+    	$data = (array)$data;
+    	//var_dump($customFields);
+    	foreach ($customFields as $alias => $fieldValue) {
+    		if (isset($data[$alias])) {
+    			$customFields[$alias] = $data[$alias];
+    			//$customFields[$alias] = 11;
+    		}
+    	}
+    	
+    	$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+    	$valuesTable = PTA_DB_Table::get('Catalog_Value');
+    	
+       	$fields = (array)$categoryFieldTable->getFieldsByCategory($this->_categoryId, true, true);
+    	
+    	if (empty($fields)) {
+    		return array();
+    	}
+
+    	$fieldFieldId = $categoryFieldTable->getPrimary();
+		$fieldAlias = PTA_DB_Table::get('Catalog_Field')->getFieldByAlias('alias');
+/*		
+		$customFields = array();
+    	foreach ($fields as $field) {
+    		if (isset($data[$alias])) {
+    			$customFields[$field[$fieldId]] = $field[$alias];
+    		}
+    	}
+*/    	
+    	$valuesprimary = $valuesTable->getPrimary();
+    	$valuesFieldId = $valuesTable->getFieldByAlias('fieldId');
+    	$valuesProductId = $valuesTable->getFieldByAlias('productId');
+    	$valuesValue = $valuesTable->getFieldByAlias('value');
+ //var_dump($fields);
+ 		
+ 		foreach ($fields as $field) {
+ 			$alias = $field[$fieldAlias];
+ 			if (isset($customFields[$alias])) {
+ 				$resultData = array();
+ 				$resultData[$valuesFieldId]= $field[$fieldFieldId];
+ 				$resultData[$valuesProductId] = $this->getId();
+ 				$resultData[$valuesValue] = $customFields[$alias];
+ 			}
+ 			var_dump($fieldFieldId,$resultData);
+ 		}
+ 
+ return ;   	
+        try {
+            if ($fieldsValues[$valuesprimary]) {
+                $where = $this->_table->getAdapter()->quoteInto("$valuesprimary = ?", (int)$fieldsValues[$valuesprimary]);
+                $result = $valuesTable->update($data, $where);
+            } else {
+                $result = $valuesTable->insert($data);
+            }
+        } catch (PTA_Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+        
+        return $result;
+ 					
     }
  /*   
 	function __get($customField)
