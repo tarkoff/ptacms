@@ -30,7 +30,10 @@ class Categories_addProductForm extends PTA_Control_Form
     {
     	$this->_initStaticFields();
     	$this->_initDinamicFields();
-    	
+    	$data = new stdClass();
+    	$data->author = 'Taras Pavuk';
+    	$data->year = 1984;
+//$this->_product->saveCustomFields($data);  	
         $submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Book');
         $submit->setSortOrder(1000);
         $this->addVisual($submit);
@@ -63,6 +66,7 @@ class Categories_addProductForm extends PTA_Control_Form
         $fieldsTable = PTA_DB_Table::get('Catalog_Field');
         
         $categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
+//   var_dump($categoryFields);
         if ($this->_product->getId()) {
         	$fieldsValues = $this->_product->buildCustomFields($categoryFields);
         } else {
@@ -126,10 +130,22 @@ class Categories_addProductForm extends PTA_Control_Form
             return false;
         }
 
-var_dump($data);
+//var_dump($data);
         $this->_product->loadFrom($data);
-var_dump($this->_product);
+        $res = PTA_DB_Table::get('Catalog_Product')->findByFields(
+        												array(
+        													'categoryId',
+        													'title'
+        												),
+        												array(
+        													$this->_product->getCategoryId(),
+        													$this->_product->getTitle()
+        												)
+        											);
+        
+var_dump($res);
         if ($this->_product->save()) {
+        	$this->_product->saveCustomFields($data);
             $this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
         }
     }

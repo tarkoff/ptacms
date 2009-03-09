@@ -112,6 +112,8 @@ abstract class PTA_DB_Object extends PTA_Object
                 $result = $this->_table->update($data, $where);
             } else {
                 $result = $this->_table->insert($data);
+                var_dump($this->getTable()->lastInsertedId());
+                $this->setId($this->getTable()->lastInsertedId());
             }
         } catch (PTA_Exception $e) {
             echo $e->getMessage();
