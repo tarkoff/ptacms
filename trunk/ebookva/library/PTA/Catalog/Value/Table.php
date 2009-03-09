@@ -26,7 +26,7 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
                                         (int)$productId
                                     );
         $res = $this->fetchAll($select)->toArray();
-//var_dump($res);        
+        
         return $res;
     }
 }

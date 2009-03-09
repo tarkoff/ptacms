@@ -194,22 +194,21 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	{
 	    $fields = (array)$fields;
 	    
-	    $where = '';	    
+	    $cond = array();	    
         if (!empty($fields)) {
-            foreach ($fields as $field) {
-                if (!empty($field['field']) && !empty($field['value'])) {
-                    //$where = "{$field['field']} = {$field['value']}";
-                    if ($field === end($fields)) {
-                        $where .= $this->_db->quoteInto(" {$field['field']} = ?", $field['value']);
-                    } else {
-                        $where .= $this->_db->quoteInto(" {$field['field']} = ? and", $field['value']);
-                    }
-                }
+            foreach ($fields as $alais => $value) {
+            	$dbField = $this->getFieldByAlias($alais);
+            	if (!empty($dbField)) {
+                	$cond[] = $this->_db->quoteInto(" {$dbField} = ?", $value);
+            	}
             }
-            
         }
         
-        return $this->delete($where);
+        if (count($cond)) {
+        	return $this->delete(implode(' and ', $cond));
+        }
+        
+        return false;
 	}
 	
 	/**

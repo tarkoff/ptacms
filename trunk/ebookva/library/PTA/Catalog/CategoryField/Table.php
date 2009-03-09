@@ -17,6 +17,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
     protected $_name = 'CATEGORIESFIELDS';
     protected $_primary = 'CATEGORIESFIELDS_ID';
     protected $_sequence = true;
+    protected static $_fieldsCache = array();
     
 	public function getFieldsByCategory($categoryId, $equal = true, $parentsFieldsToo = false)
 	{
@@ -24,25 +25,33 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 			return null;
 		}
 
+		$cachePrefix = $categoryId . '_' . intval($equal) . '_' . intval($parentsFieldsToo);
+		if (isset(self::$_fieldsCache[$cachePrefix])) {
+			return self::$_fieldsCache[$cachePrefix];
+		}
+
 		$categoryIds = array();
+		$catId = $categoryId;
 		do {
-			$category = new PTA_Catalog_Category("Category_{$categoryId}");
-			$category->loadById($categoryId);
+			$category = new PTA_Catalog_Category("Category_{$catId}");
+			$category->loadById($catId);
 
 			if ($categoryId) {
-				$categoryIds[] = $categoryId;
+				$categoryIds[] = $catId;
 			}
 			
 			if ($parentsFieldsToo) {
-				$categoryId = $category->getParentId();
+				$catId = $category->getParentId();
 			} else {
-				$categoryId = false;
+				$catId = false;
 			}
-		} while ($categoryId);
-//var_dump($categoryIds);
+		} while ($catId);
+
 		if (!empty($categoryIds)) {
 			$resultSet = $this->_getFieldsByCategory($categoryIds, $equal);
 		}
+		
+		self::$_fieldsCache[$cachePrefix] = $resultSet;
 
 		return $resultSet;
 	}
