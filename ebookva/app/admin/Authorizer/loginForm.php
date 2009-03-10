@@ -4,56 +4,39 @@
  *
  * @package Core
  * @copyright  2008 PTA Studio
- * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @license    http://framework.zend.com/license   BSD License
+ * @version    $Id: editForm.php 13 2009-02-28 14:47:29Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class Fields_editForm extends PTA_Control_Form 
+class Authorizer_LoginForm extends PTA_Control_Form 
 {
-	private $_field;
-	private $_copy;
-
-	public function __construct($prefix, $field, $copy = false)
+	public function __construct($prefix)
 	{
-		$this->_field = $field;
-		$this->_copy = $copy;
-
 		parent::__construct($prefix);
-
-		$this->setTitle('Field Edit Form');
+		$this->setTitle('Login Form');
 	}
 
 	public function initForm()
 	{
-		$title = new PTA_Control_Form_Text('title', 'Field Title', true, '');
+		$title = new PTA_Control_Form_Text('login', 'Login', true, '');
 		$title->setSortOrder(100);
 		$title->setCssClass('textField');
 		$this->addVisual($title);
 
-		$alias = new PTA_Control_Form_Text('alias', 'Field Alias', true, '');
+		$alias = new PTA_Control_Form_Text('password', 'Password', false, '');
 		$alias->setSortOrder(200);
 		$alias->setCssClass('textField');
 		$this->addVisual($alias);
 
-		$fields = PTA_Control_Form_Field::getPossibleFields();
-		$fieldType = new PTA_Control_Form_Select('fieldType', 'Field Type', true, $fields);
-		$fieldType->setSortOrder(300);
-		$fieldType->setCssClass('textField');
-		$this->addVisual($fieldType);
-
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
-	}
+		}
 
 	public function onLoad()
 	{
 		$data = new stdClass();
-
-		$this->_field->loadTo($data);
-		$data->submit = 'save';
-
 		return $data;
 	}
 
@@ -64,14 +47,21 @@ class Fields_editForm extends PTA_Control_Form
 			foreach ($invalidFields as $field) {
 				echo 'Filed ' . $field->getLabel() . ' is required!<br />';
 			}
-
 			return false;
 		}
 
-		$this->_field->loadFrom($data);
-
-		if ($this->_copy) {
-			$this->_field->setId(null);
+		$userTable = PTA_DB_Table::get('User');
+		$dbUser = $userTable->findByFields(array('login'=>$data->login));
+		if (!empty($dbUser)) {
+			$passwdField = $userTable->getFieldByAlias('passwd');
+			if ($dbUser[$passwdField] == PTA_User::getPasswdHash($data->passwd)) {
+				$user = new PTA_User('currentUser');
+				$user->loadFrom($dbUser);
+				$this->getApp()->setUser($user);
+				$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			}
+		} else {
+			$this->redirect($_SERVER['PHP_SELF']);
 		}
 
 		if ($this->_field->save() || $this->_copy) {
