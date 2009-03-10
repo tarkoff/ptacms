@@ -102,7 +102,12 @@ abstract class PTA_Object extends PTA_DB
 			$this->setVar(PTA_App::getInstance()->getPrefix(), $vars);
 		}
 	}
-		
+	
+	/**
+	 * Get app instance
+	 *
+	 * @return PTA_App
+	 */
 	public function getApp()
 	{
 		return PTA_App::getInstance();
