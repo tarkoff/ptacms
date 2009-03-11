@@ -12,9 +12,7 @@ class Categories_addProductForm extends PTA_Control_Form
 {
 	private $_product;
 	private $_category;
-	/**
-	 * 
-	 */
+
 	public function __construct($prefix, $product)
 	{
 		$this->_product = $product;
@@ -22,10 +20,10 @@ class Categories_addProductForm extends PTA_Control_Form
 		$this->_category->loadById($product->getCategoryId());
 
 		parent::__construct($prefix);
-		
+
 		$this->setTitle('Add Product To "' . $this->_category->getTitle() . '" Category');
 	}
-	
+
 	public function initForm()
 	{
 		$this->_initStaticFields();
@@ -33,46 +31,44 @@ class Categories_addProductForm extends PTA_Control_Form
 		$data = new stdClass();
 		$data->author = 'Taras Pavuk';
 		$data->year = 1984;
-  	
+
 		$submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Book');
 		$submit->setSortOrder(1000);
 		$this->addVisual($submit);
 	}
-	
+
 	private function _initStaticFields()
 	{
 		$title = new PTA_Control_Form_Text('title', 'Book Title');
 		$title->setSortOrder(10);
 		$this->addVisual($title);
-		
+
 		$url = new PTA_Control_Form_Text('url', 'Book URL');
 		$url->setSortOrder(20);
 		$this->addVisual($url);
-		
+
 		$image = new PTA_Control_Form_Text('image', 'Book Photo');
 		$image->setSortOrder(30);
 		$this->addVisual($image);
-		
+
 		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Book Description');
 		$desc->setSortOrder(40);
 		$this->addVisual($desc);
-		
-		
 	}
 
 	private function _initDinamicFields()
 	{
 		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
-		
+
 		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
-//   var_dump($categoryFields);
+
 		if ($this->_product->getId()) {
 			$fieldsValues = $this->_product->buildCustomFields($categoryFields);
 		} else {
 			$fieldsValues = array();
 		}
-		
+
 		$name = $fieldsTable->getFieldByAlias('alias');
 		$title = $fieldsTable->getFieldByAlias('title');
 		$sortOrder = $categoryFieldTable->getFieldByAlias('sortOrder');
@@ -86,7 +82,7 @@ class Categories_addProductForm extends PTA_Control_Form
 						'label' => $fieldArray[$title],
 						'sortOrder' => (empty($fieldArray[$sortOrder]) ? ++$orderPosition : $fieldArray[$sortOrder])
 			);
-			
+
 			$field = PTA_Control_Form_Field::getFieldByType(
 													$fieldArray[$fieldType], 
 													"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
@@ -111,7 +107,6 @@ class Categories_addProductForm extends PTA_Control_Form
 	public function onLoad()
 	{
 		$data = new stdClass();
- var_dump($this->getVisualAll());	   
 		//$this->_category->loadTo($data);
 		$data->sortOrder = 10;
 		$data->submit = 'Remove Field';
@@ -142,7 +137,7 @@ class Categories_addProductForm extends PTA_Control_Form
 												$this->_product->getTitle()
 											)
 										);
-		
+
 		if (!empty($savedProduct)) {
 			$savedProduct = current($savedProduct);
 			$productPrimary = $productTable->getPrimary();

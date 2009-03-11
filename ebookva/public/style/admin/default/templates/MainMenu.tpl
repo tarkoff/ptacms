@@ -2,7 +2,7 @@
 	<ul>
 		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Categories/">Categories</a></li>
 		<li><div class="btnseparator"></div></li>
-		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Manufacturers/">Manufacturers</a></li>
+		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Users/">Users</a></li>
 		<li class="btnseparator"></li>
 		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Fields/">Fields</a></li>
 		<li class="btnseparator"></li>

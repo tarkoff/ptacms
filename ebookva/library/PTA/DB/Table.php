@@ -16,9 +16,9 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	 */
 	protected $_sequence = true;
 	private static $_tables;
-	
+
 	protected $_dbFields;
-	
+
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
@@ -32,26 +32,24 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 			$this->_dbFields = array_combine((array)$aliases, (array)$this->_cols);
 		}
 	}
-	
+
 	public function lastInsertedId()
 	{
 		return $this->getAdapter()->lastInsertId($this->getTableName(), $this->getPrimary());
 	}
-	
+
 	public function initStaticFields()
 	{
 		$fields = (array)$this->getDefaultAdapter()->describeTable($this->getTableName());
-		
 		foreach ($fields as $field) {
 			$alias = $this->_FieldToAlias($field['COLUMN_NAME']);
 			$this->_dbFields[$alias] = $field['COLUMN_NAME'];
 		}
 	}
-	
+
 	public function getAll($fields = null)
 	{
 		$select = $this->select();
-		
 		if (!empty($fields)) {
 			$fields = (array)$fields;
 			foreach ($fields as $field) {
@@ -60,16 +58,15 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 				}
 			}
 		}
-		
 		return $this->fetchAll($select)->toArray();
 	}
-	
+
 	protected function _buildCondition($fields)
 	{
 		if (empty($fields)) {
 			return '';
 		}
-		
+
 		$cond = '';
 		foreach ($fields as $field) {
 			if ($field === end($fields)) {
@@ -78,19 +75,17 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 				$cond .= "$field = ? and ";
 			}
 		}
-		
 		return $cond;
 	}
-	
+
 	public function findById($id)
 	{
 		return $this->find(intval($id))->toArray();
 	}
-		
+
 	public function getPrimary()
 	{
 		$result = $this->_primary;
-		
 		if (is_array($this->_primary)) {
 			if (count($result) < 2) {
 				$result = current($result);
@@ -98,34 +93,32 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		} elseif (is_string($this->_primary)) {
 			$result = $this->_primary;
 		}
-		
 		return $result;
 	}
-	
+
 	public function getTableName()
 	{
 		return $this->_name;
 	}
-	
+
 	public function getFullPrimary()
 	{
 		$result = null;
-		
 		if (is_array($this->_primary)) {
 			foreach ($this->_primary as $primary) {
-			   $result[] = $this->getFullFieldName($primary); 
+				$result[] = $this->getFullFieldName($primary); 
 			}
-			
+
 			if (count($result) < 2) {
 				$result = current($result);
 			}
 		} elseif (is_string($this->_primary)) {
 			$result = $this->getFullFieldName($this->_primary, true);
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * return array of DB Table fields in format ALIAS => REALFIELDNAME
 	 *
@@ -135,7 +128,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	{
 		return (array)$this->_dbFields;
 	}
-	
+
 	/**
 	 * return real DB Table field name by alias 
 	 *
@@ -145,10 +138,9 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	public function getFieldByAlias($alias)
 	{
 		$alias = strtoupper($alias);
-		
 		return (isset($this->_dbFields[$alias]) ? $this->_dbFields[$alias] : false);
 	}
-	
+
 	/**
 	 * return full field name in format TABLENAME.FIELDNAME
 	 *
@@ -167,10 +159,10 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 				return "{$this->_name}.{$this->_dbFields[$alias]}";
 			}
 		}
-		
+
 		return $field;
 	}
-	
+
 	/**
 	 * extract field alias from full fiield name
 	 *
@@ -180,10 +172,9 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	private function _FieldToAlias($field)
 	{
 		list($table, $alias) = explode('_', $field);
-		
 		return (empty($alias) ? $table : $alias);
 	}
-	
+
 	/**
 	 * delete from table by fields
 	 *
@@ -194,7 +185,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	{
 		$fields = (array)$fields;
 		
-		$cond = array();		
+		$cond = array();
 		if (!empty($fields)) {
 			foreach ($fields as $alais => $value) {
 				$dbField = $this->getFieldByAlias($alais);
@@ -203,11 +194,11 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 				}
 			}
 		}
-		
+
 		if (count($cond)) {
 			return $this->delete(implode(' and ', $cond));
 		}
-		
+
 		return false;
 	}
 	
@@ -220,11 +211,11 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	public static function get($objectClass)
 	{
 		$className = str_replace('PTA_', '' , $objectClass);
-		$className = str_replace('_Table', '' , $objectClass);
+		$className = str_replace('_Table', '' , $className);
 		$className = "PTA_{$className}_Table";
-		
-		if (!empty($_tables[$className])) {
-			return $_tables[$className];
+
+		if (!empty(self::$_tables[$className])) {
+			return self::$_tables[$className];
 		}
 
 		if (class_exists($className, true)) {
@@ -232,7 +223,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 			self::$_tables[$className] = &$table;
 			return self::$_tables[$className];
 		}
-		
+
 		return null;
 	}
 	
@@ -241,7 +232,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		$newObject = $this->getTableObject();
 		return $newObject->loadFrom($data);
 	}
-	
+
 	public function getTableObject()
 	{
 		$objectClass = str_replace('_Table', '' , get_class($this));
@@ -250,7 +241,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find by fields
 	 *
@@ -262,10 +253,10 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		if (empty($fields) || empty($values)) {
 			return null;
 		}
-		
+
 		$fields = (array)$fields;
 		$values = (array)$values;
-		
+
 		$select = $this->select();
 		foreach ($fields as $fieldId => $fieldAlias) {
 			$dbField = $this->getFieldByAlias($fieldAlias);
@@ -277,7 +268,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 				}
 			}
 		}
-		
+
 		return $this->fetchAll($select)->toArray();
 	}
 }
