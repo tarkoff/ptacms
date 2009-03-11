@@ -46,7 +46,6 @@ class PTA_Smarty_Extention
 	
 	public function ptaConst($params)
 	{
-//		var_dump($params);
 		if (!empty($params['name']) && defined($params['name'])) {
 			if (empty($params['to'])) {
 				return constant($params['name']);

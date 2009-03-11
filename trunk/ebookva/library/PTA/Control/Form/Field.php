@@ -19,6 +19,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 	const TYPE_SELECT = 6;
 	const TYPE_CHECKBOX = 7;
 	const TYPE_FIELDSGROUP = 8;
+	const TYPE_PASSWORD = 9;
 
 	function __construct ($prefix, $label = '', $mandatory = false, $value = null)
 	{

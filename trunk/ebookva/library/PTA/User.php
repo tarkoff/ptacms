@@ -12,7 +12,7 @@
 class PTA_User extends PTA_DB_Object 
 {
 	protected $_login;
-	protected $_passwd;
+	protected $_password;
 	protected $_sessionHash;
 	
 	public function getLogin()
@@ -27,12 +27,12 @@ class PTA_User extends PTA_DB_Object
 	
 	public function getPassword()
 	{
-		return $this->_passwd;
+		return $this->_password;
 	}
 	
 	public function setPassword($passwd)
 	{
-		$this->_passwd = $passwd;
+		$this->_password = $passwd;
 	}
 	
 	public function getSessionHash()
@@ -49,7 +49,7 @@ class PTA_User extends PTA_DB_Object
 		$this->_sessionHash = $hash;
 	}
 	
-	public static function getPasswdHash($passwd)
+	public static function getPasswordHash($passwd)
 	{
 		return sha1(md5($passwd));
 	}
