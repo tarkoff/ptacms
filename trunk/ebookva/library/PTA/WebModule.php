@@ -4,8 +4,8 @@
  *
  * @package Core
  * @copyright  2008 PTA Studio
- * @license    http://framework.zend.com/license   BSD License
- * @version    $Id$
+ * @license	http://framework.zend.com/license   BSD License
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
@@ -13,7 +13,7 @@ abstract class PTA_WebModule extends PTA_Module
 {
 	private $_template = null;
 	private $_visuals = array();
-	
+
 	public function __construct($prefix, $tpl=null)
 	{
 		parent::__construct($prefix);
@@ -22,57 +22,55 @@ abstract class PTA_WebModule extends PTA_Module
 			$this->setTemplate($tpl);
 		}
 	}
-	
+
 	public function init()
 	{
-	    parent::init();
-	    
-	    $forms = $this->getAllVisualElements();
-	    
-	    if (!empty($forms)) {
-	        foreach ($forms as $form) {
-	        	$form->init();
-	        }
-	    }
-	    
+		parent::init();
+
+		$forms = $this->getAllVisualElements();
+
+		if (!empty($forms)) {
+			foreach ($forms as $form) {
+				$form->init();
+			}
+		}
 	}
-	
+
 	public function run()
 	{
-	    parent::init();
-	    
-	    $forms = $this->getAllVisualElements();
-	    
-	    if (!empty($forms)) {
-	        foreach ($forms as $form) {
-	        	$form->run();
-	        }
-	    }
-	    
+		parent::init();
+
+		$forms = $this->getAllVisualElements();
+		
+		if (!empty($forms)) {
+			foreach ($forms as $form) {
+				$form->run();
+			}
+		}
+		
 	}
-	
+
 	public function shutdown()
 	{
-	    parent::shutdown();
+		parent::shutdown();
 	}
-	
+
 	public function toString()
 	{
-	    $object = parent::toString();
-	    
-	    $forms = $this->getAllVisualElements();
-	    
-	    $data = array();
-	    if (!empty($forms)) {
-	        foreach ($forms as $form) {
-	        	//$data[$form->getPrefix()] = $form->toString();
-	        	$object->{$form->getPrefix()} = $form->toString();
-	        }
-	    }
-	    
-//	    $object->data = $data;
-	    
-	    return $object;
+		$object = parent::toString();
+		$forms = $this->getAllVisualElements();
+
+		$data = array();
+		if (!empty($forms)) {
+			foreach ($forms as $form) {
+				//$data[$form->getPrefix()] = $form->toString();
+				$object->{$form->getPrefix()} = $form->toString();
+			}
+		}
+
+//		$object->data = $data;
+
+		return $object;
 	}
 
 	public function getTemplate()
@@ -96,30 +94,30 @@ abstract class PTA_WebModule extends PTA_Module
 			}
 		}
 	}
-	
+
 	public function addVisual($visual)
 	{
-	    if ($this->isInited()) {
-	        $visual->init();	        	    
-	    }
-	    
-	    if ($this->isRunned()) {
-	        $visual->run();	        	    
-	    }
-	    
-	    $this->_visuals[$visual->getPrefix()] = $visual;
+		if ($this->isInited()) {
+			$visual->init();
+		}
+
+		if ($this->isRunned()) {
+			$visual->run();
+		}
+		
+		$this->_visuals[$visual->getPrefix()] = $visual;
 	}
-	
+
 	public function getVisual($prefix)
 	{
-	    return (!empty($this->_visuals[$prefix]) ? $this->_visuals[$prefix] : null);
+		return (!empty($this->_visuals[$prefix]) ? $this->_visuals[$prefix] : null);
 	}
-	
+
 	public function getAllVisualElements()
 	{
-	    return $this->_visuals;
+		return $this->_visuals;
 	}
-	
+
 	/**
 	 * return module URL
 	 *
@@ -127,9 +125,9 @@ abstract class PTA_WebModule extends PTA_Module
 	 */
 	public function getModuleUrl()
 	{
-	    return $this->getVar('url');
+		return $this->getVar('url');
 	}
-	
+
 	/**
 	 * set module URL
 	 *
@@ -137,7 +135,7 @@ abstract class PTA_WebModule extends PTA_Module
 	 */
 	public function setModuleUrl($url)
 	{
-	    $this->setVar('url', $url);
+		$this->setVar('url', $url);
 	}
-		
+
 }
