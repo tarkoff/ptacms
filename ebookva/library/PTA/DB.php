@@ -4,14 +4,13 @@
  *
  * @package Core
  * @copyright  2008 PTA Studio
- * @license    http://framework.zend.com/license   BSD License
- * @version    $Id$
+ * @license	http://framework.zend.com/license   BSD License
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
 abstract class PTA_DB 
 {
-
 	/**
  	 * fetchAssoc - Fetching a Result Set as an Associative Array
 	 *
@@ -23,11 +22,11 @@ abstract class PTA_DB
 	*/	
 	public function fetchAssoc($sql, $params = null)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->fetchAssoc($sql, $params);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->fetchAssoc($sql, $params);
 	}
-	
+
 	/**
  	 * fetchCol - Fetching a Single Column from a Result Set
 	 *
@@ -39,11 +38,11 @@ abstract class PTA_DB
 	*/	
 	public function fetchCol($sql, $params = null)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->fetchCol($sql, $params);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->fetchCol($sql, $params);
 	}
-	
+
 	/**
  	 * fetchPairs - Fetching Key-Value Pairs from a Result Set
 	 *
@@ -55,11 +54,11 @@ abstract class PTA_DB
 	*/	
 	public function fetchPairs($sql, $params = null)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->fetchPairs($sql, $params);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->fetchPairs($sql, $params);
 	}
-	
+
 	/**
  	 * fetchRow - Fetching a Single Row from a Result Set
 	 *
@@ -71,11 +70,11 @@ abstract class PTA_DB
 	*/	
 	public function fetchRow($sql, $params = null)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->fetchRow($sql, $params);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->fetchRow($sql, $params);
 	}
-	
+
 	/**
  	 * fetchOne - Fetching a Single Scalar from a Result Set
 	 *
@@ -87,11 +86,11 @@ abstract class PTA_DB
 	*/	
 	public function fetchOne($sql, $params = null)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->fetchOne($sql, $params);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->fetchOne($sql, $params);
 	}
-	
+
 	/**
  	 * insert - Inserting Data
 	 *
@@ -103,11 +102,11 @@ abstract class PTA_DB
 	*/	
 	public function insert($sql, $params)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->insert($sql, $params);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->insert($sql, $params);
 	}
-	
+
 	/**
  	 * update - Updating Data
 	 *
@@ -120,11 +119,11 @@ abstract class PTA_DB
 	*/	
 	public function update($sql, $params, $where)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->insert($sql, $params, $where);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->insert($sql, $params, $where);
 	}
-	
+
 	/**
  	 * delete - Deleting Data
 	 *
@@ -136,9 +135,9 @@ abstract class PTA_DB
 	*/	
 	public function delete($table, $where)
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->delete($table, $where);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->delete($table, $where);
 	}
 
 	/**
@@ -152,8 +151,8 @@ abstract class PTA_DB
 	*/	
 	public function quote($value, $type = '')
 	{
-	    $db = PTA_App::getInstance()->getDb();
-	    
-	    return $db->quote($value, $type);
+		$db = PTA_App::getInstance()->getDb();
+		
+		return $db->quote($value, $type);
 	}
 }
