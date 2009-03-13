@@ -310,4 +310,49 @@ abstract class PTA_App extends PTA_WebModule
 		return null;
 	}
 
+	/**
+	 * get variable from cookie
+	 *
+	 * @param string $cookieName
+	 * @return string
+	 */
+	public function getCookie($cookieName)
+	{
+		if (isset($_COOKIE[$cookieName])) {
+			return $_COOKIE[$cookieName];
+		}
+
+		return null;
+	}
+	
+	/**
+	 * Set cookie for PTA application
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 * @param int $expire
+	 * @param string $path
+	 * @param string $domain
+	 * @param boolean $secure
+	 * @param boolean $httponly
+	 * @return boolean
+	 */
+	public function setCookie($name, $value, $expire= null, $path = '/', $domain = '', $secure= false, $httponly= false)
+	{
+		if (empty($domain)) {
+			$domain = $_SERVER['SERVER_NAME'];
+		}
+		
+		if (is_null($expire)) {
+			if (defined('COOKIE_EXPIRE_TIME')) {
+				$expire = COOKIE_EXPIRE_TIME;
+			} else {
+				$expire = 0;
+			}
+		}
+		
+		$name = "PTA_{$name}";
+		
+		return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+	}
 }

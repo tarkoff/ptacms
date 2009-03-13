@@ -137,5 +137,4 @@ abstract class PTA_WebModule extends PTA_Module
 	{
 		$this->setVar('url', $url);
 	}
-
 }

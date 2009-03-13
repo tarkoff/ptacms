@@ -13,42 +13,64 @@ class PTA_User extends PTA_DB_Object
 {
 	protected $_login;
 	protected $_password;
+	protected $_groupId;
 	protected $_sessionHash;
-	
+	protected $_registerDate;
+
 	public function getLogin()
 	{
 		return $this->_login;
 	}
-	
+
 	public function setLogin($login)
 	{
 		$this->_login = $login;
 	}
-	
+
 	public function getPassword()
 	{
 		return $this->_password;
 	}
-	
+
+	public function getGroupId()
+	{
+		return $this->_groupId;
+	}
+
+	public function setGroupId($groupId)
+	{
+		$this->_groupId = (int)$groupId;
+	}
+
 	public function setPassword($passwd)
 	{
 		$this->_password = $passwd;
 	}
-	
+
+	public function getRegisterDate()
+	{
+		return $this->_registerDate;
+	}
+
+	public function setRegisterDate($date)
+	{
+		$this->_registerDate = $date;
+	}
+
 	public function getSessionHash()
 	{
 		if (empty($this->_sessionHash)) {
 			$this->_sessionHash = md5("{$this->_login}_" . date());
 		}
-		
+
 		return $this->_sessionHash;
 	}
-	
+
 	public function setSessionHash($hash)
 	{
 		$this->_sessionHash = $hash;
 	}
-	
+
 	public static function getPasswordHash($passwd)
 	{
 		return sha1(md5($passwd));
