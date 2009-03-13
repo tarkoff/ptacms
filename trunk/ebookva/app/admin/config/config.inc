@@ -32,4 +32,7 @@ define('IMAGESURL', DESIGNURL . '/img');
 define('TEMPLATESDIR', DESIGNDIR . '/templates/');
 define('TEMPLATES_CDIR', DESIGNDIR . '/templates_c/');
 
+//2 days | 3600 - 1hour
+define('COOKIE_EXPIRE_TIME', 172800);
+
 //define('PROFILER_TIME', 1);

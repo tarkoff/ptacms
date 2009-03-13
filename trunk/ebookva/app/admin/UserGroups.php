@@ -9,16 +9,16 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class Users extends PTA_WebModule
+class UserGroups extends PTA_WebModule
 {
-	private $_user;
+	private $_userGroup;
 
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'Users.tpl');
+		parent::__construct($prefix, 'UserGroups.tpl');
 
-		$this->_user = new PTA_User('currentUser');
-		$this->setModuleUrl(ADMINURL . '/Users/');
+		$this->_userGroup = new PTA_UserGroup('currentUserGroup');
+		$this->setModuleUrl(ADMINURL . '/UserGroups/');
 	}
 
 	public function init()
@@ -26,7 +26,7 @@ class Users extends PTA_WebModule
 		parent::init();
 
 		$action = $this->getApp()->getAction();
-		$item = $this->getApp()->getHttpVar('User');
+		$item = $this->getApp()->getHttpVar('userGroup');
 
 		switch (ucfirst($action)) {
 			case 'Add': 
@@ -59,21 +59,21 @@ class Users extends PTA_WebModule
 		$this->setVar('tplMode', 'edit');
 
 		if (!empty($itemId)) {
-			$this->_user->loadById($itemId);
+			$this->_userGroup->loadById($itemId);
 		}
 
-		$editForm = new Users_editForm('editForm', $this->_user, $copy);
+		$editForm = new UserGroups_editForm('editForm', $this->_userGroup, $copy);
 		$this->addVisual($editForm);
 	}
 
 	public function listAction()
 	{
 		$this->setVar('tplMode', 'list');
-		$fieldTable = $this->_user->getTable();
+		$fieldTable = $this->_userGroup->getTable();
 
 		$fields = $fieldTable->getFields();
 		
-		$view = new PTA_Control_View('userrsView', $this->_user, array_values($fields));
+		$view = new PTA_Control_View('userGroupsView', $this->_userGroup, array_values($fields));
 
 		$this->addActions($view);
 		$res = $view->exec();
@@ -85,18 +85,18 @@ class Users extends PTA_WebModule
 	{
 		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/User', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/User', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/User', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/UserGroup', 'edit.png');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/UserGroup', 'copy.png');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/UserGroup', 'remove.png');
 	}
 
 	public function deleteAction($itemId)
 	{
 		if (!empty($itemId)) {
-			$this->_user->loadById($itemId);
+			$this->_userGroup->loadById($itemId);
 		}
 
-		$this->_user->remove();
+		$this->_userGroup->remove();
 
 		$this->redirect($this->getModuleUrl());
 	}
