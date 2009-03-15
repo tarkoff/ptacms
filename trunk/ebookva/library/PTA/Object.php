@@ -24,12 +24,12 @@ abstract class PTA_Object extends PTA_DB
 	 *
 	 * @method getPrefix
 	 * @return string
-	*/	
+	*/
 	public function getPrefix()
 	{
 		return $this->_prefix;
 	}
-
+//alekspavuk@rambler.ru
 	public function setPrefix($prefix)
 	{
 		$this->_prefix = $prefix;

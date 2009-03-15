@@ -201,7 +201,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 
 		return false;
 	}
-	
+
 	/**
 	 * Get table object by class
 	 *
@@ -226,18 +226,27 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 
 		return null;
 	}
-	
+
 	private function _buildNewObject($data)
 	{
 		$newObject = $this->getTableObject();
 		return $newObject->loadFrom($data);
 	}
 
-	public function getTableObject()
+	/**
+	 * Get Object by table
+	 *
+	 * @param string $prefix
+	 * @return PTA_DB_Object
+	 */
+	public function getTableObject($prefix = null)
 	{
 		$objectClass = str_replace('_Table', '' , get_class($this));
 		if (class_exists($objectClass, true)) {
-			return new $objectClass('objectFromTable_' . rand(0, 1000));
+			if (empty($prefix)) {
+				$prefix = $objectClass . rand(0, 1000);
+			}
+			return new $objectClass($prefix);
 		}
 		return null;
 	}
@@ -248,7 +257,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	 * @param array $fields
 	 * @param array $values
 	 */
-	public function findByFields($fields, $values)
+	public function findByFields($fields, $values, $asObject)
 	{
 		if (empty($fields) || empty($values)) {
 			return null;
@@ -268,7 +277,43 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 				}
 			}
 		}
+		
+		$resultSet = $this->fetchAll($select)->toArray();
+		if ($asObject) {
+			$resObjects = array();
+			foreach ($resultSet as $dbObject) {
+				$resObject = $this->getTableObject();
+				$resObject->loadFrom($dbObject);
+				if ($resObject->getId()) {
+					$resObjects[] = $resObject;
+				}
+			}
+			return $resObjects;
+		}
 
-		return $this->fetchAll($select)->toArray();
+		return $resultSet;
+	}
+
+	public function getSelectedFields($fields)
+	{
+		$fields = (array)$fields;
+
+		$dbFields = array();
+		foreach ($fields as $fieldAlias) {
+			$dbField = $this->getFieldByAlias($fieldAlias);
+			if (!empty($dbField)) {
+				$dbFields[] = $dbField;
+			}
+		}
+		
+		$select = $this->select()->from($this->getTableName(), $dbFields);
+		$searchResult = $this->fetchAll($select)->toArray();
+		
+		$resultSet = array();
+		foreach ($searchResult as $row) {
+			$resultSet[] = (array)array_values($row);
+		}
+		
+		return $resultSet;
 	}
 }

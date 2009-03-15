@@ -24,7 +24,7 @@ class Authorizer_LoginForm extends PTA_Control_Form
 		$title->setCssClass('textField');
 		$this->addVisual($title);
 
-		$alias = new PTA_Control_Form_Text('password', 'Password', false, '');
+		$alias = new PTA_Control_Form_Password('password', 'Password', false, '');
 		$alias->setSortOrder(200);
 		$alias->setCssClass('textField');
 		$this->addVisual($alias);
@@ -37,6 +37,7 @@ class Authorizer_LoginForm extends PTA_Control_Form
 	public function onLoad()
 	{
 		$data = new stdClass();
+		$data->password = '';
 		return $data;
 	}
 
@@ -51,21 +52,15 @@ class Authorizer_LoginForm extends PTA_Control_Form
 		}
 
 		$userTable = PTA_DB_Table::get('User');
-		$dbUser = $userTable->findByFields(array('login'=>$data->login));
-		if (!empty($dbUser)) {
-			$passwdField = $userTable->getFieldByAlias('passwd');
-			if ($dbUser[$passwdField] == PTA_User::getPasswdHash($data->passwd)) {
-				$user = new PTA_User('currentUser');
-				$user->loadFrom($dbUser);
-				$this->getApp()->setUser($user);
-				$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
-			}
-		} else {
-			$this->redirect($_SERVER['PHP_SELF']);
-		}
+		$dbUser = $userTable->findByFields(
+								array('login', 'password'),
+								array($this->quote($data->login), PTA_User::getPasswordHash($data->password)),
+								true
+							);
 
-		if ($this->_field->save() || $this->_copy) {
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+		if (!empty($dbUser)) {
+			$this->getApp()->setUser(current($dbUser));
+			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
 		}
 
 		return true;

@@ -23,6 +23,7 @@ abstract class PTA_App extends PTA_WebModule
 	protected $_controller;
 	protected $_action;
 	protected $_router;
+	protected $_httpClient;
 
 	private static $_instance;
 
@@ -78,7 +79,11 @@ abstract class PTA_App extends PTA_WebModule
 
 	public function setUser(PTA_User $user)
 	{
-		$this->_user = $user;
+		$userHash = $user->getSessionHash();
+		if ($this->setCookie('login', $userHash)) {
+			$user->saveUserSession();
+			$this->_user = $user;
+		}
 	}
 
 	/**
@@ -261,6 +266,16 @@ abstract class PTA_App extends PTA_WebModule
 		return (isset($activeModule) ? $activeModule : false);
 	}
 	
+	public function setActiveModule($modulePrefix)
+	{
+		if (($module = $this->getModule($modulePrefix))) {
+			$this->_modules['activeModule'] = $module;
+			return true;
+		}
+
+		return $this->insertModule($modulePrefix, $modulePrefix);
+	}
+	
 	public function getModules()
 	{
 		return $this->_modules;
@@ -318,8 +333,9 @@ abstract class PTA_App extends PTA_WebModule
 	 */
 	public function getCookie($cookieName)
 	{
-		if (isset($_COOKIE[$cookieName])) {
-			return $_COOKIE[$cookieName];
+		$name = "PTA_$cookieName";
+		if (isset($_COOKIE[$name])) {
+			return $_COOKIE[$name];
 		}
 
 		return null;
@@ -345,14 +361,14 @@ abstract class PTA_App extends PTA_WebModule
 		
 		if (is_null($expire)) {
 			if (defined('COOKIE_EXPIRE_TIME')) {
-				$expire = COOKIE_EXPIRE_TIME;
+				$expire =time() + COOKIE_EXPIRE_TIME;
 			} else {
 				$expire = 0;
 			}
 		}
-		
+
 		$name = "PTA_{$name}";
-		
-		return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+		return setcookie($name, $value, $expire, $path);
+		//return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
 }

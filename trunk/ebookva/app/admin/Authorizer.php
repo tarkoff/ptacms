@@ -15,22 +15,45 @@ class Authorizer extends PTA_WebModule
 	{
 		parent::__construct($prefix, 'Authorizer.tpl');
 	}
-
+	
 	public function init()
+	{
+		$this->login();
+	}
+
+	public function login()
 	{
 		parent::init();
 
 		if ($this->loginByHash()) {
 			return true;
 		}
+		
+		return $this->loginByPassword();
 	}
 	
 	public function loginByHash()
 	{
-		$loginHash = $this->getApp()->getCookie('login');
-		if (!empty($loginHash)) {
-			//$userByHash = PTA_DB_Table::get('User')->
+		$loginHash = $this->quote($this->getApp()->getCookie('login'));
+		if (empty($loginHash)) {
+			return false;
 		}
+
+		$userByHash = PTA_DB_Table::get('User')->getUserByHash($loginHash);
+		if ($userByHash instanceof PTA_User) {
+			$this->getApp()->setUser($userByHash);
+			return true;
+		}
+
+		return false;
+		
+	}
+	
+	public function loginByPassword()
+	{
+		include_once './Authorizer/loginForm.php';
+		$loginForm = new Authorizer_LoginForm('loginForm');
+		$this->addVisual($loginForm);
 	}
 
 }
