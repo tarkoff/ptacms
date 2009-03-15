@@ -60,7 +60,7 @@ class PTA_User extends PTA_DB_Object
 	public function getSessionHash()
 	{
 		if (empty($this->_sessionHash)) {
-			$this->_sessionHash = md5("{$this->_login}_" . date());
+			$this->_sessionHash = md5("{$this->_login}_" . date("Ymd"));
 		}
 
 		return $this->_sessionHash;
@@ -73,6 +73,11 @@ class PTA_User extends PTA_DB_Object
 
 	public static function getPasswordHash($passwd)
 	{
-		return sha1(md5($passwd));
+		return md5(sha1($passwd));
+	}
+
+	public function saveUserSession()
+	{
+		PTA_DB_Table::get('User_Stat')->saveUserSession($this);
 	}
 }

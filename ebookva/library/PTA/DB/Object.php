@@ -149,10 +149,13 @@ abstract class PTA_DB_Object extends PTA_Object
 	 * @param object $manufacturer
 	 * @return object
 	*/	
-	public function loadFrom($info)
+	public function loadFrom($info, $fields = null)
 	{
-		$table = $this->getTable();
-		$fields = $table->getFields();
+		if (empty($fields)) {
+			$table = $this->getTable();
+			$fields = $table->getFields();
+			$fields['ID'] = $table->getPrimary();
+		}
 
 		$aliases = array_keys($fields);
 		$realFields = array_values($fields);
@@ -160,10 +163,12 @@ abstract class PTA_DB_Object extends PTA_Object
 		$info = (array)$info;
 		foreach ($info as $alias=>$value) {
 			$method = '';
-			if (in_array(strtoupper($alias), $aliases)) {
+			$alias = strtoupper($alias);
+
+			if (in_array($alias, $aliases)) {
 				$method = 'set' . ucfirst(strtolower($alias));
-			} elseif (false !== ($key = array_search(strtoupper($alias), $realFields))) {
-				$method = 'set' .  ucfirst(strtolower($aliases[$key]));
+			} elseif (false !== ($key = array_search($alias, $realFields))) {
+				$method = 'set' . ucfirst(strtolower($aliases[$key]));
 			}
 
 			if (!empty($method) && method_exists($this, $method)) {

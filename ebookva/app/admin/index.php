@@ -8,7 +8,7 @@
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-
+ob_start();
 error_reporting(E_ALL);
 ini_set('dipslay_errors', 1);
 
@@ -30,9 +30,34 @@ class adminApp extends PTA_App
 		$controller = $this->_router->getActiveController();
 		$this->_controller = empty($controller) ? 'Categories' : $controller;
 		$this->_action = $this->_router->getActiveAction();
+//var_dump($this->loginByHash());
+//var_dump($_COOKIE);
+		$this->insertModule('Header', 'Header');
+		if (!$this->loginByHash()) {
+			$this->insertModule('activeModule', 'Authorizer');
+		} else {
+			$this->insertModule('activeModule', $this->getController());
+		}
+	}
+	
 
-		$this->insertModule('activeModule', $this->getController());
-		$this->insertModule('Header', 'Header');   
+	public function loginByHash()
+	{
+		//return true;
+		$loginHash = $this->quote($this->getApp()->getCookie('login'));
+		if (empty($loginHash)) {
+			return false;
+		}
+
+		$userByHash = PTA_DB_Table::get('User')->getUserByHash($loginHash);
+
+		if ($userByHash instanceof PTA_User) {
+			$this->getApp()->setUser($userByHash);
+			return true;
+		}
+
+		return false;
+		
 	}
 
 	public function getController()
@@ -61,3 +86,4 @@ $app = new adminApp();
 $app->init();
 $app->run();
 $app->shutdown();
+ob_end_flush();

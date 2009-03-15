@@ -35,6 +35,11 @@ class Users_editForm extends PTA_Control_Form
 		$alias->setSortOrder(200);
 		$alias->setCssClass('textField');
 		$this->addVisual($alias);
+		
+		$groups = PTA_DB_Table::get('UserGroup')->getSelectedFields(array('id', 'name'));
+		$group = new PTA_Control_Form_Select('groupId', 'User Group',true, $groups);
+		$group->setSortOrder(210);
+		$this->addVisual($group);
 
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
 		$submit->setSortOrder(300);

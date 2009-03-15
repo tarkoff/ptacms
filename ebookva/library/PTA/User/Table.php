@@ -20,9 +20,17 @@ class PTA_User_Table extends PTA_DB_Table
 
 	public function getUserByHash($hash)
 	{
-		$select = $this->select()->from('USERSTAT');
-		$select->where($this->getAdapter()->quoteInto('USERSTAT_LOGINHASH = ?', $hash));
-		$select->limit(1);
-		return $this->fetchAll($select)->toArray();
+		$statTable = PTA_DB_Table::get('User_Stat');
+		$dbUser = $statTable->getUserByHash($hash);
+
+		if (!empty($dbUser)) {
+			$user = $this->getTableObject('currentUser');
+			$user->loadById($dbUser[$statTable->getFieldByAlias('userId')]);
+			$user->setSessionHash($dbUser[$statTable->getFieldByAlias('sessionHash')]);
+			return $user;
+		}
+
+		return null;
 	}
+
 }
