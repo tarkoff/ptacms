@@ -24,11 +24,11 @@ class Authorizer extends PTA_WebModule
 	public function login()
 	{
 		parent::init();
-
+/*
 		if ($this->loginByHash()) {
 			return true;
 		}
-		
+*/
 		return $this->loginByPassword();
 	}
 	

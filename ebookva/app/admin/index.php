@@ -44,7 +44,7 @@ class adminApp extends PTA_App
 	public function loginByHash()
 	{
 		//return true;
-		$loginHash = $this->quote($this->getApp()->getCookie('login'));
+		$loginHash = $this->quote($this->getApp()->getCookie('SID'));
 		if (empty($loginHash)) {
 			return false;
 		}

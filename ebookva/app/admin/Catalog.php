@@ -26,8 +26,8 @@ class Catalog extends PTA_WebModule
 		parent::init();
 
 		$action = $this->getApp()->getAction();
-		$item = $this->getApp()->getItem();
-
+		$item = $this->getApp()->getHttpVar('Item');
+		
 		switch (ucfirst($action)) {
 			case 'Add': 
 					$this->editAction();
@@ -72,7 +72,7 @@ class Catalog extends PTA_WebModule
 		$catalogTable = $this->_catalog->getTable();
 
 		$catalog = $catalogTable->getFields();
-		unset($catalog['CATEGORYID']);
+		unset($catalog['CATEGORYID'], $catalog['MANUFACTURERID']);
 
 		$view = new PTA_Control_View('catalogView', $this->_catalog, array_values($catalog));
 
@@ -93,11 +93,9 @@ class Catalog extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.gif');
-
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/', 'edit.gif');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/', 'edit.gif');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/', 'erase.gif');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Item', 'edit.png');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Item', 'copy.png');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Item', 'remove.png');
 	}
 
 	public function deleteAction($itemId)

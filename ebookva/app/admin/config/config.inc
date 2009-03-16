@@ -19,7 +19,10 @@ define('SITEID', 1);
 define('SMARTY_DIR', ROOTPATH . '/library/Smarty/libs/');
 
 define('PUBLICPATH', ROOTPATH . '/public');
-define('ADMINPATH', ROOTPATH . '/app/site');
+define('ADMINPATH', ROOTPATH . '/app/admin');
+
+define('CACHEPATH', ROOTPATH . '/system/cache/admin');
+define('LOGSPATH', ROOTPATH . '/system/logs/admin');
 
 define('DESIGN_NAME', 'default');
 
@@ -30,7 +33,7 @@ define('CSSURL', DESIGNURL . '/css');
 define('IMAGESURL', DESIGNURL . '/img');
 
 define('TEMPLATESDIR', DESIGNDIR . '/templates/');
-define('TEMPLATES_CDIR', DESIGNDIR . '/templates_c/');
+define('TEMPLATES_CDIR', CACHEPATH . '/templates_c/');
 
 //2 days | 3600 - 1hour
 define('COOKIE_EXPIRE_TIME', 172800);
