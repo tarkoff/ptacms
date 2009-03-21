@@ -19,7 +19,7 @@ class PTA_Control_View extends PTA_Object
 		}
 		$this->setPrefix($prefix);
 
-		$this->_select = $this->getApp()->getDb()->select();	
+		$this->_select = $this->getApp()->getDb()->select();
 		$this->_table = $object->getTable();
 		
 		if (!empty($fields)) {

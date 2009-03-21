@@ -9,13 +9,13 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class MainMenu extends PTA_WebModule
+class LeftMenu extends PTA_WebModule
 {
 	private $_menu;
 
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'MainMenu.tpl');
+		parent::__construct($prefix, 'LeftMenu.tpl');
 	}
 
 	public function init()
