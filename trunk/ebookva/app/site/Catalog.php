@@ -18,7 +18,7 @@ class Catalog extends PTA_WebModule
 		parent::__construct($prefix, 'Catalog.tpl');
 		$this->_catalog = new PTA_Catalog_Product('Catalog');
 
-		$this->setModuleUrl(ADMINURL . '/Catalog/');
+		$this->setModuleUrl(BASEURL . '/Catalog/');
 	}
 
 	public function init()
@@ -54,18 +54,6 @@ class Catalog extends PTA_WebModule
 		}
 	}
 
-	public function editAction($itemId = null, $copy = false)
-	{
-		$this->setVar('tplMode', 'edit');
-
-		if (!empty($itemId)) {
-			$this->_catalog->loadById($itemId);
-		}
-
-		$editForm = new Catalog_editForm('editForm', $this->_catalog, $copy);
-		$this->addVisual($editForm);
-	}
-
 	public function listAction()
 	{
 		$this->setVar('tplMode', 'list');
@@ -89,23 +77,6 @@ class Catalog extends PTA_WebModule
 		$res = $view->exec();
 
 		$this->setVar('view', $res);
-	}
-
-	public function addActions(&$view)
-	{
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Item', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Item', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Item', 'remove.png');
-	}
-
-	public function deleteAction($itemId)
-	{
-		if (!empty($itemId)) {
-			$this->_catalog->loadById($itemId);
-		}
-
-		$this->_catalog->remove();
-		$this->redirect($this->getModuleUrl());
 	}
 
 }

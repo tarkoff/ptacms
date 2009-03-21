@@ -12,14 +12,14 @@ RewriteRule ^.htaccess$ - [F]
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 
-RewriteRule ^admin app/admin/index.php [L]
 
-#Category/list/page/4		Catalog/Mobiles/Edit Catalog/Mobiles/list/page/4
-#RewriteRule ^admin/([a-zA-Z_]+)/edit/([a-zA-Z0-9])\.html admin/index.php?SitePart=Admin&Module=$1&Action=Edit&EntryId=$2 [L]
-#RewriteRule ^admin/([a-zA-Z_]+)/list/([a-zA-Z0-9])\.html admin/index.php?SitePart=Admin&Module=$1&Action=List&Page=$2 [L]
-#RewriteRule ^admin/(.+)\.html index.php?SitePart=Admin [L]
+RewriteRule ^admin app/admin/ [L]
+RewriteRule ^!admin app/site/ [L]
 
-#RewriteRule ^([a-zA-Z_]+)/edit/([a-zA-Z0-9])\.html admin/index.php?SitePart=Site&Module=$1&Action=Edit&EntryId=$2 [L]
-#RewriteRule ^([a-zA-Z_]+)/list/([a-zA-Z0-9])\.html admin/index.php?SitePart=Site&Module=$1&Action=List&Page=$2 [L]
+#RewriteRule ^admin.*!\.(js|ico|swf|gif|jpg|png|css|xml)$ app/admin/index.php [L]
+#RewriteRule ^admin app/admin/index.php [L]
 
-RewriteRule !\.(js|ico|swf|gif|jpg|png|css|xml)$ app/site/index.php [L]
+#RewriteRule ^!admin.*!\.(js|ico|swf|gif|jpg|png|css|xml)$ app/site/index.php [L]
+#RewriteRule ^!admin app/site/index.php [L]
+
+#RewriteRule !\.(js|ico|swf|gif|jpg|png|css|xml)$ index.php [L]

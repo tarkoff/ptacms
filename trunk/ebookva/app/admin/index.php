@@ -8,11 +8,12 @@
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
+
 ob_start();
 error_reporting(E_ALL);
 ini_set('dipslay_errors', 1);
 
-require_once './config/bootstrap.inc';
+require_once realpath(dirname(__FILE__)) . '/config/bootstrap.inc';
 
 class adminApp extends PTA_App 
 {

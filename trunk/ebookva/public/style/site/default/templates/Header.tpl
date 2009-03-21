@@ -1,12 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>eGOODS</title>
-<link rel="stylesheet" type="text/css" href="{$smarty.const.CSSURL}/style.css" media="screen" />
-</head>
-
-<body>
-<div id="Header" class="header">
-	{include file=$MainMenu->tpl data=$MainMenu}
+<div id="top">
+	<p class="ph">
+		<span>+01-4456-6678</span>
+	</p>
+	<ul>
+		<li><a href="#" class="hover">Home</a></li>
+		<li><a href="#">About Us</a></li>
+		<li><a href="#">Solutions</a></li>
+		<li><a href="#">Support</a></li>
+		<li><a href="#">Testimonials</a></li>
+		<li><a href="#">News and Events</a></li>
+		<li><a href="#">Location</a></li>
+		<li><a href="#">blog</a></li>
+		<li class="noImg"><a href="#">Contact&nbsp;Us</a></li>
+	</ul>
 </div>

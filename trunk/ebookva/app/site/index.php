@@ -31,8 +31,8 @@ class adminApp extends PTA_App
 		$this->_controller = empty($controller) ? 'Categories' : $controller;
 		$this->_action = $this->_router->getActiveAction();
 //var_dump($this->loginByHash());
-//var_dump($_COOKIE);
 		$this->insertModule('Header', 'Header');
+		$this->insertModule('LeftMenu', 'LeftMenu');
 		if (!$this->loginByHash()) {
 			$this->insertModule('activeModule', 'Authorizer');
 		} else {

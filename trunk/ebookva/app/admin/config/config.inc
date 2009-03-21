@@ -31,6 +31,8 @@ define('DESIGNURL', BASEURL . '/public/style/admin/' . DESIGN_NAME);
 
 define('CSSURL', DESIGNURL . '/css');
 define('IMAGESURL', DESIGNURL . '/img');
+define('JSURL', BASEURL . '/public/js');
+define('JQUERYURL', JSURL . '/jquery');
 
 define('TEMPLATESDIR', DESIGNDIR . '/templates/');
 define('TEMPLATES_CDIR', CACHEPATH . '/templates_c/');
