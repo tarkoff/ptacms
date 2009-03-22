@@ -1,8 +1,3 @@
-<!--
-<script src="{$smarty.const.JQUERYURL}/jquery-1.3.2.min.js" type="text/javascript" />
--->
-<script src="{$smarty.const.JQUERYURL}/test.js" type="text/javascript" />
-
 <div id="left">
 	<a href="index.html">
 		<img src="images/logo.gif" alt="pot" width="149" height="106" class="logo" title="pot" /> LOGO LOGO lOGO

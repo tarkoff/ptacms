@@ -26,6 +26,8 @@ define('DESIGN_NAME', 'default');
 
 define('DESIGNDIR', PUBLICPATH . '/style/site/' . DESIGN_NAME);
 define('DESIGNURL', BASEURL . '/public/style/site/' . DESIGN_NAME);
+#define('DESIGNURL', '/public/style/site/' . DESIGN_NAME);
+
 
 define('CSSURL', DESIGNURL . '/css');
 define('IMAGESURL', DESIGNURL . '/img');

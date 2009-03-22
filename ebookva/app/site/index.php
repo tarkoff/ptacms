@@ -11,7 +11,7 @@
 ob_start();
 error_reporting(E_ALL);
 ini_set('dipslay_errors', 1);
-
+//var_dump($_SERVER);
 require_once './config/bootstrap.inc';
 
 class adminApp extends PTA_App 
@@ -30,14 +30,10 @@ class adminApp extends PTA_App
 		$controller = $this->_router->getActiveController();
 		$this->_controller = empty($controller) ? 'Categories' : $controller;
 		$this->_action = $this->_router->getActiveAction();
-//var_dump($this->loginByHash());
+
 		$this->insertModule('Header', 'Header');
 		$this->insertModule('LeftMenu', 'LeftMenu');
-		if (!$this->loginByHash()) {
-			$this->insertModule('activeModule', 'Authorizer');
-		} else {
-			$this->insertModule('activeModule', $this->getController());
-		}
+		$this->insertModule('activeModule', $this->getController());
 	}
 	
 
