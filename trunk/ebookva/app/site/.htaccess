@@ -1,20 +1,15 @@
-Options +FollowSymlinks
-Options -Indexes
+#Options +FollowSymlinks
+#Options -Indexes
 
 AddDefaultCharset UTF-8
 
 RewriteEngine on
-
-RewriteBase /
+RewriteBase /app/site/
 
 RewriteRule ^.htaccess$ - [F]
 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 
-#RewriteRule ^([a-zA-Z_]*)/([a-zA-Z0-9]*)/([a-zA-Z0-9]*)/?$ site/index.php?Controler=$1&Action=$2&Entity=$3 [L]
-
-#RewriteRule ^([a-zA-Z_]+)/add/?$ site/index.php?Module=$1&Action=Edit&EntryId=$2 [L]
-#RewriteRule ^([a-zA-Z_]+)/edit/([a-zA-Z0-9])\.html site/index.php?Module=$1&Action=Edit&EntryId=$2 [L]
-#RewriteRule ^([a-zA-Z_]+)/list/([a-zA-Z0-9])\.html site/index.php?Module=$1&Action=List&Page=$2 [L]
-RewriteRule !\.(js|ico|swf|gif|jpg|png|css|xml)$ site/index.php [L]
+RewriteRule \.(js|ico|swf|gif|jpg|png|css|xml)$ %{SCRIPT_FILENAME} [L]
+RewriteRule !\.(js|ico|swf|gif|jpg|png|css|xml)$ index.php [L]
