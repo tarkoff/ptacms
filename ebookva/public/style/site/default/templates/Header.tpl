@@ -14,3 +14,8 @@
 		<li class="noImg"><a href="#">Contact&nbsp;Us</a></li>
 	</ul>
 </div>
+<div class="logoBlock">
+	<a href="{$smarty.const.BASEURL}">
+		{html_image file="`$smarty.const.IMAGESURL`/logo.gif" alt=$smarty.const.BASEURL}
+	</a>
+</div>

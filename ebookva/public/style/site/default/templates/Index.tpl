@@ -22,7 +22,8 @@
 			{*include file=RightTop.tpl*}
 		<!--rightTop end -->
 		<!--rightLeft start -->
-			{include file=RightLeft.tpl}
+			{*include file=RightLeft.tpl*}
+			{include file=$activeModule->tpl data=$activeModule}
 		<!--rightLeft end -->
 		<!--last start -->
 			{include file=RightNav.tpl}

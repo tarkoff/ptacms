@@ -31,12 +31,11 @@ class adminApp extends PTA_App
 		$controller = $this->_router->getActiveController();
 		$this->_controller = empty($controller) ? 'Categories' : $controller;
 		$this->_action = $this->_router->getActiveAction();
-//var_dump($this->loginByHash());
-//var_dump($_COOKIE);
-		$this->insertModule('Header', 'Header');
+
 		if (!$this->loginByHash()) {
 			$this->insertModule('activeModule', 'Authorizer');
 		} else {
+			$this->insertModule('Header', 'Header');
 			$this->insertModule('activeModule', $this->getController());
 		}
 	}

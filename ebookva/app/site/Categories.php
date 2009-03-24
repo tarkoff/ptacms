@@ -60,7 +60,7 @@ class Categories extends PTA_WebModule
 			}
 		}
 //var_dump($resList);
-		$this->setVar('view', $resList);
+		$this->setVar('categories', $resList);
 	}
 
 	public function addActions(&$view)
