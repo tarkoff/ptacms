@@ -5,7 +5,7 @@ body{
 	padding:0;
 	margin:0;
 	font-family:Arial, Helvetica, sans-serif;
-	background:url(../img/../img/main_bg.gif) 0 0 repeat-x #D5D08E;
+	background:url(../img/main_bg.gif) 0 0 repeat-x #D5D08E;
 	color:#777232;
 
 }
@@ -25,11 +25,19 @@ ul{
 	font-size:0; 
 	line-height:0;
 }
+
+.logoBlock, #top, #body{
+	width:948px;
+	margin:0 auto;
+}
+
+img{
+	border:0px;
+}
 /*------------------------------------------------main--------------------*/
 
 /*------------------------------------------------top--------------------*/
 #top{
-	width:948px;
 	margin:10px auto 0 auto;
 	height:30px;
 }
@@ -87,13 +95,14 @@ ul{
 	text-decoration:none;
 	cursor:text;
 }
+
+.logoBlock{
+	margin:10px auto 10px auto;
+}
 /*------------------------------------------------top--------------------*/
 
 /*------------------------------------------------body--------------------*/
 #body{
-	width:948px;
-	margin:0 auto;
-	//background:url(../img/body_bg.jpg) left top no-repeat;
 	padding:0 0 35px 0;
 }
 /*------------------------------------------------left--------------------*/

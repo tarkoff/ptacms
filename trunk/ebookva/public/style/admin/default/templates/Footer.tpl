@@ -3,7 +3,3 @@
 		{include file="debuger.tpl"}
 	{/if}
 	</div>
-
-</div>
-</body>
-</html>
