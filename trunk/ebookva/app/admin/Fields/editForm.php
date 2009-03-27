@@ -37,7 +37,7 @@ class Fields_editForm extends PTA_Control_Form
 		$this->addVisual($alias);
 
 		$fields = PTA_Control_Form_Field::getPossibleFields();
-		$fieldType = new PTA_Control_Form_Select('fieldType', 'Field Type', true, $fields);
+		$fieldType = new PTA_Control_Form_Select('fieldtype', 'Field Type', true, $fields);
 		$fieldType->setSortOrder(300);
 		$fieldType->setCssClass('textField');
 		$this->addVisual($fieldType);

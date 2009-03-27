@@ -37,30 +37,7 @@ class Categories extends PTA_WebModule
 	public function mainPageAction()
 	{
 		$catTable = PTA_DB_Table::get('Category');
-		$categories = $catTable->getAll();
-//var_dump($categories);
-		$catIdField = $catTable->getPrimary();
-		$catParentIdField = $catTable->getFieldByAlias('parentId');
-		$catTitleField = $catTable->getFieldByAlias('title');
-
-		$resList = array();
-		foreach ($categories as $category) {
-			if (empty($category[$catParentIdField])) {
-				$resList[$category[$catIdField]]['title'] = $category[$catTitleField];
-				$resList[$category[$catIdField]]['childs'] = array();
-			} else {
-				foreach ($resList as $rootCatId => $catChilds) {
-					if (
-						in_array($category[$catParentIdField], array_keys($catChilds['childs']))
-						|| ($rootCatId == $category[$catParentIdField])
-					) {
-						$resList[$rootCatId]['childs'][$category[$catIdField]] = $category[$catTitleField];
-					}
-				}
-			}
-		}
-//var_dump($resList);
-		$this->setVar('categories', $resList);
+		$this->setVar('categories', PTA_Util::buildCategoryTree($catTable->getAll()));
 	}
 
 	public function addActions(&$view)

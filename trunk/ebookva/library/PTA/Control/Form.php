@@ -30,11 +30,12 @@ abstract class PTA_Control_Form extends PTA_Object
 		parent::run();
 
 		if ($this->submitted()) {
-			$data = $this->_runVisualElements();
+			$data = $this->_fillToData();
 			$this->onSubmit($data);
+			$this->_fillFromData($data);
 		} else {
 			$data = $this->onLoad();
-			$this->_runVisualElements($data);
+			$this->_fillFromData($data);
 		}
 	}
 
@@ -49,37 +50,32 @@ abstract class PTA_Control_Form extends PTA_Object
 		}
 	}
 
-	private function _runVisualElements($data = null)
+	protected function _fillFromData($data)
 	{
-		$elements = $this->getVisualAll();
-
+		$data = (array)$data;
+		foreach ($data as $name => $value) {
+			if (($field = $this->getVisual($name))) {
+				$field->setValue($value);
+				$field->run();
+			}
+		}
+	}
+	
+	protected function _fillToData(&$data = null)
+	{
 		if (empty($data)) {
 			$data = new stdClass();
 		}
 
-		$dataKeys = array_map('strtolower', array_keys((array)$data));
-		
-		if (!empty($elements)) {
-			foreach ($elements as $element) {
-				//list($name) = explode('[', $element->getName());
-				$name = $element->getName();
-
-				$fullName = $this->getPrefix() . "_$name";
-				if (isset($data->{$name})) {
-					$value = $data->{$name};
-				} else {
-					if ($this->submitted()) {
-						$value = $this->getHttpVar($fullName);
-					} else {
-						$value = $element->getValue();
-					}
-				}
-
-				$element->setValue($value);
-				$data->$name = $value; 
-
-				$element->run();
+		$submited = $this->submitted();
+		foreach ($this->getVisualAll() as $field) {
+			$fullName = $this->getPrefix() . '_' . $field->getName();
+			if ($submited) {
+				$data->{$field->getName()} = $this->getHttpVar($fullName);
+			} else {
+				$data->{$field->getName()} = $field->getValue();
 			}
+			$field->run();
 		}
 		return $data;
 	}
@@ -100,7 +96,6 @@ abstract class PTA_Control_Form extends PTA_Object
 				return true;
 			}
 		}
-
 		return false;
 	}
 

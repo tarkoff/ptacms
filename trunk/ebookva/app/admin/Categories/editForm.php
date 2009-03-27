@@ -39,8 +39,12 @@ class Categories_editForm extends PTA_Control_Form
 				$values[] = array($category->getId(), $category->getTitle());
 			}
 		}
+		
+		$alias = new PTA_Control_Form_Text('alias', 'Alias', true);
+		$alias->setSortOrder(150);
+		$this->addVisual($alias);
 
-		$categorys = new PTA_Control_Form_Select('parentId', 'Parent Category', false, $values);
+		$categorys = new PTA_Control_Form_Select('parentid', 'Parent Category', false, $values);
 		$categorys->setSortOrder(200);
 		$categorys->setSelected(2);
 		$categorys->setCssClass('textField');
@@ -57,12 +61,13 @@ class Categories_editForm extends PTA_Control_Form
 		
 		$this->_category->loadTo($data);
 		$data->submit = 'save';
-
+//var_dump($data);
 		return $data;
 	}
 
 	public function onSubmit(&$data)
 	{
+var_dump($data);
 		$invalidFields = $this->validate($data);
 		if (!empty($invalidFields)) {
 			foreach ($invalidFields as $field) {
