@@ -37,7 +37,7 @@ class Users_editForm extends PTA_Control_Form
 		$this->addVisual($alias);
 		
 		$groups = PTA_DB_Table::get('UserGroup')->getSelectedFields(array('id', 'name'));
-		$group = new PTA_Control_Form_Select('groupId', 'User Group',true, $groups);
+		$group = new PTA_Control_Form_Select('groupid', 'User Group',true, $groups);
 		$group->setSortOrder(210);
 		$this->addVisual($group);
 

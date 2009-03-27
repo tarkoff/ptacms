@@ -1,18 +1,17 @@
 <div id="left">
-	<h2 class="catagory">Categories</h2>
-	<ul class="lftNav">
-		<li><a href="#">Cras commodo</a></li>
-		<li><a href="#">Suspendisse purrasut</a></li>
-		<li><a href="#">Leo neurna dictum</a></li>
-		<li><a href="#">Consectetuer quisque</a></li>
-		<li><a href="#">Felis</a></li>
-		<li><a href="#">Aliquam erat volutpat</a></li>
-		<li><a href="#">Ut ultrices nisi</a></li>
-		<li><a href="#">Euismod accumsan</a></li>
-		<li class="noImg2"><a href="#">Lectus nisi mollis arcu</a></li>
-	</ul>
-	<ul class="botLink">
-		<li class="subscribe"><a href="#">Subscribe Here</a></li>
-		<li class="tellFriend"><a href="#">Tell A Friend</a></li>
+	<p class="catagory">Categories</p>
+	<ul class="lftNav" id="navigation">
+	{defun name="cattree" list=$data->Categories}
+	{foreach from=$list item=category name=cat}
+		{if $smarty.foreach.cat.last}
+			<li class="noImg"><a href="{$data->url}{$category.alias}">{$category.title}</a></li>
+		{else}
+			<li><a href="{$data->url}{$category.alias}">{$category.title}</a></li>
+		{/if}
+		{if !empty($category.childs)}
+			<ul>{fun name="cattree" list=$category.childs}</ul>
+		{/if}
+	{/foreach}
+	{/defun}
 	</ul>
 </div>

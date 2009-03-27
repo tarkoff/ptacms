@@ -16,39 +16,20 @@ class LeftMenu extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'LeftMenu.tpl');
+		$this->setModuleUrl(BASEURL . '/Category/');
 	}
 
 	public function init()
 	{
 		parent::init();
-/*		
-		$action = $this->getApp()->getAction();
-		$model = $this->getApp()->getModel();
 		
-		switch ($action) {
-			case 'Add': 
-					$this->addAction();
-			break;
-			
-			case 'List':
-					$this->listAction();
-			break;
-			
-			case 'Edit':
-					$this->editAction($model);
-			break;
+		$categoryAlias = $this->getApp()->getHttpVar('Category');
+		if (empty($categoryAlias)) {
+			$categoryAlias = $this->getApp()->getCookie('Category');
 		}
-*/
-	}
 
-	public function editAction($id=null)
-	{
-		$this->setVar('tplMode', 'edit');
-	}
-
-	public function listAction()
-	{
-		$this->setVar('tplMode', 'list');
+		$this->setVar('Categories', PTA_Util::buildCategoryTree(PTA_DB_Table::get('Category')->getAll()));
+		$this->setVar('selectedCategory', $this->quote($categoryAlias));
 	}
 
 }

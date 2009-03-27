@@ -179,7 +179,7 @@ abstract class PTA_App extends PTA_WebModule
 			return false;
 		}
 
-		$queries = $profiler->getQueryProfiles();
+		$queries = $profiler->getQueryProfiles(null, true);
 		if (empty($queries)) {
 			return false;
 		}
