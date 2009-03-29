@@ -126,7 +126,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 
 	public function setValue($value)
 	{
-		$this->setVar('value', $value);
+		$this->setVar('value', $this->quote($value));
 	}
 
 	public function getLabel()

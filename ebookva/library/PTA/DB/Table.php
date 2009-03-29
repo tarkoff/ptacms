@@ -142,6 +142,25 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	}
 
 	/**
+	 * Get rea db fields by aliases
+	 *
+	 * @param array $aliases
+	 * @return array
+	 */
+	public function getFieldsByAliases($aliases)
+	{
+		$aliases = (array)$aliases;
+		
+		$dbFields = array();
+		foreach ($aliases as $alias) {
+			if (($dbField = $this->getFieldByAlias($alias))) {
+				$dbFields[] = $dbField;
+			}
+		}
+		return $dbFields;
+	}
+
+	/**
 	 * return full field name in format TABLENAME.FIELDNAME
 	 *
 	 * @param string $field
@@ -298,14 +317,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	{
 		$fields = (array)$fields;
 
-		$dbFields = array();
-		foreach ($fields as $fieldAlias) {
-			$dbField = $this->getFieldByAlias($fieldAlias);
-			if (!empty($dbField)) {
-				$dbFields[] = $dbField;
-			}
-		}
-		
+		$dbFields = $this->getFieldsByAliases($fields);
 		$select = $this->select()->from($this->getTableName(), $dbFields);
 		$searchResult = $this->fetchAll($select)->toArray();
 		

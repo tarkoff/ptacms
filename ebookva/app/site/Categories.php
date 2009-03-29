@@ -37,7 +37,7 @@ class Categories extends PTA_WebModule
 	public function mainPageAction()
 	{
 		$catTable = PTA_DB_Table::get('Category');
-		$this->setVar('categories', PTA_Util::buildCategoryTree($catTable->getAll()));
+		//$this->setVar('categories', PTA_Util::buildCategoryTree($catTable->getAll()));
 	}
 
 	public function addActions(&$view)

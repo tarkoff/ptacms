@@ -1,15 +1,15 @@
 <div id="left">
-	<p class="catagory">Categories</p>
-	<ul class="lftNav" id="navigation">
+	<p class="catagory">Тематика</p>
+	<ul class="lftNav">
 	{defun name="cattree" list=$data->Categories}
-	{foreach from=$list item=category name=cat}
+	{foreach from=$list key=alias item=title name=cat}
 		{if $smarty.foreach.cat.last}
-			<li class="noImg"><a href="{$data->url}{$category.alias}">{$category.title}</a></li>
+			<li class="noImg"><a href="{$data->url}{$alias}">{$title}</a></li>
 		{else}
-			<li><a href="{$data->url}{$category.alias}">{$category.title}</a></li>
+			<li><a href="{$data->url}{$alias}">{$title}</a></li>
 		{/if}
 		{if !empty($category.childs)}
-			<ul>{fun name="cattree" list=$category.childs}</ul>
+			<ul>{fun name="cattree" list=$childs}</ul>
 		{/if}
 	{/foreach}
 	{/defun}

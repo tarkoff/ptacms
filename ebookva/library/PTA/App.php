@@ -321,7 +321,11 @@ abstract class PTA_App extends PTA_WebModule
 		if (($value = $this->getRouter()->getQueryVar($key))) {
 			return $value;
 		}
-		
+
+		if (($value = $this->getCookie($key))) {
+			return $value;
+		}
+
 		return null;
 	}
 
