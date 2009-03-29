@@ -49,6 +49,11 @@ class Categories_editForm extends PTA_Control_Form
 		$categorys->setSelected(2);
 		$categorys->setCssClass('textField');
 		$this->addVisual($categorys);
+		
+		$public = new PTA_Control_Form_Checkbox('ispublic', 'Is Public', false, 'on');
+		$public->setChecked(false);
+		$public->setSortOrder(250);
+		$this->addVisual($public);
 
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
 		$submit->setSortOrder(300);
@@ -58,22 +63,18 @@ class Categories_editForm extends PTA_Control_Form
 	public function onLoad()
 	{
 		$data = new stdClass();
-		
 		$this->_category->loadTo($data);
 		$data->submit = 'save';
-//var_dump($data);
 		return $data;
 	}
 
 	public function onSubmit(&$data)
 	{
-var_dump($data);
 		$invalidFields = $this->validate($data);
 		if (!empty($invalidFields)) {
 			foreach ($invalidFields as $field) {
 				echo 'Filed ' . $field->getLabel() . ' is required!<br />';
 			}
-
 			return false;
 		}
 

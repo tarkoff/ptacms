@@ -15,7 +15,7 @@ class PTA_Catalog_Category extends PTA_DB_Object
 	private $_parentId;
 	private $_alias;
 	private $_title;
-	private $_isDefault;
+	private $_isPublic;
 
 	public function getParentId()
 	{
@@ -47,13 +47,13 @@ class PTA_Catalog_Category extends PTA_DB_Object
 		$this->_alias = $alias;
 	}
 
-	public function getIsDefault()
+	public function getIsPublic()
 	{
-		return $this->_isDefault;
+		return $this->_isPublic;
 	}
 
-	public function setIsDefault($isDefault)
+	public function setIsPublic($public)
 	{
-		$this->_isDefault = (int)$isDefault;
+		$this->_isPublic = (boolean)$public;
 	}
 }

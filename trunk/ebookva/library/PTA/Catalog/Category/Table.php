@@ -22,18 +22,45 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 		return $this->find($categoryId)->toArray();
 	}
 
-	public function getDefaultCategory()
+	public function getCategoriesByRootId($categoryId = 0, $onlyPublic = true)
 	{
-		$select = $this->select()->where($this->getFieldByAlias('isdefault') . ' = ?');
-		return $this->fetchRow($select)->toArray();
+		$select = $this->select()->from(
+								$this->getTableName(),
+								$this->getFieldsByAliases(array('alias', 'title'))
+							);
+
+		$select->where($this->getFieldByAlias('parentId') . ' = ' . intval($categoryId));
+		if ($onlyPublic) {
+			$select->where($this->getFieldByAlias('isPublic') . ' = 1');
+		}
+
+		$this->getAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
+		return $this->getAdapter()->fetchPairs($select);
 	}
-/*
-	public function initStaticFields()
+
+	public function getCategoriesByRootAlias($categoryAlias, $onlyPublic = true)
 	{
-		$this->_dbFields = array(
-							'parentId'=> 'CATEGORIES_PARENTID',
-							'title'		=> 'CATEGORIES_TITLE'
-						);
+		if (empty($categoryAlias)) {
+			return array();
+		}
+
+		$select = $this->select()->from(
+								array('cats1' => $this->getTableName()),
+								$this->getFieldsByAliases(array('alias', 'title'))
+							);
+							
+		$select->join(
+					array('cats2' => $this->getTableName()),
+					'cats1.' . $this->getFieldByAlias('parentId') . ' = cats2.' . $this->getPrimary(),
+					array()
+				);
+
+		$select->where('cats2.' . $this->getFieldByAlias('alias') . ' = ?', $categoryAlias);
+		if ($onlyPublic) {
+			$select->where('cats1.' . $this->getFieldByAlias('isPublic') . ' = 1');
+		}
+
+		$this->getAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
+		return $this->getAdapter()->fetchPairs($select);
 	}
-*/
 }

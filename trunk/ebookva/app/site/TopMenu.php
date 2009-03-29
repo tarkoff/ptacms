@@ -9,14 +9,14 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class LeftMenu extends PTA_WebModule
+class TopMenu extends PTA_WebModule
 {
 	private $_menu;
 
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'LeftMenu.tpl');
-		$this->setModuleUrl(BASEURL . '/Categories/List/Theme/');
+		parent::__construct($prefix, 'TopMenu.tpl');
+		$this->setModuleUrl(BASEURL . '/Categories/List/Category/');
 	}
 
 	public function init()
@@ -24,11 +24,17 @@ class LeftMenu extends PTA_WebModule
 		parent::init();
 
 		$categoryAlias = $this->getApp()->getHttpVar('Category');
-		$themeAlias = $this->getApp()->getHttpVar('Theme');
+		$catsTable = PTA_DB_Table::get('Catalog_Category');
 
-		$this->getApp()->setCookie('Theme', $themeAlias, 0);
+		$categories = $catsTable->getCategoriesByRootId(0);
+/*
+		foreach ($categories as $cid => $category) {
+			$categories[$cid] = array_values($category);
+		}
+*/
+		$this->getApp()->setCookie('Category', $categoryAlias, 0);
 
-		$this->setVar('Categories', PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootAlias($categoryAlias));
+		$this->setVar('Categories', $categories);
 		$this->setVar('selected', $this->quote($categoryAlias));
 	}
 

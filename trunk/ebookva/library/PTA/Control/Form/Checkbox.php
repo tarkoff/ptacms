@@ -31,5 +31,13 @@ class PTA_Control_Form_Checkbox extends PTA_Control_Form_Field
 	{
 		return $this->getVar('checked');
 	}
+	
+	public function setValue($value)
+	{
+		if (!empty($value)) {
+			$this->setChecked(1);
+			parent::setValue($value);
+		}
+	}
 
 }
