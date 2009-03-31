@@ -28,7 +28,7 @@ class adminApp extends PTA_App
 	public function insertModules()
 	{
 		$controller = $this->_router->getActiveController();
-		$this->_controller = empty($controller) ? 'Categories' : $controller;
+		$this->_controller = empty($controller) ? 'Catalog' : $controller;
 		$this->_action = $this->_router->getActiveAction();
 
 		$this->insertModule('Header', 'Header');

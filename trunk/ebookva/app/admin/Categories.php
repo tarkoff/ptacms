@@ -123,7 +123,7 @@ class Categories extends PTA_WebModule
 
 		$product = new PTA_Catalog_Product('product');
 		$product->setCategoryId($this->_category->getId());
-		$editForm = new Categories_addProductForm('addProductForm', $product);
+		$editForm = new Catalog_editForm('addProductForm', $product);
 		$this->addVisual($editForm);
 	}
 }

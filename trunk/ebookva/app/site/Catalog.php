@@ -18,65 +18,31 @@ class Catalog extends PTA_WebModule
 		parent::__construct($prefix, 'Catalog.tpl');
 		$this->_catalog = new PTA_Catalog_Product('Catalog');
 
-		$this->setModuleUrl(BASEURL . '/Catalog/');
+		$this->setModuleUrl(BASEURL . '/Catalog/list/');
 	}
 
 	public function init()
 	{
 		parent::init();
 
-		$action = $this->getApp()->getAction();
-		$item = $this->getApp()->getHttpVar('Item');
-		
-		switch (ucfirst($action)) {
-			case 'Add': 
-					$this->editAction();
-			break;
+		//$categoryAlias = $this->getApp()->getHttpVar('Category');
+		$themeAlias = $this->getApp()->getHttpVar('Theme');
 
-			case 'List':
-					$this->listAction();
-			break;
-
-			case 'Edit':
-					$this->editAction($item);
-			break;
-
-			case 'Delete':
-				$this->deleteAction($item);
-			break;
-
-			case 'Copy':
-				$this->editAction($item, true);
-			break;
-
-			default:
-				$this->listAction();
+//var_dump($categoryAlias, $themeAlias);
+		if (empty($themeAlias)) {
+			$this->mainPage();
 		}
-	}
-
-	public function listAction()
-	{
-		$this->setVar('tplMode', 'list');
-		$catalogTable = $this->_catalog->getTable();
-
-		$catalog = $catalogTable->getFields();
-		unset($catalog['CATEGORYID'], $catalog['MANUFACTURERID']);
-
-		$view = new PTA_Control_View('catalogView', $this->_catalog, array_values($catalog));
-
-		$category = new PTA_Catalog_Category('Category');
-		$categoryTable = $category->getTable();
 		
-		$view->join(
-				$categoryTable->getTableName(), 
-				($catalogTable->getFullFieldName('CATEGORYID') . ' = ' . $categoryTable->getFullPrimary()), 
-				array($catalogTable->getTableName() . '_CATEGORY' => $categoryTable->getFieldByAlias('TITLE'))
-				);
+	}
+	
+	public function mainPage()
+	{
+		$this->setVar('tplMode', 'mainPage');
 
-		$this->addActions($view);
-		$res = $view->exec();
-
-		$this->setVar('view', $res);
+		//$this->getApp()->insertModule('NewList', 'NewList');
+		$this->getApp()->insertModule('TopList', 'TopList');
+		$this->getApp()->getModule('TopList')->init();
+		
 	}
 
 }

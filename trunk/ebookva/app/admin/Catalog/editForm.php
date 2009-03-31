@@ -8,10 +8,10 @@
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-
 class Catalog_editForm extends PTA_Control_Form 
 {
 	private $_product;
+	private $_category;
 	private $_copy;
 
 	public function __construct($prefix, $product, $copy = false)
@@ -19,53 +19,102 @@ class Catalog_editForm extends PTA_Control_Form
 		$this->_product = $product;
 		$this->_copy = $copy;
 
+		$this->_category = new PTA_Catalog_Category('category');
+		$this->_category->loadById($product->getCategoryId());
+
 		parent::__construct($prefix);
 
-		$this->setTitle('Products Edit Form');
+		$this->setTitle('Add Product To "' . $this->_category->getTitle() . '" Category');
 	}
 
 	public function initForm()
 	{
-		$fieldsTable = new PTA_Catalog_Field_Table();
-		$productfields = $fieldsTable->getFieldsByCategory($this->_product->getCategoryId());
-/*
-		$title = new PTA_Control_Form_Text('title', 'Field Title', true, '');
-		$title->setSortOrder(100);
-		$title->setCssClass('textField');
+		$this->_initStaticFields();
+		$this->_initDinamicFields();
+		$data = new stdClass();
+		$data->author = 'Taras Pavuk';
+		$data->year = 1984;
+
+		$submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Book');
+		$submit->setSortOrder(1000);
+		$this->addVisual($submit);
+	}
+
+	private function _initStaticFields()
+	{
+		$title = new PTA_Control_Form_Text('title', 'Book Title');
+		$title->setSortOrder(10);
 		$this->addVisual($title);
 
-		$alias = new PTA_Control_Form_Text('alias', 'Field Alias', true, '');
-		$alias->setSortOrder(200);
-		$alias->setCssClass('textField');
+		$alias = new PTA_Control_Form_Text('alias', 'Book Alias');
+		$alias->setSortOrder(15);
 		$this->addVisual($alias);
-		
-		$category = new PTA_Category('Category');
-		$CategoriesArray = $category->getAll();
 
-		if (!empty($CategoriesArray)) {
-			foreach ($CategoriesArray as $catalog) {
-				$values[] = array($catalog->getId(), $field->getTitle());
-			}
+		$url = new PTA_Control_Form_Text('url', 'Book URL');
+		$url->setSortOrder(20);
+		$this->addVisual($url);
+
+		$image = new PTA_Control_Form_Text('image', 'Book Photo');
+		$image->setSortOrder(30);
+		$this->addVisual($image);
+
+		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Book Description');
+		$desc->setSortOrder(40);
+		$this->addVisual($desc);
+	}
+
+	private function _initDinamicFields()
+	{
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
+
+		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
+
+		if ($this->_product->getId()) {
+			$fieldsValues = $this->_product->buildCustomFields($categoryFields);
+		} else {
+			$fieldsValues = array();
 		}
 
-		$categories = new PTA_Control_Form_Select('categoryId', 'Parent Category', false, $values);
-		$categories->setSortOrder(300);
-		$categories->setSelected(2);
-		$categories->setCssClass('textField');
-		$this->addVisual($categories);
+		$name = $fieldsTable->getFieldByAlias('alias');
+		$title = $fieldsTable->getFieldByAlias('title');
+		$sortOrder = $categoryFieldTable->getFieldByAlias('sortOrder');
+		$fieldId = $categoryFieldTable->getFieldByAlias('fieldId');
+		$fieldType = $fieldsTable->getFieldByAlias('fieldType');
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
-		$submit->setSortOrder(400);
-		$this->addVisual($submit);
-*/
+		$orderPosition = 100;
+		foreach ($categoryFields as $fieldArray) {
+			$options = array(
+						'name' => $fieldArray[$name],
+						'label' => $fieldArray[$title],
+						'sortOrder' => (empty($fieldArray[$sortOrder]) ? ++$orderPosition : $fieldArray[$sortOrder])
+			);
+
+			$field = PTA_Control_Form_Field::getFieldByType(
+													$fieldArray[$fieldType], 
+													"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
+													$options
+											);
+			$field->setValue(@$fieldsValues[$fieldArray[$name]]);
+			if (!empty($field)) {
+				$this->addVisual($field);
+			}
+		}
+	}
+
+	private function _filterFields($fields, $firstField, $secondField)
+	{
+		$resData = array();
+		foreach ($fields as $field) {
+			$resData[] = array(@$field[$firstField], $field[$secondField]);
+		}
+		return $resData;
 	}
 
 	public function onLoad()
 	{
 		$data = new stdClass();
-
-//		$this->_catalog->loadTo($data);
-		$data->submit = 'save';
+		$this->_product->loadTo($data);
 
 		return $data;
 	}
@@ -75,23 +124,39 @@ class Catalog_editForm extends PTA_Control_Form
 		$invalidFields = $this->validate($data);
 		if (!empty($invalidFields)) {
 			foreach ($invalidFields as $field) {
-				echo 'Filed ' . $field->getLabel() . ' is required!<br />';
+				echo 'Field "' . $field->getLabel() . '" is required!<br />';
 			}
-
+			
 			return false;
 		}
 
-		$this->_field->loadFrom($data);
-		
-		if ($this->_copy) {
-			$this->_field->setId(null);
+		$productTable = PTA_DB_Table::get('Catalog_Product');
+		$this->_product->loadFrom($data);
+		$savedProduct = $productTable->findByFields(
+											array(
+												'categoryId',
+												'title'
+											),
+											array(
+												$this->_product->getCategoryId(),
+												$this->_product->getTitle()
+											)
+										);
+
+		if (!empty($savedProduct)) {
+			$savedProduct = current($savedProduct);
+			$productPrimary = $productTable->getPrimary();
+			$this->_product->setId(@$savedProduct[$productPrimary]);
 		}
 
-		if ($this->_field->save() || $this->_copy) {
+		if ($this->_copy) {
+			$this->_product->setId(null);
+		}
+
+		if ($this->_product->save()) {
+			$this->_product->saveCustomFields($data);
 			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
 		}
-
-		return true;
 	}
 
 }
