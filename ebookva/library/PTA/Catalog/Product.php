@@ -15,6 +15,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	private $_url;
 	private $_categoryId;
 	private $_manufacturerId;
+	private $_alias;
 	private $_image;
 	private $_shortDescr;
 	private $_date;
@@ -139,42 +140,49 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 		return $result;
 	}
-/*
+
 	function __get($customField)
 	{
-		if (isset($this->_customFields[$customField])) {
-			return $this->_customFields[$customField];
+		$this->getCustomFields();
+		if (!empty($this->_customFields)) {
+			if (isset($this->_customFields[$customField])) {
+				return $this->_customFields[$customField];
+			}
+			throw new PTA_Exception('Exception: ' . get_class($this) . "::{$customField} unknown property");
 		}
-		
-		throw new PTA_Exception('Exception: ' . get_class($this) . "::{$customField} unknown property");
 	}
 	
 	function __set($customField, $value)
 	{
-		if (isset($this->_customFields[$customField])) {
-			$this->_customFields[$customField] = $value;
+		$this->getCustomFields();
+		if (!empty($this->_customFields)) {
+			if (isset($this->_customFields[$customField])) {
+				$this->_customFields[$customField] = $value;
+				return true;
+			}
+			throw new PTA_Exception('Exception: ' . get_class($this) . "::{$customField} unknown property");
 		}
-		
-		throw new PTA_Exception('Exception: ' . get_class($this) . "::{$customField} unknown property");
 	}
-	
+
 	function __call($method, $args)
 	{
+		$this->getCustomFields();
+
 		if (!empty($this->_customFields)) {
-			foreach ($this->_customFields as $alias => $vale) {
+			foreach ($this->_customFields as $alias => $value) {
 				$getMethod = "get{$alias}";
 				$setMethod = "set{$alias}";
 				if ($method == $getMethod) {
-					return $this->$getMethod();
+					return $value;
 				} elseif ($method == $setMethod) {
-					return call_user_func_array(array($this, $setMethod), $args);
+					$this->_customFields[$alias] = $args;
+					return true;
 				}
 			}
 		}
 
 		throw new PTA_Exception('Exception: ' . get_class($this) . "::{$method} unknown method called");
 	}
-*/
 
 	public function loadById($id)
 	{
@@ -201,6 +209,16 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	public function setTitle($title)
 	{
 		$this->_title = $title;
+	}
+
+	public function getAlias()
+	{
+		return $this->_alias;
+	}
+
+	public function setAlias($alias)
+	{
+		$this->_alias = $alias;
 	}
 
 	public function getImage()

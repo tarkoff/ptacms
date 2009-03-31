@@ -24,7 +24,9 @@
 		<!--rightTop end -->
 		<!--rightLeft start -->
 			{*include file=RightLeft.tpl*}
-			{include file=$activeModule->tpl data=$activeModule}
+			<div id="rightLeft">
+				{include file=$activeModule->tpl data=$activeModule}
+			</div>
 		<!--rightLeft end -->
 		<!--last start -->
 			{include file=RightNav.tpl}
