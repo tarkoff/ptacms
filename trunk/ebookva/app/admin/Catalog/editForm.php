@@ -5,7 +5,7 @@
  * @package Core
  * @copyright  2008 PTA Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @version	$Id: editForm.php 34 2009-03-31 17:58:03Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 class Catalog_editForm extends PTA_Control_Form 
@@ -54,8 +54,11 @@ class Catalog_editForm extends PTA_Control_Form
 		$url->setSortOrder(20);
 		$this->addVisual($url);
 
-		$image = new PTA_Control_Form_Text('image', 'Book Photo');
+		$image = new PTA_Control_Form_File('image', 'Book Photo');
 		$image->setSortOrder(30);
+		$image->getUploader()->setDestination(CONTENTPHOTOSPATH);
+		$image->isImage(true);
+//		$uploader = new Zend_File_Transfer_Adapter_Http();
 		$this->addVisual($image);
 
 		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Book Description');
@@ -155,7 +158,7 @@ class Catalog_editForm extends PTA_Control_Form
 
 		if ($this->_product->save()) {
 			$this->_product->saveCustomFields($data);
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
 		}
 	}
 

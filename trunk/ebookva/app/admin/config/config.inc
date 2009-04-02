@@ -19,16 +19,16 @@ define('SITEID', 1);
 define('SMARTY_DIR', ROOTPATH . '/library/Smarty/libs/');
 
 define('PUBLICPATH', ROOTPATH . '/public');
+define('CONTENTPATH', PUBLICPATH . '/content');
+define('CONTENTPHOTOSPATH', CONTENTPATH . '/images');
 define('ADMINPATH', ROOTPATH . '/app/admin');
 
 define('CACHEPATH', ROOTPATH . '/system/cache/admin');
 define('LOGSPATH', ROOTPATH . '/system/logs/admin');
 
 define('DESIGN_NAME', 'default');
-
 define('DESIGNDIR', PUBLICPATH . '/style/admin/' . DESIGN_NAME);
 define('DESIGNURL', BASEURL . '/public/style/admin/' . DESIGN_NAME);
-
 define('CSSURL', DESIGNURL . '/css');
 define('IMAGESURL', DESIGNURL . '/img');
 define('JSURL', BASEURL . '/public/js');

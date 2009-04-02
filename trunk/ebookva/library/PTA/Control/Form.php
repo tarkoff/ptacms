@@ -12,7 +12,8 @@ abstract class PTA_Control_Form extends PTA_Object
 
 		$this->setName($prefix);
 		$this->setMethod('post');
-		$this->setEnctype('application/x-www-form-urlencoded');
+		//$this->setEnctype('application/x-www-form-urlencoded');
+		$this->setEnctype('multipart/form-data');
 		$this->setTitle($title);
 		$this->setAction('?');
 	}
@@ -20,14 +21,18 @@ abstract class PTA_Control_Form extends PTA_Object
 	public function init()
 	{
 		parent::init();		
-
 		$this->initForm();
 		$this->_initVisualElements();
+		$this->_submited = $this->_submitted();
 	}
 
 	public function run()
 	{
 		parent::run();
+
+		foreach ($this->getVisualAll() as $field) {
+			$field->run();
+		}
 
 		if ($this->submitted()) {
 			$data = $this->_fillToData();
@@ -42,7 +47,6 @@ abstract class PTA_Control_Form extends PTA_Object
 	private function _initVisualElements()
 	{
 		$elements = $this->getVisualAll();
-		
 		if (!empty($elements)) {
 			foreach ($elements as $element) {
 				$element->init();
@@ -56,26 +60,18 @@ abstract class PTA_Control_Form extends PTA_Object
 		foreach ($data as $name => $value) {
 			if (($field = $this->getVisual($name))) {
 				$field->setValue($value);
-				$field->run();
 			}
 		}
 	}
-	
+
 	protected function _fillToData(&$data = null)
 	{
 		if (empty($data)) {
 			$data = new stdClass();
 		}
 
-		$submited = $this->submitted();
 		foreach ($this->getVisualAll() as $field) {
-			$fullName = $this->getPrefix() . '_' . $field->getName();
-			if ($submited) {
-				$data->{$field->getName()} = $this->getHttpVar($fullName);
-			} else {
-				$data->{$field->getName()} = $field->getValue();
-			}
-			$field->run();
+			$data->{$field->getName()} = $field->getValue();
 		}
 		return $data;
 	}
@@ -86,10 +82,14 @@ abstract class PTA_Control_Form extends PTA_Object
 
 	public function submitted()
 	{
+		return $this->_submited;
+	}
+
+	private function _submitted()
+	{
 		$submit = $this->getVisualByType(PTA_Control_Form_Field::TYPE_SUBMIT , true);
 		$submitImage = $this->getVisualByType(PTA_Control_Form_Field::TYPE_IMAGE, true);
 		$submitElement = (empty($submit) ? $submitImage : $submit);
-		
 		if (!empty($submitElement)) {
 			$httpSubmit = $this->getHttpVar($this->getPrefix() . '_' . $submitElement->getName());
 			if (!empty($httpSubmit)) {
@@ -237,7 +237,7 @@ abstract class PTA_Control_Form extends PTA_Object
 
 		foreach ($elements as $element) {
 			$name = $element->getName();
-			if ($element->isMamdatory() && empty($data->$name)) {
+			if ($element->isMandatory() && empty($data->$name)) {
 				$notValidElements[] = $element;
 			}
 		}

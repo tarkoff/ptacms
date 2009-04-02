@@ -62,8 +62,7 @@ class Catalog extends PTA_WebModule
 			$this->_catalog->loadById($itemId);
 		}
 
-		$editForm = new Catalog_editForm('editForm', $this->_catalog, $copy);
-		$this->addVisual($editForm);
+		$this->addVisual(new Catalog_editForm('editForm', $this->_catalog, $copy));
 	}
 
 	public function listAction()
@@ -75,10 +74,8 @@ class Catalog extends PTA_WebModule
 		unset($catalog['CATEGORYID'], $catalog['MANUFACTURERID']);
 
 		$view = new PTA_Control_View('catalogView', $this->_catalog, array_values($catalog));
+		$categoryTable = PTA_DB_Table::get('Catalog_Category');
 
-		$category = new PTA_Catalog_Category('Category');
-		$categoryTable = $category->getTable();
-		
 		$view->join(
 				$categoryTable->getTableName(), 
 				($catalogTable->getFullFieldName('CATEGORYID') . ' = ' . $categoryTable->getFullPrimary()), 
@@ -86,9 +83,7 @@ class Catalog extends PTA_WebModule
 				);
 
 		$this->addActions($view);
-		$res = $view->exec();
-
-		$this->setVar('view', $res);
+		$this->setVar('view', $view->exec());
 	}
 
 	public function addActions(&$view)
