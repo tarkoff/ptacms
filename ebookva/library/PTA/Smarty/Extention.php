@@ -48,12 +48,15 @@ class PTA_Smarty_Extention
 	{
 		if (!empty($params['name']) && defined($params['name'])) {
 			if (empty($params['to'])) {
-				return constant($params['name']);
+				if (defined($params['name'])) {
+					return constant($params['name']);
+				}
 			} else {
-				$this->_smarty->assign($params['to'], constant($params['name']));
+				if (defined($params['name'])) {
+					$this->_smarty->assign($params['to'], constant($params['name']));
+				}
 			}
 		}
-
 		return null;
 	}
 }

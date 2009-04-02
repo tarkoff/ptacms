@@ -20,6 +20,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 	const TYPE_CHECKBOX = 7;
 	const TYPE_FIELDSGROUP = 8;
 	const TYPE_PASSWORD = 9;
+	const TYPE_FILE = 10;
 
 	function __construct ($prefix, $label = '', $mandatory = false, $value = null)
 	{
@@ -94,6 +95,19 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 		}
 
 		return self::_setOptions($field, $options);
+	}
+
+	public function run()
+	{
+		parent::run();
+
+		$httpValue = $this->getHttpVar($this->getFormPrefix() . '_' . $this->getName());
+		if (
+			$this->getForm()->submitted() &&
+			!empty($httpValue)
+		) {
+			$this->setValue($httpValue);
+		}
 	}
 
 	private static function _setOptions($field, $options)
@@ -184,19 +198,38 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 		$this->setVar('mandatory', (int)$value);
 	}
 
-	public function isMamdatory()
+	public function isMandatory()
 	{
 		return $this->getVar('mandatory');
 	}
 
 	public function setFormPrefix($value)
 	{
-		$this->setVar('formPrefix', (int)$value);
+		$this->setVar('formPrefix', $value);
 	}
 
 	public function getFormPrefix()
 	{
 		return $this->getVar('formPrefix');
+	}
+	
+	public function isValid()
+	{
+		if ($this->isMandatory() && !$this->getValue()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Return field form
+	 * @return PTA_Control_Form
+	 *
+	 * @return unknown
+	 */
+	public function getForm()
+	{
+		return $this->getApp()->getActiveModule()->getVisual($this->getFormPrefix());
 	}
 
 	public function isDisabled()

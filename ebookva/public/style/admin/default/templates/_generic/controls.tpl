@@ -44,3 +44,8 @@
 {if $field->type == $fieldType}
 	<textarea name="{$field->name}{if !empty($index)}[{$index}]{/if}" id="{$field->name}" {if !empty($field->cssClass)}class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if}>{if !empty($field->value)}{$field->value}{/if}</textarea>
 {/if}
+
+{pta_const name="PTA_Control_Form_Field::TYPE_FILE" to="fieldType"}
+{if $field->type == $fieldType}
+	<input type="file" name="{$field->name}{if !empty($index)}[{$index}]{/if}" id="{$field->name}" {if !empty($field->checked)}checked="checked"{/if} {if !empty($field->cssClass)}class="{$field->cssClass}"{/if}{if !empty($field->disabled)} disabled="disabled"{/if} value="{if !empty($field->value)}{$field->value}{/if}"/>
+{/if}

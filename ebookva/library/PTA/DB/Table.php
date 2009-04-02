@@ -276,7 +276,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	 * @param array $fields
 	 * @param array $values
 	 */
-	public function findByFields($fields, $values, $asObject)
+	public function findByFields($fields, $values, $asObject = false)
 	{
 		if (empty($fields) || empty($values)) {
 			return null;

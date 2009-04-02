@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-abstract class PTA_Object extends PTA_DB
+abstract class PTA_Object
 {
 	private $_prefix = null;
 	private $_config = null;
