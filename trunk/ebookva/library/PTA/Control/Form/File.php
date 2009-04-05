@@ -67,11 +67,16 @@ class PTA_Control_Form_File extends PTA_Control_Form_Field
 
 	public function upload()
 	{
+		if (!$this->getUploader()->isValid()) {
+			return false;
+		}
+
 		if (!$this->getUploader()->receive()) {
 			$messages = $this->_uploader->getMessages();
 			throw new PTA_Exception(implode("\n</br>", $messages));
 		}
-		$this->setValue($this->_uploader->getFileName($this->getFormPrefix() . '_' . $this->getName()));
+		$fileName = str_replace(ROOTPATH, '', $this->_uploader->getFileName($this->getFormPrefix() . '_' . $this->getName()));
+		$this->setValue(DIRECTORY_SEPARATOR . rtrim($fileName, DIRECTORY_SEPARATOR));
 		return $this->_uploader->isReceived();
 	}
 

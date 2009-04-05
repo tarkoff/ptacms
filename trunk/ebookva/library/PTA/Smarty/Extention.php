@@ -32,7 +32,8 @@ class PTA_Smarty_Extention
 
 	public function registerFunctions()
 	{
-		$this->_smarty->register_function('pta_const', array($this, 'ptaConst'));
+		$this->_smarty->register_function('pta_const', array($this, 'pta_const'));
+		$this->_smarty->register_function('pta_imageResize', array($this, 'pta_thumbnail'));
 	}
 
 	function do_translation ($params, $content, &$smarty, &$repeat)
@@ -44,7 +45,7 @@ class PTA_Smarty_Extention
 		}
 	}
 	
-	public function ptaConst($params)
+	public function pta_const($params)
 	{
 		if (!empty($params['name']) && defined($params['name'])) {
 			if (empty($params['to'])) {
@@ -58,5 +59,9 @@ class PTA_Smarty_Extention
 			}
 		}
 		return null;
+	}
+	
+	public function pta_thumbnail($params)
+	{
 	}
 }
