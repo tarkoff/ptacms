@@ -16,7 +16,6 @@ class LeftMenu extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'LeftMenu.tpl');
-		$this->setModuleUrl(BASEURL . '/Catalog/List/Theme/');
 	}
 
 	public function init()
@@ -25,6 +24,19 @@ class LeftMenu extends PTA_WebModule
 
 		$categoryAlias = $this->getApp()->getHttpVar('Category');
 		$themeAlias = $this->getApp()->getHttpVar('Theme');
+
+		if (!empty($categoryAlias)) {
+			$this->setModuleUrl(BASEURL . "/Catalog/List/Category/{$categoryAlias}/Theme/");
+		} else {
+			$this->setModuleUrl(BASEURL . '/Catalog/List/Theme/');
+		}
+
+		if (($cookieCategoryAlias = $this->getApp()->getCookie('Category'))) {
+			if ($cookieCategoryAlias != $categoryAlias) {
+				$themeAlias = '';
+				$this->getApp()->setHttpVar('Theme', $themeAlias);
+			}
+		}
 
 		$this->getApp()->setCookie('Theme', $themeAlias, 0);
 

@@ -179,26 +179,76 @@ img{
 	display:block;
 	width:100%;
 	height:100%;
-	//padding:2px;
 	border:1px solid #414141;
 	font:bold 11px/30px Arial, Helvetica, sans-serif;
-	color:#fff;
+	color:#000;
 	background-color:inherit;
 	text-decoration:none;
+	text-align:center;
 }
 #topList ul li a:hover{
-	color:#fff;
+	color:#000;
 	background-color:#e2dea4;
 }
-
+#topList ul li a img{
+	margin:1px;
+}
 /*------------------------------------------------Top List----------------*/
+/*------------------------------------------------Catalog-----------------*/
+#catalog{
+	//width:100%;
+	height:180px;
+}
+#catalog h1{
+	//background-color:#e05b09;
+	background:url(../img/nav_bg.gif) 0 0 repeat-x;
+	height:30px;
+	line-height:30px !important;
+	font:bold 18px Arial, Helvetica, sans-serif;
+	color:#fff;
+	padding-left:13px;
+	//text-decoration:none;
+}
+#catalog ul{
+	height:400px;
+	background-color:#e4e2bd;
+	float:left;
+	margin:0 auto;
+	width:100%;
+}
+#catalog ul li{
+	float:left;
+	min-width:125px;
+	width:150px;
+	height:150px;
+	margin:4px 3px 20px 3px;
+}
+#catalog ul li a{
+	display:block;
+	width:100%;
+	height:100%;
+	//border:1px dotted #777232;
+	font:bold 11px/30px sans-serif;
+	color:#000;
+	background-color:inherit;
+	text-decoration:none;
+	text-align:center;
+	line-height:1.2em
+}
+#catalog ul li a:hover{
+	color:#000;
+	background-color:#e2dea4;
+}
+#catalog ul li a img{
+	margin:1px;
+}
+/*------------------------------------------------Catalog-----------------*/
 /*------------------------------------------------Right-------------------*/
 /*------------------------------------------------body---- ---------------*/
 /*------------------------------------------------footer------------------*/
 #footerMain{
 	width:100%;
 	height:102px;
-	border-bottom:#FFFFFA solid 9px;
 }
 #footer{
 	width:1000px;

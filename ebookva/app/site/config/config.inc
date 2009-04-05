@@ -33,6 +33,7 @@ define('CSSURL', DESIGNURL . '/css');
 define('IMAGESURL', DESIGNURL . '/img');
 define('JSURL', BASEURL . '/public/js');
 define('JQUERYURL', JSURL . '/jquery');
+define('THUMBURL', BASEURL . '/public/timthumb/timthumb.php');
 
 define('TEMPLATESDIR', DESIGNDIR . '/templates/');
 define('TEMPLATES_CDIR', CACHEPATH . '/templates_c/');

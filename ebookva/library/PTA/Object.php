@@ -122,6 +122,11 @@ abstract class PTA_Object
 		return null;
 	}
 
+	public function setHttpVar($name, $value)
+	{
+		$_REQUEST[$name] = $value;
+	}
+
 	public function isInited()
 	{
 		return $this->_inited;

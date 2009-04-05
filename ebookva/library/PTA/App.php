@@ -312,6 +312,12 @@ abstract class PTA_App extends PTA_WebModule
 		$this->_router = $router;
 	}
 
+	/**
+	 * Get variable from http request
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function getHttpVar($key)
 	{
 		if (($value = parent::getHttpVar($key))) {
@@ -327,6 +333,11 @@ abstract class PTA_App extends PTA_WebModule
 		}
 
 		return null;
+	}
+
+	public function setHttpVar($key, $value)
+	{
+		parent::setHttpVar($this->getPrefix() . "_$key", $value);
 	}
 
 	/**
@@ -371,7 +382,7 @@ abstract class PTA_App extends PTA_WebModule
 			}
 		}
 
-		$name = "PTA_{$name}";
+		$name = $this->getPrefix() . "_{$name}";
 		return setcookie($name, $value, $expire, $path);
 		//return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
