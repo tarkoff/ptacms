@@ -26,9 +26,9 @@ class Categories_delFieldsForm extends PTA_Control_Form
 		$categoryFieldTable = new PTA_Catalog_CategoryField_Table();
 		$fieldsTable = new PTA_Catalog_Field_Table();
 
-		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId());
+		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, false);
 
-		$select = new PTA_Control_Form_Select('categoryFieldId', 'Fields For Adding', true);
+		$select = new PTA_Control_Form_Select('categoryFieldId', 'Fields For Removing', true);
 		$select->setOptionsFromArray(
 					$categoryFields,
 					$categoryFieldTable->getPrimary(),

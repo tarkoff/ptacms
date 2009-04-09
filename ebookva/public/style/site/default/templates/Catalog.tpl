@@ -10,7 +10,7 @@
 			{if !empty($book.PRODUCTS_IMAGE)}
 				<img src="{$smarty.const.THUMBURL}?src={$smarty.const.BASEURL}{$book.PRODUCTS_IMAGE}&h=120&w=120&zc=0" alt="`$book.PRODUCTS_TITLE`"/>
 			{else}
-				{html_image file="`$smarty.const.IMAGESURL`/bookimg.gif" alt="`$book.PRODUCTS_TITLE`"}
+				{html_image file="`$smarty.const.IMAGESURL`/bookimg120.gif" alt="`$book.PRODUCTS_TITLE`"}
 			{/if}
 			</div>
 			<div>{$book.PRODUCTS_TITLE}</div>

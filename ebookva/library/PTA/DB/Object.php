@@ -60,7 +60,7 @@ abstract class PTA_DB_Object extends PTA_Object
 		if (empty($info)) {
 			return false;
 		}
-		
+
 		return $this->loadFrom(current($info));
 	}
 

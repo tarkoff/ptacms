@@ -36,7 +36,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	{
 		$this->_categoryId = (int)$value;
 		if ($this->getId()) {
-			$this->customFeilds = $this->buildCustomFields();
+			$this->_customFields = $this->buildCustomFields();
 		}
 	}
 
@@ -154,6 +154,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	
 	function __set($customField, $value)
 	{
+var_dump($customField, $value);
 		$this->getCustomFields();
 		if (!empty($this->_customFields)) {
 			if (isset($this->_customFields[$customField])) {

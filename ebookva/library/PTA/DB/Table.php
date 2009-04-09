@@ -317,13 +317,12 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	{
 		$fields = (array)$fields;
 
-		$dbFields = $this->getFieldsByAliases($fields);
-		$select = $this->select()->from($this->getTableName(), $dbFields);
+		$select = $this->select()->from($this->getTableName(), $this->getFieldsByAliases($fields));
 		$searchResult = $this->fetchAll($select)->toArray();
-		
+
 		$resultSet = array();
 		foreach ($searchResult as $row) {
-			$resultSet[] = (array)array_values($row);
+			$resultSet[] = array_values($row);
 		}
 		
 		return $resultSet;

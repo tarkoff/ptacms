@@ -24,7 +24,19 @@ class Books extends PTA_WebModule
 		parent::init();
 
 		$bookId = $this->getApp()->getHttpVar('Book');
+//		$book = new PTA_Catalog_Product('product');
+//		$book->loadById($bookId);
+//		$book->buildCustomFields();
 		
-		$this->setVar('book', current(PTA_DB_Table::get('Catalog_Product')->findById($bookId)));
+		$book = current(PTA_DB_Table::get('Catalog_Product')->findById($bookId));
+		if (empty($book)) {
+			$this->redirect($this->getApp()->getBaseUrl());
+		}
+		
+		$category = current(PTA_DB_Table::get('Catalog_Category')->findById($book[PTA_DB_Table::get('Catalog_Product')->getFieldByAlias('categoryId')]));
+		
+		$this->setVar('book', $book);
+		$this->setVar('category', $category);
+		$this->setVar('customBookField', PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($bookId));
 	}
 }

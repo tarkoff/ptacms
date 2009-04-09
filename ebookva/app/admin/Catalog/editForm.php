@@ -31,9 +31,6 @@ class Catalog_editForm extends PTA_Control_Form
 	{
 		$this->_initStaticFields();
 		$this->_initDinamicFields();
-		$data = new stdClass();
-		$data->author = 'Taras Pavuk';
-		$data->year = 1984;
 
 		$submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Book');
 		$submit->setSortOrder(1000);
@@ -50,6 +47,11 @@ class Catalog_editForm extends PTA_Control_Form
 		$alias->setSortOrder(15);
 		$this->addVisual($alias);
 
+		$catsTable = PTA_DB_Table::get('Catalog_Category');
+		$category = new PTA_Control_Form_Select('categoryId', 'Category', false, $catsTable->getSelectedFields(array('id', 'title')), $this->_product->getCategoryId());
+		$category->setSortOrder(16);
+		$this->addVisual($category);
+		
 		$url = new PTA_Control_Form_Text('url', 'Book URL');
 		$url->setSortOrder(20);
 		$this->addVisual($url);
@@ -58,7 +60,6 @@ class Catalog_editForm extends PTA_Control_Form
 		$image->setSortOrder(30);
 		$image->getUploader()->setDestination(CONTENTPHOTOSPATH);
 		$image->isImage(true);
-//		$uploader = new Zend_File_Transfer_Adapter_Http();
 		$this->addVisual($image);
 
 		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Book Description');
@@ -71,8 +72,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
-		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
-
+		$categoryFields = $categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
 		if ($this->_product->getId()) {
 			$fieldsValues = $this->_product->buildCustomFields($categoryFields);
 		} else {

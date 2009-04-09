@@ -76,7 +76,9 @@ class PTA_Control_Form_File extends PTA_Control_Form_Field
 			throw new PTA_Exception(implode("\n</br>", $messages));
 		}
 		$fileName = str_replace(ROOTPATH, '', $this->_uploader->getFileName($this->getFormPrefix() . '_' . $this->getName()));
-		$this->setValue(DIRECTORY_SEPARATOR . rtrim($fileName, DIRECTORY_SEPARATOR));
+		if (!empty($fileName)) {
+			$this->setValue(DIRECTORY_SEPARATOR . ltrim($fileName, DIRECTORY_SEPARATOR));
+		}
 		return $this->_uploader->isReceived();
 	}
 
