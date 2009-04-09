@@ -20,12 +20,18 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 
 	public function getValuesByProductId($productId)
 	{
-		$select = $this->select()->where(
-										$this->getFieldByAlias('productId') . '=?',
-										(int)$productId
-									);
-		$res = $this->fetchAll($select)->toArray();
+		$select = $this->select()->from(array('valt' => $this->getTableName()));
+		$select->where(
+					'valt.' . $this->getFieldByAlias('productId') . ' = ?',
+					(int)$productId
+				);
 
-		return $res;
+		$fieldTable = PTA_DB_Table::get('Catalog_Field');
+		$select->join(
+					array('fieldt' => $fieldTable->getTableName()),
+					'valt.' . $this->getFieldByAlias('fieldId') . ' = fieldt.' . $fieldTable->getPrimary()
+				);
+		$select->setIntegrityCheck(false);
+		return $this->fetchAll($select)->toArray();
 	}
 }

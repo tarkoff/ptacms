@@ -23,8 +23,8 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 	public function initForm()
 	{
-		$categoryFieldTable = new PTA_Catalog_CategoryField_Table();
-		$fieldsTable = new PTA_Catalog_Field_Table();
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
 		$notCategoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), false, true);
 

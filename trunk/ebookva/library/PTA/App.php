@@ -348,7 +348,7 @@ abstract class PTA_App extends PTA_WebModule
 	 */
 	public function getCookie($cookieName)
 	{
-		$name = "PTA_$cookieName";
+		$name = $this->getPrefix() . "_$cookieName";
 		if (isset($_COOKIE[$name])) {
 			return $_COOKIE[$name];
 		}
@@ -385,5 +385,10 @@ abstract class PTA_App extends PTA_WebModule
 		$name = $this->getPrefix() . "_{$name}";
 		return setcookie($name, $value, $expire, $path);
 		//return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+	}
+	
+	public function getBaseUrl()
+	{
+		return (defined('BASEURL') ? BASEURL : $_SERVER['HTTP_HOST']);
 	}
 }
