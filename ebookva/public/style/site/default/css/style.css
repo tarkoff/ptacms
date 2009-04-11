@@ -94,7 +94,7 @@ img{
 #left{
 	width:200px;
 	float:left;
-	margin:0 20px 0 0;
+	margin:0 10px 0 0;
 	display:block;
 }
 #left p.catagory{
@@ -143,8 +143,17 @@ img{
 /*------------------------------------------------left--------------------*/
 /*------------------------------------------------Right-------------------*/
 #right{
-	width:780px;
+	width:790px;
 	float:left;
+}
+#rightLeft{
+	width:600px;
+	float:left;
+}
+#last{
+	width:180px;
+	float:right;
+	margin:0 5px;
 }
 /*------------------------------------------------Top List----------------*/
 #topList{
@@ -245,7 +254,9 @@ img{
 /*------------------------------------------------Catalog-----------------*/
 /*------------------------------------------------Book--------------------*/
 #book{
-	width:600px;
+	width:100%;
+	background-color:#e4e2bd;
+	height:300px;
 }
 #book h1{
 	background:url(../img/nav_bg.gif) 0 0 repeat-x;
@@ -255,8 +266,27 @@ img{
 	color:#fff;
 	padding-left:13px;
 }
-#book table {
+#bookDesc{
 	width:100%;
+	font:14px Arial, Helvetica, sans-serif;
+	float:left;
+	margin:10px 0 10px 0;
+	padding:5px;
+}
+#bookImg{
+	float:left;
+	margin-right:5px;
+}
+#book table tr{
+	height:20px;
+}
+#book table tr td.ftitle{
+	text-align:right;
+	font-weight:bold;
+	color:#000;
+}
+#book table tr td.fvalue{
+	text-align:left;
 }
 /*------------------------------------------------Book--------------------*/
 
