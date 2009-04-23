@@ -143,12 +143,12 @@ abstract class PTA_Object
 	 * @param string $url
 	 * @param int $timeout
 	 */
-	public function redirect($url, $timeout = 0)
+	public function redirect($url = '/', $timeout = 0)
 	{
 		if (!empty($timeout)) {
 			sleep($timeout);
 		}
-		header("Location:$url");
+		header('Location:' . (empty($url) ? '/' : $url));
 	}
 
 	public function message($alias, $params = null)

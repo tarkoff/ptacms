@@ -19,7 +19,7 @@ class PTA_Catalog_Field_Table extends PTA_DB_Table
 	protected $_sequence = true;
 	
 	
-	public function getFieldsByCategory($categoryId)
+	public function getCategoryFields($categoryId)
 	{
 		$select = $this->select()->where(
 										$this->getFieldByAlias('category') . '=?',

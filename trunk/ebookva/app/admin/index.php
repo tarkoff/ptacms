@@ -45,13 +45,11 @@ class adminApp extends PTA_App
 	{
 		//return true;
 		$loginHash = $this->quote($this->getApp()->getCookie('SID'));
-
 		if (empty($loginHash)) {
 			return false;
 		}
 
 		$userByHash = PTA_DB_Table::get('User')->getUserByHash($loginHash);
-
 		if ($userByHash instanceof PTA_User) {
 			$this->getApp()->setUser($userByHash);
 			return true;
