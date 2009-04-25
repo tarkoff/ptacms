@@ -98,6 +98,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
 		$select->order('categoriesFields.' . $this->getFieldByAlias('sortOrder'));
 		$select->setIntegrityCheck(false);
+
 		return $this->fetchAll($select)->toArray();
 	}
 

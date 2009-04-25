@@ -4,7 +4,7 @@ define('APPDEBUG', true);
 if (!empty($_SERVER['HTTP_HOST'])) {
 	define('BASEURL', 'http://' . $_SERVER['HTTP_HOST']);
 } else {
-	define('BASEURL', 'http://ebookva.net');
+	define('BASEURL', 'http://gelezka.info');
 }
 
 if (empty($rootPath)) {
