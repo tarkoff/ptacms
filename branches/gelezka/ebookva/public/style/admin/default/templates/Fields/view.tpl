@@ -1,1 +1,0 @@
-{include file="_generic/view.tpl" view=$data}
