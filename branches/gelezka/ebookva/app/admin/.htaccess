@@ -1,0 +1,15 @@
+#Options +FollowSymlinks
+#Options -Indexes
+
+AddDefaultCharset UTF-8
+
+RewriteEngine on
+RewriteBase /app/admin/
+
+RewriteRule ^.htaccess$ - [F]
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+
+RewriteRule \.(js|ico|swf|gif|jpg|png|css|xml)$ %{SCRIPT_FILENAME} [L]
+RewriteRule !\.(js|ico|swf|gif|jpg|png|css|xml)$ index.php [L]
