@@ -19,7 +19,7 @@ class adminApp extends PTA_App
 {
 	function __construct ()
 	{
-		parent::__construct('eBookva', 'Index.tpl');
+		parent::__construct('Gelezka', 'Index.tpl');
 
 		$this->_router = Zend_Registry::get('router');
 

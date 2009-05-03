@@ -16,6 +16,7 @@ class PTA_Control_Form_File extends PTA_Control_Form_Field
 	{
 		parent::init();
 		$this->setFieldType(PTA_Control_Form_Field::TYPE_FILE);
+		$this->getForm()->setEnctype('multipart/form-data');
 	}
 	
 	public function run()

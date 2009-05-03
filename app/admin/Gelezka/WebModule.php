@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class eBookva_WebModule extends PTA_WebModule
+class Gelezka_WebModule extends PTA_WebModule
 {
 	protected $_moduleItem;
 	protected $_moduleUrlPrefix;

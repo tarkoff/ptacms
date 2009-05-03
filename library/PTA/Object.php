@@ -153,7 +153,6 @@ abstract class PTA_Object
 
 	public function message($alias, $params = null)
 	{
-		
 	}
 
 	public function quote($value)

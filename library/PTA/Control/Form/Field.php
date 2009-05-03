@@ -21,6 +21,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 	const TYPE_FIELDSGROUP = 8;
 	const TYPE_PASSWORD = 9;
 	const TYPE_FILE = 10;
+	const TYPE_HIDDEN = 11;
 
 	function __construct ($prefix, $label = '', $mandatory = false, $value = null)
 	{
@@ -102,10 +103,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 		parent::run();
 
 		$httpValue = $this->getHttpVar($this->getFormPrefix() . '_' . $this->getName());
-		if (
-			$this->getForm()->submitted() &&
-			!empty($httpValue)
-		) {
+		if ($this->getForm()->submitted() && !empty($httpValue)) {
 			$this->setValue($httpValue);
 		}
 	}
@@ -140,7 +138,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 
 	public function setValue($value)
 	{
-		$this->setVar('value', $this->quote($value));
+		$this->setVar('value', (is_string($value) ? $this->quote($value) : $value));
 	}
 
 	public function getLabel()
@@ -275,5 +273,22 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 	public function getIndex()
 	{
 		return $this->getVar('index');
+	}
+
+	/**
+	 * Set array mode for field
+	 *
+	 * @param boolean $mode
+	 * @param int $deep
+	 */
+	public function setArrayMode($mode = true, $deep = 1)
+	{
+		$this->setVar('arrayMode', $mode);
+		$this->setVar('arrayModeDeep', $deep);
+	}
+
+	public function getArrayMode()
+	{
+		return $this->getVar('arrayModeDeep');
 	}
 }

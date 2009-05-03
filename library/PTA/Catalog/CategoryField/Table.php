@@ -52,7 +52,8 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 			}
 		} while ($categoryId);
 
-		if (!empty($fieldsIds)) {
+		$resultSet = array();
+		if (!empty($fieldsIds) || !$equal) {
 			$resultSet = $this->_getFieldsByCategory($fieldsIds, $equal);
 		}
 
@@ -60,7 +61,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 
 		return $resultSet;
 	}
-
+	
 	/**
 	 * find all category fields
 	 *
@@ -84,18 +85,21 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 						'categoriesFields.' . $this->getFieldByAlias('fieldId') . ' = fields.' . $fieldsTable->getPrimary()
 						/*array_values($this->getFields())*/
 					);
-			$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' in (?)', $fieldsIds);
+			if (!empty($fieldsIds)) {
+				$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' in (?)', $fieldsIds);
+			}
 		} else {
 			$select->joinLeft(
 						array('categoriesFields' => $this->getTableName()),
 						'categoriesFields.' . $this->getFieldByAlias('fieldId') . ' = fields.' . $fieldsTable->getPrimary()
 						/*array_values($this->getFields())*/
 					);
-
-			$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' not in (?)', $fieldsIds);
+			if (!empty($fieldsIds)) {
+				$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' not in (?)', $fieldsIds);
+			}
+			$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
 		}
 
-		$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
 		$select->order('categoriesFields.' . $this->getFieldByAlias('sortOrder'));
 		$select->setIntegrityCheck(false);
 
@@ -110,11 +114,63 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 	public function clearbyCategoryId($categoryId)
 	{
 		$fields = array(
-					array(
-						'field' => $this->getFieldByAlias('categoryId'),
-						'value' => (int)$categoryId
-					)
+						'categoryId' => (int)$categoryId
 					);
 		return $this->clearByFields($fields);
+	}
+	
+	public function addCategoryFields($categoryId, $fieldsIds)
+	{
+		$fieldsIds = (array)$fieldsIds;
+		if (!count($fieldsIds)) {
+			return false;
+		}
+
+		$categoryField = $this->getFieldByAlias('categoryId');
+		$fieldIdField = $this->getFieldByAlias('fieldId');
+		$sortOrderField = $this->getFieldByAlias('sortOrder');
+/*
+		$existsFields = $this->getSelectedFields(
+										array('fieldId'),
+										array(
+											$this->getFullFieldName('categoryId') . ' = ?',
+											array($categoryId)
+										)
+								);
+*/
+		$this->getAdapter()->beginTransaction();
+		//$this->clearbyCategoryId($categoryId);
+		foreach ($fieldsIds as $sortOrder => $fieldId) {
+/*
+			if (in_array($fieldId, $existsFields)) {
+				continue;
+			}
+*/
+			$row = $this->createRow(
+							array(
+								$categoryField => $categoryId,
+								$fieldIdField => $fieldId,
+								$sortOrderField => $sortOrder
+							)
+						);
+			try {
+				$row->save();
+			} catch (PTA_Exception $e) {}
+		}
+		return $this->getAdapter()->commit();
+	}
+	
+	public function delCategoryFields($categoryId, $fieldsIds = array())
+	{
+		if (empty($fieldsIds)) {
+			return $this->clearbyCategoryId($categoryId);
+		} else {
+			return $this->clearByFields(
+									array(
+										'categoryId' => (int)$categoryId,
+										'fieldId' => $fieldsIds
+									)
+						);
+		}
 	}
 }
