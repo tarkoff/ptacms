@@ -45,4 +45,45 @@ class PTA_Util
 		}
 		return $resList;
 	}
+	
+	public function invoke($data, $method, $byField = false)
+	{
+		$data = (array)$data;
+		$resultSet = array();
+		if ($byField) {
+			foreach ($data as $record) {
+				$resultSet[] = $record[$method];
+			}
+		} else {
+			foreach ($data as $record) {
+				try {
+					$resultSet[] = $record->$method();
+				} catch (Exception $e) {}
+			}
+		}
+		return $resultSet;
+	}
+	
+	/**
+	 * build option from array by setted fields
+	 *
+	 * @param array $data
+	 * @param string $valueField
+	 * @param string $labelField
+	 * @return array
+	 */
+	public static function getOptionsFromArray($data, $valueField, $labelField)
+	{
+		if (!is_array($data)) {
+			return array();
+		}
+
+		$resData = array();
+		foreach ($data as $field) {
+			$resData[] = array(@$field[$valueField], $field[$labelField]);
+		}
+
+		return $resData;
+	}
+	
 }

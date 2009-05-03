@@ -4,7 +4,7 @@ abstract class PTA_Control_Form extends PTA_Object
 {
 	protected $_elements = array();
 	protected $_data = array();
-	protected $_submited = false;
+	protected $_submitted = false;
 
 	function __construct ($prefix, $title = '')
 	{
@@ -12,18 +12,40 @@ abstract class PTA_Control_Form extends PTA_Object
 
 		$this->setName($prefix);
 		$this->setMethod('post');
-		//$this->setEnctype('application/x-www-form-urlencoded');
-		$this->setEnctype('multipart/form-data');
+		$this->setEnctype('application/x-www-form-urlencoded');
+		//$this->setEnctype('multipart/form-data');
 		$this->setTitle($title);
 		$this->setAction('?');
+
+		if ($this->getHttpVar($prefix . '_' . $prefix) == md5($prefix)) {
+			$this->_submitted = true;
+		}
 	}
-	
+
 	public function init()
 	{
-		parent::init();		
-		$this->initForm();
+		parent::init();
+
+		$this->addVisual(
+					new PTA_Control_Form_Hidden($this->getPrefix(), 
+					'', 
+					true, 
+					md5($this->getPrefix()))
+				);
+
+		if ($this->submitted()) {
+			$data = $this->_fillToData();
+			$this->onSubmit($data);
+			$this->initForm();
+			$this->_fillFromData($data);
+		} else {
+			$this->initForm();
+			$data = $this->onLoad();
+			$this->_fillFromData($data);
+		}
+
 		$this->_initVisualElements();
-		$this->_submited = $this->_submitted();
+		//$this->_submitted = $this->_submitted();
 	}
 
 	public function run()
@@ -32,15 +54,6 @@ abstract class PTA_Control_Form extends PTA_Object
 
 		foreach ($this->getVisualAll() as $field) {
 			$field->run();
-		}
-
-		if ($this->submitted()) {
-			$data = $this->_fillToData();
-			$this->onSubmit($data);
-			$this->_fillFromData($data);
-		} else {
-			$data = $this->onLoad();
-			$this->_fillFromData($data);
 		}
 	}
 
@@ -70,8 +83,19 @@ abstract class PTA_Control_Form extends PTA_Object
 			$data = new stdClass();
 		}
 
-		foreach ($this->getVisualAll() as $field) {
-			$data->{$field->getName()} = $field->getValue();
+		if ($this->submitted()) {
+			$formPrefix = $this->getPrefix();
+			$formPrefixLen = strlen($formPrefix);
+			foreach ($_REQUEST as $httpVarAlias => $httpVarValue) {
+				if (0 === strpos($httpVarAlias, $formPrefix)) {
+					$httpVarAlias = substr($httpVarAlias, $formPrefixLen + 1, strlen($httpVarAlias));
+					$data->$httpVarAlias = $httpVarValue;
+				}
+			}
+		} else {
+			foreach ($this->getVisualAll() as $field) {
+				$data->{$field->getName()} = $field->getValue();
+			}
 		}
 		return $data;
 	}
@@ -82,7 +106,7 @@ abstract class PTA_Control_Form extends PTA_Object
 
 	public function submitted()
 	{
-		return $this->_submited;
+		return $this->_submitted;
 	}
 
 	private function _submitted()
@@ -99,8 +123,10 @@ abstract class PTA_Control_Form extends PTA_Object
 		return false;
 	}
 
-	public function onSubmit(&$data) {}
-	
+	public function onSubmit(&$data) {
+		return true;
+	}
+
 	/**
 	 * prepeare form for template
 	 *
@@ -114,12 +140,11 @@ abstract class PTA_Control_Form extends PTA_Object
 		$data = array();
 		foreach ($elements as $element) {
 			$element->setName($this->getPrefix() . '_' . $element->getName());
-		   	$data[$element->getPrefix()] = $element->toString();
+			$data[$element->getPrefix()] = $element->toString();
 		}
-
-		usort($data, array($this, "sortData"));
+		
+		uasort($data, array($this, "sortData"));
 		$object->data = $data;
-		 
 		return $object;
 	}
 

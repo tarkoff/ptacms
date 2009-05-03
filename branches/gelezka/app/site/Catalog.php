@@ -64,7 +64,7 @@ class Catalog extends PTA_WebModule
 
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
 		$select->limit(20);
-var_dump($select->assemble());
+//var_dump($select->assemble());
 		$this->setVar('books', $prodsTable->fetchAll($select)->toArray());
 	}
 

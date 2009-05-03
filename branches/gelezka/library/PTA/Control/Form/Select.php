@@ -74,4 +74,16 @@ class PTA_Control_Form_Select extends PTA_Control_Form_Field
 		return $resData;
 	}
 
+	public function setMultiple($multiple = true)
+	{
+		$this->setVar('multiple', $multiple);
+		if ($multiple) {
+			$this->setArrayMode(true);
+		}
+	}
+
+	public function getMultiple()
+	{
+		return $this->getVar('multiple');
+	}
 }

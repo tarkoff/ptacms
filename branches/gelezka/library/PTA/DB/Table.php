@@ -151,10 +151,12 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	{
 		$aliases = (array)$aliases;
 		
+		$fields = $this->getFields();
 		$dbFields = array();
 		foreach ($aliases as $alias) {
-			if (($dbField = $this->getFieldByAlias($alias))) {
-				$dbFields[] = $dbField;
+			$alias = strtoupper($alias);
+			if (isset($fields[$alias])) {
+				$dbFields[] = $fields[$alias];
 			}
 		}
 		return $dbFields;
@@ -209,11 +211,14 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 			foreach ($fields as $alais => $value) {
 				$dbField = $this->getFieldByAlias($alais);
 				if (!empty($dbField)) {
-					$cond[] = $this->_db->quoteInto(" {$dbField} = ?", $value);
+					if (is_array($value)) {
+						$cond[] = $this->_db->quoteInto(" {$dbField} in (?)", $value);
+					} else {
+						$cond[] = $this->_db->quoteInto(" {$dbField} = ?", $value);
+					}
 				}
 			}
 		}
-
 		if (count($cond)) {
 			return $this->delete(implode(' and ', $cond));
 		}
@@ -292,7 +297,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 				if (empty($values[$fieldId])) {
 					$select->where("{$dbField} is null");
 				} else {
-					$select->where("{$dbField} = ?", mysql_real_escape_string($values[$fieldId]));
+					$select->where("{$dbField} = ?", addslashes($values[$fieldId]));
 				}
 			}
 		}
@@ -313,18 +318,27 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		return $resultSet;
 	}
 
-	public function getSelectedFields($fields)
+	public function getSelectedFields($fields, $where = array())
 	{
 		$fields = (array)$fields;
+		$where = (array)$where;
 
-		$select = $this->select()->from($this->getTableName(), $this->getFieldsByAliases($fields));
+		$select = $this->select()->from(
+										$this->getTableName(),
+										$this->getFieldsByAliases($fields)
+									);
+
+		@list($whereCond, $params) = $where;
+		if (!empty($whereCond)) {
+			$select->where($whereCond, $params);
+		}
+
 		$searchResult = $this->fetchAll($select)->toArray();
-
 		$resultSet = array();
 		foreach ($searchResult as $row) {
 			$resultSet[] = array_values($row);
 		}
-		
+
 		return $resultSet;
 	}
 }

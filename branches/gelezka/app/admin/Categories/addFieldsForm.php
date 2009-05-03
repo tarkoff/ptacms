@@ -11,10 +11,12 @@
 class Categories_addFieldsForm extends PTA_Control_Form 
 {
 	private $_category;
+	private $_categoryFieldTable;
 
 	public function __construct($prefix, $category)
 	{
 		$this->_category = $category;
+		$this->_categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
 
 		parent::__construct($prefix);
 
@@ -23,12 +25,13 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 	public function initForm()
 	{
-		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$categoryFieldTable = $this->_categoryFieldTable;
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
 		$notCategoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), false, true);
+		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, false);
 
-		$select = new PTA_Control_Form_Select('fieldId', 'Fields For Adding', true);
+		$select = new PTA_Control_Form_Select('notCategoryFields', 'Fields For Adding', false);
 		$select->setOptionsFromArray(
 					$notCategoryFields,
 					$fieldsTable->getPrimary(),
@@ -36,13 +39,21 @@ class Categories_addFieldsForm extends PTA_Control_Form
 				);
 		$select->addOption(array(0, '- Empty -'));
 		$select->setSortOrder(100);
+		$select->setMultiple(true);
 		$this->addVisual($select);
 
-		$sortOrder = new PTA_Control_Form_Text('sortOrder', 'Sort Order', true, 'test');
-		$sortOrder->setSortOrder(200);
-		$this->addVisual($sortOrder);
+		$select = new PTA_Control_Form_Select('categoryFields', 'Category Fields', false);
+		$select->setOptionsFromArray(
+					$categoryFields,
+					$fieldsTable->getPrimary(),
+					$fieldsTable->getFieldByAlias('title')
+				);
+		$select->addOption(array(0, '- Empty -'));
+		$select->setSortOrder(110);
+		$select->setMultiple(true);
+		$this->addVisual($select);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Add Field', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save Fields', true, 'Save');
 		$submit->setSortOrder(300);
 		$this->addVisual($submit);
 	}
@@ -50,10 +61,6 @@ class Categories_addFieldsForm extends PTA_Control_Form
 	public function onLoad()
 	{
 		$data = new stdClass();
-
-		//$this->_category->loadTo($data);
-		$data->sortOrder = 10;
-		$data->submit = 'Add Field';
 
 		return $data;
 	}
@@ -68,23 +75,28 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 			return false;
 		}
-
-		if (!empty($data->fieldId)) {
-			$fieldId = (int)$data->fieldId;
-			$categoryField = new PTA_Catalog_CategoryField('field_' . $fieldId);
-			$categoryField->setCategoryid($this->_category->getId());
-			$categoryField->setFieldId($fieldId);
-			if (empty($data->sortOrder)) {
-				$sortOrder = 0;
-			} else {
-				$sortOrder = (int)$data->sortOrder;
-			}
-			$categoryField->setSortOrder($sortOrder);
-			if ($categoryField->save()) {
-				$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
-			}
+var_dump($data);
+		$data->categoryFields = array_diff((array)@$data->categoryFields, array(0, null));
+		$data->notCategoryFields = array_diff((array)@$data->notCategoryFields, array(0, null));
+		
+		$saved = true;
+		if (!empty($data->categoryFields)) {
+			$saved = $this->_categoryFieldTable->delCategoryFields(
+											$this->_category->getId(),
+											$data->categoryFields
+										);
 		}
 
+		if (!empty($data->notCategoryFields)) {
+			$saved = $this->_categoryFieldTable->addCategoryFields(
+											$this->_category->getId(),
+											$data->notCategoryFields
+										);
+		}
+
+		if ($saved) {
+			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+		}
 	}
 
 }

@@ -60,8 +60,8 @@ class Authorizer_LoginForm extends PTA_Control_Form
 
 		if (!empty($dbUser)) {
 			$this->getApp()->setUser(current($dbUser));
-var_dump($this->getApp()->getActiveModule()->getModuleUrl());
-			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
+			$url = $this->getApp()->getActiveModule()->getModuleUrl();
+			$this->redirect(empty($url) ? ADMINURL : $url);
 		}
 
 		return true;
