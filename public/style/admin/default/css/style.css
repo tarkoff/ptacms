@@ -21,7 +21,8 @@ img {
 
 .content {
 	width: 95%;
-    margin: 10px auto;
+	margin: 10px auto;
+	//text-align: center;
 }
 
 .header {
@@ -223,6 +224,16 @@ img {
 	background: #D9EBF5;
 }
 
+.notCategoryFields, .categoryFields {
+	width: auto;
+	min-height: 200px;
+	padding: 3px;
+}
+
+.notCategoryFields *, .categoryFields *{
+	padding: 2px;
+}
+	
 /* DEBUGER */
 .appDebuger {
 	font-size: 10px;
