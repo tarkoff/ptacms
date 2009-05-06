@@ -23,9 +23,9 @@ class Catalog extends PTA_WebModule
 	{
 		parent::init();
 
-		$categoryAlias = $this->getApp()->getHttpVar('Category');
-		$themeAlias = $this->getApp()->getHttpVar('Theme');
-		$bookAlias = $this->getApp()->getHttpVar('Book');
+		$categoryAlias = $this->getApp()->getHttpVar('Category', false);
+		$themeAlias = $this->getApp()->getHttpVar('Theme', false);
+		$bookAlias = $this->getApp()->getHttpVar('Book', false);
 
 		$prodsTable = PTA_DB_Table::get('PTA_Catalog_Product');
 		$select = $prodsTable->select()->from(array('prods' => $prodsTable->getTableName()));

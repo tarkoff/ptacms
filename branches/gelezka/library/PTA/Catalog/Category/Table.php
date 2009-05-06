@@ -48,7 +48,7 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 								array('cats1' => $this->getTableName()),
 								$this->getFieldsByAliases(array('alias', 'title'))
 							);
-							
+
 		$select->join(
 					array('cats2' => $this->getTableName()),
 					'cats1.' . $this->getFieldByAlias('parentId') . ' = cats2.' . $this->getPrimary(),
@@ -56,6 +56,7 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 				);
 
 		$select->where('cats2.' . $this->getFieldByAlias('alias') . ' = ?', $categoryAlias);
+
 		if ($onlyPublic) {
 			$select->where('cats1.' . $this->getFieldByAlias('isPublic') . ' = 1');
 		}

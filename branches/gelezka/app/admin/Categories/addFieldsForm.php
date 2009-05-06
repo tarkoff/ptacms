@@ -75,7 +75,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 			return false;
 		}
-var_dump($data);
+//var_dump($data);
 		$data->categoryFields = array_diff((array)@$data->categoryFields, array(0, null));
 		$data->notCategoryFields = array_diff((array)@$data->notCategoryFields, array(0, null));
 		

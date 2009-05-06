@@ -1,21 +1,21 @@
-<form name="{$form->name}" id="{$form->name}" action="{$form->action}" method="{$form->method}" enctype="{$form->enctype}" {if !empty($formCss)}class="{$formCss}"{/if}>
+<form name="{$form->name}" id="{$form->name}" action="{$form->action}" method="{$form->method}" enctype="{$form->enctype}" class="editForm">
 {assign var="formPrefix" value=`$form->prefix`}
 {assign var="form" value=`$form->data`}
-	<table cols="2" cellspacing="10px" {if !empty($formTableCss)}class="{$formTableCss}"{/if}>
+	<table cols="2" cellspacing="10px" class="editFormTable">
 	{if !empty($form->title)}
 		<tr>
-			<th colspan="2" {if !empty($formHeaderCss)}class="{$formHeaderCss}"{/if} align="center">{$form->title}</th>
+			<th colspan="2" class="editFormHeader" align="center">{$form->title}</th>
 		</tr>
 	{/if}
 		<tr>
 			<td align="right">
-				<fieldset>
+				<fieldset class="notCategoryFields">
 					<legend>{$form.notCategoryFields->label}</legend>
 					{include file="_generic/controls.tpl" field=$form.notCategoryFields}
 				</fieldset>
 			</td>
 			<td align="left">
-				<fieldset>
+				<fieldset class="categoryFields">
 					<legend>{$form.categoryFields->label}</legend>
 					{include file="_generic/controls.tpl" field=$form.categoryFields}
 				</fieldset>
