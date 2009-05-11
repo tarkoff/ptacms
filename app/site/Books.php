@@ -28,12 +28,13 @@ class Books extends PTA_WebModule
 //		$book->loadById($bookId);
 //		$book->buildCustomFields();
 		
-		$book = current(PTA_DB_Table::get('Catalog_Product')->findById($bookId));
+		$productTable = PTA_DB_Table::get('Catalog_Product');
+		$book = current($productTable->findById($bookId));
 		if (empty($book)) {
 			$this->redirect($this->getApp()->getBaseUrl());
 		}
 		
-		$category = current(PTA_DB_Table::get('Catalog_Category')->findById($book[PTA_DB_Table::get('Catalog_Product')->getFieldByAlias('categoryId')]));
+		$category = current(PTA_DB_Table::get('Catalog_Category')->findById($book[$productTable->getFieldByAlias('categoryId')]));
 		
 		$this->setVar('book', $book);
 		$this->setVar('category', $category);

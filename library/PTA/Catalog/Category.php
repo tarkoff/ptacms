@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_Category extends PTA_DB_Object 
+class PTA_Catalog_Category extends PTA_DB_Object
 {
 
 	private $_parentId;
