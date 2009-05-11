@@ -90,7 +90,7 @@ class Categories extends PTA_WebModule
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
 		$view->addCommonAction('Add Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');
-		$view->addCommonAction('Remove Fields', $this->getModuleUrl() . 'delFields/Category', 'fields.png');
+		//$view->addCommonAction('Remove Fields', $this->getModuleUrl() . 'delFields/Category', 'fields.png');
 		$view->addCommonAction('Add Product', $this->getModuleUrl() . 'addProduct/Category', 'addItem.png');
 		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'remove.png');
 	}

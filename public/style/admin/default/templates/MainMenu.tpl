@@ -2,13 +2,15 @@
 	<ul>
 		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Categories/">Categories</a></li>
 		<li class="btnseparator"></li>
-		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/UserGroups/">User Groups</a></li>
+		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Fields/">Fields</a></li>
+		<li class="btnseparator"></li>
+		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Brands/">Brands</a></li>
+		<li class="btnseparator"></li>
+		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Catalog/">Catalog</a></li>
 		<li class="btnseparator"></li>
 		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Users/">Users</a></li>
 		<li class="btnseparator"></li>
-		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Fields/">Fields</a></li>
-		<li class="btnseparator"></li>
-		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/Catalog/">Catalog</a></li>
+		<li class="mtbItem"><a href="{$smarty.const.ADMINURL}/UserGroups/">User Groups</a></li>
 	</ul>
 </div>
 <!--
