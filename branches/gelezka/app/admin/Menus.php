@@ -15,10 +15,10 @@ class Menus extends PTA_WebModule
 
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'Categories.tpl');
+		parent::__construct($prefix, 'Menus.tpl');
 
-		$this->setModuleUrl(ADMINURL . '/Categories/');
-		$this->_menu = new PTA_Catalog_Menu('Category');
+		$this->setModuleUrl(ADMINURL . '/Menus/');
+		$this->_menu = new PTA_Catalog_MenuItem('Category');
 	}
 
 	public function init()

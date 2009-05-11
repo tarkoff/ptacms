@@ -2,46 +2,58 @@
 /**
  * Short description for file
  *
- * @package Core
+ * @package Catalog
  * @copyright  2008 PTA Studio
- * @license    http://framework.zend.com/license   BSD License
- * @version    $Id$
+ * @license	http://framework.zend.com/license   BSD License
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_MenuItem
+class PTA_MenuItem extends PTA_DB_Object
 {
-	private $_id = null;
-	private $_title = null;
-	
-	public function __construct($id=null, $title=null)
-	{
-		if (!empty($id)) {
-			$this->setId($id);
-		}
 
-		if (!empty($title)) {
-			$this->setTitle($title);
-		}
-	}
-	
-	public function getId()
+	private $_parentId;
+	private $_alias;
+	private $_title;
+	private $_url;
+
+	public function getParentId()
 	{
-		return $this->_id;
+		return $this->_parentId;
 	}
-	
-	public function setId($id)	
+
+	public function setParentId($value)
 	{
-		$this->_id = intval($id);
+		$this->_parentId = (int)$value;
 	}
-	
+
 	public function getTitle()
 	{
 		return $this->_title;
 	}
-	
+
 	public function setTitle($title)
 	{
 		$this->_title = $title;
+	}
+
+	public function getAlias()
+	{
+		return $this->_alias;
+	}
+
+	public function setAlias($alias)
+	{
+		$this->_alias = $alias;
+	}
+
+	public function geUrl()
+	{
+		return $this->_url;
+	}
+
+	public function setUrl($url)
+	{
+		$this->_url= $url;
 	}
 }
