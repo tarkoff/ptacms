@@ -41,7 +41,7 @@ class Fields_editForm extends PTA_Control_Form
 		$fieldType->setSortOrder(300);
 		$fieldType->setCssClass('textField');
 		$this->addVisual($fieldType);
-
+		
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);

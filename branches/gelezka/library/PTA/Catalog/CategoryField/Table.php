@@ -138,9 +138,12 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 										)
 								);
 */
+		$sortOrder = $this->getMaxSortOrder($categoryId);
+		$sortOrder = (empty($sortOrder) ? 1000 : $sortOrder);
+		
 		$this->getAdapter()->beginTransaction();
 		//$this->clearbyCategoryId($categoryId);
-		foreach ($fieldsIds as $sortOrder => $fieldId) {
+		foreach ($fieldsIds as $fieldId) {
 /*
 			if (in_array($fieldId, $existsFields)) {
 				continue;
@@ -150,7 +153,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 							array(
 								$categoryField => $categoryId,
 								$fieldIdField => $fieldId,
-								$sortOrderField => $sortOrder
+								$sortOrderField => ++$sortOrder
 							)
 						);
 			try {
@@ -172,5 +175,21 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 									)
 						);
 		}
+	}
+	
+	public function getMaxSortOrder($categoryId)
+	{
+		if (empty($categoryId)) {
+			return 1000;
+		}
+
+		return $this->getDefaultAdapter()->fetchOne(
+					$this->select()->from(
+						$this->getTableName(), 
+						array('max' => 'MAX(' . $this->getFieldByAlias('sortOrder') . ')')
+					)->where(
+						$this->getFieldByAlias('categoryId') . ' = ?', $categoryId
+					)
+				);
 	}
 }

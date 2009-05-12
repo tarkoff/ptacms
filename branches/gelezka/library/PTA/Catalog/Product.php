@@ -14,7 +14,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	private $_title;
 	private $_url;
 	private $_categoryId;
-	private $_manufacturerId;
+	private $_brandId;
 	private $_alias;
 	private $_image;
 	private $_shortDescr;
@@ -241,14 +241,14 @@ class PTA_Catalog_Product extends PTA_DB_Object
 		$this->_shortDescr = $descr;
 	}
 
-	public function getManufacturerId()
+	public function getBrandId()
 	{
-		return $this->_shortDescr;
+		return $this->_brandId;
 	}
 
-	public function setManufacturerId($id)
+	public function setBrandId($id)
 	{
-		$this->_manufacturerId = (int)$id;
+		$this->_brandId = (int)$id;
 	}
 
 	public function getDate()
