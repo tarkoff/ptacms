@@ -32,37 +32,45 @@ class Catalog_editForm extends PTA_Control_Form
 		$this->_initStaticFields();
 		$this->_initDinamicFields();
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Book');
-		$submit->setSortOrder(1000);
+		$submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Item');
+		$submit->setSortOrder(5000);
 		$this->addVisual($submit);
 	}
 
 	private function _initStaticFields()
 	{
-		$title = new PTA_Control_Form_Text('title', 'Book Title');
+		$title = new PTA_Control_Form_Text('title', 'Title');
 		$title->setSortOrder(10);
 		$this->addVisual($title);
 
-		$alias = new PTA_Control_Form_Text('alias', 'Book Alias');
+		$alias = new PTA_Control_Form_Text('alias', 'Alias');
 		$alias->setSortOrder(15);
 		$this->addVisual($alias);
-
+		
+		$brand = new PTA_Control_Form_Select('brandId', 'Brand', false);
+		$brand->setSortOrder(16);
+		$brand->setOptions(PTA_DB_Table::get('Catalog_Brand')->getSelectedFields(array('id', 'title')));
+		$brand->addOption(array(0, '- Empty -'));
+		$brand->setSelected((int)$this->_product->getBrandId());
+		$this->addVisual($brand);
+		
+		
 		$catsTable = PTA_DB_Table::get('Catalog_Category');
 		$category = new PTA_Control_Form_Select('categoryId', 'Category', false, $catsTable->getSelectedFields(array('id', 'title')), $this->_product->getCategoryId());
 		$category->setSortOrder(16);
 		$this->addVisual($category);
 		
-		$url = new PTA_Control_Form_Text('url', 'Book URL');
+		$url = new PTA_Control_Form_Text('url', 'URL');
 		$url->setSortOrder(20);
 		$this->addVisual($url);
 
-		$image = new PTA_Control_Form_File('image', 'Book Photo');
+		$image = new PTA_Control_Form_File('image', 'Photo');
 		$image->setSortOrder(30);
 		$image->getUploader()->setDestination(CONTENTPHOTOSPATH);
 		$image->isImage(true);
 		$this->addVisual($image);
 
-		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Book Description');
+		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Description');
 		$desc->setSortOrder(40);
 		$this->addVisual($desc);
 	}

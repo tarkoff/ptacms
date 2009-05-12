@@ -22,11 +22,11 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-
+/*
 		if (!$this->_getCols()) {
-			$this->initStaticFields();
+			$this->_setupMetadata();
 		}
-
+*/
 		if ($this->_getCols()) {
 			$aliases = array_map(array($this, '_FieldToAlias'), (array)$this->_cols);
 			$this->_dbFields = array_combine((array)$aliases, (array)$this->_cols);
