@@ -165,7 +165,8 @@ abstract class PTA_App extends PTA_WebModule
 		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
 
 		$this->getTemplateEngine()->display();
-
+		
+		$this->getDB()->closeConnection();
 		return true;
 	}
 
@@ -192,6 +193,7 @@ abstract class PTA_App extends PTA_WebModule
 					);
 			
 			$db->insert('SQLLOG', $data);
+			var_dump($query->getQuery());
 		}
 		$db->commit();
 

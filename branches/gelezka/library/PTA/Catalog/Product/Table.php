@@ -17,5 +17,18 @@ class PTA_Catalog_Product_Table extends PTA_DB_Table
 	protected $_name = 'PRODUCTS';
 	protected $_primary = 'PRODUCTS_ID';
 	protected $_sequence = true;
+	protected $_product;
 	
+	public function getFields()
+	{
+		$staticFields = parent::getFields();
+		$dynamicFields = $this->_product->getCustomFields();
+
+		return array_merge($staticFields, $dynamicFields);
+	}
+	
+	public function setProduct($product)
+	{
+		$this->_product = $product;
+	}
 }

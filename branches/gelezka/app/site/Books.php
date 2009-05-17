@@ -15,7 +15,7 @@ class Books extends PTA_WebModule
 	
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'Books.tpl');
+		parent::__construct($prefix, 'Product.tpl');
 		//$this->setModuleUrl(BASEURL . '/Product/list/Book');
 	}
 
@@ -23,11 +23,12 @@ class Books extends PTA_WebModule
 	{
 		parent::init();
 
-		$bookId = $this->getApp()->getHttpVar('Book');
+		$bookId = $this->getApp()->getHttpVar('Product');
 //		$book = new PTA_Catalog_Product('product');
 //		$book->loadById($bookId);
 //		$book->buildCustomFields();
-		
+var_dump($bookId);
+//exit(0);
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$book = current($productTable->findById($bookId));
 		if (empty($book)) {
@@ -36,8 +37,8 @@ class Books extends PTA_WebModule
 		
 		$category = current(PTA_DB_Table::get('Catalog_Category')->findById($book[$productTable->getFieldByAlias('categoryId')]));
 		
-		$this->setVar('book', $book);
+		$this->setVar('product', $book);
 		$this->setVar('category', $category);
-		$this->setVar('customBookField', PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($bookId));
+		$this->setVar('customProductField', PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($bookId));
 	}
 }

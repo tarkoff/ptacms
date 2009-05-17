@@ -221,9 +221,8 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 
 	/**
 	 * Return field form
-	 * @return PTA_Control_Form
 	 *
-	 * @return unknown
+	 * @return PTA_Control_Form
 	 */
 	public function getForm()
 	{

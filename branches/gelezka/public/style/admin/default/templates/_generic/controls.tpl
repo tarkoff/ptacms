@@ -77,9 +77,7 @@
 		id="{$field->name}" 
 		{if !empty($field->cssClass)}class="{$field->cssClass}"{/if}
 		{if !empty($field->disabled)} disabled="disabled"{/if}
-	>
-		{if !empty($field->value)}{$field->value}{/if}
-	</textarea>
+	>{if !empty($field->value)}{$field->value}{/if}</textarea>
 {/if}
 
 {pta_const name="PTA_Control_Form_Field::TYPE_FILE" to="fieldType"}

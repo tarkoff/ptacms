@@ -3,17 +3,17 @@
 <div id="catalog">
 	<h1>Бесплатные книги по </h1>
 	<ul>
-	{foreach from=$data->books item=book name=cat}
+	{foreach from=$data->products item=product name=cat}
 		<li>
-			<a href="{$data->url}/{$book.PRODUCTS_ID}">
+			<a href="{$data->url}/{$product.PRODUCTS_ID}">
 				<div>
-			{if !empty($book.PRODUCTS_IMAGE)}
-				<img src="{$smarty.const.THUMBURL}?src={$smarty.const.BASEURL}{$book.PRODUCTS_IMAGE}&h=120&w=120&zc=0" alt="`$book.PRODUCTS_TITLE`"/>
+			{if !empty($product.PRODUCTS_IMAGE)}
+				<img src="{$smarty.const.THUMBURL}?src={$smarty.const.BASEURL}{$product.PRODUCTS_IMAGE}&h=120&w=120&zc=0" alt="`$product.PRODUCTS_TITLE`"/>
 			{else}
-				{html_image file="`$smarty.const.IMAGESURL`/bookimg120.gif" alt="`$book.PRODUCTS_TITLE`"}
+				{html_image file="`$smarty.const.IMAGESURL`/bookimg120.gif" alt="`$product.PRODUCTS_TITLE`"}
 			{/if}
 			</div>
-			<div>{$book.PRODUCTS_TITLE}</div>
+			<div>{$product.PRODUCTS_TITLE}</div>
 			</a>
 		/li>
 	{/foreach}

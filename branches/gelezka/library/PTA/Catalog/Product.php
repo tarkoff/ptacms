@@ -25,6 +25,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	public function __construct($prefix)
 	{
 		parent::__construct($prefix);
+		$this->getTable()->setProduct($this);
 	}
 
 	public function getCategoryId()
@@ -37,6 +38,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 		$this->_categoryId = (int)$value;
 		if ($this->getId()) {
 			$this->_customFields = $this->buildCustomFields();
+			$this->getTable()->setProduct($this);
 		}
 	}
 
@@ -76,10 +78,14 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			$fieldsValues = array();
 		}
 
+		$fieldValueField = $valuesTable->getFieldByAlias('value');
 		$fieldIdField = $valuesTable->getFieldByAlias('fieldId');
 		$resultFields = array();
-		foreach ($customFields as $fieldId => $fieldAlias) {
-			$resultFields[$fieldAlias] = @$fieldsValues[$fieldIdField];
+		foreach ($fieldsValues as $fieldId => $valeField) {
+			$id = $valeField[$fieldIdField];
+			if (isset($customFields[$id])) {
+				$resultFields[$customFields[$id]] = $valeField[$fieldValueField];
+			}
 		}
 
 		return $resultFields;
@@ -107,7 +113,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 		
 		$fields = (array)self::getCustomFieldsMetaData($this->_categoryId);
 		if (empty($fields)) {
-			return array();
+			return false;
 		}
 
 		$fieldFieldId = $categoryFieldTable->getPrimary();

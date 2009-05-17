@@ -59,12 +59,14 @@ class PTA_Control_Form_File extends PTA_Control_Form_Field
 			$this->_uploader->addValidator('IsImage', false, 'jpg, jpeg,png,gif');
 			$this->_uploader->addValidator('MimeType', false, 'image');
 			$this->_uploader->addValidator('Extension', false, 'jpg, jpeg,png,gif');
+/*
 			$this->_uploader->addValidator('ImageSize', false,
 									array(
 										'minwidth' => 100, 'maxwidth' => 1400,
 										'minheight' => 100, 'maxheight' => 1400
 									)
 							);
+*/
 		}
 	}
 

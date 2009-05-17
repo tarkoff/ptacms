@@ -12,8 +12,8 @@ abstract class PTA_Control_Form extends PTA_Object
 
 		$this->setName($prefix);
 		$this->setMethod('post');
-		$this->setEnctype('application/x-www-form-urlencoded');
-		//$this->setEnctype('multipart/form-data');
+		//$this->setEnctype('application/x-www-form-urlencoded');
+		$this->setEnctype('multipart/form-data');
 		$this->setTitle($title);
 		$this->setAction('?');
 
@@ -27,11 +27,12 @@ abstract class PTA_Control_Form extends PTA_Object
 		parent::init();
 
 		$this->addVisual(
-					new PTA_Control_Form_Hidden($this->getPrefix(), 
-					'', 
-					true, 
-					md5($this->getPrefix()))
-				);
+			new PTA_Control_Form_Hidden($this->getPrefix(), 
+				'', 
+				true, 
+				md5($this->getPrefix())
+			)
+		);
 
 		if ($this->submitted()) {
 			$data = $this->_fillToData();
@@ -69,12 +70,25 @@ abstract class PTA_Control_Form extends PTA_Object
 
 	protected function _fillFromData($data)
 	{
+		foreach ($this->getVisualAll() as $fieldAlias => $field) {
+			if (isset($data->$fieldAlias)) {
+				$field->setValue($data->$fieldAlias);
+			} else {
+				$fieldAlias = strtolower($fieldAlias);
+				if (isset($data->$fieldAlias)) {
+					$field->setValue($data->$fieldAlias);
+				}
+			}
+		}
+/*
 		$data = (array)$data;
 		foreach ($data as $name => $value) {
 			if (($field = $this->getVisual($name))) {
 				$field->setValue($value);
 			}
 		}
+		//var_dump($this->_elements);
+*/
 	}
 
 	protected function _fillToData(&$data = null)
@@ -85,10 +99,10 @@ abstract class PTA_Control_Form extends PTA_Object
 
 		if ($this->submitted()) {
 			$formPrefix = $this->getPrefix();
-			$formPrefixLen = strlen($formPrefix);
+			$formPrefixLen = strlen($formPrefix) + 1;
 			foreach ($_REQUEST as $httpVarAlias => $httpVarValue) {
 				if (0 === strpos($httpVarAlias, $formPrefix)) {
-					$httpVarAlias = substr($httpVarAlias, $formPrefixLen + 1, strlen($httpVarAlias));
+					$httpVarAlias = substr($httpVarAlias, $formPrefixLen, strlen($httpVarAlias));
 					$data->$httpVarAlias = $httpVarValue;
 				}
 			}
