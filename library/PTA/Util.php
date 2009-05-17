@@ -86,4 +86,33 @@ class PTA_Util
 		return $resData;
 	}
 	
+	public static function upload($destPath, $uploader = null)
+	{
+		if (
+			empty($uploader)
+			|| !($uploader instanceof Zend_File_Transfer_Adapter_Abstract)
+		) {
+			$uploader = new Zend_File_Transfer_Adapter_Http();
+		}
+
+		$uploader->setDestination(CONTENTPHOTOSPATH);
+
+		if (!$uploader->isValid()) {
+			return false;
+		}
+
+		if (!$uploader->receive()) {
+			$messages = $uploader->getMessages();
+			throw new PTA_Exception(implode("\n</br>", $messages));
+		}
+
+		if ($uploader->isReceived()) {
+			$fileName = str_replace(ROOTPATH, '', $uploader->getFileName());
+			if (!empty($fileName)) {
+				return DIRECTORY_SEPARATOR . ltrim($fileName, DIRECTORY_SEPARATOR);
+			}
+		}
+		
+		return false;
+	}
 }

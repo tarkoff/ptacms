@@ -29,7 +29,7 @@ abstract class PTA_Object
 	{
 		return $this->_prefix;
 	}
-//alekspavuk@rambler.ru
+
 	public function setPrefix($prefix)
 	{
 		$this->_prefix = $prefix;

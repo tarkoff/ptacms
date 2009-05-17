@@ -13,6 +13,8 @@ abstract class PTA_DB_Object extends PTA_Object
 {
 	protected $_id;
 	protected $_table;
+	
+	protected static $objects = array();
 
 	function __construct ($prefix)
 	{
@@ -82,7 +84,11 @@ abstract class PTA_DB_Object extends PTA_Object
 		$objects = array();
 		$className = get_class($this);
 		foreach ($objectsArray as $objectRecord) {
-			$object = new $className($this->getPrefix() . '_' . $objectRecord[$this->getTable()->getPrimary()]);
+			$object = new $className(
+				$this->getPrefix() 
+				. '_' 
+				. $objectRecord[$this->getTable()->getPrimary()]
+			);
 			$objects[] = $object->loadFrom($objectRecord ); 
 		}
 
@@ -193,9 +199,9 @@ abstract class PTA_DB_Object extends PTA_Object
 		$table = $this->getTable();
 		$fields = $table->getFields();
 
-		foreach ($fields as $alias=>$field) {
+		foreach ($fields as $alias => $field) {
 			$method = 'get' . ucfirst(strtolower($alias));
-			$alias = ( $isDbFields ? $field : strtolower($alias));
+			$alias = ($isDbFields ? $field : strtolower($alias));
 			if (method_exists($this, $method)) {
 				$info->$alias = $this->$method();
 			}
@@ -204,4 +210,21 @@ abstract class PTA_DB_Object extends PTA_Object
 		return $info;
 	}
 	
+	public static function get($objectClass, $id = null)
+	{
+		$objectClass = str_replace('PTA_', '' , $objectClass);
+		$objectClass = "PTA_{$objectClass}_Table";
+		$id = (int)$id;
+
+		if (!empty(self::$_tables[$objectClass][$id])) {
+			return self::$_tables[$objectClass][$id];
+		}
+
+		if (class_exists($objectClass, true)) {
+			self::$_obects[$objectClass][$id] = new $objectClass($objectClass . '_' . $id);
+			return clone self::$_obects[$objectClass][$id];
+		}
+
+		throw new PTA_DB_Object_Exception($objectClass, intval($id));
+	}
 }

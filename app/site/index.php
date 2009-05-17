@@ -14,7 +14,7 @@ ini_set('dipslay_errors', 1);
 //var_dump($_SERVER);
 require_once './config/bootstrap.inc';
 
-class adminApp extends PTA_App 
+class SiteApp extends PTA_App 
 {
 	function __construct ()
 	{
@@ -77,7 +77,7 @@ class adminApp extends PTA_App
 	}
 }
 
-$app = new adminApp();
+$app = new SiteApp();
 
 $app->init();
 $app->run();

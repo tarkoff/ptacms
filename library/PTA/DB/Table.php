@@ -243,12 +243,11 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		}
 
 		if (class_exists($className, true)) {
-			$table = new $className;
-			self::$_tables[$className] = &$table;
+			self::$_tables[$className] = new $className;
 			return self::$_tables[$className];
 		}
 
-		return null;
+		throw new PTA_DB_Table_Exception($objectClass);
 	}
 
 	private function _buildNewObject($data)
