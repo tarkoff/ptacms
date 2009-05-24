@@ -193,9 +193,14 @@ abstract class PTA_App extends PTA_WebModule
 					);
 			
 			$db->insert('SQLLOG', $data);
-			var_dump($query->getQuery());
 		}
 		$db->commit();
+
+		if (isset($_REQUEST['sql_debug'])) {
+			foreach ($queries as $query) {
+				var_dump($query->getQuery());
+			}
+		}
 
 		$this->setVar('sqlQueriesCnt', $profiler->getTotalNumQueries());
 		$this->setVar('sqlRunTime', number_format($profiler->getTotalElapsedSecs(), 4, '.', ''));
@@ -246,10 +251,10 @@ abstract class PTA_App extends PTA_WebModule
 			return false;
 		}
 		
-		try {
+		if (class_exists($module, true)) {
 			$this->_modules[$prefix] = new $module($prefix);
-		} catch (Zend_Exception $e){
-			echo $e->getMessage();
+		} else {
+			$this->redirect($this->getBaseUrl());
 		}
 		
 		return true;

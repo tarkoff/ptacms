@@ -16,7 +16,7 @@ class Catalog extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'Catalog.tpl');
-		$this->setModuleUrl(BASEURL . '/Books/View/Product');
+		$this->setModuleUrl(BASEURL . '/Products/View/Product');
 	}
 
 	public function init()
@@ -28,6 +28,7 @@ class Catalog extends PTA_WebModule
 //		$productAlias = $this->getApp()->getHttpVar('Product', false);
 
 		$prodsTable = PTA_DB_Table::get('PTA_Catalog_Product');
+
 		$select = $prodsTable->select()->from(array('prods' => $prodsTable->getTableName()));
 		$select->setIntegrityCheck(false);
 /*
@@ -36,36 +37,46 @@ class Catalog extends PTA_WebModule
 		}
 */
 		if (!empty($categoryAlias) || !empty($themeAlias)) {
-
 			$catsTable = PTA_DB_Table::get('Catalog_Category');
+			
 			$catsTableName = $catsTable->getTableName();
 			$catsPrimaryField = $catsTable->getPrimary();
 			$catsParentIdField = $catsTable->getFieldByAlias('parentId');
 			$catsAliasField = $catsTable->getFieldByAlias('alias');
 
-			if (!empty($themeAlias) || !empty($categoryAlias)) {
+			$select->join(
+				array('cats' => $catsTableName),
+				'prods.'. $prodsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}",
+				array()
+			);
+			if (!empty($themeAlias)) {
+				$select->where("cats.{$catsAliasField} = ?", $themeAlias);
+			}
+			if (!empty($categoryAlias)) {
 				$select->join(
-					array('cats' => $catsTableName),
-					'prods.'. $prodsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}",
+					array('cats2' => $catsTableName),
+					"cats. {$catsParentIdField} = cats2.{$catsPrimaryField}",
 					array()
 				);
-				if (!empty($themeAlias)) {
-					$select->where("cats.{$catsAliasField} = ?", $themeAlias);
-				}
-				if (!empty($categoryAlias)) {
-					$select->join(
-						array('cats2' => $catsTableName),
-						"cats. {$catsParentIdField} = cats2.{$catsPrimaryField}",
-						array()
-					);
-					$select->where("cats2.{$catsAliasField} = ?", $categoryAlias);
-				}
-			} 
+				$select->where("cats2.{$catsAliasField} = ?", $categoryAlias);
+			}
+		
+			$category = current(
+				$catsTable->findByFields(
+					array('alias'),
+					array(empty($themeAlias) ? $categoryAlias : $themeAlias)
+				)
+			);
 		}
 
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
 		$select->limit(20);
-		$this->setVar('products', $prodsTable->fetchAll($select)->toArray());
+
+		$products = $prodsTable->fetchAll($select)->toArray();
+
+		
+		$this->setVar('products', $products);
+		$this->setVar('category', $category);
 	}
 
 	public function mainPage()

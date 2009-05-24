@@ -9,13 +9,13 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class Books extends PTA_WebModule
+class Products extends PTA_WebModule
 {
 	private $_catalog;
 	
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'Product.tpl');
+		parent::__construct($prefix, 'Products.tpl');
 		//$this->setModuleUrl(BASEURL . '/Product/list/Book');
 	}
 
@@ -24,21 +24,40 @@ class Books extends PTA_WebModule
 		parent::init();
 
 		$bookId = $this->getApp()->getHttpVar('Product');
-//		$book = new PTA_Catalog_Product('product');
-//		$book->loadById($bookId);
-//		$book->buildCustomFields();
-var_dump($bookId);
-//exit(0);
+
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$book = current($productTable->findById($bookId));
+
 		if (empty($book)) {
 			$this->redirect($this->getApp()->getBaseUrl());
 		}
+
+		$categoryTable = PTA_DB_Table::get('Catalog_Category');
+
+		$category = current(
+			$categoryTable->findById(
+				$book[$productTable->getFieldByAlias('categoryId')]
+			)
+		);
+
+		$aliasField = $categoryTable->getFieldByAlias('alias');
+
+		$parentCategory = PTA_DB_Table::get('Catalog_Category')->getRootCategory(
+			$category[$categoryTable->getFieldByAlias('parentId')]
+		);
+
+		$this->getModule('TopMenu')->setCategory($parentCategory[$aliasField]);
+		$this->getModule('LeftMenu')->setTheme($category[$aliasField]);
 		
-		$category = current(PTA_DB_Table::get('Catalog_Category')->findById($book[$productTable->getFieldByAlias('categoryId')]));
+		$brand = current(
+			PTA_DB_Table::get('Catalog_Brand')->findById(
+				$book[$productTable->getFieldByAlias('brandId')]
+			)
+		);
 		
 		$this->setVar('product', $book);
-		$this->setVar('category', $category);
 		$this->setVar('customProductField', PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($bookId));
+		$this->setVar('category', $category);
+		$this->setVar('brand', $brand);
 	}
 }

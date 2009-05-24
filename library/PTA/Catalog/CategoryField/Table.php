@@ -29,29 +29,31 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		if (isset(self::$_fieldsCache[$cachePrefix])) {
 			return self::$_fieldsCache[$cachePrefix];
 		}
-
+		
+		$categoriesIds = array();
+		if ($parentsFieldsToo) {
+			$categoryTable = PTA_DB_Table::get('Catalog_Category');
+			$categories = $categoryTable->getRootCategory($categoryId, true);
+			$categoryIdField = $categoryTable->getPrimary();
+			foreach ($categories as $category) {
+				$categoriesIds[] = $category[$categoryIdField];
+			}
+		} else {
+			$categoriesIds[] = $categoryId;
+		}
+		
 		$fieldsIds = array();
 		$fieldIdField = $this->getFieldByAlias('fieldId');
 		$categoryIdField = $this->getFieldByAlias('categoryId');
-		do {
-			$category = new PTA_Catalog_Category("Category_{$categoryId}");
-			$category->loadById($categoryId);
-
-			if ($categoryId) {
-				$select = $this->select()->where("$categoryIdField = ?", $categoryId);
-				$fields = $this->fetchAll($select)->toArray();
-				foreach ($fields as $field) {
-					$fieldsIds[] = $field[$fieldIdField];
-				}
-			}
-			
-			if ($parentsFieldsToo) {
-				$categoryId = $category->getParentId();
-			} else {
-				$categoryId = false;
-			}
-		} while ($categoryId);
-
+		
+		$select = $this->select()->from($this->getTableName(), array($fieldIdField))
+					->where("$categoryIdField in (?)", $categoriesIds);
+		$fields = $this->fetchAll($select)->toArray();
+		foreach ($fields as $field) {
+			$fieldsIds[] = $field[$fieldIdField];
+		}
+		
+		
 		$resultSet = array();
 		if (!empty($fieldsIds) || !$equal) {
 			$resultSet = $this->_getFieldsByCategory($fieldsIds, $equal);

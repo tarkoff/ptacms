@@ -7,7 +7,7 @@
 	{/if}
 		{foreach from=$form->data item=field}
 		<tr>
-		{if !empty($field->isSubmit)}
+		{if !empty($field->isSubmit) || !empty($field->hidden)}
 			<td colspan="2" align="center">{include file="_generic/controls.tpl" field=$field}</td>
 		{else}
 			<td align="right">{$field->label} {if $field->mandatory}*{/if}</td>

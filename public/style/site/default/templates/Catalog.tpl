@@ -1,7 +1,7 @@
 {* include file=TopList.tpl data=$TopList *}
 
 <div id="catalog">
-	<h1>Бесплатные книги по </h1>
+	<h1>{$data->category.CATEGORIES_TITLE|default:'Последние поступления'}</h1>
 	<ul>
 	{foreach from=$data->products item=product name=cat}
 		<li>

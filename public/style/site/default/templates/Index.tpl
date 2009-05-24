@@ -7,7 +7,6 @@
 <link href="{$smarty.const.CSSURL}/style.css" rel="stylesheet" type="text/css" />
 <script src="{$smarty.const.JQUERYURL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script src="{$smarty.const.JQUERYURL}/corners/jquery.corners.js" type="text/javascript"></script>
-<script src="{$smarty.const.JQUERYURL}/accordion/jquery.accordion.js" type="text/javascript"></script>
 </head>
 <body>
 <!--top start -->
