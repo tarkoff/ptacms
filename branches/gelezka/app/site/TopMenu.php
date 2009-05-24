@@ -23,19 +23,24 @@ class TopMenu extends PTA_WebModule
 	{
 		parent::init();
 
-		$categoryAlias = $this->getApp()->getHttpVar('Category', false);
 		$categories = PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootId(0);
-/*
-		foreach ($categories as $cid => $category) {
-			$categories[$cid] = array_values($category);
-		}
-*/
 
-		$this->getApp()->setCookie('Category', $categoryAlias, 0);
-		$this->getApp()->setHttpVar('Category', $categoryAlias);
+		$this->setCategory($this->getCategory());
 
 		$this->setVar('Categories', $categories);
-		$this->setVar('selected', $this->quote($categoryAlias));
+	}
+	
+	public function setCategory($alias)
+	{
+		$this->getApp()->setCookie('Category', $alias, 0);
+		$this->setHttpVar('Category', $alias);
+var_dump('category: ' . $alias);
+		$this->setVar('selected', $alias);
+	}
+	
+	public function getCategory()
+	{
+		return $this->getHttpVar('Category', false);
 	}
 
 }

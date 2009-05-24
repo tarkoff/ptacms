@@ -21,10 +21,13 @@ class PTA_Catalog_Product_Table extends PTA_DB_Table
 	
 	public function getFields()
 	{
-		$staticFields = parent::getFields();
-		$dynamicFields = $this->_product->getCustomFields();
+		$fields = parent::getFields();
 
-		return array_merge($staticFields, $dynamicFields);
+		if (!empty($this->_product)) {
+			$fields = array_merge($fields, $this->_product->getCustomFields());
+		}
+
+		return $fields;
 	}
 	
 	public function setProduct($product)

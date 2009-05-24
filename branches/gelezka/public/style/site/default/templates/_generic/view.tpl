@@ -29,7 +29,7 @@
 	{foreach from=$view->data item=record}
 	<tr bgcolor="{cycle values="#FFFFFF,#EEEEEE"}">
 		{foreach from=$record item=field}
-			<td>{$field}</td>
+			<td>{$field|truncate:60}</td>
 		{/foreach}
 		{if ! empty($view->commonActions)}
 			<td>

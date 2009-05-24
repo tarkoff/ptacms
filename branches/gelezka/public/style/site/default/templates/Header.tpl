@@ -5,6 +5,7 @@
 		{if $smarty.foreach.cat.last}
 			<li class="noImg {if $TopMenu->selected == $alias}hover{/if}"><a href="{$TopMenu->url}{$alias}">{$title}</a></li>
 		{else}
+		{pta_dump alias=$alias}
 			<li><a {if $TopMenu->selected == $alias}class="hover"{/if} href="{$TopMenu->url}{$alias}">{$title}</a></li>
 		{/if}
 	{/foreach}

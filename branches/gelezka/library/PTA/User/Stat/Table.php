@@ -17,21 +17,40 @@ class PTA_User_Stat_Table extends PTA_DB_Table
 	protected $_name = 'USERSTAT';
 	protected $_primary = 'USERSTAT_ID';
 	protected $_sequence = true;
+	protected static $_usersStats = array();
 
 	public function getUserByHash($hash)
 	{
+		$hashField = $this->getFieldByAlias('sessionHash');
+		foreach (self::$_usersStats as $userRow) {
+			if ($hash == $userRow->$hashField) {
+				return $userRow->toArray();
+			}
+		}
+
 		$select = $this->select();
 		$select->where($this->getAdapter()->quoteInto('USERSTAT_SESSIONHASH = ?', $hash));
-		$select->limit(1);
+		//$select->limit(1);
 
-		return current($this->fetchAll($select)->toArray());
+		$userRow = $this->fetchNew();
+		if (($userRow = $this->fetchRow($select))) {
+			self::$_usersStats[$userRow->{$this->getFieldByAlias('userId')}] = $userRow;
+		}
+
+		return $userRow->toArray();
 	}
 
 	public function saveUserSession(PTA_User $user)
 	{
-		$select = $this->select()->where($this->getFieldByAlias('userId') . ' = ?', $user->getId());
-		$row = $this->fetchRow($select);
-		
+		if (isset(self::$_usersStats[$user->getId()])) {
+			$row = self::$_usersStats[$user->getId()];
+//var_dump(self::$_usersStats);
+		} else {
+			$row = $this->fetchRow(
+				$this->select()->where($this->getFieldByAlias('userId') . ' = ?', $user->getId())
+			);
+		}
+var_dump($user->getId());
 		if (empty($row)) {
 			$row = $this->fetchNew();
 		}
@@ -43,5 +62,4 @@ class PTA_User_Stat_Table extends PTA_DB_Table
 
 		return $row->save();
 	}
-	
 }

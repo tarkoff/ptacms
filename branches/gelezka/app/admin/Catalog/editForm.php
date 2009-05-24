@@ -118,7 +118,9 @@ class Catalog_editForm extends PTA_Control_Form
 				"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
 				$options
 			);
-			$field->setValue($fieldsValues[$fieldArray[$name]]);
+			if (!empty($fieldsValues[$fieldArray[$name]])) {
+				$field->setValue($fieldsValues[$fieldArray[$name]]);
+			}
 			if (!empty($field)) {
 				$this->addVisual($field);
 			}
@@ -186,7 +188,7 @@ class Catalog_editForm extends PTA_Control_Form
 
 		$this->_product->saveCustomFields($data);
 		if ($this->_product->save()) {
-			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
 		}
 	}
 

@@ -323,9 +323,9 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		$where = (array)$where;
 
 		$select = $this->select()->from(
-										$this->getTableName(),
-										$this->getFieldsByAliases($fields)
-									);
+			$this->getTableName(),
+			$this->getFieldsByAliases($fields)
+		);
 
 		@list($whereCond, $params) = $where;
 		if (!empty($whereCond)) {

@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_DB_Object_Exception extends Exception 
+class PTA_DB_Object_Exception extends PTA_Exception 
 {
 	public function __construct($className, $objectId)
 	{

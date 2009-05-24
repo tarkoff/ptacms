@@ -25,9 +25,9 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 	public function getCategoriesByRootId($categoryId = 0, $onlyPublic = true)
 	{
 		$select = $this->select()->from(
-								$this->getTableName(),
-								$this->getFieldsByAliases(array('alias', 'title'))
-							);
+			$this->getTableName(),
+			$this->getFieldsByAliases(array('alias', 'title'))
+		);
 
 		$select->where($this->getFieldByAlias('parentId') . ' = ' . intval($categoryId));
 		if ($onlyPublic) {
@@ -45,15 +45,15 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 		}
 
 		$select = $this->select()->from(
-								array('cats1' => $this->getTableName()),
-								$this->getFieldsByAliases(array('alias', 'title'))
-							);
+			array('cats1' => $this->getTableName()),
+			$this->getFieldsByAliases(array('alias', 'title'))
+		);
 
 		$select->join(
-					array('cats2' => $this->getTableName()),
-					'cats1.' . $this->getFieldByAlias('parentId') . ' = cats2.' . $this->getPrimary(),
-					array()
-				);
+			array('cats2' => $this->getTableName()),
+			'cats1.' . $this->getFieldByAlias('parentId') . ' = cats2.' . $this->getPrimary(),
+			array()
+		);
 
 		$select->where('cats2.' . $this->getFieldByAlias('alias') . ' = ?', $categoryAlias);
 
@@ -63,5 +63,29 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 
 		$this->getAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
 		return $this->getAdapter()->fetchPairs($select);
+	}
+	
+	public function getRootCategory($categoryId, $allParent = false)
+	{
+		if (empty($categoryId)) {
+			return array();
+		}
+
+		$parentField = $this->getFieldByAlias('parentId');
+
+		$categories = array();
+		if ($allParent) {
+			do {
+				$categories[$categoryId] = current($this->find(intval($categoryId))->toArray());
+				$categoryId = $categories[$categoryId][$parentField];
+			} while (!empty($categoryId));
+		} else {
+			do {
+				$categories = current($this->find(intval($categoryId))->toArray());
+				$categoryId = $categories[$parentField];
+			} while (!empty($categoryId));
+		}
+
+		return $categories;
 	}
 }

@@ -12,6 +12,7 @@
 class LeftMenu extends PTA_WebModule
 {
 	private $_menu;
+	private $_theme;
 
 	function __construct ($prefix)
 	{
@@ -22,27 +23,48 @@ class LeftMenu extends PTA_WebModule
 	{
 		parent::init();
 
-		$categoryAlias = $this->getApp()->getHttpVar('Category',false);
+		//$this->setTheme($this->getTheme());
+	}
+	
+	public function shutdown()
+	{
+		parent::init();
+
+		$categoryAlias = $this->getModule('TopMenu')->getCategory();
 		$themeAlias = $this->getApp()->getHttpVar('Theme');
 
+//		$categoryAlias = $this->getApp()->getCookie('Category');
 
 		if (($cookieCategoryAlias = $this->getApp()->getCookie('Category'))) {
 			if ($cookieCategoryAlias != $categoryAlias) {
 				$themeAlias = '';
-				$this->getApp()->setHttpVar('Theme', $themeAlias);
 			}
 		}
 
-		$this->getApp()->setCookie('Theme', $themeAlias, 0);
+var_dump($_REQUEST);
+var_dump($categoryAlias);
+		$this->setTheme($themeAlias);
 
 		if (empty($categoryAlias)) {
-			$this->setVar('Categories', PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootId(0));
+			$this->setVar('Themes', PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootId(0));
 			$this->setModuleUrl(BASEURL . '/Catalog/List/Category/');
 		} else {
-			$this->setVar('Categories', PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootAlias($categoryAlias));
+			$this->setVar('Themes', PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootAlias($categoryAlias));
 			$this->setModuleUrl(BASEURL . "/Catalog/List/Category/{$categoryAlias}/Theme/");
 		}
-		$this->setVar('selected', $this->quote($categoryAlias));
 	}
 
+	
+	public function setTheme($alias)
+	{
+		$this->getApp()->setCookie('Theme', $alias, 0);
+		$this->getApp()->setHttpVar('Theme', $alias);
+
+		$this->setVar('selected', $alias);
+	}
+	
+	public function getTheme()
+	{
+		return $this->getApp()->getHttpVar('Theme', false);
+	}
 }
