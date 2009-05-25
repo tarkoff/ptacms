@@ -14,7 +14,7 @@ class Categories extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'Categories.tpl');
-		$this->setModuleUrl(BASEURL . '/Categories/');
+		$this->setModuleUrl(PTA_BASE_URL . '/Categories/');
 	}
 
 	public function init()

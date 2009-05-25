@@ -18,7 +18,7 @@ class Users extends PTA_WebModule
 		parent::__construct($prefix, 'Users.tpl');
 
 		$this->_user = new PTA_User('currentUser');
-		$this->setModuleUrl(ADMINURL . '/Users/');
+		$this->setModuleUrl(PTA_ADMIN_URL . '/Users/');
 	}
 
 	public function init()

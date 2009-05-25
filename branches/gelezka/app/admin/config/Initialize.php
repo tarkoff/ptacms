@@ -32,12 +32,12 @@ class Initialize
 	{
 		$smarty = new Smarty();
 
-		$smarty->template_dir = TEMPLATESDIR;
-		$smarty->compile_dir = TEMPLATES_CDIR;
+		$smarty->template_dir = PTA_TEMPLATES_DIR;
+		$smarty->compile_dir = PTA_TEMPLATES_CDIR;
 		$smarty->config_dir =  SMARTY_DIR . '/configs/';
 		$smarty->cache_dir = SMARTY_DIR . '/cache/';
 
-		$smarty->debugging = APPDEBUG;
+		$smarty->debugging = PTA_APP_DEBUG;
 
 		Zend_Registry::set('Smarty', $smarty);
 	}
@@ -55,8 +55,8 @@ class Initialize
 		$db = Zend_Db::factory(DBADAPTER, $dbConfig);
 		$profiler = $db->getProfiler();
 
-		if (defined('PROFILER_TIME')) {
-			$profiler->setFilterElapsedSecs( PROFILER_TIME );
+		if (defined('PTA_PROFILER_TIME')) {
+			$profiler->setFilterElapsedSecs( PTA_PROFILER_TIME );
 		}
 /*
 		$profiler->setFilterQueryType(

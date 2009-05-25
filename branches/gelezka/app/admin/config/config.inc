@@ -1,43 +1,43 @@
 <?php
-define('APPDEBUG', true);
+define('PTA_APP_DEBUG', true);
 
 if (!empty($_SERVER['HTTP_HOST'])) {
-	define('BASEURL', 'http://' . $_SERVER['HTTP_HOST']);
-	define('ADMINURL', 'http://' . $_SERVER['HTTP_HOST'] . '/admin');
+	define('PTA_BASE_URL', 'http://' . $_SERVER['HTTP_HOST']);
+	define('PTA_ADMIN_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/admin');
 } else {
-	define('BASEURL', 'http://ebookva.net');
-	define('ADMINURL', 'http://ebookva.net/admin');
+	define('PTA_BASE_URL', 'http://ebookva.net');
+	define('PTA_ADMIN_URL', 'http://ebookva.net/admin');
 }
 
 if (empty($rootPath)) {
-	define('ROOTPATH', @$_SERVER['DOCUMENT_ROOT']);
+	define('PTA_ROOT_PATH', @$_SERVER['DOCUMENT_ROOT']);
 } else {
-	define('ROOTPATH', $rootPath);
+	define('PTA_ROOT_PATH', $rootPath);
 }
-define('SITEID', 1);
+define('PTA_SITE_ID', 1);
 
-define('SMARTY_DIR', ROOTPATH . '/library/Smarty/libs/');
+define('SMARTY_DIR', PTA_ROOT_PATH . '/library/Smarty/libs/');
 
-define('PUBLICPATH', ROOTPATH . '/public');
-define('CONTENTPATH', PUBLICPATH . '/content');
-define('CONTENTPHOTOSPATH', CONTENTPATH . '/images');
-define('ADMINPATH', ROOTPATH . '/app/admin');
+define('PTA_PUBLIC_PATH', PTA_ROOT_PATH . '/public');
+define('PTA_CONTENT_PATH', PTA_PUBLIC_PATH . '/content');
+define('PTA_CONTENT_PHOTOS_PATH', PTA_CONTENT_PATH . '/images');
+define('PTA_ADMIN_PATH', PTA_ROOT_PATH . '/app/admin');
 
-define('CACHEPATH', ROOTPATH . '/system/cache/admin');
-define('LOGSPATH', ROOTPATH . '/system/logs/admin');
+define('PTA_CACHE_PATH', PTA_ROOT_PATH . '/system/cache/admin');
+define('PTA_LOG_PATH', PTA_ROOT_PATH . '/system/logs/admin');
 
-define('DESIGN_NAME', 'default');
-define('DESIGNDIR', PUBLICPATH . '/style/admin/' . DESIGN_NAME);
-define('DESIGNURL', BASEURL . '/public/style/admin/' . DESIGN_NAME);
-define('CSSURL', DESIGNURL . '/css');
-define('IMAGESURL', DESIGNURL . '/img');
-define('JSURL', BASEURL . '/public/js');
-define('JQUERYURL', JSURL . '/jquery');
+define('PTA_DESIGN_NAME', 'default');
+define('PTA_DESIGN_PATH', PTA_PUBLIC_PATH . '/style/admin/' . PTA_DESIGN_NAME);
+define('PTA_DESIGN_URL', PTA_BASE_URL . '/public/style/admin/' . PTA_DESIGN_NAME);
+define('PTA_CSS_URL', PTA_DESIGN_URL . '/css');
+define('PTA_IMAGES_URL', PTA_DESIGN_URL . '/img');
+define('PTA_JS_URL', PTA_BASE_URL . '/public/js');
+define('PTA_JS_JQUERY_URL', PTA_JS_URL . '/jquery');
 
-define('TEMPLATESDIR', DESIGNDIR . '/templates/');
-define('TEMPLATES_CDIR', CACHEPATH . '/templates_c/');
+define('PTA_TEMPLATES_DIR', PTA_DESIGN_PATH . '/templates/');
+define('PTA_TEMPLATES_CDIR', PTA_CACHE_PATH . '/templates_c/');
 
 //2 days | 3600 - 1hour
-define('COOKIE_EXPIRE_TIME', 172800);
+define('PTA_COOKIE_EXPIRE_TIME', 172800);
 
-//define('PROFILER_TIME', 1);
+//define('PTA_PROFILER_TIME', 1);

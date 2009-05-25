@@ -18,7 +18,7 @@ class UserGroups extends PTA_WebModule
 		parent::__construct($prefix, 'UserGroups.tpl');
 
 		$this->_userGroup = new PTA_UserGroup('currentUserGroup');
-		$this->setModuleUrl(ADMINURL . '/UserGroups/');
+		$this->setModuleUrl(PTA_ADMIN_URL . '/UserGroups/');
 	}
 
 	public function init()

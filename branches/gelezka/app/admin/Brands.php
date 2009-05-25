@@ -18,7 +18,7 @@ class Brands extends PTA_WebModule
 		parent::__construct($prefix, 'Brands.tpl');
 
 		$this->_brand = new PTA_Catalog_Brand('Brand');
-		$this->setModuleUrl(ADMINURL . '/Brands/');
+		$this->setModuleUrl(PTA_ADMIN_URL . '/Brands/');
 	}
 
 	public function init()

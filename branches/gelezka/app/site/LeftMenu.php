@@ -45,10 +45,10 @@ class LeftMenu extends PTA_WebModule
 
 		if (empty($categoryAlias)) {
 			$this->setVar('Themes', PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootId(0));
-			$this->setModuleUrl(BASEURL . '/Catalog/List/Category/');
+			$this->setModuleUrl(PTA_BASE_URL . '/Catalog/List/Category/');
 		} else {
 			$this->setVar('Themes', PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootAlias($categoryAlias));
-			$this->setModuleUrl(BASEURL . "/Catalog/List/Category/{$categoryAlias}/Theme/");
+			$this->setModuleUrl(PTA_BASE_URL . "/Catalog/List/Category/{$categoryAlias}/Theme/");
 		}
 	}
 

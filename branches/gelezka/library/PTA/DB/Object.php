@@ -210,6 +210,13 @@ abstract class PTA_DB_Object extends PTA_Object
 		return $info;
 	}
 	
+	/**
+	 * Get DB object by specified class (and id)
+	 *
+	 * @param string $objectClass
+	 * @param integer $id
+	 * @return PTA_DB_Object
+	 */
 	public static function get($objectClass, $id = null)
 	{
 		$objectClass = str_replace('PTA_', '' , $objectClass);
@@ -226,5 +233,12 @@ abstract class PTA_DB_Object extends PTA_Object
 		}
 
 		throw new PTA_DB_Object_Exception($objectClass, intval($id));
+	}
+	
+	public function createContentPath($contentPath = null)
+	{
+		if (empty($contentPath)) {
+			$contentPath = PTA_CONTENT_PHOTOS_PATH;
+		}
 	}
 }

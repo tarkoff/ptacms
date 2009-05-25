@@ -75,7 +75,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$image = new PTA_Control_Form_File('image', 'Photo');
 		$image->setSortOrder(30);
 		$image->getUploader()->setDestination(
-			CONTENTPHOTOSPATH 
+			PTA_CONTENT_PHOTOS_PATH 
 		);
 		$image->isImage(true);
 		$this->addVisual($image);
@@ -176,13 +176,13 @@ class Catalog_editForm extends PTA_Control_Form
 		}
 /*
 		if (($image = $this->getVisual('photo'))) {
-			$image->getUploader()->setDestination(CONTENTPHOTOSPATH);
+			$image->getUploader()->setDestination(PTA_CONTENT_PHOTOS_PATH);
 			if ($image->upload()) {
 				$this->_product->setImage($image->getValue());
 			}
 		}
 */
-		if (($imgFile = PTA_Util::upload(CONTENTPHOTOSPATH))) {
+		if (($imgFile = PTA_Util::upload(PTA_CONTENT_PHOTOS_PATH))) {
 			$this->_product->setImage($imgFile);
 		}
 

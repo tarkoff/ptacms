@@ -14,7 +14,7 @@ class Products extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'Products.tpl');
-		//$this->setModuleUrl(BASEURL . '/Product/list/Book');
+		//$this->setModuleUrl(PTA_BASE_URL . '/Product/list/Book');
 	}
 
 	public function init()

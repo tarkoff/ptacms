@@ -18,7 +18,7 @@ class Fields extends PTA_WebModule
 		parent::__construct($prefix, 'Fields.tpl');
 
 		$this->_field = new PTA_Catalog_Field('Field');
-		$this->setModuleUrl(ADMINURL . '/Fields/');
+		$this->setModuleUrl(PTA_ADMIN_URL . '/Fields/');
 	}
 
 	public function init()

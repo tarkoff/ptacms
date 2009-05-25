@@ -8,7 +8,7 @@
 					<span class="mtbItem">
 						<a href="{$action->url}">
 						{if !empty($action->img)}
-							<span>{html_image file="`$smarty.const.IMAGESURL`/view/actions/`$action->img`" alt="`$action->title`"}</span>
+							<span>{html_image file="`$smarty.const.PTA_IMAGES_URL`/view/actions/`$action->img`" alt="`$action->title`"}</span>
 						{/if}
 							<span>{$action->title}</span>
 						</a>
@@ -36,7 +36,7 @@
 			{assign var="editField" value=`$view->actionField`}
 			{foreach from=$view->commonActions item=action}
 				<a href="{$action->url}/{$record.$editField}/">
-					{html_image file="`$smarty.const.IMAGESURL`/view/actions/`$action->img`" alt="`$action->title`" title="`$action->title`"}
+					{html_image file="`$smarty.const.PTA_IMAGES_URL`/view/actions/`$action->img`" alt="`$action->title`" title="`$action->title`"}
 				</a>
 			{/foreach}
 			</td>

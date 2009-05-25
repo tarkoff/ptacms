@@ -21,7 +21,7 @@ class eBookva_WebModule extends PTA_WebModule
 		$this->_moduleUrlPrefix = $urlPrefix;
 		$this->_httpItem = $httpItem;
 
-		$this->setModuleUrl(ADMINURL . "/{$urlPrefix}/");
+		$this->setModuleUrl(PTA_ADMIN_URL . "/{$urlPrefix}/");
 	}
 
 	public function init()

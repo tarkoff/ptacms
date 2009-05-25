@@ -14,7 +14,7 @@ class TopList extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'TopList.tpl');
-		$this->setModuleUrl(BASEURL . '/Book/view/Book/');
+		$this->setModuleUrl(PTA_BASE_URL . '/Book/view/Book/');
 	}
 
 	public function init()

@@ -205,7 +205,7 @@ abstract class PTA_App extends PTA_WebModule
 		$this->setVar('sqlQueriesCnt', $profiler->getTotalNumQueries());
 		$this->setVar('sqlRunTime', number_format($profiler->getTotalElapsedSecs(), 4, '.', ''));
 		$this->setVar('memoryUsage', memory_get_peak_usage(true));
-		$this->setVar('debug', APPDEBUG);
+		$this->setVar('debug', PTA_APP_DEBUG);
 
 		return true;
 	}
@@ -383,8 +383,8 @@ abstract class PTA_App extends PTA_WebModule
 		}
 		
 		if (is_null($expire)) {
-			if (defined('COOKIE_EXPIRE_TIME')) {
-				$expire =time() + COOKIE_EXPIRE_TIME;
+			if (defined('PTA_COOKIE_EXPIRE_TIME')) {
+				$expire =time() + PTA_COOKIE_EXPIRE_TIME;
 			} else {
 				$expire = 0;
 			}
@@ -397,6 +397,6 @@ abstract class PTA_App extends PTA_WebModule
 	
 	public function getBaseUrl()
 	{
-		return (defined('BASEURL') ? BASEURL : $_SERVER['HTTP_HOST']);
+		return (defined('PTA_BASE_URL') ? PTA_BASE_URL : $_SERVER['HTTP_HOST']);
 	}
 }
