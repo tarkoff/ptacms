@@ -11,7 +11,7 @@
 ob_start();
 error_reporting(E_ALL);
 ini_set('dipslay_errors', 1);
-//var_dump($_SERVER);
+
 require_once './config/bootstrap.inc';
 
 class SiteApp extends PTA_App 

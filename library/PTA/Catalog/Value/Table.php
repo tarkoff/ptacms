@@ -20,17 +20,26 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 
 	public function getValuesByProductId($productId)
 	{
-		$select = $this->select()->from(array('valt' => $this->getTableName()));
+		$select = $this->select()->from(array('vt' => $this->getTableName()));
 		$select->where(
-					'valt.' . $this->getFieldByAlias('productId') . ' = ?',
+					'vt.' . $this->getFieldByAlias('productId') . ' = ?',
 					(int)$productId
+				);
+
+		
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$select->join(
+					array('cft' => $categoryFieldTable->getTableName()),
+					'vt.' . $this->getFieldByAlias('fieldId') . ' = cft.' . $categoryFieldTable->getPrimary(),
+					array()
 				);
 
 		$fieldTable = PTA_DB_Table::get('Catalog_Field');
 		$select->join(
-					array('fieldt' => $fieldTable->getTableName()),
-					'valt.' . $this->getFieldByAlias('fieldId') . ' = fieldt.' . $fieldTable->getPrimary()
+					array('ft' => $fieldTable->getTableName()),
+					'cft.' . $categoryFieldTable->getFieldByAlias('fieldId') . ' = ft.' . $fieldTable->getPrimary()
 				);
+		$select->order('cft.' . $categoryFieldTable->getFieldByAlias('sortOrder'));
 		$select->setIntegrityCheck(false);
 		return $this->fetchAll($select)->toArray();
 	}
