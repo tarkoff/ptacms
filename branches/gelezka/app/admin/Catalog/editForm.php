@@ -153,7 +153,7 @@ class Catalog_editForm extends PTA_Control_Form
 			
 			return false;
 		}
-//var_dump($data);
+
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$this->_product->loadFrom($data);
 		$savedProduct = $productTable->findByFields(

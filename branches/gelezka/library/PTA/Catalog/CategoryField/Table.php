@@ -29,7 +29,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		if (isset(self::$_fieldsCache[$cachePrefix])) {
 			return self::$_fieldsCache[$cachePrefix];
 		}
-		
+
 		$categoriesIds = array();
 		if ($parentsFieldsToo) {
 			$categoryTable = PTA_DB_Table::get('Catalog_Category');
@@ -115,10 +115,9 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 
 	public function clearbyCategoryId($categoryId)
 	{
-		$fields = array(
-						'categoryId' => (int)$categoryId
-					);
-		return $this->clearByFields($fields);
+		return $this->clearByFields(
+			array('categoryId' => (int)$categoryId)
+		);
 	}
 	
 	public function addCategoryFields($categoryId, $fieldsIds)
@@ -171,11 +170,11 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 			return $this->clearbyCategoryId($categoryId);
 		} else {
 			return $this->clearByFields(
-									array(
-										'categoryId' => (int)$categoryId,
-										'fieldId' => $fieldsIds
-									)
-						);
+				array(
+					'categoryId' => (int)$categoryId,
+					'fieldId' => $fieldsIds
+				)
+			);
 		}
 	}
 	
@@ -186,12 +185,12 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		}
 
 		return $this->getDefaultAdapter()->fetchOne(
-					$this->select()->from(
-						$this->getTableName(), 
-						array('max' => 'MAX(' . $this->getFieldByAlias('sortOrder') . ')')
-					)->where(
-						$this->getFieldByAlias('categoryId') . ' = ?', $categoryId
-					)
-				);
+			$this->select()->from(
+				$this->getTableName(), 
+				array('max' => 'MAX(' . $this->getFieldByAlias('sortOrder') . ')')
+			)->where(
+				$this->getFieldByAlias('categoryId') . ' = ?', $categoryId
+			)
+		);
 	}
 }

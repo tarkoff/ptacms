@@ -44,13 +44,12 @@ class PTA_User_Stat_Table extends PTA_DB_Table
 	{
 		if (isset(self::$_usersStats[$user->getId()])) {
 			$row = self::$_usersStats[$user->getId()];
-//var_dump(self::$_usersStats);
 		} else {
 			$row = $this->fetchRow(
 				$this->select()->where($this->getFieldByAlias('userId') . ' = ?', $user->getId())
 			);
 		}
-var_dump($user->getId());
+
 		if (empty($row)) {
 			$row = $this->fetchNew();
 		}

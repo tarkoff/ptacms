@@ -41,8 +41,6 @@ class LeftMenu extends PTA_WebModule
 			}
 		}
 
-var_dump($_REQUEST);
-var_dump($categoryAlias);
 		$this->setTheme($themeAlias);
 
 		if (empty($categoryAlias)) {

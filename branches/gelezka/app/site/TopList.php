@@ -44,7 +44,6 @@ class TopList extends PTA_WebModule
 		}
 
 		$select->order('stat.' . $statTable->getFieldByAlias('views') . ' desc')->limit(5);
-//var_dump($select->getPart(Zend_Db_Table_Select::COLUMNS), $select->getPart(Zend_Db_Table_Select::FROM));
 		$this->setVar('topList', $prodsTable->fetchAll($select)->toArray());
 	}
 }

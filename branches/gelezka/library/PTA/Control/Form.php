@@ -80,15 +80,6 @@ abstract class PTA_Control_Form extends PTA_Object
 				}
 			}
 		}
-/*
-		$data = (array)$data;
-		foreach ($data as $name => $value) {
-			if (($field = $this->getVisual($name))) {
-				$field->setValue($value);
-			}
-		}
-		//var_dump($this->_elements);
-*/
 	}
 
 	protected function _fillToData(&$data = null)

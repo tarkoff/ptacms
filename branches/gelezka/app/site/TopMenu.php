@@ -34,7 +34,6 @@ class TopMenu extends PTA_WebModule
 	{
 		$this->getApp()->setCookie('Category', $alias, 0);
 		$this->setHttpVar('Category', $alias);
-var_dump('category: ' . $alias);
 		$this->setVar('selected', $alias);
 	}
 	

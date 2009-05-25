@@ -11,8 +11,6 @@
 
 class Products extends PTA_WebModule
 {
-	private $_catalog;
-	
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'Products.tpl');
@@ -23,12 +21,12 @@ class Products extends PTA_WebModule
 	{
 		parent::init();
 
-		$bookId = $this->getApp()->getHttpVar('Product');
+		$productId = $this->getApp()->getHttpVar('Product');
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
-		$book = current($productTable->findById($bookId));
+		$product = current($productTable->findById($productId));
 
-		if (empty($book)) {
+		if (empty($product)) {
 			$this->redirect($this->getApp()->getBaseUrl());
 		}
 
@@ -36,7 +34,7 @@ class Products extends PTA_WebModule
 
 		$category = current(
 			$categoryTable->findById(
-				$book[$productTable->getFieldByAlias('categoryId')]
+				$product[$productTable->getFieldByAlias('categoryId')]
 			)
 		);
 
@@ -51,12 +49,12 @@ class Products extends PTA_WebModule
 		
 		$brand = current(
 			PTA_DB_Table::get('Catalog_Brand')->findById(
-				$book[$productTable->getFieldByAlias('brandId')]
+				$product[$productTable->getFieldByAlias('brandId')]
 			)
 		);
 		
-		$this->setVar('product', $book);
-		$this->setVar('customProductField', PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($bookId));
+		$this->setVar('product', $product);
+		$this->setVar('customProductField', PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($productId));
 		$this->setVar('category', $category);
 		$this->setVar('brand', $brand);
 	}
