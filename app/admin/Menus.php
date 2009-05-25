@@ -17,7 +17,7 @@ class Menus extends PTA_WebModule
 	{
 		parent::__construct($prefix, 'Menus.tpl');
 
-		$this->setModuleUrl(ADMINURL . '/Menus/');
+		$this->setModuleUrl(PTA_ADMIN_URL . '/Menus/');
 		$this->_menu = new PTA_Catalog_MenuItem('Category');
 	}
 

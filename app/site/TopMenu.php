@@ -16,7 +16,7 @@ class TopMenu extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'TopMenu.tpl');
-		$this->setModuleUrl(BASEURL . '/Catalog/List/Category/');
+		$this->setModuleUrl(PTA_BASE_URL . '/Catalog/List/Category/');
 	}
 
 	public function init()

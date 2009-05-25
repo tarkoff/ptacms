@@ -16,7 +16,7 @@ class Catalog extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'Catalog.tpl');
-		$this->setModuleUrl(BASEURL . '/Products/View/Product');
+		$this->setModuleUrl(PTA_BASE_URL . '/Products/View/Product');
 	}
 
 	public function init()
@@ -36,9 +36,8 @@ class Catalog extends PTA_WebModule
 			$select->where('prods.' . $prodsTable->getFieldByAlias('alias') . ' = ?', $productAlias);
 		}
 */
+		$catsTable = PTA_DB_Table::get('Catalog_Category');
 		if (!empty($categoryAlias) || !empty($themeAlias)) {
-			$catsTable = PTA_DB_Table::get('Catalog_Category');
-			
 			$catsTableName = $catsTable->getTableName();
 			$catsPrimaryField = $catsTable->getPrimary();
 			$catsParentIdField = $catsTable->getFieldByAlias('parentId');
@@ -67,6 +66,8 @@ class Catalog extends PTA_WebModule
 					array(empty($themeAlias) ? $categoryAlias : $themeAlias)
 				)
 			);
+		} else {
+			$category[$catsTable->getFieldByAlias('alias')] = '';
 		}
 
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');

@@ -17,7 +17,7 @@ set_include_path(
 				array(
 					$rootPath,
 					$rootPath . '/library',
-					SITEPATH
+					PTA_SITE_PATH
 				)
 		) 
 		. PATH_SEPARATOR . get_include_path()

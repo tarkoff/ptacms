@@ -6,9 +6,9 @@
 			<a href="{$data->url}{$book.PRODUCTS_ID}">
 				<div>
 			{if !empty($book.PRODUCTS_IMAGE)}
-				<img src="{$smarty.const.THUMBURL}?src={$smarty.const.BASEURL}{$book.PRODUCTS_IMAGE}&h=110&w=110&zc=0" alt="`$book.PRODUCTS_TITLE`"/>
+				<img src="{$smarty.const.PTA_THUMB_URL}?src={$smarty.const.PTA_BASE_URL}{$book.PRODUCTS_IMAGE}&h=110&w=110&zc=0" alt="`$book.PRODUCTS_TITLE`"/>
 			{else}
-				{html_image file="`$smarty.const.BASEURL``$book.PRODUCTS_IMAGE`" alt="`$book.PRODUCTS_TITLE`"}
+				{html_image file="`$smarty.const.PTA_BASE_URL``$book.PRODUCTS_IMAGE`" alt="`$book.PRODUCTS_TITLE`"}
 			{/if}
 			</div>
 			<div>{$book.PRODUCTS_TITLE}</div>

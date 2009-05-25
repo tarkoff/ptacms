@@ -95,7 +95,11 @@ class PTA_Util
 			$uploader = new Zend_File_Transfer_Adapter_Http();
 		}
 
-		$uploader->setDestination(CONTENTPHOTOSPATH);
+		if (empty($destPath)) {
+			$uploader->setDestination(PTA_CONTENT_PHOTOS_PATH);
+		} else {
+			$uploader->setDestination($destPath);
+		}
 
 		if (!$uploader->isValid()) {
 			return false;
@@ -107,7 +111,7 @@ class PTA_Util
 		}
 
 		if ($uploader->isReceived()) {
-			$fileName = str_replace(ROOTPATH, '', $uploader->getFileName());
+			$fileName = str_replace(PTA_ROOT_PATH, '', $uploader->getFileName());
 			if (!empty($fileName)) {
 				return DIRECTORY_SEPARATOR . ltrim($fileName, DIRECTORY_SEPARATOR);
 			}

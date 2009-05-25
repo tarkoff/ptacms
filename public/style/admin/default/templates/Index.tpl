@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>eGOODS</title>
-<link rel="stylesheet" type="text/css" href="{$smarty.const.CSSURL}/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_CSS_URL}/style.css" media="screen" />
 </head>
 <body>
 	{if !empty($Header)}

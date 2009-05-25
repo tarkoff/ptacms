@@ -18,7 +18,7 @@ class Catalog extends PTA_WebModule
 		parent::__construct($prefix, 'Catalog.tpl');
 		$this->_catalog = new PTA_Catalog_Product('Catalog');
 
-		$this->setModuleUrl(ADMINURL . '/Catalog/');
+		$this->setModuleUrl(PTA_ADMIN_URL . '/Catalog/');
 	}
 
 	public function init()
