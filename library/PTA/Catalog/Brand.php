@@ -45,4 +45,9 @@ class PTA_Catalog_Brand extends PTA_DB_Object
 	{
 		$this->_url = $url;
 	}
+	
+	public function getContentPhotoPath()
+	{
+		return PTA_CONTENT_PHOTOS_PATH . '/' . $this->getAlias();
+	}
 }

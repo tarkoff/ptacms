@@ -9,8 +9,10 @@
 				<div>
 					{if !empty($product.PRODUCTS_IMAGE)}
 						<img 
-							src="{$smarty.const.PTA_THUMB_URL}?src={$smarty.const.PTA_BASE_URL}{$product.PRODUCTS_IMAGE}&h=120&w=120&zc=0" 
+							src="{$smarty.const.PTA_THUMB_URL}?src={$smarty.const.PTA_CONTENT_URL}/{$product.PRODUCTS_IMAGE}&h=120&w=120&zc=0" 
 							alt="{$product.PRODUCTS_TITLE}"
+							width="120"
+							height="120"
 						/>
 					{else}
 						{html_image file="`$smarty.const.PTA_IMAGES_URL`/bookimg120.gif" alt="`$product.PRODUCTS_TITLE`"}

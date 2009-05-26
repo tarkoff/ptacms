@@ -19,6 +19,12 @@ define('SMARTY_DIR', PTA_ROOT_PATH . '/library/Smarty/libs/');
 define('PTA_PUBLIC_PATH', PTA_ROOT_PATH . '/public');
 define('PTA_SITE_PATH', PTA_ROOT_PATH . '/app/site');
 
+define('PTA_CONTENT_PATH', PTA_PUBLIC_PATH . '/content');
+define('PTA_CONTENT_PHOTOS_PATH', PTA_CONTENT_PATH . '/images');
+
+define('PTA_CONTENT_URL', PTA_BASE_URL . '/public/content');
+define('PTA_CONTENT_PHOTOS_URL', PTA_CONTENT_URL . '/images');
+
 define('PTA_CACHE_PATH', PTA_ROOT_PATH . '/system/cache/site');
 define('PTA_LOG_PATH', PTA_ROOT_PATH . '/system/logs/site');
 
