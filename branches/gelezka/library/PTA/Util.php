@@ -86,7 +86,7 @@ class PTA_Util
 		return $resData;
 	}
 	
-	public static function upload($destPath, $uploader = null)
+	public static function upload($destPath, $destName = null, $uploader = null)
 	{
 		if (
 			empty($uploader)
@@ -96,8 +96,9 @@ class PTA_Util
 		}
 
 		if (empty($destPath)) {
-			$uploader->setDestination(PTA_CONTENT_PHOTOS_PATH);
+			$uploader->setDestination(PTA_CONTENT_PATH);
 		} else {
+			self::createContentPath($destPath);
 			$uploader->setDestination($destPath);
 		}
 
@@ -111,12 +112,42 @@ class PTA_Util
 		}
 
 		if ($uploader->isReceived()) {
-			$fileName = str_replace(PTA_ROOT_PATH, '', $uploader->getFileName());
+			$fileName = str_replace(PTA_CONTENT_PATH . '/', '', $uploader->getFileName());
 			if (!empty($fileName)) {
-				return DIRECTORY_SEPARATOR . ltrim($fileName, DIRECTORY_SEPARATOR);
+				return ltrim($fileName, DIRECTORY_SEPARATOR);
 			}
 		}
 		
 		return false;
 	}
+	
+	public static function unlinkFile($destFile)
+	{
+var_dump($destFile);
+		if (file_exists($destFile)) {
+			return unlink($destFile);
+		}
+		
+		return false;
+	}
+	
+	public static function createContentPath($contentPath = null)
+	{
+		if (empty($contentPath)) {
+			$contentPath = PTA_CONTENT_PHOTOS_PATH
+				 . '/' . substr(md5(date('Ymd'), true), 0, 6);
+		}
+
+		clearstatcache();
+		if (is_dir($contentPath)) {
+			return false;
+		}
+
+		if (mkdir($contentPath, 0777)) {
+			return $contentPath;
+		}
+		
+		return false;
+	}
+	
 }

@@ -182,8 +182,13 @@ class Catalog_editForm extends PTA_Control_Form
 			}
 		}
 */
-		if (($imgFile = PTA_Util::upload(PTA_CONTENT_PHOTOS_PATH))) {
-			$this->_product->setImage($imgFile);
+		if (
+			PTA_Util::unlinkFile(PTA_CONTENT_PATH . '/' . $this->_product->getImage())
+		) {
+			$brand = PTA_DB_Object::get('Catalog_Brand', $this->_product->getBrandId());
+			if (($imgFile = PTA_Util::upload($brand->getContentPhotoPath()))) {
+				$this->_product->setImage($imgFile);
+			}
 		}
 
 		$this->_product->saveCustomFields($data);

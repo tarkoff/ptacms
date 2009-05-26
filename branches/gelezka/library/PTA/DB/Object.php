@@ -14,7 +14,7 @@ abstract class PTA_DB_Object extends PTA_Object
 	protected $_id;
 	protected $_table;
 	
-	protected static $objects = array();
+	protected static $_objects = array();
 
 	function __construct ($prefix)
 	{
@@ -220,25 +220,22 @@ abstract class PTA_DB_Object extends PTA_Object
 	public static function get($objectClass, $id = null)
 	{
 		$objectClass = str_replace('PTA_', '' , $objectClass);
-		$objectClass = "PTA_{$objectClass}_Table";
+		$objectClass = 'PTA_' . $objectClass;
 		$id = (int)$id;
 
-		if (!empty(self::$_tables[$objectClass][$id])) {
-			return self::$_tables[$objectClass][$id];
+		if (!empty(self::$_objects[$objectClass][$id])) {
+			return self::$_objects[$objectClass][$id];
 		}
 
 		if (class_exists($objectClass, true)) {
-			self::$_obects[$objectClass][$id] = new $objectClass($objectClass . '_' . $id);
-			return clone self::$_obects[$objectClass][$id];
+			self::$_objects[$objectClass][$id] = new $objectClass($objectClass . '_' . $id);
+			if (!empty($id)) {
+				self::$_objects[$objectClass][$id]->loadById($id);
+			}
+			return clone self::$_objects[$objectClass][$id];
 		}
 
 		throw new PTA_DB_Object_Exception($objectClass, intval($id));
 	}
 	
-	public function createContentPath($contentPath = null)
-	{
-		if (empty($contentPath)) {
-			$contentPath = PTA_CONTENT_PHOTOS_PATH;
-		}
-	}
 }

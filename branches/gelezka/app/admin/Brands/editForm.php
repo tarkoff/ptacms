@@ -67,6 +67,7 @@ class Brands_editForm extends PTA_Control_Form
 			return false;
 		}
 
+		$oldAlias = $this->_brand->getAlias();
 		$this->_brand->loadFrom($data);
 
 		if ($this->_copy) {
@@ -74,8 +75,13 @@ class Brands_editForm extends PTA_Control_Form
 		}
 
 		if ($this->_brand->save() || $this->_copy) {
-			
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			if (
+				PTA_Util::createContentPath(
+					$this->_brand->getContentPhotoPath()
+				)
+			) {
+				$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			}
 		}
 
 		return true;
