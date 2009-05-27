@@ -4,39 +4,29 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Gelezka - Описания, цены, драйвера, отзывы...</title>
 <meta name="keywords" content="Описания, цены, драйвера, отзывы">
-<link href="{$smarty.const.PTA_CSS_URL}/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/print.css" type="text/css" media="print" />
+<!--[if IE]>
+  <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/ie.css" type="text/css" media="screen, projection" />
+<![endif]-->
+<link href="{$smarty.const.PTA_CSS_URL}/style2.css" rel="stylesheet" type="text/css" />
+
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/corners/jquery.corners.js" type="text/javascript"></script>
 </head>
 <body>
-<!--top start -->
 	{include file=$Header->tpl data=$Header}
-<!--top end -->
-<!--body start -->
-	<div id="body">
-	<!--left start -->
+	<hr class="space" />
+	<div id="siteBody" class="container">
 		{include file=$LeftMenu->tpl data=$LeftMenu}
-	<!--left end -->
-	<!--right start -->
-		<div id="right">
-		<!--rightTop start -->
-			{*include file=RightTop.tpl*}
-		<!--rightTop end -->
-		<!--rightLeft start -->
-			<div id="rightLeft">
+		<div id="rightSide" class="span-19 last">
+			<div id="content" class="span-14 content">
 				{include file=$activeModule->tpl data=$activeModule}
 			</div>
-		<!--rightLeft end -->
-		<!--last start -->
-			{include file=RightNav.tpl}
-		<!--last end -->
+			<div id="adv" class="span-5 last"><h2>Sponsors links</h2></div>
 		</div>
-	<!--right end -->
-	<br class="spacer" />
 	</div>
-<!--body end -->
-<!--footer start -->
+	<hr class="space" />
 	{include file=Footer.tpl}
-<!--footer end -->
 </body>
 </html>

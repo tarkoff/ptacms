@@ -155,6 +155,8 @@ class Catalog_editForm extends PTA_Control_Form
 		}
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
+		
+		$oldImg = $this->_product->getImage();
 		$this->_product->loadFrom($data);
 		$savedProduct = $productTable->findByFields(
 			array('categoryId', 'title'),
@@ -182,13 +184,11 @@ class Catalog_editForm extends PTA_Control_Form
 			}
 		}
 */
-		if (
-			PTA_Util::unlinkFile(PTA_CONTENT_PATH . '/' . $this->_product->getImage())
-		) {
-			$brand = PTA_DB_Object::get('Catalog_Brand', $this->_product->getBrandId());
-			if (($imgFile = PTA_Util::upload($brand->getContentPhotoPath()))) {
-				$this->_product->setImage($imgFile);
-			}
+		
+		$brand = PTA_DB_Object::get('Catalog_Brand', $this->_product->getBrandId());
+		if (($imgFile = PTA_Util::upload($brand->getContentPhotoPath()))) {
+			PTA_Util::unlinkFile(PTA_CONTENT_PATH . '/' . $oldImg);
+			$this->_product->setImage($imgFile);
 		}
 
 		$this->_product->saveCustomFields($data);

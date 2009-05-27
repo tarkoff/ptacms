@@ -75,13 +75,8 @@ class Brands_editForm extends PTA_Control_Form
 		}
 
 		if ($this->_brand->save() || $this->_copy) {
-			if (
-				PTA_Util::createContentPath(
-					$this->_brand->getContentPhotoPath()
-				)
-			) {
-				$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
-			}
+			PTA_Util::createContentPath($this->_brand->getContentPhotoPath());
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
 		}
 
 		return true;
