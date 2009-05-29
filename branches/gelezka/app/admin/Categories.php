@@ -86,7 +86,7 @@ class Categories extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Category', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
 		$view->addCommonAction('Add Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');

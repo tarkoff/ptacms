@@ -29,7 +29,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
 		$notCategoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), false, true);
-		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, false);
+		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
 
 		$select = new PTA_Control_Form_Select('notCategoryFields', 'Fields For Adding', false);
 		$select->setOptionsFromArray(

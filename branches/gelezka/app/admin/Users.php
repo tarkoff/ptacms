@@ -83,7 +83,7 @@ class Users extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New User', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/User', 'edit.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/User', 'copy.png');
