@@ -1,24 +1,17 @@
 <div class="viewDiv">
-<table class="viewTable" cellspacing="0" cellpadding="0" cols="{$view->fieldsCount}">
+<div class="actions">
 	{if !empty($view->singleActions)}
-		<tr>
-			<th colspan="{$view->fieldsCount}" style="text-align:left;">
-				<div class="mtb">
-				{foreach from=$view->singleActions item=action}
-					<span class="mtbItem">
-						<a href="{$action->url}">
-						{if !empty($action->img)}
-							<span>{html_image file="`$smarty.const.PTA_IMAGES_URL`/view/actions/`$action->img`" alt="`$action->title`"}</span>
-						{/if}
-							<span>{$action->title}</span>
-						</a>
-					</span>
-					<em class="btnseparator"></em>
-				{/foreach}
-				</div>
-			</th>
-		</tr>
+		{foreach from=$view->singleActions item=action}
+			<a class="button positive" href="{$action->url}">
+				<img 
+					src="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/plugins/buttons/icons/{$action->img}" 
+				/> 
+				{$action->title}
+			</a>
+		{/foreach}
 	{/if}
+</div>
+<table class="viewTable" cellspacing="0" cellpadding="0" cols="{$view->fieldsCount}">
 	<tr>
 	{foreach from=$view->fields item=fieldTitle}
 		<th class="columnNames" valign="middle">
@@ -43,12 +36,8 @@
 		{/if}
 	</tr>
 	{/foreach}
-	<tr>
-		<th colspan="{$view->fieldsCount}" style="text-align:left;" valign="middle" height="30px">
-			{include file="_generic/nav.tpl" form=$data}
-		</th>
-	</tr>
 </table>
+<div>{include file="_generic/nav.tpl" form=$data}</div>
 </div>
 {literal}
 <script type="text/javascript" language="JavaScript">

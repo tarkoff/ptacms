@@ -83,7 +83,7 @@ class Brands extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Brand', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Brand', 'edit.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Brand', 'copy.png');

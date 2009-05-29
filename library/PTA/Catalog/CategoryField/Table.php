@@ -78,28 +78,29 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
 		$select = $this->select()->from(
-									array('fields' => $fieldsTable->getTableName())
-									/*array_values($fieldsTable->getFields())*/
-								);
+			array('fields' => $fieldsTable->getTableName())
+			/*array_values($fieldsTable->getFields())*/
+		);
 		if ($equal) {
 			$select->join(
-						array('categoriesFields' => $this->getTableName()),
-						'categoriesFields.' . $this->getFieldByAlias('fieldId') . ' = fields.' . $fieldsTable->getPrimary()
-						/*array_values($this->getFields())*/
-					);
+				array('categoriesFields' => $this->getTableName()),
+				'categoriesFields.' . $this->getFieldByAlias('fieldId') . ' = fields.' . $fieldsTable->getPrimary()
+				/*array_values($this->getFields())*/
+			);
 			if (!empty($fieldsIds)) {
 				$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' in (?)', $fieldsIds);
 			}
 		} else {
 			$select->joinLeft(
-						array('categoriesFields' => $this->getTableName()),
-						'categoriesFields.' . $this->getFieldByAlias('fieldId') . ' = fields.' . $fieldsTable->getPrimary()
-						/*array_values($this->getFields())*/
-					);
+				array('categoriesFields' => $this->getTableName()),
+				'categoriesFields.' . $this->getFieldByAlias('fieldId') . ' = fields.' . $fieldsTable->getPrimary()
+				/*array_values($this->getFields())*/
+			);
 			if (!empty($fieldsIds)) {
 				$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' not in (?)', $fieldsIds);
+				$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
 			}
-			$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
+			//$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
 		}
 
 		$select->order('categoriesFields.' . $this->getFieldByAlias('sortOrder'));

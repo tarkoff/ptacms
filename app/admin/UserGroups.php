@@ -83,7 +83,7 @@ class UserGroups extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New User Group', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/UserGroup', 'edit.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/UserGroup', 'copy.png');

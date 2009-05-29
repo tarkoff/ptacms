@@ -83,7 +83,7 @@ class Fields extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Field', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Field', 'edit.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Field', 'copy.png');

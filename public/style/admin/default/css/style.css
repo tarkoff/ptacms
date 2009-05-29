@@ -1,144 +1,127 @@
 ﻿@charset "utf-8";
-/* CSS Document */
-
-/* GLOBAL */
-*{
-    margin: 0;
-    padding: 0;
-}
-
 body{
-    width: 100%;
-    height: 100%;
-    font-family: Arial,Helvetica,Verdana,sans-serif;
-	background-color: #EEEEEE;
-	color: #555555;
+	background:#CCCCCC none repeat scroll 0 0;
 }
-
-img {
-	border: 0;
+hr.space{
+	color:#CCCCCC !Important;
+	background:#CCCCCC none repeat scroll 0 0 !Important
 }
-
-.content {
-	width: 95%;
-	margin: 10px auto;
-	//text-align: center;
+/* ================== Main Menu ============================================ */
+.mainMenu{
+	border:none;
+	border:0px;
+	margin:0px;
+	padding:0px;
+	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
 }
-
-.header {
+.mainMenu ul{
+	background:#333333;
+	height:35px;
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+.mainMenu li{
+	float:left;
+	padding:0px;
+}
+.mainMenu li a{
+	background:#333333 url("../img/mtb/seperator.gif") bottom right no-repeat;
+	color:#cccccc;
+	display:block;
+	font-weight:normal;
+	line-height:35px;
+	margin:0px;
+	padding:0px 25px;
+	text-align:center;
+	text-decoration:none;
+}
+.mainMenu li a:hover, .mainMenu ul li:hover a{
+	background: #2580a2 url("../img/mtb/hover.gif") bottom center no-repeat;
+	color:#FFFFFF;
+	text-decoration:none;
+}
+.mainMenu li ul{
+	background:#333333;
+	display:none;
+	height:auto;
+	padding:0px;
+	margin:0px;
+	border:0px;
+	position:absolute;
+	width:225px;
+	z-index:200;
+	/*top:1em;
+	/*left:0;*/
+}
+.mainMenu li:hover ul{
+	display:block;
+}
+.mainMenu li li {
+	background:url('../img/mtb/sub_sep.gif') bottom left no-repeat;
+	display:block;
+	float:none;
+	margin:0px;
+	padding:0px;
+	width:225px;
+}
+.mainMenu li:hover li a{
+	background:none;
+}
+.mainMenu li ul a{
+	display:block;
+	height:35px;
+	font-size:12px;
+	font-style:normal;
+	margin:0px;
+	padding:0px 10px 0px 15px;
+	text-align:left;
+}
+.mainMenu li ul a:hover, .mainMenu li ul li:hover a{
+	background:#2580a2 url('../img/mtb/hover_sub.gif') center left no-repeat;
+	border:0px;
+	color:#ffffff;
+	text-decoration:none;
+}
+.mainMenu p{
+	clear:left;
+}
+/* ================== View ================================================== */
+.viewDiv{
+	background:#F2F2E6 none repeat scroll 0 0;
+	border:2px solid #9DA2A6;
+}
+.actions{
+	padding:2px 5px;
+}
+.viewTable {
 	width: 100%;
+//	border: 1px solid #CCCCCC;
+}
+
+.viewTable tr{
 	height: 30px;
-}
-/*
-.mtb {
-	height: 30px;
-	line-height: 30px;	
-	background: #F0F0F0 url('../img/tb/bck_toolbar.gif') repeat-x scroll center top;
-	border: 1px solid #CCCCCC;
+	
 }
 
-.btnseparator {
-	height: 15px;
-	border-left:1px solid #CCCCCC;
-	border-right:1px solid #FFFFFF;
-	margin: auto 2px;
+.viewTable td{
+	padding: 0 3px;
+	//font-size:12px;
 }
 
-.mtbItem {
-	height: 100%;
-	margin: auto 5px !important;
-	cursor: pointer;
-	line-height: 30px;
-	padding: 3px;
-	vertical-align: middle;
-	display: block;
-	float: left;
+.viewTable tr:hover{
+	background: #D9EBF5;
 }
-
-.mtbItem:hover {
-	border-color:#FFFFFF #CCCCCC #CCCCCC #FFFFFF;
-	border-style:solid;
-	border-width:1px;
-	padding:2px;
+.columnNames {
+	background: #FAFAFA url('../img/view/head/bck_column_names.gif') repeat-x scroll center bottom;
+	border-width:0 1px 1px;
+	border-color: #CCCCCC #CCCCCC #FFFFFF;
+	border-style:none solid solid;
+	padding: 0 3px;
 }
-
-.mtbItem a {
-	line-height: 30px;
-	padding: 1px;
-	color: #555555;
-	font-size: 14px;
-	font-weight: bold;
-	text-decoration: none;	
-}
-
-.mtbItem a:hover {
-	color: #BB3C15;
-}
-*/
-/* Main menu bar */
-.mtb, .mtb * {
-	line-height: 30px;	
-	vertical-align: middle;
-}
-
-.mtb {
-	height: 30px;
-	width: 100%;
-	background: #F0F0F0 url('../img/tb/bck_toolbar.gif') repeat-x scroll center top;
-	border: 1px solid #CCCCCC;
-	display: table;
-}
-
-.mtb ul {
-	list-style: none;
-}
-
-.mtb ul li {
-	float: left;	
-}
-
-.mtbItem, .btnseparator {
-	vertical-align: middle;
-	display: table-cell;
-}
-
-.mtbItem {
-	height: 96%;
-	margin: 1px 5px !important;
-	cursor: pointer;
-//	line-height: 30px;
-	padding: 3px;
-}
-
-.mtbItem:hover {
-	border-color:#FFFFFF #CCCCCC #CCCCCC #FFFFFF;
-	border-style:solid;
-	border-width:1px;
-	padding:2px;
-}
-
-.mtbItem a {
-	line-height: 30px;
-	padding: 1px;
-	color: #555555;
-	font-size: 14px;
-	font-weight: bold;
-	text-decoration: none;	
-}
-
-.mtbItem a:hover {
-	color: #BB3C15;
-}
-
-.btnseparator {
-	height: 30px;
-	border-left:1px solid #CCCCCC;
-	border-right:1px solid #FFFFFF;
-	margin: auto 2px;
-}
-/* End Main Menu Bar */
-
-/* Navigation bar */
+/* ================== Navigation Bar ======================================== */
 .nav, .nav * {
 	line-height: 30px;	
 	vertical-align: middle;
@@ -159,86 +142,64 @@ img {
 	float: left;
 	display: block;
 }
-/* End Navigation Bar */
-
-.mtbLinkActive {
-	background: #CCCCCC;
-	color: #ad0808;
+/* ================== Edit Form ======================================== */
+fieldset {
+	background:#f2f2e6;
+	padding:10px;
+	border:1px solid #fff;
+	border-color:#fff #666661 #666661 #fff;
+	margin:0 auto;
+	width:600px;
 }
-
-.viewDiv {
-	width: 100%;
-
+input, textarea, select {
+	font:12px/12px Arial, Helvetica, sans-serif;
+	padding:0;
 }
-
-.viewTable {
-	width: 100%;
-	margin-top: 10px;
-	border: 1px solid #CCCCCC;
+fieldset.action {
+	background:#9da2a6;
+	border-color:#e5e5e5 #797c80 #797c80 #e5e5e5;
+	margin-top:-20px;
 }
-
-.viewTable tr{
-	height: 30px;
-	
+legend {
+	background:#707175;
+	color:#fff;
+	font:17px/21px Calibri, Arial, Helvetica, sans-serif;
+	padding:0 10px;
+	margin:-26px 0 0 -11px;
+	font-weight:bold;
+	border:1px solid #fff;
+	border-color:#e5e5c3 #505014 #505014 #e5e5c3;
 }
-
-.viewTable td{
-	padding: 0 3px;
-	font-size:12px;
+label {
+	font-size:11px;
+	font-weight:bold;
+	color:#666;
 }
-
-.viewTable tr:hover{
-	background: #D9EBF5;
+input, textarea, select {
+	font:12px/12px Arial, Helvetica, sans-serif;
+	padding:0;
 }
-
-.columnNames {
-	background: #FAFAFA url('../img/view/head/bck_column_names.gif') repeat-x scroll center bottom;
-	border-width:0 1px 1px;
-	border-color: #CCCCCC #CCCCCC #FFFFFF;
-	border-style:none solid solid;
-	padding: 0 3px;
+fieldset.action {
+	background:#9da2a6;
+	border-color:#e5e5e5 #797c80 #797c80 #e5e5e5;
+	margin-top:-20px;
 }
-
-.columnNamesOrdered {
-	background:#CBD8D1 url('../img/view/head/bck_column_ordered.gif') repeat-x scroll center top;
-	border-width:0 1px 1px;
-	border-color: #CCCCCC #CCCCCC #FFFFFF;
-	border-style:none solid solid;
+label.opt {
+	font-weight:normal;
 }
-
-.editForm {
-	border: 1px solid #CCCCCC;
-	text-allign: center;
+dl {
+	clear:both;
 }
-
-.editFormTable {
-	width: 100%;
+dt {
+	float:left;
+	text-align:right;
+	width:90px;
+	line-height:25px;
+	margin:0 10px 10px 0;
 }
-
-.editFormHeader {
-	font-weight: bold;
-	text-align: center;
+dd {
+	float:left;
+	width:475px;
+	line-height:25px;
+	margin:0 0 10px 0;
 }
-
-.textField {
-	background: #D9EBF5;
-}
-
-.notCategoryFields, .categoryFields {
-	width: auto;
-	min-height: 200px;
-	padding: 3px;
-}
-
-.notCategoryFields *, .categoryFields *{
-	padding: 2px;
-}
-	
-/* DEBUGER */
-.appDebuger {
-	font-size: 10px;
-	font-weight: bold;
-	margin: 0 auto;
-	width: 40%;	
-}
-/* END DEBUGER */

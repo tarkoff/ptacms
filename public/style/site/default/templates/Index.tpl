@@ -9,7 +9,7 @@
 <!--[if IE]>
   <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/ie.css" type="text/css" media="screen, projection" />
 <![endif]-->
-<link href="{$smarty.const.PTA_CSS_URL}/style2.css" rel="stylesheet" type="text/css" />
+<link href="{$smarty.const.PTA_CSS_URL}/style.css" rel="stylesheet" type="text/css" />
 
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/corners/jquery.corners.js" type="text/javascript"></script>

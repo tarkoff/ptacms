@@ -1,3 +1,4 @@
+<hr class="space" />
 <form name="{$form->name}" id="{$form->name}" action="{$form->action}" method="{$form->method}" enctype="{$form->enctype}" class="editForm">
 {assign var="formPrefix" value=`$form->prefix`}
 {assign var="form" value=`$form->data`}
@@ -9,13 +10,13 @@
 	{/if}
 		<tr>
 			<td align="right">
-				<fieldset class="notCategoryFields">
+				<fieldset class="notCategoryFields" style="width:300px;">
 					<legend>{$form.notCategoryFields->label}</legend>
 					{include file="_generic/controls.tpl" field=$form.notCategoryFields}
 				</fieldset>
 			</td>
 			<td align="left">
-				<fieldset class="categoryFields">
+				<fieldset class="categoryFields" style="width:300px;">
 					<legend>{$form.categoryFields->label}</legend>
 					{include file="_generic/controls.tpl" field=$form.categoryFields}
 				</fieldset>
@@ -25,7 +26,9 @@
 			<td colspan="2" align="center">{include file="_generic/controls.tpl" field=`$form.$formPrefix`}</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center">{include file="_generic/controls.tpl" field=$form.submit}</td>
+			<td colspan="2" align="center" style="text-align:center;">
+				{include file="_generic/controls.tpl" field=$form.submit}
+			</td>
 		</tr>
 	</table>
 </form>
