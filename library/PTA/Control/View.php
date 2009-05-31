@@ -9,9 +9,12 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Control_View extends PTA_Object 
+class PTA_Control_View extends PTA_Object
 {
+	const DEFAULT_RPP = 20;
+
 	private $_table;
+	private $_select;
 
 	/**
 	 * __construct
@@ -28,8 +31,9 @@ class PTA_Control_View extends PTA_Object
 		}
 		$this->setPrefix($prefix);
 
-		$this->_select = $this->getApp()->getDb()->select();
 		$this->_table = $object->getTable();
+		$this->_select = $this->_table->select();
+		$this->_select->setIntegrityCheck(false);
 		
 		if (!empty($fields)) {
 			$this->_select->from(
@@ -50,7 +54,7 @@ class PTA_Control_View extends PTA_Object
 
 		$this->setMinRpp(10);
 		$this->setMaxRpp(100);
-		$this->setRppStep(10);
+		//$this->setRpp(20);
 	}
 
 	/**
@@ -88,13 +92,33 @@ class PTA_Control_View extends PTA_Object
 	 */
 	public function exec()
 	{
-		$result = $this->_select->query()->fetchAll();
 		$resultObject = $this->toString();
+
+		$resultObject->rpps = array();
+		$minRpp = $this->getMinRpp();
+		$maxRpp = $this->getMaxRpp();
+		$rpp = $this->getRpp();
+		for ($rppStep = $minRpp; $rppStep <= $maxRpp; $rppStep += $minRpp) {
+			$resultObject->rpps[$rppStep] = $rppStep; 
+		}
+
+		$resultObject->rpp = $rpp;
+		
+		$page = $this->getPage();
+		$lastPage = $this->getLastPage();
+		
+		$resultObject->prevPage = (($page > 1) ? $page - 1 : 1);
+		$resultObject->page = $page;
+		$resultObject->nextPage = (($page < $lastPage) ? $page + 1 : $lastPage);
+		$resultObject->lastPage = $lastPage;
+		
+		$this->_select->limitPage($page, $rpp);
+		$result = $this->_select->query()->fetchAll();
 
 		$fields = (array)@array_keys(current($result));
 		$resultObject->fields = array_map(array($this, '_FieldToAlias'), $fields);
 		$resultObject->data = $result;
-		$resultObject->commonActions = $this->getCommonActions();			
+		$resultObject->commonActions = $this->getCommonActions();
 
 		if (!empty($resultObject->commonActions)) {
 			$resultObject->fieldsCount = @count($resultObject->fields)+1;
@@ -104,15 +128,6 @@ class PTA_Control_View extends PTA_Object
 			$resultObject->fieldsCount = @count($resultObject->fields);
 		}
 
-		$resultObject->rpps = array();
-		$minRpp = $this->getMinRpp();
-		$maxRpp = $this->getMaxRpp();
-		$rppCnt = $this->getRppStep();
-		for ($rpp = $minRpp; $rpp <= $maxRpp; $rpp += $rppCnt) {
-			$resultObject->rpps[$rpp] = $rpp; 
-		}
-
-		$resultObject->rpp = $this->getRpp();
 		$resultObject->singleActions = $this->getSingleActions();
 
 		return $resultObject;
@@ -187,23 +202,14 @@ class PTA_Control_View extends PTA_Object
 	}
 
 	/**
-	 * getRppStep - return rpp step
+	 * set rpp 
 	 *
-	 * @return int
+	 * @param int $rpp
 	 */
-	public function getRppStep()
+	public function setRpp($rpp)
 	{
-		return $this->getVar('rppStep');
-	}
-
-	/**
-	 * setRppStep  - set rpp step
-	 *
-	 * @param int $step
-	 */
-	public function setRppStep($step)
-	{
-		$this->setVar('rppStep', (int)$step);
+		$this->setVar('rpp', (int)$rpp);
+		$this->getApp()->setCookie('rpp', $rpp, 0);
 	}
 
 	/**
@@ -214,10 +220,29 @@ class PTA_Control_View extends PTA_Object
 	public function getRpp()
 	{
 		$rpp = $this->getVar('rpp');
-		if (empty($rpp)) {
-			$rpp = ($this->getHttpVar('rpp') ? $this->getHttpVar('rpp') : $this->getMinRpp());
+
+		if (!empty($rpp)) {
+			return $rpp;
 		}
-		
+
+		$rpp = $this->getHttpVar('rpp');
+		$minRpp = $this->getMinRpp();
+		$maxRpp = $this->getMaxRpp();
+
+		if (empty($rpp)) {
+			$rpp = $this->getApp()->getCookie('rpp');
+		}
+
+		if (empty($rpp)) {
+			$rpp = self::DEFAULT_RPP;
+		} elseif ($rpp < $minRpp) {
+			$rpp = $minRpp;
+		} elseif ($rpp > $maxRpp) {
+			$rpp = $maxRpp;
+		}
+
+		$this->setRpp($rpp);
+
 		return $rpp;
 	}
 
@@ -280,6 +305,91 @@ class PTA_Control_View extends PTA_Object
 	public function getCommonActions()
 	{
 		return $this->getVar('commonActions');
+	}
+	
+	/**
+	 * Get Current View Page
+	 *
+	 * @return int
+	 */
+	public function getPage()
+	{
+		$page = $this->getVar('page');
+		if (!empty($page)) {
+			return $page;
+		}
+
+		$page = $this->getHttpVar('page');
+		$firstPage = 1;
+		$lastPage = $this->getLastPage();
+
+		if (empty($page)) {
+			$page = (int)$this->getApp()->getCookie('page');
+		}
+
+		if ($page < $firstPage) {
+			$page = $firstPage;
+		} elseif ($page > $lastPage) {
+			$page = $lastPage;
+		}
+		
+		$this->setPage($page);
+
+		return $page;
+	}
+	/**
+	 * Set Current View Page
+	 *
+	 * @param int $page
+	 */
+	public function setPage($page)
+	{
+		$this->setVar('page', intval($page));
+		$this->getApp()->setCookie('page', $page, 0);
+	}
+	
+	/**
+	 * Get Last View Page
+	 *
+	 * @return int
+	 */
+	public function getLastPage()
+	{
+		$page = $this->getVar('lastPage');
+		if (!empty($page)) {
+			return $page;
+		}
+		
+		$recsCnt = $this->getTotalRecordsCnt();
+		if (empty($recsCnt)) {
+			$page = 1;
+		} else {
+			$page = floor($recsCnt / $this->getRpp()) + 1;
+		}
+
+		$this->setVar('lastPage', $page);
+
+		return $page;
+	}
+	
+	/**
+	 * Get View Total Records Count
+	 *
+	 * @return unknown
+	 */
+	public function getTotalRecordsCnt()
+	{
+		$recCnt = $this->getVar('recsCnt');
+		if (!empty($recCnt)) {
+			return $recCnt;
+		}
+		
+		$recCnt = $this->_table->getAdapter()->fetchOne(
+			'select count(*) from '. $this->_table->getTableName()
+		);
+		
+		$this->setVar('recsCnt', $recCnt);
+		return $recCnt;
 	}
 
 }

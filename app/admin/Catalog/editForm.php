@@ -123,7 +123,6 @@ class Catalog_editForm extends PTA_Control_Form
 					$fieldValue[$valueIdField], $fieldValue[$valueField]
 				);
 			}
-			//var_dump($selectsOptions);
 		}
 		
 		$orderPosition = 100;
@@ -139,7 +138,7 @@ class Catalog_editForm extends PTA_Control_Form
 					? null : $selectsOptions[$fieldArray[$fieldId]]
 				)
 			);
-//var_dump(@$selectsOptions[$fieldArray[$fieldId]]);
+
 			$field = PTA_Control_Form_Field::getFieldByType(
 				$fieldArray[$fieldType], 
 				"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",

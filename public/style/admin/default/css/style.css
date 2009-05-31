@@ -122,25 +122,21 @@ hr.space{
 	padding: 0 3px;
 }
 /* ================== Navigation Bar ======================================== */
-.nav, .nav * {
-	line-height: 30px;	
-	vertical-align: middle;
-}
-
 .nav {
 	height: 30px;
 	background: #F0F0F0 url('../img/mtb/bck_toolbar.gif') repeat-x scroll center top;
 	border: 1px solid #CCCCCC;
 }
 
-.nav * {
-	margin: auto 5px;
-}
-
 .nav div {
-	height: 100%;
+	display: table-cell;
 	float: left;
-	display: block;
+	height: 100%;
+	margin: auto 5px;
+	vertical-align: middle;
+}
+.nav div img{
+	top:3px;
 }
 /* ================== Edit Form ======================================== */
 fieldset {

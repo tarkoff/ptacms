@@ -136,7 +136,6 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			}
 
 			try {
-var_dump($resultData);
 				$result = $valuesTable->insert($resultData);
 			} catch (PTA_Exception $e) {
 				echo $e->getMessage();

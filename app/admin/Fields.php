@@ -102,7 +102,7 @@ class Fields extends PTA_WebModule
 		$view->addSingleAction('New Field', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Field', 'edit.png');
-		$view->addCommonAction('Edit Field Values', $this->getModuleUrl() . 'EditFieldValues/Field', 'edit.png');
+		$view->addCommonAction('Edit Field Values', $this->getModuleUrl() . 'EditFieldValues/Field', 'fields.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Field', 'copy.png');
 		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Field', 'remove.png');
 	}

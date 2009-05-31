@@ -324,7 +324,7 @@ abstract class PTA_App extends PTA_WebModule
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function getHttpVar($key, $withCookie = true)
+	public function getHttpVar($key, $withCookie = false)
 	{
 		if (($value = parent::getHttpVar($key))) {
 			return $value;
