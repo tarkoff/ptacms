@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Database Table
  *
- * @package Core
- * @copyright  2008 PTA Studio
+ * @package PTA_Core
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -47,6 +47,12 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		}
 	}
 
+	/**
+	 * Get all records from current table
+	 *
+	 * @param array $fields
+	 * @return array
+	 */
 	public function getAll($fields = null)
 	{
 		$select = $this->select();
@@ -61,6 +67,12 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		return $this->fetchAll($select)->toArray();
 	}
 
+	/**
+	 * Build where condition for fields
+	 *
+	 * @param array $fields
+	 * @return string
+	 */
 	protected function _buildCondition($fields)
 	{
 		if (empty($fields)) {
@@ -78,11 +90,22 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		return $cond;
 	}
 
+	/**
+	 * Get record by primary key
+	 *
+	 * @param int $id
+	 * @return array
+	 */
 	public function findById($id)
 	{
 		return $this->find(intval($id))->toArray();
 	}
 
+	/**
+	 * Get primary field for current table
+	 *
+	 * @return string
+	 */
 	public function getPrimary()
 	{
 		$result = $this->_primary;
@@ -96,11 +119,21 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		return $result;
 	}
 
+	/**
+	 * Get table name for current table
+	 *
+	 * @return string
+	 */
 	public function getTableName()
 	{
 		return $this->_name;
 	}
 
+	/**
+	 * Get full name for priamary field in format <Table>.<Primary>
+	 *
+	 * @return string
+	 */
 	public function getFullPrimary()
 	{
 		$result = null;
@@ -295,6 +328,8 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 			if (!empty($dbField)) {
 				if (empty($values[$fieldId])) {
 					$select->where("{$dbField} is null");
+				} elseif (is_array($values[$fieldId])) {
+					$select->where("{$dbField} in (?)", $values[$fieldId]);
 				} else {
 					$select->where("{$dbField} = ?", addslashes($values[$fieldId]));
 				}

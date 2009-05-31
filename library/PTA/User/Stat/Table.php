@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ * User Statistic Table
  *
- * @package Catalog
- * @copyright	008 PTA Studio
- * @license		http://framework.zend.com/license   BSD License
- * @version		$Id: Table.php 13 2009-02-28 14:47:29Z TPavuk $
+ * @package PTA_Core
+ * @copyright  2008 P.T.A. Studio
+ * @license	http://framework.zend.com/license   BSD License
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
@@ -19,6 +19,12 @@ class PTA_User_Stat_Table extends PTA_DB_Table
 	protected $_sequence = true;
 	protected static $_usersStats = array();
 
+	/**
+	 * Get user by cookie hash from /db
+	 *
+	 * @param string $hash
+	 * @return array
+	 */
 	public function getUserByHash($hash)
 	{
 		$hashField = $this->getFieldByAlias('sessionHash');
@@ -32,14 +38,20 @@ class PTA_User_Stat_Table extends PTA_DB_Table
 		$select->where($this->getAdapter()->quoteInto('USERSTAT_SESSIONHASH = ?', $hash));
 		//$select->limit(1);
 
-		$userRow = $this->fetchNew();
 		if (($userRow = $this->fetchRow($select))) {
 			self::$_usersStats[$userRow->{$this->getFieldByAlias('userId')}] = $userRow;
+			return $userRow->toArray();
 		}
-
-		return $userRow->toArray();
+		
+		return array();
 	}
 
+	/**
+	 * save current user session to DB
+	 *
+	 * @param PTA_User $user
+	 * @return boolean
+	 */
 	public function saveUserSession(PTA_User $user)
 	{
 		if (isset(self::$_usersStats[$user->getId()])) {

@@ -3,9 +3,9 @@
  * Short description for file
  *
  * @package Core
- * @copyright  2008 PTA Studio
+ * @copyright  2008 P.T.A. Studio
  * @license    http://framework.zend.com/license   BSD License
- * @version    $Id: editForm.php 13 2009-02-28 14:47:29Z TPavuk $
+ * @version    $Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
@@ -29,7 +29,7 @@ class Authorizer_LoginForm extends PTA_Control_Form
 		$alias->setCssClass('textField');
 		$this->addVisual($alias);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Login', true, 'Login');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
 		}

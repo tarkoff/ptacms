@@ -67,25 +67,25 @@ ul.menuList{
 	list-style-type:none;
 }
 ul.menuList li{
-	height:24px;
-	//line-height:36px;
+	display: table;
+	height:30px;
 	background:url(../img/nav_div2.gif) left bottom repeat-x;
-	//border-bottom:1px dotted #5b5b5b;
-	font-size:0;
-	line-height:0;
+	width:100%;
 }
 ul.menuList li.noImg{
 	background-image:none;
 }
 ul.menuList li a{
-	display:block;
-	height:100%;
-	background:url(../img/arrow.gif) 2px 10px no-repeat;
-	font:normal 12px/17px Arial, Helvetica, sans-serif;
-	color:#A73F00;
+	background:url(../img/arrow.gif) 2px 50% no-repeat;
 	background-color:inherit;
+	color:#A73F00;
+	display:table-cell;
+	font:normal 12px/17px Arial, Helvetica, sans-serif;
+	height:30px;
 	text-decoration:none;
-	padding:3px 3px 0 13px;
+	top:-50%;
+	padding-left:13px;
+	line-height: 1em;
 	vertical-align:middle;
 }
 ul.menuList li a:hover{
@@ -122,7 +122,7 @@ ul.menuList li a:hover{
 	padding:2px;
 	margin:5px 12px;
 	text-align:center;
-	border:1px dotted #D5D08E;
+	//border:1px dotted #D5D08E;
 	overflow:hidden;
 }
 .catalogItem:hover{

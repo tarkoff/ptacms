@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ * Catalog Brand Table
  *
- * @package Catalog
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2009 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id: Table.php 43 2009-04-23 21:29:55Z TPavuk $
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
@@ -14,7 +14,7 @@ class PTA_Catalog_Brand_Table extends PTA_DB_Table
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'BRANDS';
+	protected $_name = 'CATALOG_BRANDS';
 	protected $_primary = 'BRANDS_ID';
 	protected $_sequence = true;
 	

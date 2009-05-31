@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Product Custom Field
  *
- * @package Catalog
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -15,12 +15,12 @@ class PTA_Catalog_Field extends PTA_DB_Object
 	private $_alias;
 	private $_fieldType;
 
-	public function getCategoryid()
+	public function getCategoryId()
 	{
 		return $this->_categoryId;
 	}
 
-	public function setCategoryid($value)
+	public function setCategoryId($value)
 	{
 		$this->_categoryId = (int)$value;
 	}

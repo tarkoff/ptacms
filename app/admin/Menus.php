@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ * Sites Menus Controllers
  *
  * @package Core
- * @copyright  2008 PTA Studio
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id: Categories.php 34 2009-03-31 17:58:03Z TPavuk $
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 

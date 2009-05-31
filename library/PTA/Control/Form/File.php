@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ * Form Field File
  *
- * @package Core
- * @copyright  2008 PTA Studio
+ * @package PTA_Core
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id: Text.php 20 2009-03-10 21:27:25Z TPavuk $
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 

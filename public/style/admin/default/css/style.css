@@ -129,7 +129,7 @@ hr.space{
 
 .nav {
 	height: 30px;
-	background: #F0F0F0 url('../img/tb/bck_toolbar.gif') repeat-x scroll center top;
+	background: #F0F0F0 url('../img/mtb/bck_toolbar.gif') repeat-x scroll center top;
 	border: 1px solid #CCCCCC;
 }
 
@@ -193,13 +193,13 @@ dl {
 dt {
 	float:left;
 	text-align:right;
-	width:90px;
+	width:160px;
 	line-height:25px;
 	margin:0 10px 10px 0;
 }
 dd {
 	float:left;
-	width:475px;
+	width:405px;
 	line-height:25px;
 	margin:0 0 10px 0;
 }

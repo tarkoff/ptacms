@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Product Statistic Table
  *
- * @package Catalog
- * @copyright  2009 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2009 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -14,7 +14,7 @@ class PTA_Catalog_Product_Stat_Table extends PTA_DB_Table
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'PRODUCTSSTAT';
+	protected $_name = 'CATALOG_PRODUCTSSTAT';
 	protected $_primary = 'PRODUCTSSTAT_ID';
 	protected $_sequence = true;
 	

@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Admin Site Main Menu Controller
  *
  * @package Core
- * @copyright  2008 PTA Studio
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
