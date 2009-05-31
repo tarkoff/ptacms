@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ * Users Authorize Controler
  *
- * @package Core
- * @copyright	2009 PTA Studio
- * @license		http://framework.zend.com/license   BSD License
- * @version		$Id: Header.php 13 2009-02-28 14:47:29Z TPavuk $
+ * @package PTA_Core
+ * @copyright 2009 P.T.A. Studio
+ * @license	http://framework.zend.com/license   BSD License
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 

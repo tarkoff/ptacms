@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Form Field Prototype
  *
- * @package Core
- * @copyright  2008 PTA Studio
+ * @package PTA_Core
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -39,15 +39,15 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 	public static function getPossibleFields()
 	{
 		return array(
-					array(self::TYPE_TEXT, 'Text'),
-					array(self::TYPE_TEXTAREA, 'Text Area'),
-					array(self::TYPE_RADIOGROUP, 'Radio Group'),
-					array(self::TYPE_SUBMIT, 'Submit'),
-					array(self::TYPE_IMAGE, 'Image'),
-					array(self::TYPE_SELECT, 'Select'),
-					array(self::TYPE_CHECKBOX, 'Checkbox'),
-					array(self::TYPE_FIELDSGROUP, 'Fields Group')
-				);
+			array(self::TYPE_TEXT, 'Text'),
+			array(self::TYPE_TEXTAREA, 'Text Area'),
+			array(self::TYPE_RADIOGROUP, 'Radio Group'),
+			array(self::TYPE_SUBMIT, 'Submit'),
+			array(self::TYPE_IMAGE, 'Image'),
+			array(self::TYPE_SELECT, 'Select'),
+			array(self::TYPE_CHECKBOX, 'Checkbox'),
+			array(self::TYPE_FIELDSGROUP, 'Fields Group')
+		);
 	}
 
 	/**
@@ -118,7 +118,8 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 		foreach ($options as $option => $value) {
 			$method = "set{$option}";
 			if (method_exists($field, $method)) {
-				call_user_func_array(array($field, $method), $value); 
+				//call_user_func_array(array($field, $method), $value);
+				$field->$method($value); 
 			}
 		}
 
@@ -286,8 +287,13 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 		$this->setVar('arrayModeDeep', $deep);
 	}
 
-	public function getArrayMode()
+	public function setReadOnly($mode = true)
 	{
-		return $this->getVar('arrayModeDeep');
+		$this->setVar('readOnly', $mode);
+	}
+	
+	public function isREadOnly()
+	{
+		return $this->getVar('readOnly');
 	}
 }

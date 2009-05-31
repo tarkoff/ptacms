@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ * Product Brand
  *
- * @package Catalog
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2009 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id: Category.php 52 2009-05-11 12:42:01Z TPavuk $
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 

@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Catalog Product
  *
- * @package Catalog
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -78,13 +78,13 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			$fieldsValues = array();
 		}
 
-		$fieldValueField = $valuesTable->getFieldByAlias('value');
+		$fieldValueIdField = $valuesTable->getFieldByAlias('valueId');
 		$fieldIdField = $valuesTable->getFieldByAlias('fieldId');
 		$resultFields = array();
 		foreach ($fieldsValues as $fieldId => $valeField) {
 			$id = $valeField[$fieldIdField];
 			if (isset($customFields[$id])) {
-				$resultFields[$customFields[$id]] = $valeField[$fieldValueField];
+				$resultFields[$customFields[$id]] = $valeField[$fieldValueIdField];
 			}
 		}
 
@@ -121,7 +121,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 		$valuesFieldId = $valuesTable->getFieldByAlias('fieldId');
 		$valuesProductId = $valuesTable->getFieldByAlias('productId');
-		$valuesValue = $valuesTable->getFieldByAlias('value');
+		$valuesValue = $valuesTable->getFieldByAlias('valueId');
 
 		$valuesTable->getAdapter()->beginTransaction();
 		$valuesTable->clearByFields(array('productId' => $this->getId()));
@@ -136,6 +136,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			}
 
 			try {
+var_dump($resultData);
 				$result = $valuesTable->insert($resultData);
 			} catch (PTA_Exception $e) {
 				echo $e->getMessage();

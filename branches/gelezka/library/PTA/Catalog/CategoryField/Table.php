@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Catalog Category Field Table
  *
- * @package Catalog
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -14,11 +14,19 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'CATEGORIESFIELDS';
+	protected $_name = 'CATALOG_CATEGORIESFIELDS';
 	protected $_primary = 'CATEGORIESFIELDS_ID';
 	protected $_sequence = true;
 	protected static $_fieldsCache = array();
 	
+	/**
+	 * Get product fields by category id
+	 *
+	 * @param int $categoryId
+	 * @param boolean $equal
+	 * @param boolean $parentsFieldsToo
+	 * @return array
+	 */
 	public function getFieldsByCategory($categoryId, $equal = true, $parentsFieldsToo = false)
 	{
 		if (empty($categoryId)) {
@@ -100,7 +108,6 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 				$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' not in (?)', $fieldsIds);
 				$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
 			}
-			//$select->orWhere('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
 		}
 
 		$select->order('categoriesFields.' . $this->getFieldByAlias('sortOrder'));
@@ -109,18 +116,26 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		return $this->fetchAll($select)->toArray();
 	}
 
-	public function getFieldsByNotCategory($categoryId)
-	{
-		return $this->getFieldsByCategory($categoryId, false);
-	}
-
+	/**
+	 * Remove all category fields by category id
+	 *
+	 * @param int $categoryId
+	 * @return boolean
+	 */
 	public function clearbyCategoryId($categoryId)
 	{
 		return $this->clearByFields(
 			array('categoryId' => (int)$categoryId)
 		);
 	}
-	
+
+	/**
+	 * Add new fields to category
+	 *
+	 * @param int $categoryId
+	 * @param array $fieldsIds
+	 * @return boolean
+	 */
 	public function addCategoryFields($categoryId, $fieldsIds)
 	{
 		$fieldsIds = (array)$fieldsIds;
@@ -165,6 +180,13 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		return $this->getAdapter()->commit();
 	}
 	
+	/**
+	 * Remove cztegory fields
+	 *
+	 * @param int $categoryId
+	 * @param array $fieldsIds
+	 * @return boolean
+	 */
 	public function delCategoryFields($categoryId, $fieldsIds = array())
 	{
 		if (empty($fieldsIds)) {
@@ -179,6 +201,12 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 		}
 	}
 	
+	/**
+	 * Get currrent maximum order position
+	 *
+	 * @param int $categoryId
+	 * @return int
+	 */
 	public function getMaxSortOrder($categoryId)
 	{
 		if (empty($categoryId)) {

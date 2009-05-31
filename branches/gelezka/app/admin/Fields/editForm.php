@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Product Field Edit Form
  *
- * @package Core
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -36,8 +36,12 @@ class Fields_editForm extends PTA_Control_Form
 		$alias->setCssClass('textField');
 		$this->addVisual($alias);
 
-		$fields = PTA_Control_Form_Field::getPossibleFields();
-		$fieldType = new PTA_Control_Form_Select('fieldtype', 'Field Type', true, $fields);
+		$fieldType = new PTA_Control_Form_Select(
+			'fieldtype', 'Field Type', true, 
+			array(
+				array(PTA_Control_Form_Field::TYPE_SELECT, 'Select')
+			)
+		);
 		$fieldType->setSortOrder(300);
 		$fieldType->setCssClass('textField');
 		$this->addVisual($fieldType);

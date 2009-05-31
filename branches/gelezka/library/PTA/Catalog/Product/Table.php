@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Catalog Product Table
  *
- * @package Catalog
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -14,11 +14,16 @@ class PTA_Catalog_Product_Table extends PTA_DB_Table
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'PRODUCTS';
+	protected $_name = 'CATALOG_PRODUCTS';
 	protected $_primary = 'PRODUCTS_ID';
 	protected $_sequence = true;
 	protected $_product;
 	
+	/**
+	 * Get category fields with custom fields
+	 *
+	 * @return unknown
+	 */
 	public function getFields()
 	{
 		$fields = parent::getFields();

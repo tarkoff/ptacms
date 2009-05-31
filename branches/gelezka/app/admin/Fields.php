@@ -1,9 +1,9 @@
 <?php
 /**
- * Short description for file
+ * Catalog Brands Controller
  *
- * @package Core
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -41,6 +41,10 @@ class Fields extends PTA_WebModule
 					$this->editAction($item);
 			break;
 
+			case 'EditFieldValues':
+					$this->editFieldValuesAction($item);
+			break;
+			
 			case 'Delete':
 				$this->deleteAction($item);
 			break;
@@ -66,6 +70,18 @@ class Fields extends PTA_WebModule
 		$this->addVisual($editForm);
 	}
 
+	public function editFieldValuesAction($itemId = null, $copy = false)
+	{
+		$this->setVar('tplMode', 'EditFieldValues');
+
+		if (!empty($itemId)) {
+			$this->_field->loadById($itemId);
+		}
+
+		$editForm = new Fields_editFieldsValuesForm('editForm', $this->_field, $copy);
+		$this->addVisual($editForm);
+	}
+	
 	public function listAction()
 	{
 		$this->setVar('tplMode', 'list');
@@ -73,7 +89,7 @@ class Fields extends PTA_WebModule
 
 		$fields = $fieldTable->getFields();
 		
-		$view = new PTA_Control_View('fieldsView', $this->_field, array_values($fields));		
+		$view = new PTA_Control_View('fieldsView', $this->_field, array_values($fields));
 
 		$this->addActions($view);
 		$res = $view->exec();
@@ -86,6 +102,7 @@ class Fields extends PTA_WebModule
 		$view->addSingleAction('New Field', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Field', 'edit.png');
+		$view->addCommonAction('Edit Field Values', $this->getModuleUrl() . 'EditFieldValues/Field', 'edit.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Field', 'copy.png');
 		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Field', 'remove.png');
 	}

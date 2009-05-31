@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ * Catalog Brands Controler
  *
- * @package Core
- * @copyright  2008 PTA Studio
+ * @package PTA_Catalog
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id: Fields.php 20 2009-03-10 21:27:25Z TPavuk $
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
@@ -96,8 +96,9 @@ class Brands extends PTA_WebModule
 			$this->_brand->loadById($itemId);
 		}
 
+		PTA_Util::rmDir($this->_brand->getContentPhotoPath());
 		$this->_brand->remove();
-
+		
 		$this->redirect($this->getModuleUrl());
 	}
 

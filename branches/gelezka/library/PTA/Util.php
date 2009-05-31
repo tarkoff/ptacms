@@ -1,11 +1,11 @@
 <?php
 /**
- * Short description for file
+ *  Util Module
  *
- * @package Core
- * @copyright  2008 PTA Studio
+ * @package PTA_Core
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id: Categories.php 20 2009-03-10 21:27:25Z TPavuk $
+ * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
@@ -101,7 +101,7 @@ class PTA_Util
 			self::createContentPath($destPath);
 			$uploader->setDestination($destPath);
 		}
-
+		
 		if (!$uploader->isValid()) {
 			return false;
 		}
@@ -112,23 +112,74 @@ class PTA_Util
 		}
 
 		if ($uploader->isReceived()) {
-			$fileName = str_replace(PTA_CONTENT_PATH . '/', '', $uploader->getFileName());
-			if (!empty($fileName)) {
-				return ltrim($fileName, DIRECTORY_SEPARATOR);
+			$oldFileName = $uploader->getFileName();
+			if (!empty($oldFileName)) {
+				$fileProperties = pathinfo($oldFileName);
+				$newFileName = $fileProperties['dirname']
+					. '/' . self::getUniqueFileName($fileProperties['basename'])
+					. '.' . $fileProperties['extension'];
+				if (rename($oldFileName, $newFileName)) {
+					return str_replace(PTA_CONTENT_PATH . '/', '', $newFileName);
+				}
+				return str_replace(PTA_CONTENT_PATH . '/', '', $oldFileName);
 			}
 		}
 		
 		return false;
 	}
 	
-	public static function unlinkFile($destFile)
+	/**
+	 * Delete a file
+	 *
+	 * @param string $dest
+	 * @return boolean
+	 */
+	public static function unlink($dest)
 	{
-var_dump($destFile);
-		if (file_exists($destFile)) {
-			return unlink($destFile);
+		// Sanity check
+		if (!file_exists($dest)) {
+			return false;
 		}
-		
+
+		// Simple delete for a file
+		if (is_file($dest) || is_link($dest)) {
+			return unlink($dest);
+		}
+
 		return false;
+	}
+	
+	/**
+	 * Delete a folder and its contents
+	 *
+	 * @param string $dest
+	 * @return boolean
+	 */
+	public static function rmDir($dest)
+	{
+		// Sanity check
+		if (!is_dir($dest)) {
+			return false;
+		}
+
+		// Loop through the folder
+		$dir = dir($dest);
+		while (false !== $entry = $dir->read()) {
+			// Skip pointers
+			if ($entry == '.' || $entry == '..') {
+				continue;
+			}
+ 
+			if (is_dir($entry)) {
+				self::rmDir($entry);
+			} else {
+				self::unlink($dest . DIRECTORY_SEPARATOR . $entry);
+			}
+		}
+
+		// Clean up
+		$dir->close();
+		return rmdir($dest);
 	}
 	
 	public static function createContentPath($contentPath = null)
@@ -148,6 +199,11 @@ var_dump($destFile);
 		}
 		
 		return false;
+	}
+	
+	public static function getUniqueFileName($key = PTA_CONTENT_PHOTOS_PATH)
+	{
+		return  substr(md5($key), 0, 8);
 	}
 	
 }
