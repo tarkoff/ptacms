@@ -121,7 +121,6 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 			$fieldValue->save();
 		}
 		
-//var_dump($forUpdate, $forRemove, $data, $this->_values);
 		if (
 			$valuesTable->saveFieldValues($forUpdate)
 		) {
