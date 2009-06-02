@@ -7,9 +7,11 @@
 {if $data->tplMode == 'addFields'}
 	{include file=Categories/addFieldsForm.tpl form=$data->addFieldsForm}
 {/if}
-{if $data->tplMode == 'delFields'}
-	{include file=Categories/delFieldsForm.tpl form=$data->delFieldsForm}
-{/if}
 {if $data->tplMode == 'addProduct'}
 	{include file=Categories/addProductForm.tpl form=$data->addProductForm}
+{/if}
+{if $data->tplMode == 'EditFieldsSortOrder'}
+	{if !empty($data->fieldsSortOrderForm)}
+		{include file=Categories/FieldsSortOrderForm.tpl form=$data->fieldsSortOrderForm}
+	{/if}
 {/if}

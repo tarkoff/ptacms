@@ -1,5 +1,5 @@
-	<div id="footer" class="container">
-	{if isset($app->debug)}
-		{include file="debuger.tpl"}
+<div id="footer" class="container">
+	{if isset($Gelezka->debug)}
+		{include file="debuger.tpl" app = $Gelezka}
 	{/if}
-	</div>
+</div>
