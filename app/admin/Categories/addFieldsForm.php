@@ -30,13 +30,13 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 		$notCategoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), false, true);
 		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
-
+var_dump($categoryFields);
 		$select = new PTA_Control_Form_Select('notCategoryFields', 'Fields For Adding', false);
 		$select->setOptionsFromArray(
-					$notCategoryFields,
-					$fieldsTable->getPrimary(),
-					$fieldsTable->getFieldByAlias('title')
-				);
+			$notCategoryFields,
+			$fieldsTable->getPrimary(),
+			$fieldsTable->getFieldByAlias('title')
+		);
 		$select->addOption(array(0, '- Empty -'));
 		$select->setSortOrder(100);
 		$select->setMultiple(true);
@@ -44,14 +44,20 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 		$select = new PTA_Control_Form_Select('categoryFields', 'Category Fields', false);
 		$select->setOptionsFromArray(
-					$categoryFields,
-					$fieldsTable->getPrimary(),
-					$fieldsTable->getFieldByAlias('title')
-				);
+			$categoryFields,
+			$fieldsTable->getPrimary(),
+			$fieldsTable->getFieldByAlias('title')
+		);
 		$select->addOption(array(0, '- Empty -'));
 		$select->setSortOrder(110);
 		$select->setMultiple(true);
 		$this->addVisual($select);
+		
+		$this->setVar('categoryFields', $categoryFields);
+		
+		$sortOrder = new PTA_Control_Form_Text('fieldSortOrder', 'Field Sort Order', false);
+		$sortOrder->setSortOrder(120);
+		$this->addVisual($sortOrder);
 
 		$submit = new PTA_Control_Form_Submit('submit', 'Save Fields', true, 'Save');
 		$submit->setSortOrder(300);
@@ -82,16 +88,16 @@ class Categories_addFieldsForm extends PTA_Control_Form
 		$saved = true;
 		if (!empty($data->categoryFields)) {
 			$saved = $this->_categoryFieldTable->delCategoryFields(
-											$this->_category->getId(),
-											$data->categoryFields
-										);
+				$this->_category->getId(),
+				$data->categoryFields
+			);
 		}
 
 		if (!empty($data->notCategoryFields)) {
 			$saved = $this->_categoryFieldTable->addCategoryFields(
-											$this->_category->getId(),
-											$data->notCategoryFields
-										);
+				$this->_category->getId(),
+				$data->notCategoryFields
+			);
 		}
 
 		if ($saved) {

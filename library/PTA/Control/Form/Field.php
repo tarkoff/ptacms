@@ -75,7 +75,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 			break;
 
 			case self::TYPE_RADIOGROUP:
-				$field = new PTA_Control_Form_RadioGroup($prefix);
+				$field = new PTA_Control_Form_Radio($prefix);
 			break;
 
 			case self::TYPE_SUBMIT:
@@ -88,10 +88,6 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 
 			case self::TYPE_SELECT:
 				$field = new PTA_Control_Form_Select($prefix);
-			break;
-
-			case self::TYPE_FIELDSGROUP:
-				$fied = new PTA_Control_Form_FieldsGroup($prefix);
 			break;
 		}
 

@@ -154,7 +154,7 @@ input, textarea, select {
 fieldset.action {
 	background:#9da2a6;
 	border-color:#e5e5e5 #797c80 #797c80 #e5e5e5;
-	margin-top:-20px;
+	//margin-top:-20px;
 }
 legend {
 	background:#707175;
@@ -170,15 +170,6 @@ label {
 	font-size:11px;
 	font-weight:bold;
 	color:#666;
-}
-input, textarea, select {
-	font:12px/12px Arial, Helvetica, sans-serif;
-	padding:0;
-}
-fieldset.action {
-	background:#9da2a6;
-	border-color:#e5e5e5 #797c80 #797c80 #e5e5e5;
-	margin-top:-20px;
 }
 label.opt {
 	font-weight:normal;
@@ -198,4 +189,8 @@ dd {
 	width:405px;
 	line-height:25px;
 	margin:0 0 10px 0;
+}
+/* ================== Debuger =============================================== */
+.appDebuger{
+	margin:10px 0;
 }

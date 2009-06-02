@@ -222,4 +222,25 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 			)
 		);
 	}
+	
+	public function setFieldsSortOrder($fields)
+	{
+		if (empty($fields)) {
+			return false;
+		}
+
+		$fieldIdField = $this->getPrimary();
+		$fieldOrderField = $this->getFieldByAlias('sortOrder');
+
+		$this->getAdapter()->beginTransaction();
+		foreach ($fields as $fieldId => $sortOrder) {
+			$this->update(
+				array(
+					$fieldOrderField => intval($sortOrder)
+				),
+				$fieldIdField . ' = ' . intval($fieldId)
+			);
+		}
+		return $this->getAdapter()->commit();
+	}
 }
