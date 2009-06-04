@@ -19,7 +19,9 @@ abstract class PTA_DB_Object extends PTA_Object
 	function __construct ($prefix)
 	{
 		$this->setPrefix($prefix);
-		$this->_table = &PTA_DB_Table::get(get_class($this));
+		try {
+			$this->_table = PTA_DB_Table::get(get_class($this));
+		} catch (PTA_Exception $e) {}
 	}
 
 	public function getId()
@@ -100,11 +102,11 @@ abstract class PTA_DB_Object extends PTA_Object
 	 * save data to DB
 	 *
 	 * @method save
-	 * @param array $data
+	 * @param boolean $forceInsert
 	 * @access public
 	 * @return boolean
 	*/	
-	public function save()
+	public function save($forceInsert = false)
 	{
 		$primary = $this->_table->getPrimary();
 
@@ -116,7 +118,7 @@ abstract class PTA_DB_Object extends PTA_Object
 		}
 
 		try {
-			if ($this->getId()) {
+			if ($this->getId() && !$forceInsert) {
 				$where = $this->_table->getAdapter()->quoteInto("$primary = ?", (int)$this->getId());
 				$result = $this->_table->update($data, $where);
 			} else {

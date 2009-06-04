@@ -25,29 +25,54 @@ class Catalog extends PTA_WebModule
 
 		$categoryAlias = $this->getApp()->getHttpVar('Category', false);
 		$themeAlias = $this->getApp()->getHttpVar('Theme', false);
-//		$productAlias = $this->getApp()->getHttpVar('Product', false);
+		
+		$catsTable = PTA_DB_Table::get('Catalog_Category');
+		$brandsTable = PTA_DB_Table::get('Catalog_Brand');
+		$photoTable = PTA_DB_Table::get('Catalog_Product_Photo');
+		
+		//		$productAlias = $this->getApp()->getHttpVar('Product', false);
 
 		$prodsTable = PTA_DB_Table::get('PTA_Catalog_Product');
 
 		$select = $prodsTable->select()->from(array('prods' => $prodsTable->getTableName()));
 		$select->setIntegrityCheck(false);
+		
+		$select->joinLeft(
+			array('photos' => $photoTable->getTableName()),
+			'prods.' . $prodsTable->getPrimary() . ' = ' . $photoTable->getFieldByAlias('productId')
+			. ' AND photos.' . $photoTable->getFieldByAlias('default') . ' = 1',
+			array($photoTable->getFieldByAlias('photo'))
+		);
+		
 /*
 		if (!empty($productAlias)) {
 			$select->where('prods.' . $prodsTable->getFieldByAlias('alias') . ' = ?', $productAlias);
 		}
 */
-		$catsTable = PTA_DB_Table::get('Catalog_Category');
-		if (!empty($categoryAlias) || !empty($themeAlias)) {
-			$catsTableName = $catsTable->getTableName();
-			$catsPrimaryField = $catsTable->getPrimary();
-			$catsParentIdField = $catsTable->getFieldByAlias('parentId');
-			$catsAliasField = $catsTable->getFieldByAlias('alias');
 
-			$select->join(
-				array('cats' => $catsTableName),
-				'prods.'. $prodsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}",
-				array()
-			);
+		$catsTableName = $catsTable->getTableName();
+		$catsPrimaryField = $catsTable->getPrimary();
+		$catsParentIdField = $catsTable->getFieldByAlias('parentId');
+		$catsAliasField = $catsTable->getFieldByAlias('alias');
+
+		$select->join(
+			array('cats' => $catsTableName),
+			'prods.'. $prodsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}",
+			array(
+				$catsTable->getFieldByAlias('title')
+			)
+		);
+
+		$select->join(
+			array('brands' => $brandsTable->getTableName()),
+			'prods.'. $prodsTable->getFieldByAlias('brandId') 
+			. ' = brands.' . $brandsTable->getPrimary(),
+			array(
+				$brandsTable->getFieldByAlias('title')
+			)
+		);
+
+		if (!empty($categoryAlias) || !empty($themeAlias)) {
 			if (!empty($themeAlias)) {
 				$select->where("cats.{$catsAliasField} = ?", $themeAlias);
 			}
@@ -71,7 +96,7 @@ class Catalog extends PTA_WebModule
 		}
 
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
-		$select->limit(20);
+		$select->limit(10);
 
 		$products = $prodsTable->fetchAll($select)->toArray();
 

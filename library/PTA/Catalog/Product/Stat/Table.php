@@ -15,7 +15,6 @@ class PTA_Catalog_Product_Stat_Table extends PTA_DB_Table
 	 * The default table name 
 	 */
 	protected $_name = 'CATALOG_PRODUCTSSTAT';
-	protected $_primary = 'PRODUCTSSTAT_ID';
-	protected $_sequence = true;
-	
+	protected $_primary = 'PRODUCTSSTAT_PRODUCTID';
+
 }

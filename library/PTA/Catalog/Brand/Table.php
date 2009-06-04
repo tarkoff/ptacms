@@ -16,7 +16,5 @@ class PTA_Catalog_Brand_Table extends PTA_DB_Table
 	 */
 	protected $_name = 'CATALOG_BRANDS';
 	protected $_primary = 'BRANDS_ID';
-	protected $_sequence = true;
-	
 	
 }

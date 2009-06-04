@@ -12,6 +12,7 @@ background:#D5D08E !Important;
 	float:left;
 	background:url(../img/nav_bg.gif) 0 0 repeat-x;
 	margin:0 auto;
+	list-style-type:none;
 	width:100%;
 }
 .topMenu ul li{
@@ -116,11 +117,12 @@ ul.menuList li a:hover{
 	color:#A73F00;
 }
 .catalogItem{
-	float:left;
-	width:140px;
-	height:140px;
+//	border:1px solid red;
+	font-size:0.8em;
+//	width:240px;
+//	height:140px;
 	padding:2px;
-	margin:5px 12px;
+	margin:5px 5px;
 	text-align:center;
 	//border:1px dotted #D5D08E;
 	overflow:hidden;
@@ -128,6 +130,23 @@ ul.menuList li a:hover{
 .catalogItem:hover{
 	background:#E2DEA4;
 }
+.catalogItem dl{
+	clear:both;
+}
+.catalogItem dt{
+	float:left;
+	text-align:right;
+	//width:160px;
+	//line-height:25px;
+	margin:0 2px 5px 0;
+}
+.catalogItem dd{
+	float:left;
+	//width:405px;
+	//line-height:25px;
+	//margin:0 0 10px 0;
+}
+	
 /* ====================== Product ============================================*/
 .descr{
 	padding:5px 10px;

@@ -16,7 +16,6 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 	 */
 	protected $_name = 'CATALOG_CATEGORIESFIELDS';
 	protected $_primary = 'CATEGORIESFIELDS_ID';
-	protected $_sequence = true;
 	protected static $_fieldsCache = array();
 	
 	/**

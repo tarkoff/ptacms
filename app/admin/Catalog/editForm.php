@@ -71,7 +71,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$url = new PTA_Control_Form_Text('url', 'URL');
 		$url->setSortOrder(20);
 		$this->addVisual($url);
-
+/*
 		$image = new PTA_Control_Form_File('image', 'Photo');
 		$image->setSortOrder(30);
 		$image->getUploader()->setDestination(
@@ -79,7 +79,7 @@ class Catalog_editForm extends PTA_Control_Form
 		);
 		$image->isImage(true);
 		$this->addVisual($image);
-
+*/
 		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Description');
 		$desc->setSortOrder(40);
 		$this->addVisual($desc);
@@ -152,49 +152,7 @@ class Catalog_editForm extends PTA_Control_Form
 			}
 		}
 	}
-/*
-	private function _initDinamicFields()
-	{
-		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
-		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
-		$categoryFields = $categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
-		if ($this->_product->getId()) {
-			$fieldsValues = $this->_product->buildCustomFields($categoryFields);
-		} else {
-			$fieldsValues = array();
-		}
-
-		$name = $fieldsTable->getFieldByAlias('alias');
-		$title = $fieldsTable->getFieldByAlias('title');
-		$sortOrder = $categoryFieldTable->getFieldByAlias('sortOrder');
-		$fieldId = $categoryFieldTable->getFieldByAlias('fieldId');
-		$fieldType = $fieldsTable->getFieldByAlias('fieldType');
-
-		$orderPosition = 100;
-		foreach ($categoryFields as $fieldArray) {
-			$options = array(
-				'name' => $fieldArray[$name],
-				'label' => $fieldArray[$title],
-				'sortOrder' => (
-					empty($fieldArray[$sortOrder]) ? ++$orderPosition : $fieldArray[$sortOrder]
-				)
-			);
-
-			$field = PTA_Control_Form_Field::getFieldByType(
-				$fieldArray[$fieldType], 
-				"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
-				$options
-			);
-			if (!empty($fieldsValues[$fieldArray[$name]])) {
-				$field->setValue($fieldsValues[$fieldArray[$name]]);
-			}
-			if (!empty($field)) {
-				$this->addVisual($field);
-			}
-		}
-	}
-*/
 	private function _filterFields($fields, $firstField, $secondField)
 	{
 		$resData = array();
@@ -224,7 +182,7 @@ class Catalog_editForm extends PTA_Control_Form
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		
-		$oldImg = $this->_product->getImage();
+		//$oldImg = $this->_product->getImage();
 		$this->_product->loadFrom($data);
 		$savedProduct = $productTable->findByFields(
 			array('categoryId', 'title'),
@@ -245,14 +203,6 @@ class Catalog_editForm extends PTA_Control_Form
 			$this->_product->setId(null);
 		}
 /*
-		if (($image = $this->getVisual('photo'))) {
-			$image->getUploader()->setDestination(PTA_CONTENT_PHOTOS_PATH);
-			if ($image->upload()) {
-				$this->_product->setImage($image->getValue());
-			}
-		}
-*/
-		
 		$brand = PTA_DB_Object::get('Catalog_Brand', $this->_product->getBrandId());
 		if (($imgFile = PTA_Util::upload($brand->getContentPhotoPath()))) {
 			if (!empty($oldImg)) {
@@ -260,7 +210,7 @@ class Catalog_editForm extends PTA_Control_Form
 			}
 			$this->_product->setImage($imgFile);
 		}
-
+*/
 		$this->_product->saveCustomFields($data);
 		if ($this->_product->save()) {
 			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());

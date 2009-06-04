@@ -21,7 +21,7 @@ class Products extends PTA_WebModule
 	{
 		parent::init();
 
-		$productId = $this->getApp()->getHttpVar('Product');
+		$productId = (int)$this->getApp()->getHttpVar('Product');
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$product = current($productTable->findById($productId));
@@ -53,12 +53,29 @@ class Products extends PTA_WebModule
 			)
 		);
 		
+		$this->updateProductStat($productId);
+		
 		$this->setVar('product', $product);
+		$this->setVar(
+			'photo',
+			PTA_DB_Table::get('Catalog_Product_Photo')->getDefaultPhoto($productId)
+		);
 		$this->setVar(
 			'customProductField',
 			PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($productId, false)
 		);
 		$this->setVar('category', $category);
 		$this->setVar('brand', $brand);
+	}
+	
+	public function updateProductStat($productId)
+	{
+		$productStat = PTA_DB_Object::get('Catalog_Product_Stat', $productId);
+		$productStat->setProductId($productId);
+		
+		$viewsCnt = $productStat->getViews();
+		$productStat->setViews(++$viewsCnt);
+
+		return $productStat->save();
 	}
 }

@@ -16,6 +16,5 @@ class PTA_Catalog_Field_Table extends PTA_DB_Table
 	 */
 	protected $_name = 'CATALOG_PRODUCTSFIELDS';
 	protected $_primary = 'PRODUCTSFIELDS_ID';
-	protected $_sequence = true;
-	
+
 }

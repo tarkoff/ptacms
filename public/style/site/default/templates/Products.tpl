@@ -3,8 +3,8 @@
 	<div id="descr" class="descr">
 		<div id="descrTop" class="append-bottom">
 			<div id="productImg" class="productImgDiv">
-				{if !empty($data->product.PRODUCTS_IMAGE)}
-					<img src="{$smarty.const.PTA_THUMB_URL}?src={$smarty.const.PTA_CONTENT_URL}/{$data->product.PRODUCTS_IMAGE}&h=180&w=180&zc=0" alt="{$data->product.PRODUCTS_TITLE}"/>
+				{if !empty($data->photo.PHOTOS_PHOTO)}
+					<img src="{$smarty.const.PTA_THUMB_URL}?src={$smarty.const.PTA_CONTENT_URL}/{$data->photo.PHOTOS_PHOTO}&h=180&w=180&zc=0" alt="{$data->product.PRODUCTS_TITLE}"/>
 				{else}
 					<img src="{$smarty.const.PTA_IMAGES_URL}/bookimg180.gif" alt="{$data->product.PRODUCTS_TITLE}" />
 				{/if}

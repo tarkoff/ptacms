@@ -1,5 +1,5 @@
 <div id="leftMenu" class="span-5">
-	<h6 class="menuTitle">Тематика</h6>
+	<h6 class="menuTitle">Раздеды</h6>
 	<ul class="menuList">
 	{defun name="cattree" list=$data->Themes}
 	{foreach from=$list key=alias item=title name=cat}

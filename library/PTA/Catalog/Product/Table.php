@@ -16,7 +16,6 @@ class PTA_Catalog_Product_Table extends PTA_DB_Table
 	 */
 	protected $_name = 'CATALOG_PRODUCTS';
 	protected $_primary = 'PRODUCTS_ID';
-	protected $_sequence = true;
 	protected $_product;
 	
 	/**

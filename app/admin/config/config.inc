@@ -23,6 +23,9 @@ define('PTA_CONTENT_PATH', PTA_PUBLIC_PATH . '/content');
 define('PTA_CONTENT_PHOTOS_PATH', PTA_CONTENT_PATH . '/images');
 define('PTA_ADMIN_PATH', PTA_ROOT_PATH . '/app/admin');
 
+define('PTA_CONTENT_URL', PTA_BASE_URL . '/public/content');
+define('PTA_CONTENT_PHOTOS_URL', PTA_CONTENT_URL . '/images');
+
 define('PTA_CACHE_PATH', PTA_ROOT_PATH . '/system/cache/admin');
 define('PTA_LOG_PATH', PTA_ROOT_PATH . '/system/logs/admin');
 
@@ -33,6 +36,7 @@ define('PTA_CSS_URL', PTA_DESIGN_URL . '/css');
 define('PTA_IMAGES_URL', PTA_DESIGN_URL . '/img');
 define('PTA_JS_URL', PTA_BASE_URL . '/public/js');
 define('PTA_JS_JQUERY_URL', PTA_JS_URL . '/jquery');
+define('PTA_THUMB_URL', PTA_BASE_URL . '/public/timthumb/timthumb.php');
 
 define('PTA_TEMPLATES_DIR', PTA_DESIGN_PATH . '/templates/');
 define('PTA_TEMPLATES_CDIR', PTA_CACHE_PATH . '/templates_c/');

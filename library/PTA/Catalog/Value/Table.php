@@ -16,7 +16,6 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 	 */
 	protected $_name = 'CATALOG_PRODUCTSVALUES';
 	protected $_primary = 'PRODUCTSVALUES_ID';
-	protected $_sequence = true;
 
 	public function getValuesByProductId($productId, $allValues = true)
 	{

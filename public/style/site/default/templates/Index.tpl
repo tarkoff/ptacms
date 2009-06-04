@@ -12,7 +12,6 @@
 <link href="{$smarty.const.PTA_CSS_URL}/style.css" rel="stylesheet" type="text/css" />
 
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
-<script src="{$smarty.const.PTA_JS_JQUERY_URL}/corners/jquery.corners.js" type="text/javascript"></script>
 </head>
 <body>
 	{include file=$Header->tpl data=$Header}
@@ -23,7 +22,7 @@
 			<div id="content" class="span-14 content">
 				{include file=$activeModule->tpl data=$activeModule}
 			</div>
-			<div id="adv" class="span-5 last"><h2>Sponsors links</h2></div>
+			<div id="adv" class="span-5 last"><h2>&nbsp;</h2></div>
 		</div>
 	</div>
 	<hr class="space" />
