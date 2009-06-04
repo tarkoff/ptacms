@@ -14,7 +14,6 @@ class PTA_Catalog_Product_Stat extends PTA_DB_Object
 
 	private $_productId;
 	private $_views;
-	private $_downloads;
 
 	public function getProductId()
 	{
@@ -24,9 +23,10 @@ class PTA_Catalog_Product_Stat extends PTA_DB_Object
 	public function setProductId($value)
 	{
 		$this->_productId= (int)$value;
+		//$this->_id = $this->_productId;
 	}
 
-	public function getTViews()
+	public function getViews()
 	{
 		return $this->_views;
 	}
@@ -36,13 +36,19 @@ class PTA_Catalog_Product_Stat extends PTA_DB_Object
 		$this->_views = (int)$views;
 	}
 
-	public function getDownloads()
+	public function save()
 	{
-		return $this->_downloads;
+		if (empty($this->_id) && !empty($this->_productId)) {
+			return parent::save(true);
+		}
+		
+		return parent::save();
+	}
+	
+	public function loadById($id)
+	{
+		parent::loadById($id);
+		$this->_id = $this->_productId;
 	}
 
-	public function setDownloads($downloads)
-	{
-		$this->_downloads = (int)$downloads;
-	}
 }

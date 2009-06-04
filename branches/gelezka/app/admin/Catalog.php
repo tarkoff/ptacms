@@ -11,12 +11,12 @@
 
 class Catalog extends PTA_WebModule
 {
-	private $_catalog;
+	private $_product;
 	
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'Catalog.tpl');
-		$this->_catalog = new PTA_Catalog_Product('Catalog');
+		$this->_product = new PTA_Catalog_Product('Product');
 
 		$this->setModuleUrl(PTA_ADMIN_URL . '/Catalog/');
 	}
@@ -26,8 +26,12 @@ class Catalog extends PTA_WebModule
 		parent::init();
 
 		$action = $this->getApp()->getAction();
-		$item = $this->getApp()->getHttpVar('Item');
-		
+		$itemId = $this->getApp()->getHttpVar('Item');
+
+		if (!empty($itemId)) {
+			$this->_product->loadById($itemId);
+		}
+
 		switch (ucfirst($action)) {
 			case 'Add': 
 					$this->editAction();
@@ -38,15 +42,23 @@ class Catalog extends PTA_WebModule
 			break;
 
 			case 'Edit':
-					$this->editAction($item);
+					$this->editAction();
+			break;
+
+			case 'EditPhotos':
+					$this->editPhotosAction();
+			break;
+
+			case 'DeletePhoto':
+					$this->deletePhotosAction();
 			break;
 
 			case 'Delete':
-				$this->deleteAction($item);
+				$this->deleteAction();
 			break;
 
 			case 'Copy':
-				$this->editAction($item, true);
+				$this->editAction(true);
 			break;
 
 			default:
@@ -54,33 +66,28 @@ class Catalog extends PTA_WebModule
 		}
 	}
 
-	public function editAction($itemId = null, $copy = false)
+	public function editAction($copy = false)
 	{
 		$this->setVar('tplMode', 'edit');
-
-		if (!empty($itemId)) {
-			$this->_catalog->loadById($itemId);
-		}
-
-		$this->addVisual(new Catalog_editForm('editForm', $this->_catalog, $copy));
+		$this->addVisual(new Catalog_editForm('editForm', $this->_product, $copy));
 	}
 
 	public function listAction()
 	{
 		$this->setVar('tplMode', 'list');
-		$catalogTable = $this->_catalog->getTable();
+		$catalogTable = $this->_product->getTable();
 
 		$catalog = $catalogTable->getFields();
 		unset($catalog['CATEGORYID'], $catalog['MANUFACTURERID']);
 
-		$view = new PTA_Control_View('catalogView', $this->_catalog, array_values($catalog));
+		$view = new PTA_Control_View('catalogView', $this->_product, array_values($catalog));
 		$categoryTable = PTA_DB_Table::get('Catalog_Category');
 
 		$view->join(
-				$categoryTable->getTableName(), 
-				($catalogTable->getFullFieldName('CATEGORYID') . ' = ' . $categoryTable->getFullPrimary()), 
-				array($catalogTable->getTableName() . '_CATEGORY' => $categoryTable->getFieldByAlias('TITLE'))
-				);
+			$categoryTable->getTableName(), 
+			($catalogTable->getFullFieldName('CATEGORYID') . ' = ' . $categoryTable->getFullPrimary()), 
+			array($catalogTable->getTableName() . '_CATEGORY' => $categoryTable->getFieldByAlias('TITLE'))
+		);
 
 		$this->addActions($view);
 		$this->setVar('view', $view->exec());
@@ -89,18 +96,38 @@ class Catalog extends PTA_WebModule
 	public function addActions(&$view)
 	{
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Item', 'edit.png');
+		$view->addCommonAction('Edit Photos', $this->getModuleUrl() . 'EditPhotos/Item', 'edit.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Item', 'copy.png');
 		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Item', 'remove.png');
 	}
 
-	public function deleteAction($itemId)
+	public function deleteAction()
 	{
-		if (!empty($itemId)) {
-			$this->_catalog->loadById($itemId);
-		}
-
-		$this->_catalog->remove();
+		$this->_product->remove();
 		$this->redirect($this->getModuleUrl());
 	}
 
+	public function editPhotosAction()
+	{
+		$this->setVar('tplMode', 'editPhotos');
+		
+		$form = new Catalog_EditPhotosForm('EditPhotosForm', $this->_product);
+		$form->setVar('actionUrl', $this->getModuleUrl() . 'DeletePhoto/PhotoId/');
+		$this->addVisual($form);
+	}
+	
+	public function deletePhotosAction()
+	{
+		$photoId = $this->getApp()->getHttpVar('PhotoId');
+		$productId = 0;
+		
+		$photo = PTA_DB_Object::get('Catalog_Product_Photo', intval($photoId));
+		if ($photo->getId()) {
+			$productId = $photo->getProductId();
+			$photo->remove();
+		}
+		if (!empty($productId)) {
+			$this->redirect($this->getModuleUrl() . 'EditPhotos/Item/' . $productId);
+		}
+	}
 }

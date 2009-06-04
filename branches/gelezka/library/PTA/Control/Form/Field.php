@@ -13,7 +13,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 {
 	const TYPE_TEXT = 1;
 	const TYPE_TEXTAREA = 2;
-	const TYPE_RADIOGROUP = 3;
+	const TYPE_RADIO = 3;
 	const TYPE_SUBMIT = 4;
 	const TYPE_IMAGE = 5;
 	const TYPE_SELECT = 6;
@@ -41,7 +41,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 		return array(
 			array(self::TYPE_TEXT, 'Text'),
 			array(self::TYPE_TEXTAREA, 'Text Area'),
-			array(self::TYPE_RADIOGROUP, 'Radio Group'),
+			array(self::TYPE_RADIO, 'Radio Group'),
 			array(self::TYPE_SUBMIT, 'Submit'),
 			array(self::TYPE_IMAGE, 'Image'),
 			array(self::TYPE_SELECT, 'Select'),

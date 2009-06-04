@@ -86,7 +86,7 @@ class PTA_Util
 		return $resData;
 	}
 	
-	public static function upload($destPath, $destName = null, $uploader = null)
+	public static function upload($destPath, $uploader = null)
 	{
 		if (
 			empty($uploader)
@@ -136,6 +136,7 @@ class PTA_Util
 	 */
 	public static function unlink($dest)
 	{
+var_dump($dest);
 		// Sanity check
 		if (!file_exists($dest)) {
 			return false;

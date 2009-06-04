@@ -16,7 +16,6 @@ class PTA_Catalog_Field_Value_Table extends PTA_DB_Table
 	 */
 	protected $_name = 'CATALOG_PRODUCTSFIELDSVALUES';
 	protected $_primary = 'PRODUCTSFIELDSVALUES_ID';
-	protected $_sequence = true;
 	
 	public function getFieldValues($fieldIds)
 	{

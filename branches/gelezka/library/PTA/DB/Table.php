@@ -35,7 +35,10 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 
 	public function lastInsertedId()
 	{
-		return $this->getAdapter()->lastInsertId($this->getTableName(), $this->getPrimary());
+		return $this->getAdapter()->lastInsertId(
+			$this->getTableName(),
+			$this->getPrimary()
+		);
 	}
 
 	public function initStaticFields()

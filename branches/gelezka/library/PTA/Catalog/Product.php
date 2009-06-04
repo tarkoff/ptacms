@@ -16,7 +16,8 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	private $_categoryId;
 	private $_brandId;
 	private $_alias;
-	private $_image;
+	private $_photo;
+	private $_photoId;
 	private $_shortDescr;
 	private $_date;
 	private $_customFields = array();
@@ -227,14 +228,36 @@ class PTA_Catalog_Product extends PTA_DB_Object
 		$this->_alias = $alias;
 	}
 
-	public function getImage()
+	public function getPhoto()
 	{
-		return $this->_image;
+		if (empty($this->_photo)) {
+			$photoTable = PTA_DB_Table::get('Catalog_Product_Photo');
+			$photo = $photoTable->getDefaultPhoto($this->getId());
+			$this->_photo = $photo[$photoTable->getFieldByAlias('photo')];
+			$this->_photoId = $photo[$photoTable->getPrimary()];
+			unset($photo);
+		}
+		return $this->_photo;
 	}
 
-	public function setImage($image)
+	public function setPhoto($image)
 	{
-		$this->_image = $image;
+		$this->_photo = $image;
+	}
+	
+	public function getPhotoId()
+	{
+		return $this->_photoId;
+	}
+	
+	public function setPhotoId($photoId)
+	{
+		if ($this->_photoId != $photoId) {
+			$this->_photoId = intval($photoId);
+			PTA_DB_Table::get('Catalog_Product_Photo')->setDefaultPhoto(
+				$this->_photoId, $this->_id
+			);
+		}
 	}
 	
 	public function getShortDescr()
