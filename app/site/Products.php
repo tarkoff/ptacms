@@ -57,8 +57,8 @@ class Products extends PTA_WebModule
 		
 		$this->setVar('product', $product);
 		$this->setVar(
-			'photo',
-			PTA_DB_Table::get('Catalog_Product_Photo')->getDefaultPhoto($productId)
+			'photos',
+			PTA_DB_Table::get('Catalog_Product_Photo')->getPhotos($productId)
 		);
 		$this->setVar(
 			'customProductField',

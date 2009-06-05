@@ -57,4 +57,17 @@ class PTA_Catalog_Product_Photo_Table extends PTA_DB_Table
 		$this->getAdapter()->commit();
 		return $res;
 	}
+	
+	public function getPhotos($productId)
+	{
+		if (empty($productId)) {
+			return false;
+		}
+		
+		$photos = $this->findByFields(
+			array('productId'),
+			array(intval($productId))
+		);
+		return $photos;
+	}
 }
