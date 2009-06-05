@@ -181,12 +181,14 @@ hr.descrDelim{
 	background:url(../img/footer_bg.gif) 0 0 repeat-x;
 	height:102px;
 	position:relative;
+	text-align:center;
 }
 #footer ul{
 	position:absolute;
-	left:340px;
+	left:35%;
 	list-style-type:none;
 	top:16px;
+	margin:0 auto;
 }
 #footer ul li{
 	float:left;

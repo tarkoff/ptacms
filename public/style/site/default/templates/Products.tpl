@@ -8,7 +8,10 @@
 <script type="text/javascript">
 			$(document).ready(function(){
 				//Examples of how to assign the ColorBox event to elements.
-				$("a[rel='photos']").colorbox({transition:"elastic"});
+				$("a[rel='photos']").colorbox({
+					transition:"elastic",
+					current : "{current} из {total}"
+				});
 			});
 		</script>
 {/literal}
@@ -27,7 +30,7 @@
 						</a>
 					{/if}
 				{foreachelse}
-					<img src="{$smarty.const.PTA_IMAGES_URL}/bookimg180.gif" alt="{$data->product.PRODUCTS_TITLE}" />
+					<img src="{$smarty.const.PTA_IMAGES_URL}/noImg180.gif" alt="{$data->product.PRODUCTS_TITLE}" />
 				{/foreach}
 			</div>
 		</div>
