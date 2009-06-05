@@ -15,7 +15,7 @@
 					/>
 				{else}
 					<img 
-						src="{$smarty.const.PTA_IMAGES_URL}/bookimg120.gif" 
+						src="{$smarty.const.PTA_IMAGES_URL}/noImg120.gif" 
 						alt="{$product.PRODUCTS_TITLE}"
 						width="120"
 						height="120" 
