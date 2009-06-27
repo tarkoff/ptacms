@@ -31,7 +31,9 @@ abstract class PTA_WebModule extends PTA_Module
 
 		if (!empty($forms)) {
 			foreach ($forms as $form) {
-				$form->init();
+				if (!$form->inited()) {
+					$form->init();
+				}
 			}
 		}
 	}
@@ -60,7 +62,6 @@ abstract class PTA_WebModule extends PTA_Module
 		$object = parent::toString();
 		$forms = $this->getAllVisualElements();
 
-		$data = array();
 		if (!empty($forms)) {
 			foreach ($forms as $form) {
 				//$data[$form->getPrefix()] = $form->toString();
@@ -68,7 +69,8 @@ abstract class PTA_WebModule extends PTA_Module
 			}
 		}
 
-//		$object->data = $data;
+		unset($forms);
+		$object->object = $this;
 
 		return $object;
 	}
@@ -97,11 +99,11 @@ abstract class PTA_WebModule extends PTA_Module
 
 	public function addVisual($visual)
 	{
-		if ($this->isInited()) {
+		if ($this->inited()) {
 			$visual->init();
 		}
 
-		if ($this->isRunned()) {
+		if ($this->runned()) {
 			$visual->run();
 		}
 		

@@ -35,7 +35,7 @@ class PTA_TemplateEngine extends PTA_Object
 	public function init()
 	{
 		$this->_smarty = &Zend_Registry::get('Smarty');
-		$smartyExtention = new PTA_Smarty_Extention($this->_smarty);		
+		$smartyExtention = new PTA_Smarty_Extention($this->_smarty);
 	}
 
 	public function registerTemplate($prefix, $tplFile)
@@ -54,15 +54,13 @@ class PTA_TemplateEngine extends PTA_Object
 
 		$app = $this->getApp();
 
-		$modules = $app->getModules();
-		foreach ($modules as $module) {
+		foreach ($app->getModules() as $module) {
 			$this->_smarty->assign_by_ref($module->getPrefix(), $module->toString());
 		}
 
-		 $this->_smarty->assign_by_ref($app->getPrefix(), $app->toString());
-		 $this->_smarty->display($app->getTemplate()->getFile());
-		 
-		 return true;
+		$this->_smarty->assign_by_ref($app->getPrefix(), $app->toString());
+		$this->_smarty->display($app->getTemplate()->getFile());
+		return true;
 	}
 
 	public function getTemplate($prefix)

@@ -4,7 +4,7 @@ define('PTA_APP_DEBUG', true);
 if (!empty($_SERVER['HTTP_HOST'])) {
 	define('PTA_BASE_URL', 'http://' . $_SERVER['HTTP_HOST']);
 } else {
-	define('PTA_BASE_URL', 'http://gelezka.info');
+	define('PTA_BASE_URL', 'http://gelezka.net');
 }
 
 if (empty($rootPath)) {
@@ -28,15 +28,13 @@ define('PTA_CONTENT_PHOTOS_URL', PTA_CONTENT_URL . '/images');
 define('PTA_CACHE_PATH', PTA_ROOT_PATH . '/system/cache/site');
 define('PTA_LOG_PATH', PTA_ROOT_PATH . '/system/logs/site');
 
-define('PTA_DESIGN_NAME', 'default');
+define('PTA_DESIGN_NAME', 'catalogio');
 
 define('PTA_DESIGN_PATH', PTA_PUBLIC_PATH . '/style/site/' . PTA_DESIGN_NAME);
 define('PTA_DESIGN_URL', PTA_BASE_URL . '/public/style/site/' . PTA_DESIGN_NAME);
-#define('PTA_DESIGN_URL', '/public/style/site/' . PTA_DESIGN_NAME);
+define('PTA_DESIGN_CSS_URL', PTA_DESIGN_URL . '/css');
+define('PTA_DESIGN_IMAGES_URL', PTA_DESIGN_URL . '/img');
 
-
-define('PTA_CSS_URL', PTA_DESIGN_URL . '/css');
-define('PTA_IMAGES_URL', PTA_DESIGN_URL . '/img');
 define('PTA_JS_URL', PTA_BASE_URL . '/public/js');
 define('PTA_JS_JQUERY_URL', PTA_JS_URL . '/jquery');
 define('PTA_THUMB_URL', PTA_BASE_URL . '/public/timthumb/timthumb.php');

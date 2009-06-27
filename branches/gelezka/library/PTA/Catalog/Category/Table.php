@@ -17,10 +17,7 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 	protected $_name = 'CATALOG_CATEGORIES';
 	protected $_primary = 'CATEGORIES_ID';
 
-	public function getCategoryById($categoryId)
-	{
-		return $this->find($categoryId)->toArray();
-	}
+	private static $_categoryChilds = array();
 
 	/**
 	 * Get childs for category by id
@@ -29,20 +26,46 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 	 * @param boolean $onlyPublic
 	 * @return array
 	 */
-	public function getCategoriesByRootId($categoryId = 0, $onlyPublic = true)
+	public function getChildsById($categoriesIds = null, $onlyPublic = true)
 	{
-		$select = $this->select()->from(
-			$this->getTableName(),
-			$this->getFieldsByAliases(array('alias', 'title'))
-		);
+		$categoriesIds = (array)$categoriesIds;
 
-		$select->where($this->getFieldByAlias('parentId') . ' = ' . intval($categoryId));
-		if ($onlyPublic) {
-			$select->where($this->getFieldByAlias('isPublic') . ' = 1');
+		$cacheKey = implode('_', $categoriesIds) . '_' . intval($onlyPublic);
+		if (isset(self::$_categoryChilds[$cacheKey])) {
+			return self::$_categoryChilds[$cacheKey];
 		}
 
+		$resultCategories = array();
+		$tableName = $this->getTableName();
+		$fields = array_values($this->getFields());
+
+		$categoryIdField = $this->getPrimary();
+		$parentField = $this->getFieldByAlias('parentId');
+		$publicField = $this->getFieldByAlias('isPublic');
+
 		$this->getAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
-		return $this->getAdapter()->fetchPairs($select);
+		do {
+			$select = $this->select()->from($tableName, $fields);
+
+			$select->where($parentField . ' in (?)', $categoriesIds);
+			if ($onlyPublic) {
+				$select->where($publicField . ' = 1');
+			}
+			$select->order($parentField);
+
+			$res = $this->getAdapter()->fetchAssoc($select);
+			$resultCategories = array_merge($resultCategories, $res);
+
+			$categoriesIds = array();
+			foreach ($res as $category) {
+				if ($category[$parentField]) {
+					$categoriesIds[] = $category[$categoryIdField];
+				}
+			}
+		} while ($categoriesIds);
+		
+		self::$_categoryChilds[$cacheKey] = $resultCategories;
+		return $resultCategories;
 	}
 
 	/**
@@ -52,37 +75,26 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 	 * @param boolean $onlyPublic
 	 * @return array
 	 */
-	public function getCategoriesByRootAlias($categoryAlias, $onlyPublic = true)
+	public function getChildsByAlias($categoryAlias, $onlyPublic = true)
 	{
 		if (empty($categoryAlias)) {
 			return array();
 		}
 
-		$select = $this->select()->from(
-			array('cats1' => $this->getTableName()),
-			$this->getFieldsByAliases(array('alias', 'title'))
+		$select = $this->select()->from($this->getTableName(), $this->getPrimary());
+		$select->where($this->getFieldByAlias('alias') . ' = ?', $categoryAlias);
+
+		return $this->getChildsById(
+			$this->getAdapter()->fetchOne($select),
+			$onlyPublic
 		);
 
-		$select->join(
-			array('cats2' => $this->getTableName()),
-			'cats1.' . $this->getFieldByAlias('parentId') . ' = cats2.' . $this->getPrimary(),
-			array()
-		);
-
-		$select->where('cats2.' . $this->getFieldByAlias('alias') . ' = ?', $categoryAlias);
-
-		if ($onlyPublic) {
-			$select->where('cats1.' . $this->getFieldByAlias('isPublic') . ' = 1');
-		}
-
-		$this->getAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
-		return $this->getAdapter()->fetchPairs($select);
 	}
-	
+
 	/**
 	 * Get super root category for current category by cayegory id
 	 *
-	 * @param int $categoryId
+	 * @param array $categoryId
 	 * @param boolean $allParents
 	 * @return array
 	 */
@@ -92,18 +104,28 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 			return array();
 		}
 
+		$categoryId = (array)$categoryId;
 		$parentField = $this->getFieldByAlias('parentId');
+		$idField = $this->getPrimary();
 
 		$categories = array();
 		if ($allParents) {
 			do {
-				$categories[$categoryId] = current($this->find(intval($categoryId))->toArray());
-				$categoryId = $categories[$categoryId][$parentField];
+				$parentCategories = $this->findByFields(array('id'), array($categoryId));
+				$categoryId = array();
+				foreach ($parentCategories as $cat) {
+					$categories[$cat[$idField]] = $cat;
+					$categoryId[$cat[$idField]] = intval($cat[$parentField]);
+				}
 			} while (!empty($categoryId));
 		} else {
 			do {
-				$categories = current($this->find(intval($categoryId))->toArray());
-				$categoryId = $categories[$parentField];
+				$parentCategories = $this->findByFields(array('id'), array($categoryId));
+				$categoryId = $categories = array();
+				foreach ($parentCategories as $cat) {
+					$categories[$cat[$idField]] = $cat;
+					$categoryId[$cat[$idField]] = intval($cat[$parentField]);
+				}
 			} while (!empty($categoryId));
 		}
 

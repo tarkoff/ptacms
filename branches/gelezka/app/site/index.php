@@ -28,11 +28,16 @@ class SiteApp extends PTA_App
 	public function insertModules()
 	{
 		$controller = $this->_router->getActiveController();
-		$this->_controller = empty($controller) ? 'Catalog' : $controller;
+		if (empty($controller)) {
+			$this->_controller = 'Categories';
+			$this->insertModule('MostRecent', 'MostRecent');
+		} else {
+			$this->_controller = $controller;
+		}
 		$this->_action = $this->_router->getActiveAction();
 
 		$this->insertModule('Header', 'Header');
-		$this->insertModule('LeftMenu', 'LeftMenu');
+		$this->insertModule('Categories', 'Categories');
 		$this->insertModule('activeModule', $this->getController());
 	}
 	

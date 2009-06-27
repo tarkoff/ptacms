@@ -127,12 +127,12 @@ abstract class PTA_Object
 		$_REQUEST[$name] = $value;
 	}
 
-	public function isInited()
+	public function inited()
 	{
 		return $this->_inited;
 	}
 
-	public function isRunned()
+	public function runned()
 	{
 		return $this->_runned;
 	}
@@ -157,7 +157,9 @@ abstract class PTA_Object
 
 	public function quote($value)
 	{
-		if (!is_numeric($value)) {
+		if (is_numeric($value)) {
+			$value = intval($value);
+		} else {
 			$value = htmlspecialchars(strip_tags(trim($value)));
 		}
 		return $value;

@@ -30,7 +30,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 		$notCategoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), false, true);
 		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory($this->_category->getId(), true, true);
-var_dump($categoryFields);
+
 		$select = new PTA_Control_Form_Select('notCategoryFields', 'Fields For Adding', false);
 		$select->setOptionsFromArray(
 			$notCategoryFields,

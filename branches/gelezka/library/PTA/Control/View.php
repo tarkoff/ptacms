@@ -24,12 +24,20 @@ class PTA_Control_View extends PTA_Object
 	 * @param array $fields
 	 * @access public
 	 */
-	public function __construct($prefix, $object, $fields = null)
+	public function __construct($prefix, $object = null, $fields = null)
 	{
 		if (empty($prefix) || empty($object)) {
 			return false;
 		}
 		$this->setPrefix($prefix);
+
+		$this->setMinRpp(10);
+		$this->setMaxRpp(100);
+		//$this->setRpp(20);
+
+		if (empty($object)) {
+			return;
+		}
 
 		$this->_table = $object->getTable();
 		$this->_select = $this->_table->select();
@@ -51,10 +59,6 @@ class PTA_Control_View extends PTA_Object
 								);
 			}
 		}
-
-		$this->setMinRpp(10);
-		$this->setMaxRpp(100);
-		//$this->setRpp(20);
 	}
 
 	/**
@@ -98,8 +102,9 @@ class PTA_Control_View extends PTA_Object
 		$minRpp = $this->getMinRpp();
 		$maxRpp = $this->getMaxRpp();
 		$rpp = $this->getRpp();
+
 		for ($rppStep = $minRpp; $rppStep <= $maxRpp; $rppStep += $minRpp) {
-			$resultObject->rpps[$rppStep] = $rppStep; 
+			$resultObject->rpps[$rppStep] = $rppStep;
 		}
 
 		$resultObject->rpp = $rpp;
@@ -375,21 +380,54 @@ class PTA_Control_View extends PTA_Object
 	/**
 	 * Get View Total Records Count
 	 *
-	 * @return unknown
+	 * @return int
 	 */
-	public function getTotalRecordsCnt()
+	public function getTotalRecordsCnt($where = '')
 	{
 		$recCnt = $this->getVar('recsCnt');
 		if (!empty($recCnt)) {
 			return $recCnt;
 		}
-		
-		$recCnt = $this->_table->getAdapter()->fetchOne(
-			'select count(*) from '. $this->_table->getTableName()
-		);
-		
-		$this->setVar('recsCnt', $recCnt);
+
+		$sql = 'select count(*) from '. $this->_table->getTableName();
+		if (!empty($where)) {
+			$sql .= ' where ' . $where;
+		}
+
+		$recCnt = $this->_table->getAdapter()->fetchOne($sql);
+
+		$this->setTotalRecordsCnt($recCnt);
 		return $recCnt;
+	}
+	
+	/**
+	 * Set View Total Records Count
+	 *
+	 * @param int $cnt
+	 */
+	public function setTotalRecordsCnt($recCnt)
+	{
+		$this->setVar('recsCnt', intval($recCnt));
+	}
+	
+	/**
+	 * Set View Table
+	 *
+	 * @param PTA_DB_Table $table
+	 */
+	public function setTable(PTA_DB_Table $table)
+	{
+		$this->_table = $table;
+	}
+	
+	/**
+	 * Set View Select /object
+	 *
+	 * @param Zend_Db_Table_Select $select
+	 */
+	public function setSelect(Zend_Db_Select $select)
+	{
+		$this->_select = $select;
 	}
 
 }

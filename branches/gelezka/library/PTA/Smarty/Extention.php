@@ -34,6 +34,7 @@ class PTA_Smarty_Extention
 	{
 		$this->_smarty->register_function('pta_const', array($this, 'pta_const'));
 		$this->_smarty->register_function('pta_dump', array($this, 'pta_dump'));
+		$this->_smarty->register_function('pta_array_chunk', array($this, 'pta_array_chunk'));
 	}
 
 	function do_translation ($params, $content, &$smarty, &$repeat)
@@ -67,6 +68,26 @@ class PTA_Smarty_Extention
 			var_dump(@$params['var']);
 		} else {
 			$this->_smarty->assign($params['to'], var_export(@$params['var'], true));
+		}
+	}
+
+	public function pta_array_chunk($params)
+	{
+		$input = array();
+		if (empty($params['input']) || !is_array($params['input'])) {
+			trigger_error('Required parameter "input" did not set in smarty function pta_array_chunk');
+			return array();
+		} else {
+			$input = $params['input'];
+		}
+		
+		$size = (empty($params['size']) ? round(count($input) / 2) : intval($params['size']));
+		$preserve_keys = (isset($params['preserve_keys']) ? (bool)$params['preserve_keys'] : false);
+
+		if (empty($params['to'])) {
+			return array_chunk($input, $size, $preserve_keys);
+		} else {
+			$this->_smarty->assign($params['to'], array_chunk($input, $size, $preserve_keys));
 		}
 	}
 }
