@@ -27,6 +27,11 @@ class PTA_Control_Form_Select extends PTA_Control_Form_Field
 	{
 		$this->setValue($value);
 	}
+	
+	public function setValue($value)
+	{
+		$this->setVar('value', (array)$value);
+	}
 
 	public function getSelected()
 	{

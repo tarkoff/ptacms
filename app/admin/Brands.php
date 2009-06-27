@@ -76,9 +76,7 @@ class Brands extends PTA_WebModule
 		$view = new PTA_Control_View('fieldsView', $this->_brand, array_values($fields));
 
 		$this->addActions($view);
-		$res = $view->exec();
-
-		$this->setVar('view', $res);
+		$this->setVar('view', $view->exec());
 	}
 
 	public function addActions(&$view)

@@ -25,16 +25,6 @@ class PTA_Catalog_Field extends PTA_DB_Object
 		$this->_categoryId = (int)$value;
 	}
 
-	public function getUrl()
-	{
-		return $this->_url;
-	}
-
-	public function setUrl($value)
-	{
-		$this->_url = $value;
-	}
-
 	public function getTitle()
 	{
 		return $this->_title;

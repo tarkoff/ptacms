@@ -12,14 +12,15 @@
 class PTA_Catalog_Product extends PTA_DB_Object 
 {
 	private $_title;
-	private $_url;
-	private $_categoryId;
+	private $_categoryId = array();
 	private $_brandId;
 	private $_alias;
 	private $_photo;
 	private $_photoId;
 	private $_shortDescr;
 	private $_date;
+	private $_url;
+	private $_driversUrl;
 	private $_customFields = array();
 	private static $_customFieldsMeatData = array();
 
@@ -31,12 +32,22 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 	public function getCategoryId()
 	{
+		if (empty($this->_categoryId)) {
+			$catTable = PTA_DB_Table::get('Catalog_Product_Category');
+			$categoriesId = $catTable->findByFields(
+				array('productId'), array($this->_id)
+			);
+			$categoryIdField = $catTable->getFieldByAlias('categoryId');
+			foreach ($categoriesId as $productCategory) {
+				$this->_categoryId[] = $productCategory[$categoryIdField];
+			}
+		}
 		return $this->_categoryId;
 	}
 
 	public function setCategoryId($value)
 	{
-		$this->_categoryId = (int)$value;
+		$this->_categoryId = (array)$value;
 		if ($this->getId()) {
 			$this->_customFields = $this->buildCustomFields();
 			$this->getTable()->setProduct($this);
@@ -126,18 +137,21 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 		$valuesTable->getAdapter()->beginTransaction();
 		$valuesTable->clearByFields(array('productId' => $this->getId()));
+		$result = false;
 		foreach ($fields as $field) {
 			$alias = $field[$fieldAlias];
+			$resultData = array();
 			if (isset($data->$alias)) {
 				$customFields[$alias] = $data->$alias;
-				$resultData = array();
 				$resultData[$valuesFieldId]= $field[$fieldFieldId];
 				$resultData[$valuesProductId] = $this->getId();
 				$resultData[$valuesValue] = $customFields[$alias];
 			}
 
 			try {
-				$result = $valuesTable->insert($resultData);
+				if (!empty($resultData)) {
+					$result = $valuesTable->insert($resultData);
+				}
 			} catch (PTA_Exception $e) {
 				echo $e->getMessage();
 				//return false;
@@ -206,6 +220,16 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	public function setUrl($value)
 	{
 		$this->_url = $value;
+	}
+
+	public function getDriversUrl()
+	{
+		return $this->_driversUrl;
+	}
+
+	public function setDriversUrl($value)
+	{
+		$this->_driversUrl = $value;
 	}
 
 	public function getTitle()
@@ -288,5 +312,28 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	public function setDate($date)
 	{
 		$this->_date = $date;
+	}
+	
+	/**
+	 * save data to DB
+	 *
+	 * @method save
+	 * @param boolean $forceInsert
+	 * @access public
+	 * @return boolean
+	*/	
+	public function save($forceInsert = false)
+	{
+		$this->saveCategories();
+		return parent::save($forceInsert);
+	}
+
+	public function saveCategories()
+	{
+//var_dump($this->getCategoryId());
+		return PTA_DB_Table::get('Catalog_Product_Category')->saveProductCategories(
+			$this->getId(),
+			$this->getCategoryId()
+		);
 	}
 }

@@ -31,13 +31,8 @@
 		{if !empty($field->disabled)}disabled="disabled"{/if} 
 		{if !empty($field->multiple)}multiple="multiple"{/if}
 	>
-	{if empty($field->value)}
-		{assign var="selected" value="0"}
-	{else}
-		{assign var="selected" value=$field->value}
-	{/if}
 	{foreach from=$field->options item=item}
-		{if $selected == $item[0]}
+		{if in_array($item[0], $field->value)}
 			<option value="{$item[0]}" selected="selected">{$item[1]}</option>
 		{else}
 			<option value="{$item[0]}">{$item[1]}</option>

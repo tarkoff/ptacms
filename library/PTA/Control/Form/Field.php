@@ -74,7 +74,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 				$field = new PTA_Control_Form_Checkbox($prefix);
 			break;
 
-			case self::TYPE_RADIOGROUP:
+			case self::TYPE_RADIO:
 				$field = new PTA_Control_Form_Radio($prefix);
 			break;
 

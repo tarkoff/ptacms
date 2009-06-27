@@ -30,7 +30,7 @@
 						</a>
 					{/if}
 				{foreachelse}
-					<img src="{$smarty.const.PTA_IMAGES_URL}/noImg180.gif" alt="{$data->product.PRODUCTS_TITLE}" />
+					<img src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/noImg180.gif" alt="{$data->product.PRODUCTS_TITLE}" />
 				{/foreach}
 			</div>
 		</div>

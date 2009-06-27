@@ -21,7 +21,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 	/**
 	 * Get product fields by category id
 	 *
-	 * @param int $categoryId
+	 * @param array $categoryId
 	 * @param boolean $equal
 	 * @param boolean $parentsFieldsToo
 	 * @return array
@@ -32,7 +32,9 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 			return null;
 		}
 
-		$cachePrefix = $categoryId . '_' . intval($equal) . '_' . intval($parentsFieldsToo);
+		$categoryId = (array)$categoryId;
+
+		$cachePrefix = implode('_', $categoryId) . '_' . intval($equal) . '_' . intval($parentsFieldsToo);
 		if (isset(self::$_fieldsCache[$cachePrefix])) {
 			return self::$_fieldsCache[$cachePrefix];
 		}
@@ -46,21 +48,19 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 				$categoriesIds[] = $category[$categoryIdField];
 			}
 		} else {
-			$categoriesIds[] = $categoryId;
+			$categoriesIds = $categoryId;
 		}
-		
+
 		$fieldsIds = array();
 		$fieldIdField = $this->getFieldByAlias('fieldId');
 		$categoryIdField = $this->getFieldByAlias('categoryId');
-		
+
 		$select = $this->select()->from($this->getTableName(), array($fieldIdField))
-					->where("$categoryIdField in (?)", $categoriesIds);
-		$fields = $this->fetchAll($select)->toArray();
-		foreach ($fields as $field) {
+			->where("$categoryIdField in (?)", $categoriesIds);
+		foreach ($this->fetchAll($select)->toArray() as $field) {
 			$fieldsIds[] = $field[$fieldIdField];
 		}
-		
-		
+
 		$resultSet = array();
 		if (!empty($fieldsIds) || !$equal) {
 			$resultSet = $this->_getFieldsByCategory($fieldsIds, $equal);

@@ -11,41 +11,6 @@
 
 class PTA_Util
 {
-	/**
-	 * Build categories tree by categories array
-	 *
-	 * @param array $categories
-	 * @return array
-	 */
-	public static function buildCategoryTree($categories)
-	{
-		$catTable = PTA_DB_Table::get('Category');
-		$catIdField = $catTable->getPrimary();
-		$catParentIdField = $catTable->getFieldByAlias('parentId');
-		$catTitleField = $catTable->getFieldByAlias('title');
-		$catAliasField = $catTable->getFieldByAlias('alias');
-
-		$resList = array();
-		foreach ($categories as $category) {
-			if (empty($category[$catParentIdField])) {
-				$resList[$category[$catIdField]]['title'] = $category[$catTitleField];
-				$resList[$category[$catIdField]]['alias'] = $category[$catAliasField];
-				$resList[$category[$catIdField]]['childs'] = array();
-			} else {
-				foreach ($resList as $rootCatId => $catChilds) {
-					if (
-						in_array($category[$catParentIdField], array_keys($catChilds['childs']))
-						|| ($rootCatId == $category[$catParentIdField])
-					) {
-						$resList[$rootCatId]['childs'][$category[$catIdField]]['title'] = $category[$catTitleField];
-						$resList[$rootCatId]['childs'][$category[$catIdField]]['alias'] = $category[$catAliasField];
-					}
-				}
-			}
-		}
-		return $resList;
-	}
-	
 	public function invoke($data, $method, $byField = false)
 	{
 		$data = (array)$data;

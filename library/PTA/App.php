@@ -68,6 +68,31 @@ abstract class PTA_App extends PTA_WebModule
 		}
 	}
 
+	/**
+	 * Get App Keywords
+	 *
+	 * @return array
+	 */
+	public function getKeywords()
+	{
+		return (array)$this->getVar('keywords');
+	}
+	
+	/**
+	 * Add App keyword
+	 *
+	 * @param string $keyword
+	 */
+	public function addKeyword($keyword)
+	{
+		$keywords = $this->getVar('keywords');
+		if (empty($keywords)) {
+			$keywords = array();
+		}
+		$keywords[] = $keyword;
+		$this->setVar('keywords', $keywords);
+	}
+
 	public static function getInstance()
 	{
 		if (empty(self::$_instance)) {
@@ -102,7 +127,9 @@ abstract class PTA_App extends PTA_WebModule
 		}
 
 		foreach ($modules as $module) {
-			$module->init();
+			if (!$module->inited()) {
+				$module->init();
+			}
 		}
 
 		return true;
@@ -139,7 +166,9 @@ abstract class PTA_App extends PTA_WebModule
 		}
 			
 		foreach ($modules as $module) {
-			$module->run();
+			if (!$module->runned()) {
+				$module->run();
+			}
 		}
 		
 		return true;
@@ -159,14 +188,13 @@ abstract class PTA_App extends PTA_WebModule
 			$module->shutdown();
 		}
 
-		$this->_sqlLog();
-
 		$this->setVar('appShutdownTime', number_format((self::getmicrotime() - $this->_shutdownStartTime), 4, '.', ''));
 		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
 
 		$this->getTemplateEngine()->display();
 		
 		$this->getDB()->closeConnection();
+		$this->_sqlLog();
 		return true;
 	}
 
@@ -331,12 +359,12 @@ abstract class PTA_App extends PTA_WebModule
 		}
 		
 		if (($value = $this->getRouter()->getQueryVar($key))) {
-			return $value;
+			return $this->quote($value);
 		}
 
 		if ($withCookie) {
 			if (($value = $this->getCookie($key))) {
-				return $value;
+				return $this->quote($value);
 			}
 		}
 

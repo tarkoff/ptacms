@@ -78,16 +78,9 @@ class Catalog extends PTA_WebModule
 		$catalogTable = $this->_product->getTable();
 
 		$catalog = $catalogTable->getFields();
-		unset($catalog['CATEGORYID'], $catalog['MANUFACTURERID']);
+		unset($catalog['MANUFACTURERID']);
 
 		$view = new PTA_Control_View('catalogView', $this->_product, array_values($catalog));
-		$categoryTable = PTA_DB_Table::get('Catalog_Category');
-
-		$view->join(
-			$categoryTable->getTableName(), 
-			($catalogTable->getFullFieldName('CATEGORYID') . ' = ' . $categoryTable->getFullPrimary()), 
-			array($catalogTable->getTableName() . '_CATEGORY' => $categoryTable->getFieldByAlias('TITLE'))
-		);
 
 		$this->addActions($view);
 		$this->setVar('view', $view->exec());

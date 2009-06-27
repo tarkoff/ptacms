@@ -33,7 +33,7 @@
 				{/if}
 				&nbsp;
 				<a href="{$form->actionUrl}{$photo.PHOTOS_ID}/">
-					{html_image file="`$smarty.const.PTA_IMAGES_URL`/view/actions/remove.png" alt="Delete Photo"}
+					{html_image file="`$smarty.const.PTA_DESIGN_IMAGES_URL`/view/actions/remove.png" alt="Delete Photo"}
 				</a>
 			</td>
 		</tr>

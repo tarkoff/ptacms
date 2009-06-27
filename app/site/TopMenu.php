@@ -23,11 +23,12 @@ class TopMenu extends PTA_WebModule
 	{
 		parent::init();
 
-		$categories = PTA_DB_Table::get('Catalog_Category')->getCategoriesByRootId(0);
+		//$categories = PTA_DB_Table::get('Catalog_Category')->getChildsById(0, true, false);
+		//$categories = PTA_Catalog_Category::getCategoriesTree()->getLeaves(); //PTA_Tree::get('categoriesTree')->getLeaves();
 
-		$this->setCategory($this->getCategory());
+		$this->setCategory($this->getHttpCategory());
 
-		$this->setVar('Categories', $categories);
+		//$this->setVar('Categories', $categories);
 	}
 	
 	public function setCategory($alias)
@@ -37,7 +38,7 @@ class TopMenu extends PTA_WebModule
 		$this->setVar('selected', $alias);
 	}
 	
-	public function getCategory()
+	public function getHttpCategory()
 	{
 		return $this->getHttpVar('Category', false);
 	}

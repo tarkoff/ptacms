@@ -21,7 +21,7 @@ class Products extends PTA_WebModule
 	{
 		parent::init();
 
-		$productId = (int)$this->getApp()->getHttpVar('Product');
+		$productId = (int)$this->getHttpProduct();
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$product = current($productTable->findById($productId));
@@ -30,25 +30,17 @@ class Products extends PTA_WebModule
 			$this->redirect($this->getApp()->getBaseUrl());
 		}
 
-		$categoryTable = PTA_DB_Table::get('Catalog_Category');
+		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
 
-		$category = current(
-			$categoryTable->findById(
-				$product[$productTable->getFieldByAlias('categoryId')]
-			)
+		$categories = $productCategoryTable->getCategoriesByProductId(
+			$product[$productTable->getPrimary()], true
 		);
 
-		$aliasField = $categoryTable->getFieldByAlias('alias');
-
-		$parentCategory = PTA_DB_Table::get('Catalog_Category')->getRootCategory(
-			$category[$categoryTable->getFieldByAlias('parentId')]
-		);
-
-		$this->getModule('TopMenu')->setCategory($parentCategory[$aliasField]);
-		$this->getModule('LeftMenu')->setTheme($category[$aliasField]);
+		$brantTable = PTA_DB_Table::get('Catalog_Brand');
+		$brandTitleField = $brantTable->getFieldByAlias('title');
 		
 		$brand = current(
-			PTA_DB_Table::get('Catalog_Brand')->findById(
+			$brantTable->findById(
 				$product[$productTable->getFieldByAlias('brandId')]
 			)
 		);
@@ -64,8 +56,13 @@ class Products extends PTA_WebModule
 			'customProductField',
 			PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($productId, false)
 		);
-		$this->setVar('category', $category);
+		$this->setVar('categories', $categories);
 		$this->setVar('brand', $brand);
+	}
+	
+	public function getHttpProduct()
+	{
+		return $this->getApp()->getHttpVar('Product');
 	}
 	
 	public function updateProductStat($productId)
