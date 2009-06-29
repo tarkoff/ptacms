@@ -63,7 +63,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 
 		$resultSet = array();
 		if (!empty($fieldsIds) || !$equal) {
-			$resultSet = $this->_getFieldsByCategory($fieldsIds, $equal);
+			$resultSet = $this->_getFieldsByCategory($fieldsIds, $categoriesIds, $equal);
 		}
 
 		self::$_fieldsCache[$cachePrefix] = $resultSet;
@@ -78,10 +78,11 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 	 * @param boolean $equal
 	 * @return array
 	 */
-	private function _getFieldsByCategory($fieldsIds, $equal = true)
+	private function _getFieldsByCategory($fieldsIds, $categoriesIds, $equal = true)
 	{
 		$fieldsIds = (array)$fieldsIds;
-
+		$categoriesIds = (array)$categoriesIds;
+		
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
 		$select = $this->select()->from(
@@ -96,6 +97,9 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 			);
 			if (!empty($fieldsIds)) {
 				$select->where('categoriesFields.' . $this->getFieldByAlias('fieldId') . ' in (?)', $fieldsIds);
+			}
+			if (!empty($categoriesIds)) {
+				$select->where('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' in (?)', $categoriesIds);
 			}
 		} else {
 			$select->joinLeft(

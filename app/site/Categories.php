@@ -24,11 +24,15 @@ class Categories extends PTA_WebModule
 	{
 		parent::init();
 
-		$category = $this->getHttpCategory();
-		$this->setHttpCategory($category);
+		$httpCategory = $this->getHttpCategory();
+		$this->setHttpCategory($httpCategory);
 		
-		if (!empty($category)) {
-			$this->viewCategoryActions($category);
+		if (!empty($httpCategory)) {
+			$category = $this->getCategory();
+			$catTitle = PTA_DB_Table::get('Catalog_Category')->getFieldByAlias('title');
+			$this->getApp()->addKeyword($category[$catTitle]);
+			
+			$this->viewCategoryActions($httpCategory);
 		}
 		$this->setVar('category', $this->getCategory());
 	}

@@ -190,6 +190,11 @@ abstract class PTA_App extends PTA_WebModule
 
 		$this->setVar('appShutdownTime', number_format((self::getmicrotime() - $this->_shutdownStartTime), 4, '.', ''));
 		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
+		
+		$this->setVar(
+			'keywords',
+			implode(',', array_unique((array)$this->getVar('keywords')))
+		);
 
 		$this->getTemplateEngine()->display();
 		
