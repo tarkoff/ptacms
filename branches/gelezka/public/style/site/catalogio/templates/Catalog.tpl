@@ -100,8 +100,10 @@
 					<a href="{$data->url}/{$catalogItem->PRODUCTS_ID}">{$catalogItem->PRODUCTS_TITLE}</a> &ndash; 
 					<span><a href="{$data->url}/{$catalogItem->PRODUCTS_ID}" class="high ico-card">Подробнее...</a></span>
 				</h4>
-				<p>{$catalogItem->PRODUCTS_SHORTDESCR}</p>
+				<p>{$catalogItem->PRODUCTS_SHORTDESCR|truncate:400}</p>
 			</li>
+		{foreachelse}
+			<li>Этот раздел пока пуст</li>
 		{/foreach}
 		</ol>
 

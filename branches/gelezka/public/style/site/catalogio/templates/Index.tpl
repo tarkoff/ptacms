@@ -11,12 +11,7 @@
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/main.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/main-msie.css" /><![endif]-->
 	<link rel="stylesheet" media="print" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/print.css" />
-<!--
-	<script type="text/javascript" src="{$smarty.const.PTA_DESIGN_URL}/js/prototype.js"></script>
-	<script type="text/javascript" src="{$smarty.const.PTA_DESIGN_URL}/js/tabs.js"></script>
-	<script type="text/javascript" src="{$smarty.const.PTA_DESIGN_URL}/js/tooltip.js"></script>
-	<script type="text/javascript" src="{$smarty.const.PTA_DESIGN_URL}/js/showdetail.js"></script>
--->
+
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.phpdate.js" type="text/javascript"></script>
 	<title>Gelezka - Описания, Цены, Обзоры, Драйвера</title>

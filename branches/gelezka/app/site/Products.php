@@ -29,12 +29,18 @@ class Products extends PTA_WebModule
 		if (empty($product)) {
 			$this->redirect($this->getApp()->getBaseUrl());
 		}
+		
+		$app = $this->getApp();
 
 		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
 
 		$categories = $productCategoryTable->getCategoriesByProductId(
 			$product[$productTable->getPrimary()], true
 		);
+		$catTitle = PTA_DB_Table::get('Catalog_Category')->getFieldByAlias('title');
+		foreach ($categories as $category) {
+			$app->addKeyword($category[$catTitle]);
+		}
 
 		$brantTable = PTA_DB_Table::get('Catalog_Brand');
 		$brandTitleField = $brantTable->getFieldByAlias('title');
@@ -44,6 +50,8 @@ class Products extends PTA_WebModule
 				$product[$productTable->getFieldByAlias('brandId')]
 			)
 		);
+		$app->addKeyword($brand[$brandTitleField]);
+		$app->addKeyword($product[$productTable->getFieldByAlias('title')]);
 		
 		$this->updateProductStat($productId);
 		

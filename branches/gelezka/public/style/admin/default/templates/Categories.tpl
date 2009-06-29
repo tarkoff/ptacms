@@ -8,7 +8,7 @@
 	{include file=Categories/addFieldsForm.tpl form=$data->addFieldsForm}
 {/if}
 {if $data->tplMode == 'addProduct'}
-	{include file=Categories/addProductForm.tpl form=$data->addProductForm}
+	{include file=Catalog/editForm.tpl form=$data->addProductForm}
 {/if}
 {if $data->tplMode == 'EditFieldsSortOrder'}
 	{if !empty($data->fieldsSortOrderForm)}

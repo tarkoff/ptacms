@@ -1,7 +1,7 @@
 <!-- Header -->
 <div id="header">
 
-	<h1 id="logo"><a href="/" title="На главную"><img src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/logo.gif" alt="Logo" /></a></h1>
+	<h1 id="logo"><a href="/" title="На главную"><img src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/logo.gif" alt="На главную" /></a></h1>
 	<hr class="noscreen" />
 
 	<!-- Date -->
