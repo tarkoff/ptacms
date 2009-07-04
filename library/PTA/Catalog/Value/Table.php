@@ -19,6 +19,11 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 
 	public function getValuesByProductId($productId, $allValues = true)
 	{
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$fieldTable = PTA_DB_Table::get('Catalog_Field');
+		$fieldValueTable = PTA_DB_Table::get('Catalog_Field_Value');
+		$fieldGroupTable = PTA_DB_Table::get('Catalog_FieldGroup_Field');
+
 		$select = $this->select()->from(
 			array('vt' => $this->getTableName()),
 			array(
@@ -32,8 +37,6 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 			(int)$productId
 		);
 
-		
-		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
 		$select->join(
 			array('cft' => $categoryFieldTable->getTableName()),
 			'vt.' . $this->getFieldByAlias('fieldId') 
@@ -41,13 +44,11 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 			array()
 		);
 
-		$fieldTable = PTA_DB_Table::get('Catalog_Field');
 		$select->join(
 					array('ft' => $fieldTable->getTableName()),
 					'cft.' . $categoryFieldTable->getFieldByAlias('fieldId') . ' = ft.' . $fieldTable->getPrimary()
 				);
 
-		$fieldValueTable = PTA_DB_Table::get('Catalog_Field_Value');
 		if ($allValues) {
 			$select->join(
 				array('fvt' => $fieldValueTable->getTableName()),
@@ -56,7 +57,6 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 				array($fieldValueTable->getFieldByAlias('value'))
 			);
 		} else {
-			
 			$select->join(
 				array('fvt' => $fieldValueTable->getTableName()),
 				'vt.' .  $this->getFieldByAlias('valueId') 
@@ -64,8 +64,17 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 				array($fieldValueTable->getFieldByAlias('value'))
 			);
 		}
+		
+		$select->joinLeft(
+			array('gf' => $fieldGroupTable->getTableName()),
+			'gf.' . $fieldGroupTable->getFieldByAlias('fieldId')
+			. ' = cft.' . $categoryFieldTable->getPrimary(),
+			array($fieldGroupTable->getFieldByAlias('groupId'))
+		);
+
 		$select->order('cft.' . $categoryFieldTable->getFieldByAlias('sortOrder'));
 		$select->setIntegrityCheck(false);
+
 		return $this->fetchAll($select)->toArray();
 	}
 }

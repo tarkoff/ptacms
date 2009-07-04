@@ -61,9 +61,22 @@ class Catalog_editForm extends PTA_Control_Form
 			$this->_product->getCategoryId()
 		);
 		$category->setSortOrder(16);
-		$category->setMultiple(true);
+		//$category->setMultiple(true);
 		$this->addVisual($category);
 
+		$category = new PTA_Control_Form_Select(
+			'showInCategories', 'Show in categories', false,
+			$catsTable->getSelectedFields(
+				array('id', 'title'),
+				$catsTable->getFieldByAlias('parentId') . ' <> 0'
+				. ' and ' . $catsTable->getPrimary() . ' <> ' .(int)$this->_product->getCategoryId()
+			), 
+			$this->_product->getShowInCategories()
+		);
+		$category->setSortOrder(17);
+		$category->setMultiple(true);
+		$this->addVisual($category);
+		
 		$url = new PTA_Control_Form_Text('url', 'URL');
 		$url->setSortOrder(20);
 		$this->addVisual($url);
@@ -122,16 +135,18 @@ class Catalog_editForm extends PTA_Control_Form
 
 		$orderPosition = 100;
 		foreach ($categoryFields as $fieldArray) {
+			if (!empty($selectsOptions[$fieldArray[$fieldId]])) {
+				usort($selectsOptions[$fieldArray[$fieldId]], array($this, '_sortOptions'));
+			} else {
+				$selectsOptions[$fieldArray[$fieldId]] = array();
+			}
 			$options = array(
 				'name' => $fieldArray[$name],
 				'label' => $fieldArray[$title],
 				'sortOrder' => (
 					empty($fieldArray[$sortOrder]) ? ++$orderPosition : $fieldArray[$sortOrder]
 				),
-				'options' => (
-					empty($selectsOptions[$fieldArray[$fieldId]]) 
-					? null : $selectsOptions[$fieldArray[$fieldId]]
-				)
+				'options' => $selectsOptions[$fieldArray[$fieldId]]
 			);
 
 			$field = PTA_Control_Form_Field::getFieldByType(
@@ -146,6 +161,14 @@ class Catalog_editForm extends PTA_Control_Form
 				$this->addVisual($field);
 			}
 		}
+	}
+	
+	private function _sortOptions($a, $b)
+	{
+		if ($a[1] == $b[1]) {
+			return 0;
+ 		}
+		return ($a[1] < $b[1]) ? -1 : 1;
 	}
 
 	private function _filterFields($fields, $firstField, $secondField)
@@ -208,6 +231,8 @@ class Catalog_editForm extends PTA_Control_Form
 */
 		//var_dump($data->categoryId);
 		$this->_product->setCategoryId($data->categoryId);
+		$this->_product->setShowInCategories($data->showInCategories);
+var_dump($this->_product->getShowInCategories());
 		$this->_product->saveCustomFields($data);
 		if ($this->_product->save()) {
 			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());

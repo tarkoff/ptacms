@@ -12,7 +12,8 @@
 class PTA_Catalog_Product extends PTA_DB_Object 
 {
 	private $_title;
-	private $_categoryId = array();
+	private $_categoryId;
+	private $_showsInCategories = array();
 	private $_brandId;
 	private $_alias;
 	private $_photo;
@@ -32,26 +33,36 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 	public function getCategoryId()
 	{
-		if (empty($this->_categoryId)) {
+		return $this->_categoryId;
+	}
+
+	public function setCategoryId($value)
+	{
+		$this->_categoryId = (int)$value;
+		if ($this->getId()) {
+			$this->_customFields = $this->buildCustomFields();
+			$this->getTable()->setProduct($this);
+		}
+	}
+
+	public function getShowInCategories()
+	{
+		if (empty($this->_showsInCategories)) {
 			$catTable = PTA_DB_Table::get('Catalog_Product_Category');
 			$categoriesId = $catTable->findByFields(
 				array('productId'), array($this->_id)
 			);
 			$categoryIdField = $catTable->getFieldByAlias('categoryId');
 			foreach ($categoriesId as $productCategory) {
-				$this->_categoryId[] = $productCategory[$categoryIdField];
+				$this->_showsInCategories[] = $productCategory[$categoryIdField];
 			}
 		}
-		return $this->_categoryId;
+		return $this->_showsInCategories;
 	}
-
-	public function setCategoryId($value)
+	
+	public function setShowInCategories($categoriesIds)
 	{
-		$this->_categoryId = (array)$value;
-		if ($this->getId()) {
-			$this->_customFields = $this->buildCustomFields();
-			$this->getTable()->setProduct($this);
-		}
+		$this->_showsInCategories = (array)$categoriesIds;
 	}
 
 	public static function getCustomFieldsMetaData($categoryId)
@@ -333,7 +344,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 //var_dump($this->getCategoryId());
 		return PTA_DB_Table::get('Catalog_Product_Category')->saveProductCategories(
 			$this->getId(),
-			$this->getCategoryId()
+			$this->getShowInCategories()
 		);
 	}
 }

@@ -117,6 +117,10 @@ class Categories extends PTA_WebModule
 
 	public function getParentCategories($categoryId = null)
 	{
+		if (empty($categoryId)) {
+			$categoryId = $this->getCategoryId();
+		}
+
 		$categoryTable = PTA_DB_Table::get('Catalog_Category');
 		if (!empty($categoryId)) {
 			$parentCategories = $categoryTable->getRootCategory($categoryId, true);

@@ -24,6 +24,8 @@
 						<p>{$product.PRODUCTS_SHORTDESCR|truncate:160}</p>
 						<hr class="noscreen" />
 					</div> <!-- /new-link -->
+				{foreachelse}
+					Товаров пока нет
 				{/foreach}
 			</div> <!-- /col50 -->
 			
@@ -37,12 +39,14 @@
 							</strong>
 						</p>
 						<p>
-							<span><a class="high" href="{$MostRecent->url}/{$product.PRODUCTS_ID}" class="ico-card">Подробнее...</a></span>&nbsp;
+							<span><a class="high ico-card" href="{$MostRecent->url}/{$product.PRODUCTS_ID}">Подробнее...</a></span>&nbsp;
 							(<a href="{$Categories->url}/{$product.CATEGORIES_ALIAS}" class="folder">{$product.CATEGORIES_TITLE}</a>)<br />
 						</p>
 						<p>{$product.PRODUCTS_SHORTDESCR|truncate:160}</p>
 						<hr class="noscreen" />
 					</div> <!-- /new-link -->
+				{foreachelse}
+					Товаров пока нет
 				{/foreach}
 			</div> <!-- /col50 -->
 		

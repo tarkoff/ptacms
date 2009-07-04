@@ -5,6 +5,7 @@
 			<ul>
 				<li><a href="{$smarty.const.PTA_ADMIN_URL}/Categories/">Categories</a></li>
 				<li><a href="{$smarty.const.PTA_ADMIN_URL}/Fields/">Fields</a></li>
+				<li><a href="{$smarty.const.PTA_ADMIN_URL}/FieldsGroups/">Fields Groups</a></li>
 				<li><a href="{$smarty.const.PTA_ADMIN_URL}/Brands/">Brands</a></li>
 			</ul>
 		</li>

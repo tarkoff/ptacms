@@ -113,6 +113,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 			}
 		}
 
+		$select->group('fields.' . $fieldsTable->getPrimary());
 		$select->order('categoriesFields.' . $this->getFieldByAlias('sortOrder'));
 		$select->setIntegrityCheck(false);
 
