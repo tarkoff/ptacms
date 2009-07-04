@@ -347,4 +347,27 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			$this->getShowInCategories()
 		);
 	}
+
+	/**
+ 	 * Remove object from database
+	 *
+	 * @method remove
+	 * @access public
+	 * @return boolean
+	*/	
+	public function remove()
+	{
+		$photosTable = PTA_DB_Table::get('Catalog_Product_Photo');
+		$photos = (array)$photosTable->getPhotos($this->_id);
+
+		if (parent::remove()) {
+			$photoFileField = $photosTable->getFieldByAlias('photo');
+			foreach ($photos as $photo) {
+				PTA_Util::unlink(PTA_CONTENT_PATH . '/' . $photo[$photoFileField]);
+			}
+			return true;
+		}
+
+		return false;
+	}
 }
