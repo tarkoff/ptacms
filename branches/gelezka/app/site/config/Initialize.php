@@ -58,16 +58,16 @@ class Initialize
 		if (defined('PTA_PROFILER_TIME')) {
 			$profiler->setFilterElapsedSecs( PTA_PROFILER_TIME );
 		}
-/*
+
 		$profiler->setFilterQueryType(
 								Zend_Db_Profiler::SELECT |
 								Zend_Db_Profiler::INSERT |
 								Zend_Db_Profiler::UPDATE |
 								Zend_Db_Profiler::DELETE
 					);
-*/
+
 		$db->setProfiler($profiler);
-		//$db->query('SET NAMES UTF8');
+		$db->query('SET NAMES UTF8');
 
 		Zend_Db_Table_Abstract::setDefaultAdapter($db);
 		Zend_Registry::set('db', $db);	 
