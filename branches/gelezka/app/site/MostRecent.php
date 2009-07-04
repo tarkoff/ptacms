@@ -54,7 +54,7 @@ class MostRecent extends PTA_WebModule
 
 		$select->join(
 			array('cats' => $catsTableName),
-			'(prodCats.'. $prodsCatsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField})"
+			'(prodCats.'. $prodsCatsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}"
 			. ' or prods.' . $prodsTable->getFieldByAlias('categoryId') .' = cats.' . $catsPrimaryField . ')',
 			array(
 				$catsTable->getFieldByAlias('alias'),
