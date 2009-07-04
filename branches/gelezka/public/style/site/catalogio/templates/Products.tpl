@@ -9,9 +9,25 @@
 	{assign var=productObject value=$data->object}
 	{assign var="categoriesObject" value=$Categories->object}
 
+	<p class="bb nomt">
+		<a href="/">Главная</a> &raquo;
+
+		{assign var=categories value=$categoriesObject->getParentCategories($data->category.CATEGORIES_ID)}
+		{defun name="cattree" categories=$categories}
+			{foreach from=$categories item=category}
+			{if !empty($category.childs)}
+				<a href="{$Categories->url}/{$category.CATEGORIES_ALIAS}">{$category.CATEGORIES_TITLE}</a> &raquo;
+				{fun name="cattree" categories=$category.childs}
+			{else}
+				<strong>{$category.CATEGORIES_TITLE}</strong>
+			{/if}
+			{/foreach}
+		{/defun}
+	</p>
+
 	{if !empty($data->categories)}
 		<!-- Subcategories -->
-		<h4>Разделы {$data->brand.BRANDS_TITLE}&nbsp;{$data->product.PRODUCTS_TITLE}</h4>
+		<h4>Разделы в которые входит {$data->brand.BRANDS_TITLE}&nbsp;{$data->product.PRODUCTS_TITLE}</h4>
 		<ul class="ul-categories box bb">
 		{foreach from=$data->categories item=category}
 			<li><a href="{$Categories->url}/{$category.CATEGORIES_ALIAS}">{$category.CATEGORIES_TITLE}</a> ({$category.PRODS_CNT|default:'0'})</li>
@@ -43,7 +59,7 @@
 					{foreach from=$data->photos item=photo}
 						{if $photo.PHOTOS_DEFAULT}
 							<a href="{$smarty.const.PTA_CONTENT_URL}/{$photo.PHOTOS_PHOTO}" rel="photos" title="{$data->brand.BRANDS_TITLE} {$data->product.PRODUCTS_TITLE}">
-								<img src="{$smarty.const.PTA_THUMB_URL}?src={$smarty.const.PTA_CONTENT_URL}/{$photo.PHOTOS_PHOTO}&h=180&w=180&zc=0" alt="{$data->product.PRODUCTS_TITLE}"/>
+								<img src="{$smarty.const.PTA_THUMB_URL}?src={$smarty.const.PTA_CONTENT_URL}/{$photo.PHOTOS_PHOTO}&w=180&zc=0" alt="{$data->product.PRODUCTS_TITLE}"/>
 							</a>
 						{else}
 							<a href="{$smarty.const.PTA_CONTENT_URL}/{$photo.PHOTOS_PHOTO}" rel="photos" title="{$data->brand.BRANDS_TITLE} {$data->product.PRODUCTS_TITLE}"></a>
@@ -57,19 +73,19 @@
 						{if !empty($data->brand.BRANDS_URL)}
 							<tr class="bb">
 								<td>Сайт производителя:</td>
-								<td><a href="{$data->brand.BRANDS_URL}" rel="nofollow">{$data->brand.BRANDS_URL}</a></td>
+								<td><noindex><a href="{$data->brand.BRANDS_URL}" rel="nofollow" target="_blank">{$data->brand.BRANDS_URL}</a></noindex></td>
 							</tr>
 						{/if}
 						{if !empty($data->product.PRODUCTS_URL)}
 							<tr class="bb">
 								<td>Описание производителя:</td>
-								<td><a href="{$data->product.PRODUCTS_URL}" rel="nofollow">{$data->product.PRODUCTS_URL}</a></td>
+								<td><noindex><a href="{$data->product.PRODUCTS_URL}" rel="nofollow" target="_blank">{$data->product.PRODUCTS_URL}</a></noindex></td>
 							</tr>
 						{/if}
 						{if !empty($data->product.PRODUCTS_DRIVERSURL)}
 							<tr class="bb">
 								<td><b>Скачать драйвера:</b></td>
-								<td><a href="{$data->product.PRODUCTS_DRIVERSURL}" rel="nofollow">{$data->product.PRODUCTS_DRIVERSURL}</a></td>
+								<td><noindex><a href="{$data->product.PRODUCTS_DRIVERSURL}" rel="nofollow" target="_blank">{$data->product.PRODUCTS_DRIVERSURL}</a></noindex></td>
 							</tr>
 						{/if}
 						</table>
@@ -79,15 +95,28 @@
 			<div id="descrBody" class="box">
 				<div id="shortDescr">{$data->product.PRODUCTS_SHORTDESCR}</div>
 			</div>
-			{if !empty($data->customProductField)}
+			{if !empty($data->customFields)}
 				<div id="prodCustomDescr" class="box">
 					<table cols="2" class="width100">
-						<th colspan="2">Основные характеристики</th>
-						{foreach from=$data->customProductField item=field}
-							<tr bgcolor="{cycle values="#DCEBFF,#FFF5C7"}">
-								<td><em>{$field.PRODUCTSFIELDS_TITLE}</em>:</td>
-								<td>{$field.PRODUCTSFIELDSVALUES_VALUE|default:'неизвестно'}</td>
-							</tr>
+						<tr><th colspan="2">Основные характеристики</th></tr>
+						{foreach from=$data->customFields item=group}
+							{if !empty($group.fields)}
+								<tr class="bb">
+									<th colspan="2" style="text-align:left;">{$group.FIELDSGROUPS_TITLE|default:'Разное'}</th>
+								</tr>
+								<tr>
+									<td>
+										<table class="width100">
+										{foreach from=$group.fields item=field}
+											<tr>
+											<td width="50%"><em>{$field.PRODUCTSFIELDS_TITLE}</em></td>
+											<td>{$field.PRODUCTSFIELDSVALUES_VALUE}</dd>
+											</tr>
+										{/foreach}
+										</table>
+									</td>
+								</tr>
+							{/if}
 						{/foreach}
 					</table>
 				</div>

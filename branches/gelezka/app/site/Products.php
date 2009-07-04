@@ -24,6 +24,10 @@ class Products extends PTA_WebModule
 		$productId = (int)$this->getHttpProduct();
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
+		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
+		$catTable = PTA_DB_Table::get('Catalog_Category');
+		$brantTable = PTA_DB_Table::get('Catalog_Brand');
+
 		$product = current($productTable->findById($productId));
 
 		if (empty($product)) {
@@ -32,19 +36,24 @@ class Products extends PTA_WebModule
 		
 		$app = $this->getApp();
 
-		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
-
+		$categoryId = $product[$productTable->getFieldByAlias('categoryId')];
+		$category = current($catTable->findById($categoryId));
+/*
+		$parentCategories = $this->getApp()->getModule('Categories')->getParentCategories(
+			$categoryId
+		);
+*/
 		$categories = $productCategoryTable->getCategoriesByProductId(
 			$product[$productTable->getPrimary()], true
 		);
-		$catTitle = PTA_DB_Table::get('Catalog_Category')->getFieldByAlias('title');
-		foreach ($categories as $category) {
-			$app->addKeyword($category[$catTitle]);
+		$catTitle = $catTable->getFieldByAlias('title');
+		
+		$app->addKeyword($category[$catTitle]);
+		foreach ($categories as $cat) {
+			$app->addKeyword($cat[$catTitle]);
 		}
 
-		$brantTable = PTA_DB_Table::get('Catalog_Brand');
 		$brandTitleField = $brantTable->getFieldByAlias('title');
-		
 		$brand = current(
 			$brantTable->findById(
 				$product[$productTable->getFieldByAlias('brandId')]
@@ -55,15 +64,42 @@ class Products extends PTA_WebModule
 		
 		$this->updateProductStat($productId);
 		
+		$fieldGroupTable = PTA_DB_Table::get('Catalog_FieldGroup');
+		$valueTable = PTA_DB_Table::get('Catalog_Value');
+
+		$groupIdField = $fieldGroupTable->getPrimary();
+		$groupTitleField = $fieldGroupTable->getFieldByAlias('title');
+		
+		$res = $fieldGroupTable->getCategoryGroups($categoryId);
+		$fieldGroups = array();
+		foreach ($res as $group) {
+			$groupId = $group[$groupIdField];
+			$group['fields'] = array();
+			$fieldGroups[$groupId] = $group;
+		}
+		unset($res);
+		
+		$fieldGroups['else'][0][$groupTitleField] = '';
+
+		$customFields = $valueTable->getValuesByProductId($productId, false);
+		$groupIdField = PTA_DB_Table::get('Catalog_FieldGroup_Field')->getFieldByAlias('groupId');
+		foreach ($customFields as $field) {
+			$groupId = $field[$groupIdField];
+			if (isset($fieldGroups[$groupId])) {
+				$fieldGroups[$groupId]['fields'][] = $field; 
+			} else {
+				$fieldGroups['else']['fields'][] = $field;
+			}
+		}
+//var_dump($fieldGroups);
 		$this->setVar('product', $product);
+		$this->setVar('category', $category);
+//		$this->setVar('parentCategories', $parentCategories);
 		$this->setVar(
 			'photos',
 			PTA_DB_Table::get('Catalog_Product_Photo')->getPhotos($productId)
 		);
-		$this->setVar(
-			'customProductField',
-			PTA_DB_Table::get('Catalog_Value')->getValuesByProductId($productId, false)
-		);
+		$this->setVar('customFields', $fieldGroups);
 		$this->setVar('categories', $categories);
 		$this->setVar('brand', $brand);
 	}
