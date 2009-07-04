@@ -79,8 +79,8 @@ class PTA_Catalog_FieldGroup_Table extends PTA_DB_Table
 				array()
 			);
 			$select->where('catGroups.' . $groupCategoryIdField . ' = ?', $categoryId);
-			$select->where('groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' <> ?', $groupId);
-			$select->orWhere('groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' is null');
+			$select->where('(groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' <> ?', $groupId);
+			$select->orWhere('groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' is null)');
 		}
 
 		$select->group('fields.' . $fieldsTable->getPrimary());
