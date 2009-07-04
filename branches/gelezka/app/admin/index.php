@@ -10,10 +10,16 @@
 */
 
 ob_start();
-error_reporting(E_ALL);
-ini_set('dipslay_errors', 1);
 
 require_once realpath(dirname(__FILE__)) . '/config/bootstrap.inc';
+
+if (defined('PTA_APP_DEBUG') && constant('PTA_APP_DEBUG')) {
+	error_reporting(E_ALL);
+	ini_set('dipslay_errors', 1);
+} else {
+	error_reporting(E_ALL);
+	ini_set('dipslay_errors', 0);
+}
 
 class adminApp extends PTA_App 
 {
