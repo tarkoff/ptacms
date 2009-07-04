@@ -92,7 +92,7 @@ class FieldsGroups extends PTA_WebModule
 		$view->addSingleAction('New Field Group', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/FieldGroup', 'edit.png');
-		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'EditFields/FieldGroup', 'edit.png');
+		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'EditFields/FieldGroup', 'fields.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/FieldGroup', 'copy.png');
 		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/FieldGroup', 'remove.png');
 	}
