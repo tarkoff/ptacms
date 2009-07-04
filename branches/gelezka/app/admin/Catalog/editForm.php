@@ -231,11 +231,12 @@ class Catalog_editForm extends PTA_Control_Form
 */
 		//var_dump($data->categoryId);
 		$this->_product->setCategoryId($data->categoryId);
-		$this->_product->setShowInCategories($data->showInCategories);
-var_dump($this->_product->getShowInCategories());
+		if (!empty($data->showInCategories)) {
+			$this->_product->setShowInCategories($data->showInCategories);
+		}
 		$this->_product->saveCustomFields($data);
 		if ($this->_product->save()) {
-			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
 		}
 		return true;
 	}
