@@ -5,19 +5,19 @@
  * @package PTA_Catalog
  * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @version	$Id: FieldsSortOrderForm.php 64 2009-06-02 19:51:08Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-class Categories_FieldsSortOrderForm extends PTA_Control_Form 
+class FieldsGroups_FieldsSortOrderForm extends PTA_Control_Form 
 {
-	private $_category;
-	private $_categoryFieldTable;
-	private $_categoryFields = array();
+	private $_fieldGroup;
+	private $_fieldGroupTable;
+	private $_fieldsGroup = array();
 
 	public function __construct($prefix, $category)
 	{
-		$this->_category = $category;
-		$this->_categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$this->_fieldGroup = $category;
+		$this->_fieldGroupTable = PTA_DB_Table::get('Catalog_CategoryField');
 
 		parent::__construct($prefix);
 
@@ -26,8 +26,8 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 
 	public function initForm()
 	{
-		$categoryFieldIdField = $this->_categoryFieldTable->getPrimary();
-		$categoryFieldOrderField = $this->_categoryFieldTable->getFieldByAlias('sortOrder');
+		$categoryFieldIdField = $this->_fieldGroupTable->getPrimary();
+		$categoryFieldOrderField = $this->_fieldGroupTable->getFieldByAlias('sortOrder');
 		$fieldTitleField = PTA_DB_Table::get('Catalog_Field')->getFieldByAlias('title');
 
 		foreach ($this->getCategoryFields() as $field) {
@@ -67,8 +67,8 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 			return false;
 		}
 
-		$categoryFieldIdField = $this->_categoryFieldTable->getPrimary();
-		$categoryFieldOrderField = $this->_categoryFieldTable->getFieldByAlias('sortOrder');
+		$categoryFieldIdField = $this->_fieldGroupTable->getPrimary();
+		$categoryFieldOrderField = $this->_fieldGroupTable->getFieldByAlias('sortOrder');
 
 		$sortOrders = array();
 		foreach ($this->getCategoryFields() as $field) {
@@ -81,20 +81,20 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 			}
 		}
 
-		if ($this->_categoryFieldTable->setFieldsSortOrder($sortOrders)) {
+		if ($this->_fieldGroupTable->setFieldsSortOrder($sortOrders)) {
 			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
 		}
 	}
 	
 	public function getCategoryFields()
 	{
-		if (empty($this->_categoryFields)) {
-			$this->_categoryFields = (array)$this->_categoryFieldTable->getFieldsByCategory(
-				$this->_category->getId(), true, true
+		if (empty($this->_fieldsGroup)) {
+			$this->_fieldsGroup = (array)$this->_fieldGroupTable->getFieldsByCategory(
+				$this->_fieldGroup->getId(), true, true
 			);
 		}
 		
-		return $this->_categoryFields;
+		return $this->_fieldsGroup;
 	}
 
 }
