@@ -24,7 +24,7 @@ class adminApp extends PTA_App
 {
 	function __construct ()
 	{
-		parent::__construct('Gelezka', 'Index.tpl');
+		parent::__construct('app', 'Index.tpl');
 
 		$this->_router = Zend_Registry::get('router');
 

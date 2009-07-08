@@ -14,6 +14,7 @@ abstract class PTA_App extends PTA_WebModule
 	protected $_templateEngine;
 	protected $_modules = array();
 	protected $_user;
+	protected $_messages = array();
 
 	private $_appStartTime;
 	private $_initStartTime;
@@ -23,7 +24,6 @@ abstract class PTA_App extends PTA_WebModule
 	protected $_controller;
 	protected $_action;
 	protected $_router;
-	protected $_httpClient;
 
 	private static $_instance;
 
@@ -85,10 +85,7 @@ abstract class PTA_App extends PTA_WebModule
 	 */
 	public function addKeyword($keyword)
 	{
-		$keywords = $this->getVar('keywords');
-		if (empty($keywords)) {
-			$keywords = array();
-		}
+		$keywords = $this->getKeywords();
 		$keywords[] = $keyword;
 		$this->setVar('keywords', $keywords);
 	}
@@ -376,6 +373,12 @@ abstract class PTA_App extends PTA_WebModule
 		return null;
 	}
 
+	/**
+	 * Set Var To REQUEST array
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public function setHttpVar($key, $value)
 	{
 		parent::setHttpVar($this->getPrefix() . "_$key", $value);
@@ -428,8 +431,29 @@ abstract class PTA_App extends PTA_WebModule
 		//return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
 	
+	/**
+	 * Get Base App URL
+	 *
+	 * @return string
+	 */
 	public function getBaseUrl()
 	{
 		return (defined('PTA_BASE_URL') ? PTA_BASE_URL : $_SERVER['HTTP_HOST']);
+	}
+
+	/**
+	 * Add New App Message 
+	 *
+	 * @param int $type
+	 * @param string $message
+	 */
+	public function message($type, $message)
+	{
+		$messages = (array)$this->getVar('messages');
+		$messages[] = array(
+			'type' => $type,
+			'message' => $message
+		);
+		$this->setVar('messages', $messages);
 	}
 }

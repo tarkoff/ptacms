@@ -13,12 +13,17 @@ abstract class PTA_Object
 {
 	private $_prefix = null;
 	private $_config = null;
+//	private $_messages = null;
 
 	private $_inited = false;
 	private $_runned = false;
 
 	private $_vars = array();
 
+	const MESSAGE_SUCCESS = 1;
+	const MESSAGE_ERROR = 2;
+	
+	
 	/**
  	 * getPrefix - return object prefix
 	 *
@@ -66,11 +71,13 @@ abstract class PTA_Object
 		$object->prefix = $this->getPrefix();
 		$vars = $this->getVars();
 		
-		if (count($vars)) {
+		if (!empty($vars)) {
 			foreach ($vars as $prefix=>$value) {
 				$object->$prefix = $value;
 			}
 		}
+
+//		$object->messages = $this->_messages;
 
 		return $object;
 	}
@@ -151,9 +158,17 @@ abstract class PTA_Object
 		header('Location:' . (empty($url) ? '/' : $url));
 	}
 
-	public function message($alias, $params = null)
+	/**
+	 * Add New Message
+	 *
+	 * @param string $message
+	 * @param int $type
+	 */
+	public function message($type, $message)
 	{
+		$this->getApp()->message($type, $message);
 	}
+	
 
 	public function quote($value)
 	{
