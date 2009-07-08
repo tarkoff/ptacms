@@ -81,7 +81,16 @@ class Categories_editForm extends PTA_Control_Form
 		$this->_category->loadFrom($data);
 
 		if ($this->_category->save()) {
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Category Successfully saved!'
+			);
+			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While Category Saving!'
+			);
 		}
 	}
 

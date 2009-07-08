@@ -17,6 +17,9 @@
 		{include file=$Header->tpl data=$Header}
 	{/if}
 	<div id="siteContent" class="container">
+		{if !empty($app->messages)}
+			{include file="Messages.tpl" messages=$app->messages}
+		{/if}
 		{include file=$activeModule->tpl data=$activeModule}
 	</div>
 	{include file='Footer.tpl'}

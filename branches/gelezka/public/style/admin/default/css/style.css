@@ -190,6 +190,16 @@ dd {
 	line-height:25px;
 	margin:0 0 10px 0;
 }
+/* ================== Messages =============================================== */
+.removed{
+	padding:5px;
+	border:1px solid #400000;
+}
+.added{
+	padding:5px;
+	border:1px solid #002800;
+}
+
 /* ================== Debuger =============================================== */
 .appDebuger{
 	margin:10px 0;
