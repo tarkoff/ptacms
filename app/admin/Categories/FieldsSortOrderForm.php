@@ -17,7 +17,7 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 	public function __construct($prefix, $category)
 	{
 		$this->_category = $category;
-		$this->_categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$this->_categoryFieldTable = PTA_DB_Table::get('Catalog_Category_Field');
 
 		parent::__construct($prefix);
 

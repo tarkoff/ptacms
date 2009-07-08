@@ -32,12 +32,14 @@ class PTA_Catalog_Product_Category_Table extends PTA_DB_Table
 		$this->getAdapter()->beginTransaction();
 		$this->delete($productField . ' = ' . $productId);
 		foreach ($categories as $categoryId) {
-			$this->insert(
-				array(
-					$categoryField => intval($categoryId),
-					$productField => $productId
-				)
-			);
+			if (!empty($categoryId)) {
+				$this->insert(
+					array(
+						$categoryField => intval($categoryId),
+						$productField => $productId
+					)
+				);
+			}
 		}
 		return $this->getAdapter()->commit();
 	}
@@ -101,5 +103,16 @@ class PTA_Catalog_Product_Category_Table extends PTA_DB_Table
 		}
 
 		return $productCategories;
+	}
+	
+	public function resetCategories($productId)
+	{
+		if (empty($productId)) {
+			return false;
+		}
+
+		return $this->delete(
+			$this->getFieldByAlias('productId') . ' = ' . intval($productId)
+		);
 	}
 }

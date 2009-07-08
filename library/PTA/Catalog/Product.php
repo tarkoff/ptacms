@@ -71,12 +71,12 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			return null;
 		}
 
-		return PTA_DB_Table::get('Catalog_CategoryField')->getFieldsByCategory($categoryId, true, true);
+		return PTA_DB_Table::get('Catalog_Category_Field')->getFieldsByCategory($categoryId, true, true);
 	}
 
 	public function buildCustomFields($fields = null)
 	{
-		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_Category_Field');
 		$valuesTable = PTA_DB_Table::get('Catalog_Value');
 
 		if (empty($fields)) {
@@ -131,7 +131,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 //		$customFields = $this->getCustomFields();
 
-		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_Category_Field');
 		$valuesTable = PTA_DB_Table::get('Catalog_Value');
 		
 		$fields = (array)self::getCustomFieldsMetaData($this->_categoryId);
@@ -341,11 +341,24 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 	public function saveCategories()
 	{
-//var_dump($this->getCategoryId());
+		if (empty($this->_id)) {
+			return false;
+		}
+
 		return PTA_DB_Table::get('Catalog_Product_Category')->saveProductCategories(
 			$this->getId(),
 			$this->getShowInCategories()
 		);
+	}
+	
+	public function resetCategories()
+	{
+		if (empty($this->_id)) {
+			return false;
+		}
+
+		return PTA_DB_Table::get('Catalog_Product_Category')
+			->resetCategories($this->getId());
 	}
 
 	/**

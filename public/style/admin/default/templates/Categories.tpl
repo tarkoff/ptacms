@@ -15,3 +15,8 @@
 		{include file=Categories/FieldsSortOrderForm.tpl form=$data->fieldsSortOrderForm}
 	{/if}
 {/if}
+{if $data->tplMode == 'EditGroupsSortOrder'}
+	{if !empty($data->groupsSortOrderForm)}
+		{include file=Categories/GroupsSortOrderForm.tpl form=$data->groupsSortOrderForm}
+	{/if}
+{/if}

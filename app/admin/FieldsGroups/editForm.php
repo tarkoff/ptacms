@@ -28,14 +28,12 @@ class FieldsGroups_editForm extends PTA_Control_Form
 	{
 		$title = new PTA_Control_Form_Text('title', 'Group Title', true, '');
 		$title->setSortOrder(100);
-		$title->setCssClass('textField');
 		$this->addVisual($title);
 
 		$alias = new PTA_Control_Form_Text('alias', 'Group Alias', true, '');
 		$alias->setSortOrder(200);
-		$alias->setCssClass('textField');
 		$this->addVisual($alias);
-		
+
 		$catsTable = PTA_DB_Table::get('Catalog_Category');
 		$category = new PTA_Control_Form_Select(
 			'categoryId', 'Category', false,
@@ -48,8 +46,11 @@ class FieldsGroups_editForm extends PTA_Control_Form
 		$category->setSortOrder(201);
 		//$category->setMultiple(true);
 		$this->addVisual($category);
-		
 
+		$sortOrder = new PTA_Control_Form_Text('sortOrder', 'Category Order', false, '0');
+		$sortOrder->setSortOrder(202);
+		$this->addVisual($sortOrder);
+		
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
@@ -80,6 +81,20 @@ class FieldsGroups_editForm extends PTA_Control_Form
 
 		if ($this->_copy) {
 			$this->_fieldGroup->setId(null);
+		} else {
+			$groupTable = $this->_fieldGroup->getTable();
+			$existedGroup = current(
+				$groupTable->findByFields(
+					array('alias'), array($data->alias)
+				)
+			);
+			$groupIdField = $groupTable->getPrimary();
+			if (
+				!empty($existedGroup)
+				&& $this->_fieldGroup->getId() != $existedGroup[$groupIdField]
+			) {
+				return false;
+			}
 		}
 
 		if ($this->_fieldGroup->save() || $this->_copy) {

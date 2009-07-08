@@ -17,7 +17,7 @@ class FieldsGroups extends PTA_WebModule
 	{
 		parent::__construct($prefix, 'FieldsGroups.tpl');
 
-		$this->_fieldGroup = new PTA_Catalog_FieldGroup('FieldGroup');
+		$this->_fieldGroup = new PTA_Catalog_Field_Group('FieldGroup');
 		$this->setModuleUrl(PTA_ADMIN_URL . '/FieldsGroups/');
 	}
 

@@ -25,7 +25,7 @@ class FieldsGroups_addFieldsForm extends PTA_Control_Form
 	{
 		$groupFieldsTable = $this->_fieldGroup->getTable();
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
-		$catFieldsTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$catFieldsTable = PTA_DB_Table::get('Catalog_Category_Field');
 
 		$notfieldGroupFields = (array)$groupFieldsTable->getNotGroupFields(
 			$this->_fieldGroup->getId(),

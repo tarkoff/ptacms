@@ -5,11 +5,11 @@
  * @package PTA_Catalog
  * @copyright  2009 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @version	$Id: Table.php 71 2009-07-04 10:57:23Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_FieldGroup_Field_Table extends PTA_DB_Table 
+class PTA_Catalog_Field_Group_Field_Table extends PTA_DB_Table 
 {
 	/**
 	 * The default table name 
