@@ -21,5 +21,3 @@ CREATE TABLE `CATALOG_FIELDGROUPFIELDS` (
 
 alter table CATALOG_PRODUCTS add  PRODUCTS_CATEGORYID int unsigned not null after PRODUCTS_ID, 
 	add foreign key (PRODUCTS_CATEGORYID) references CATALOG_CATEGORIES (CATEGORIES_ID) on delete cascade on update cascade;
-
-

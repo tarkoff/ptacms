@@ -5,11 +5,11 @@
  * @package PTA_Catalog
  * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @version	$Id: Table.php 71 2009-07-04 10:57:23Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_CategoryField_Table extends PTA_DB_Table 
+class PTA_Catalog_Category_Field_Table extends PTA_DB_Table 
 {
 	/**
 	 * The default table name 
@@ -160,8 +160,7 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 								);
 */
 		$sortOrder = $this->getMaxSortOrder($categoryId);
-		$sortOrder = (empty($sortOrder) ? 1000 : $sortOrder);
-		
+
 		$this->getAdapter()->beginTransaction();
 		//$this->clearbyCategoryId($categoryId);
 		foreach ($fieldsIds as $fieldId) {
@@ -214,10 +213,10 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 	public function getMaxSortOrder($categoryId)
 	{
 		if (empty($categoryId)) {
-			return 1000;
+			return 1;
 		}
 
-		return $this->getDefaultAdapter()->fetchOne(
+		$order = $this->getAdapter()->fetchOne(
 			$this->select()->from(
 				$this->getTableName(), 
 				array('max' => 'MAX(' . $this->getFieldByAlias('sortOrder') . ')')
@@ -225,8 +224,16 @@ class PTA_Catalog_CategoryField_Table extends PTA_DB_Table
 				$this->getFieldByAlias('categoryId') . ' = ?', $categoryId
 			)
 		);
+		
+		return (empty($order) ? 1 : intval($order));
 	}
 	
+	/**
+	 * Set Sort Order For Category Fields
+	 *
+	 * @param array $fields
+	 * @return boolean
+	 */
 	public function setFieldsSortOrder($fields)
 	{
 		if (empty($fields)) {

@@ -75,6 +75,7 @@ class Catalog_editForm extends PTA_Control_Form
 		);
 		$category->setSortOrder(17);
 		$category->setMultiple(true);
+		$category->addOption(array('0', 'Empty'));
 		$this->addVisual($category);
 		
 		$url = new PTA_Control_Form_Text('url', 'URL');
@@ -92,7 +93,7 @@ class Catalog_editForm extends PTA_Control_Form
 
 	private function _initDinamicFields()
 	{
-		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_Category_Field');
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
 
 		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory(

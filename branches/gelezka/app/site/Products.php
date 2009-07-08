@@ -64,7 +64,7 @@ class Products extends PTA_WebModule
 		
 		$this->updateProductStat($productId);
 		
-		$fieldGroupTable = PTA_DB_Table::get('Catalog_FieldGroup');
+		$fieldGroupTable = PTA_DB_Table::get('Catalog_Field_Group');
 		$valueTable = PTA_DB_Table::get('Catalog_Value');
 
 		$groupIdField = $fieldGroupTable->getPrimary();
@@ -82,7 +82,7 @@ class Products extends PTA_WebModule
 		$fieldGroups['else'][0][$groupTitleField] = '';
 
 		$customFields = $valueTable->getValuesByProductId($productId, false);
-		$groupIdField = PTA_DB_Table::get('Catalog_FieldGroup_Field')->getFieldByAlias('groupId');
+		$groupIdField = PTA_DB_Table::get('Catalog_Field_Group_Field')->getFieldByAlias('groupId');
 		foreach ($customFields as $field) {
 			$groupId = $field[$groupIdField];
 			if (isset($fieldGroups[$groupId])) {

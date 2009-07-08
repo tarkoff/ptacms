@@ -62,6 +62,10 @@ class Categories extends PTA_WebModule
 				$this->editFieldsSortOrder();
 			break;
 
+			case 'EditGroupsSortOrder':
+				$this->editGroupsSortOrder();
+			break;
+
 			case 'Delete':
 				$this->deleteAction();
 			break;
@@ -95,6 +99,7 @@ class Categories extends PTA_WebModule
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
 		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');
 		$view->addCommonAction('Edit Fields Ordering', $this->getModuleUrl() . 'EditFieldsSortOrder/Category', 'sortorder.png');
+		$view->addCommonAction('Edit Fields Groups Ordering', $this->getModuleUrl() . 'EditGroupsSortOrder/Category', 'sortorder.png');
 		$view->addCommonAction('Add Product', $this->getModuleUrl() . 'addProduct/Category', 'addItem.png');
 		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'remove.png');
 	}
@@ -134,7 +139,16 @@ class Categories extends PTA_WebModule
 	public function editFieldsSortOrder()
 	{
 		$this->setVar('tplMode', 'EditFieldsSortOrder');
-		$form = new Categories_FieldsSortOrderForm('fieldsSortOrderForm', $this->_category);
-		$this->addVisual($form);
+		$this->addVisual(
+			new Categories_FieldsSortOrderForm('fieldsSortOrderForm', $this->_category)
+		);
+	}
+
+	public function editGroupsSortOrder()
+	{
+		$this->setVar('tplMode', 'EditGroupsSortOrder');
+		$this->addVisual(
+			new Categories_GroupsSortOrderForm('groupsSortOrderForm', $this->_category)
+		);
 	}
 }

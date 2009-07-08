@@ -19,10 +19,10 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 
 	public function getValuesByProductId($productId, $allValues = true)
 	{
-		$categoryFieldTable = PTA_DB_Table::get('Catalog_CategoryField');
+		$categoryFieldTable = PTA_DB_Table::get('Catalog_Category_Field');
 		$fieldTable = PTA_DB_Table::get('Catalog_Field');
 		$fieldValueTable = PTA_DB_Table::get('Catalog_Field_Value');
-		$fieldGroupTable = PTA_DB_Table::get('Catalog_FieldGroup_Field');
+		$fieldGroupTable = PTA_DB_Table::get('Catalog_Field_Group_Field');
 
 		$select = $this->select()->from(
 			array('vt' => $this->getTableName()),

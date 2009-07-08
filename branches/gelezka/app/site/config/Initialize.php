@@ -45,12 +45,12 @@ class Initialize
 	public static function initDB()
 	{
 		$dbConfig = array(
-						'host'		=> DBHOST,
-						'username'	=> DBLOGIN,
-						'password'	=> DBPASSWD,
-						'dbname'	  => DBNAME,
-						'profiler' => true
-					);
+			'host'		=> DBHOST,
+			'username'	=> DBLOGIN,
+			'password'	=> DBPASSWD,
+			'dbname'	  => DBNAME,
+			'profiler' => true
+		);
 
 		$db = Zend_Db::factory(DBADAPTER, $dbConfig);
 		$profiler = $db->getProfiler();
@@ -60,11 +60,11 @@ class Initialize
 		}
 
 		$profiler->setFilterQueryType(
-								Zend_Db_Profiler::SELECT |
-								Zend_Db_Profiler::INSERT |
-								Zend_Db_Profiler::UPDATE |
-								Zend_Db_Profiler::DELETE
-					);
+			Zend_Db_Profiler::SELECT |
+			Zend_Db_Profiler::INSERT |
+			Zend_Db_Profiler::UPDATE |
+			Zend_Db_Profiler::DELETE
+		);
 
 		$db->setProfiler($profiler);
 		$db->query('SET NAMES UTF8');

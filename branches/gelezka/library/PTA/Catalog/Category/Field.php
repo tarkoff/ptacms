@@ -5,11 +5,11 @@
  * @package PTA_Catalog
  * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @version	$Id: CategoryField.php 62 2009-05-31 16:59:23Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_CategoryField extends PTA_DB_Object 
+class PTA_Catalog_Category_Field extends PTA_DB_Object 
 {
 	private $_categoryId;
 	private $_fieldId;
