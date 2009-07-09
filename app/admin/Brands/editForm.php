@@ -61,13 +61,15 @@ class Brands_editForm extends PTA_Control_Form
 		$invalidFields = $this->validate($data);
 		if (!empty($invalidFields)) {
 			foreach ($invalidFields as $field) {
-				echo 'Filed ' . $field->getLabel() . ' is required!<br />';
+				$this->message(
+					PTA_Object::MESSAGE_ERROR,
+					'Field "' . $field->getLabel() . '" is required!'
+				);
 			}
 
 			return false;
 		}
 
-		$oldAlias = $this->_brand->getAlias();
 		$this->_brand->loadFrom($data);
 
 		if ($this->_copy) {
@@ -76,7 +78,16 @@ class Brands_editForm extends PTA_Control_Form
 
 		if ($this->_brand->save() || $this->_copy) {
 			PTA_Util::createContentPath($this->_brand->getContentPhotoPath());
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Brand ' . $this->_brand->getTitle() . ' successfully saved!'
+			);
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error while ' . $this->_brand->getTitle() . ' brand saving!'
+			);
 		}
 
 		return true;

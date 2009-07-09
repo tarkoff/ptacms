@@ -193,7 +193,10 @@ class Catalog_editForm extends PTA_Control_Form
 		$invalidFields = $this->validate($data);
 		if (!empty($invalidFields)) {
 			foreach ($invalidFields as $field) {
-				echo 'Field "' . $field->getLabel() . '" is required!<br />';
+				$this->message(
+					PTA_Object::MESSAGE_ERROR,
+					'Field "' . $field->getLabel() . '" is required!'
+				);
 			}
 			
 			return false;
@@ -237,7 +240,16 @@ class Catalog_editForm extends PTA_Control_Form
 		}
 		$this->_product->saveCustomFields($data);
 		if ($this->_product->save()) {
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Product ' . $this->_product->getTitle() . ' successfully saved!'
+			);
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error while ' . $this->_product->getTitle() . ' saving!'
+			);
 		}
 		return true;
 	}

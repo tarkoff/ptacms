@@ -80,7 +80,10 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 		$invalidFields = $this->validate($data);
 		if (!empty($invalidFields)) {
 			foreach ($invalidFields as $field) {
-				echo 'Filed ' . $field->getLabel() . ' is required!<br />';
+				$this->message(
+					PTA_Object::MESSAGE_ERROR,
+					'Field "' . $field->getLabel() . '" is required!'
+				);
 			}
 
 			return false;

@@ -52,7 +52,17 @@ class Catalog_EditPhotosForm extends PTA_Control_Form
 		if (($imgFile = PTA_Util::upload($brand->getContentPhotoPath()))) {
 			$photo->setPhoto($imgFile);
 			$photo->setProductId($this->_product->getId());
-			$photo->save();
+			if ($photo->save()) {
+				$this->message(
+					PTA_Object::MESSAGE_SUCCESS,
+					'Photo successfully uploaded!'
+				);
+			} else {
+				$this->message(
+					PTA_Object::MESSAGE_ERROR,
+					'Error while photo uploading!'
+				);
+			}
 		
 		}
 
@@ -61,6 +71,10 @@ class Catalog_EditPhotosForm extends PTA_Control_Form
 			&& ($this->_product->getPhotoId() != $data->default)
 		) {
 			$this->_product->setPhotoId($data->default);
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Default photo for ' . $this->_product->getTitle() . ' successfully setted!'
+			);
 		}
 		
 		
