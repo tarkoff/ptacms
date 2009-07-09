@@ -22,6 +22,7 @@ abstract class PTA_Object
 
 	const MESSAGE_SUCCESS = 1;
 	const MESSAGE_ERROR = 2;
+	const MESSAGE_NOTICE = 3;
 	
 	
 	/**
@@ -153,9 +154,11 @@ abstract class PTA_Object
 	public function redirect($url = '/', $timeout = 0)
 	{
 		if (!empty($timeout)) {
-			sleep($timeout);
+			$url = str_replace('http://', '', $url);
+			header('refresh: ' . intval($timeout) . ';url=http://' . $url);
+		} else {
+			header('Location:' . (empty($url) ? '/' : $url));
 		}
-		header('Location:' . (empty($url) ? '/' : $url));
 	}
 
 	/**
