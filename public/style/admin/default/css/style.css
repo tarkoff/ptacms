@@ -191,12 +191,14 @@ dd {
 	margin:0 0 10px 0;
 }
 /* ================== Messages =============================================== */
-.removed{
+.removed, .added{
 	padding:5px;
+	margin:2px 0;
+}
+.removed{
 	border:1px solid #400000;
 }
 .added{
-	padding:5px;
 	border:1px solid #002800;
 }
 
