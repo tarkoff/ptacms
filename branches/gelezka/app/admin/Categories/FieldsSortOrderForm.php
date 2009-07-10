@@ -66,7 +66,6 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 					'Field "' . $field->getLabel() . '" is required!'
 				);
 			}
-
 			return false;
 		}
 
@@ -85,8 +84,19 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 		}
 
 		if ($this->_categoryFieldTable->setFieldsSortOrder($sortOrders)) {
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Category Fields Order Successfully Saved!'
+			);
 			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While Category Fields Order Saving!'
+			);
+			return false;
 		}
+		return true;
 	}
 	
 	public function getCategoryFields()

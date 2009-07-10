@@ -85,8 +85,19 @@ class Categories_GroupsSortOrderForm extends PTA_Control_Form
 		}
 
 		if ($this->_fieldsGroupTable->setFieldsSortOrder($sortOrders)) {
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Category Groups Order Successfully Saved!'
+			);
 			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While Category Groups Order Saving!'
+			);
+			return false;
 		}
+		return true;
 	}
 	
 	public function getCategoryGroup()

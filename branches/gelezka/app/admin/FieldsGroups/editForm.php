@@ -101,7 +101,17 @@ class FieldsGroups_editForm extends PTA_Control_Form
 		}
 
 		if ($this->_fieldGroup->save() || $this->_copy) {
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Field Group Successfully saved!'
+			);
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While Field Group Saving!'
+			);
+			return false;
 		}
 
 		return true;
