@@ -71,6 +71,7 @@ class Categories_editForm extends PTA_Control_Form
 	public function onSubmit(&$data)
 	{
 		$invalidFields = $this->validate($data);
+var_dump($invalidFields);
 		if (!empty($invalidFields)) {
 			foreach ($invalidFields as $field) {
 				$this->message(
