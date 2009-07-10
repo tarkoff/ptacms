@@ -21,7 +21,7 @@ class FieldsGroups_editForm extends PTA_Control_Form
 
 		parent::__construct($prefix);
 
-		$this->setTitle('Field Group Edit Form');
+		$this->setTitle('Field Group "' . $this->_fieldGroup->getTitle() . '" Edit Form');
 	}
 
 	public function initForm()
@@ -29,11 +29,11 @@ class FieldsGroups_editForm extends PTA_Control_Form
 		$title = new PTA_Control_Form_Text('title', 'Group Title', true, '');
 		$title->setSortOrder(100);
 		$this->addVisual($title);
-
+/*
 		$alias = new PTA_Control_Form_Text('alias', 'Group Alias', true, '');
 		$alias->setSortOrder(200);
 		$this->addVisual($alias);
-
+*/
 		$catsTable = PTA_DB_Table::get('Catalog_Category');
 		$category = new PTA_Control_Form_Select(
 			'categoryId', 'Category', false,

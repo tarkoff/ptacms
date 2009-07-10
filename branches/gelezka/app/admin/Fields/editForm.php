@@ -21,7 +21,7 @@ class Fields_editForm extends PTA_Control_Form
 
 		parent::__construct($prefix);
 
-		$this->setTitle('Field Edit Form');
+		$this->setTitle('Field ' . $field->getTitle() . ' Edit Form');
 	}
 
 	public function initForm()

@@ -21,7 +21,7 @@ class Brands_editForm extends PTA_Control_Form
 
 		parent::__construct($prefix);
 
-		$this->setTitle('Brands Edit Form');
+		$this->setTitle('Brand "' . $brand->getTitle() . '" Edit Form');
 	}
 
 	public function initForm()

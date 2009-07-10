@@ -48,6 +48,6 @@
 
 	{include file="Footer.tpl"}
 </div> <!-- /main -->
-
+{include file="debuger.tpl" app=$Gelezka}
 </body>
 </html>

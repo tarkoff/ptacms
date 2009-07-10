@@ -21,7 +21,7 @@ class UserGroups_editForm extends PTA_Control_Form
 
 		parent::__construct($prefix);
 
-		$this->setTitle('User Group Edit Form');
+		$this->setTitle('User Group "' . $userGroup->getName() . '" Edit Form');
 	}
 
 	public function initForm()

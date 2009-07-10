@@ -21,7 +21,7 @@ class Users_editForm extends PTA_Control_Form
 
 		parent::__construct($prefix);
 
-		$this->setTitle('User Edit Form');
+		$this->setTitle('User "' . $user->getLogin() .'" Edit Form');
 	}
 
 	public function initForm()
