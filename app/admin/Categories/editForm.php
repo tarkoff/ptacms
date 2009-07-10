@@ -17,7 +17,7 @@ class Categories_editForm extends PTA_Control_Form
 		$this->_category = $category;
 		parent::__construct($prefix);
 
-		$this->setTitle('Categorys Edit Form');
+		$this->setTitle('Category ' . $category->getTitle() . ' Edit Form');
 	}
 
 	public function initForm()

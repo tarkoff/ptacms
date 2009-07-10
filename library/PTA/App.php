@@ -184,19 +184,19 @@ abstract class PTA_App extends PTA_WebModule
 		foreach ($this->_modules as $module) {
 			$module->shutdown();
 		}
-
-		$this->setVar('appShutdownTime', number_format((self::getmicrotime() - $this->_shutdownStartTime), 4, '.', ''));
-		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
 		
 		$this->setVar(
 			'keywords',
 			implode(',', array_unique((array)$this->getVar('keywords')))
 		);
 
+		$this->setVar('appShutdownTime', number_format((self::getmicrotime() - $this->_shutdownStartTime), 4, '.', ''));
+		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
+		$this->_sqlLog();
+
 		$this->getTemplateEngine()->display();
 		
 		$this->getDB()->closeConnection();
-		$this->_sqlLog();
 		return true;
 	}
 

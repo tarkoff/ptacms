@@ -21,7 +21,7 @@ class Catalog_editForm extends PTA_Control_Form
 
 		parent::__construct($prefix);
 
-		$this->setTitle('Add/Edit Product Form');
+		$this->setTitle('Add/Edit "' . $product->getTitle() .'" Product Form');
 	}
 
 	public function initForm()

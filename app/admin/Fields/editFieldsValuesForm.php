@@ -22,7 +22,7 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 
 		parent::__construct($prefix);
 
-		$this->setTitle('Field Values Edit Form');
+		$this->setTitle('Field "' . $field->getTitle() . '" Values Edit Form');
 	}
 
 	public function initForm()

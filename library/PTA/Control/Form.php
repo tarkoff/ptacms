@@ -216,6 +216,11 @@ abstract class PTA_Control_Form extends PTA_Object
 
 	public function setTitle($value)
 	{
+		$value = trim($value);
+		if (empty($value)) {
+			return;
+		}
+
 		$this->setVar('title', $value);
 	}
 
