@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>eGOODS</title>
+<title>P.T.A. CMS Admin Panel</title>
 <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/screen.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/print.css" type="text/css" media="print" />
 <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection" />
