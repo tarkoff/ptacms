@@ -12,7 +12,6 @@
 class PTA_Catalog_Field_Group extends PTA_DB_Object
 {
 
-	private $_alias;
 	private $_title;
 	private $_categoryId;
 	private $_sortOrder;
@@ -25,16 +24,6 @@ class PTA_Catalog_Field_Group extends PTA_DB_Object
 	public function setTitle($title)
 	{
 		$this->_title = $title;
-	}
-
-	public function getAlias()
-	{
-		return $this->_alias;
-	}
-
-	public function setAlias($alias)
-	{
-		$this->_alias = $alias;
 	}
 
 	public function getCategoryId()

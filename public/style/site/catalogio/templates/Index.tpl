@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="content-language" content="en" />
-	<meta name="description" content="{$Gelezka->descr|default:'Gelezka - Описания, Цены, Обзоры, Драйвера'}" />
+	<meta name="description" content="{$Gelezka->descr|default:'Gelezka'} - Описания, Цены, Обзоры, Драйвера" />
 	<meta name="keywords" content="Описание,Цены,Обзор,Драйвера,{$Gelezka->keywords|default:''}" />
 	<meta content="index,follow,noodp,noydir" name="robots"/>
 

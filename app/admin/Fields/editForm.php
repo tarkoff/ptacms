@@ -82,7 +82,17 @@ class Fields_editForm extends PTA_Control_Form
 		}
 
 		if ($this->_field->save() || $this->_copy) {
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Field Successfully Saved!'
+			);
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While Field Saving!'
+			);
+			return false;
 		}
 
 		return true;

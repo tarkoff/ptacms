@@ -72,20 +72,23 @@
 						<table>
 						{if !empty($data->brand.BRANDS_URL)}
 							<tr class="bb">
-								<td>Сайт производителя:</td>
-								<td><noindex><a href="{$data->brand.BRANDS_URL}" rel="nofollow" target="_blank">{$data->brand.BRANDS_URL}</a></noindex></td>
+								<td colspan="2">
+									<noindex><a href="{$data->brand.BRANDS_URL}" rel="nofollow" target="_blank" class="bigger strong nonhigh">Сайт производителя</a></noindex>
+								</td>
 							</tr>
 						{/if}
 						{if !empty($data->product.PRODUCTS_URL)}
 							<tr class="bb">
-								<td>Описание производителя:</td>
-								<td><noindex><a href="{$data->product.PRODUCTS_URL}" rel="nofollow" target="_blank">{$data->product.PRODUCTS_URL}</a></noindex></td>
+								<td colspan="2">
+									<noindex><a href="{$data->product.PRODUCTS_URL}" rel="nofollow" target="_blank" class="bigger strong nonhigh">Описание производителя</a></noindex>
+								</td>
 							</tr>
 						{/if}
 						{if !empty($data->product.PRODUCTS_DRIVERSURL)}
 							<tr class="bb">
-								<td><b>Скачать драйвера:</b></td>
-								<td><noindex><a href="{$data->product.PRODUCTS_DRIVERSURL}" rel="nofollow" target="_blank">{$data->product.PRODUCTS_DRIVERSURL}</a></noindex></td>
+								<td colspan="2">
+									<noindex><a href="{$data->product.PRODUCTS_DRIVERSURL}" rel="nofollow" target="_blank" class="bigger strong high">Скачать драйвера</a></noindex>
+								</td>
 							</tr>
 						{/if}
 						</table>
@@ -109,8 +112,8 @@
 										<table class="width100">
 										{foreach from=$group.fields item=field}
 											<tr>
-											<td width="50%"><em>{$field.PRODUCTSFIELDS_TITLE}</em></td>
-											<td>{$field.PRODUCTSFIELDSVALUES_VALUE}</dd>
+												<td width="50%"><em>{$field.PRODUCTSFIELDS_TITLE}</em></td>
+												<td>{$field.PRODUCTSFIELDSVALUES_VALUE}</dd>
 											</tr>
 										{/foreach}
 										</table>

@@ -103,8 +103,19 @@ class FieldsGroups_addFieldsForm extends PTA_Control_Form
 		}
 
 		if ($saved) {
-			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Field Successfully saved!'
+			);
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While Field Saving!'
+			);
+			return false;
 		}
+		return true;
 	}
 
 }

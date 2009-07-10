@@ -104,8 +104,19 @@ class Categories_addFieldsForm extends PTA_Control_Form
 		}
 
 		if ($saved) {
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Category Fields Successfully saved!'
+			);
 			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While Category Fields Saving!'
+			);
+			return false;
 		}
+		return true;
 	}
 
 }

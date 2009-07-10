@@ -121,13 +121,33 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 			$fieldValue = PTA_DB_Object::get('Catalog_Field_Value');
 			$fieldValue->setFieldId($this->_field->getId());
 			$fieldValue->setValue($data->newValue);
-			$fieldValue->save();
+			if ($fieldValue->save()) {
+				$this->message(
+					PTA_Object::MESSAGE_SUCCESS,
+					'Field Value Successfully Added!'
+				);
+			} else {
+				$this->message(
+					PTA_Object::MESSAGE_ERROR,
+					'Error While Field Value Adding!'
+				);
+				return false;
+			}
 		}
 		
 		if (
 			$valuesTable->saveFieldValues($forUpdate)
 		) {
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Field Values Successfully Saved!'
+			);
 			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+		} else {
+				$this->message(
+					PTA_Object::MESSAGE_ERROR,
+					'Error While Field Values SAving!'
+				);
 		}
 
 		return true;

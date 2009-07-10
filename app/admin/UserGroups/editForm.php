@@ -67,7 +67,17 @@ class UserGroups_editForm extends PTA_Control_Form
 		}
 
 		if ($this->_userGroup->save() || $this->_copy) {
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->message(
+				PTA_Object::MESSAGE_SUCCESS,
+				'Field User Successfully saved!'
+			);
+			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+		} else {
+			$this->message(
+				PTA_Object::MESSAGE_ERROR,
+				'Error While User Group Saving!'
+			);
+			return false;
 		}
 
 		return true;
