@@ -83,7 +83,7 @@ class PTA_Catalog_Field_Group_Table extends PTA_DB_Table
 				$resCats[] = $category[$catIdField];
 			}
 
-			$select->where('catGroups.' . $groupCategoryIdField . 'in (?)', $resCats);
+			$select->where('catGroups.' . $groupCategoryIdField . ' in (?)', $resCats);
 			$select->where('(groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' <> ?', $groupId);
 			$select->orWhere('groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' is null)');
 		}
