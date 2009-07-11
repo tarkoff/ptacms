@@ -10,8 +10,8 @@ AddDefaultCharset UTF-8
 
 	RewriteRule ^.htaccess$ - [F]
 
-	RewriteCond %{SCRIPT_FILENAME} !-f
-	RewriteCond %{SCRIPT_FILENAME} !-d
+#	RewriteCond %{SCRIPT_FILENAME} !-f
+#	RewriteCond %{SCRIPT_FILENAME} !-d
 
 	RewriteRule \.(js|ico|swf|gif|jpg|png|css|xml|txt|htm|html)$ %{SCRIPT_FILENAME} [L]
 	RewriteRule ^admin app/admin/ [L]
