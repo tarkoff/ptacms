@@ -84,20 +84,6 @@ class FieldsGroups_editForm extends PTA_Control_Form
 
 		if ($this->_copy) {
 			$this->_fieldGroup->setId(null);
-		} else {
-			$groupTable = $this->_fieldGroup->getTable();
-			$existedGroup = current(
-				$groupTable->findByFields(
-					array('alias'), array($data->alias)
-				)
-			);
-			$groupIdField = $groupTable->getPrimary();
-			if (
-				!empty($existedGroup)
-				&& $this->_fieldGroup->getId() != $existedGroup[$groupIdField]
-			) {
-				return false;
-			}
 		}
 
 		if ($this->_fieldGroup->save() || $this->_copy) {

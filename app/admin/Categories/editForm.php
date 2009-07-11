@@ -39,7 +39,7 @@ class Categories_editForm extends PTA_Control_Form
 				$values[] = array($category->getId(), $category->getTitle());
 			}
 		}
-		
+
 		$alias = new PTA_Control_Form_Text('alias', 'Alias', true);
 		$alias->setSortOrder(150);
 		$this->addVisual($alias);
