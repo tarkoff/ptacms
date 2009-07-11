@@ -86,10 +86,19 @@ abstract class PTA_App extends PTA_WebModule
 	public function addKeyword($keyword)
 	{
 		$keywords = $this->getKeywords();
-		$keywords[] = $keyword;
+		$keywords[] = trim($keyword);
 		$this->setVar('keywords', $keywords);
 	}
 
+	/**
+	 * Set App Title
+	 *
+	 * @param string $title
+	 */
+	public function setTitle($title)
+	{
+		$this->setVar('title', trim($title));
+	}
 	public static function getInstance()
 	{
 		if (empty(self::$_instance)) {
@@ -99,6 +108,11 @@ abstract class PTA_App extends PTA_WebModule
 		return self::$_instance;
 	}
 
+	/**
+	 * Set Current App User
+	 *
+	 * @param PTA_User $user
+	 */
 	public function setUser(PTA_User $user)
 	{
 		if ($this->setCookie('SID', $user->getSessionHash())) {
@@ -278,16 +292,15 @@ abstract class PTA_App extends PTA_WebModule
 	public function insertModule($prefix, $module)
 	{
 		if (isset($this->_modules[$prefix] )) {
-			return false;
+			return true;
 		}
 		
 		if (class_exists($module, true)) {
 			$this->_modules[$prefix] = new $module($prefix);
-		} else {
-			$this->redirect($this->getBaseUrl());
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 
 	/**
@@ -305,11 +318,15 @@ abstract class PTA_App extends PTA_WebModule
 	public function setActiveModule($modulePrefix)
 	{
 		if (($module = $this->getModule($modulePrefix))) {
+			if (($activeModule = $this->getActiveModule())) {
+				$activeModule->setActive(false); 
+			}
+			$module->setActive(true);
 			$this->_modules['activeModule'] = $module;
 			return true;
 		}
 
-		return $this->insertModule($modulePrefix, $modulePrefix);
+		return false;
 	}
 	
 	public function getModules()

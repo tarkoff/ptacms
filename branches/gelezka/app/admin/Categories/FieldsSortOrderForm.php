@@ -79,7 +79,7 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 				!empty($data->$fieldAlias)
 				&& ($data->$fieldAlias != $field[$categoryFieldOrderField])
 			) {
-				$sortOrders[$field[$categoryFieldIdField]] = $data->$fieldAlias;
+				$sortOrders[$field[$categoryFieldIdField]] = (int)$data->$fieldAlias;
 			}
 		}
 
