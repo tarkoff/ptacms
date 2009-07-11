@@ -13,7 +13,7 @@ AddDefaultCharset UTF-8
 	RewriteCond %{SCRIPT_FILENAME} !-f
 	RewriteCond %{SCRIPT_FILENAME} !-d
 
-	RewriteRule \.(js|ico|swf|gif|jpg|png|css|xml)$ %{SCRIPT_FILENAME} [L]
+	RewriteRule \.(js|ico|swf|gif|jpg|png|css|xml|txt|htm|html)$ %{SCRIPT_FILENAME} [L]
 	RewriteRule ^admin app/admin/ [L]
 	RewriteRule !^admin app/site/ [L]
 
