@@ -44,8 +44,13 @@ class SiteApp extends PTA_App
 		$this->insertModule('Header', 'Header');
 		$this->insertModule('Categories', 'Categories');
 		$this->insertModule('activeModule', $this->getController());
+
+		if (($activeModule = $this->getActiveModule())) {
+			$activeModule->setActive(true);
+		} else {
+			$this->redirect($this->getBaseUrl());
+		}
 	}
-	
 
 	public function loginByHash()
 	{

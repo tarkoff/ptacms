@@ -11,6 +11,7 @@
 
 abstract class PTA_Module extends PTA_Object 
 {
+	private $_isActive = false;
 
 	public function __construct($prefix)
 	{
@@ -51,6 +52,26 @@ abstract class PTA_Module extends PTA_Object
 	public function getModule($prefix)
 	{
 		return $this->getApp()->getModule($prefix);
+	}
+	
+	/**
+	 * Return TRUE if this module active
+	 *
+	 * @return boolean
+	 */
+	public function isActive()
+	{
+		return $this->_isActive;
+	}
+	
+	/**
+	 * Set app module as active
+	 *
+	 * @param boolean $active
+	 */
+	public function setActive($active = false)
+	{
+		$this->_isActive = (boolean)$active;
 	}
 
 }

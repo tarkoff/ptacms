@@ -59,8 +59,14 @@ class Products extends PTA_WebModule
 				$product[$productTable->getFieldByAlias('brandId')]
 			)
 		);
+
+		$productTitleField = $productTable->getFieldByAlias('title');
 		$app->addKeyword($brand[$brandTitleField]);
-		$app->addKeyword($product[$productTable->getFieldByAlias('title')]);
+		$app->addKeyword($product[$productTitleField]);
+		if ($this->isActive()) {
+			$app->setTitle($brand[$brandTitleField] . ' ' . $product[$productTitleField]);
+		}
+		unset($productTitleField);
 		
 		$this->updateProductStat($productId);
 		
