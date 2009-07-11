@@ -45,12 +45,12 @@ class Initialize
 	public static function initDB()
 	{
 		$dbConfig = array(
-						'host'		=> DBHOST,
-						'username'	=> DBLOGIN,
-						'password'	=> DBPASSWD,
-						'dbname'	  => DBNAME,
-						'profiler' => true
-					);
+			'host'		=> DBHOST,
+			'username'	=> DBLOGIN,
+			'password'	=> DBPASSWD,
+			'dbname'	  => DBNAME,
+			'profiler' => true
+		);
 
 		$db = Zend_Db::factory(DBADAPTER, $dbConfig);
 		$profiler = $db->getProfiler();

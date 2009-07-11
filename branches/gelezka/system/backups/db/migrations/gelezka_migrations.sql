@@ -1,3 +1,4 @@
+-- 30-06-2009
 CREATE TABLE `CATALOG_FIELDSGROUPS` (
   `FIELDSGROUPS_ID` int(10) unsigned NOT NULL auto_increment,
   `FIELDSGROUPS_CATEGORYID` int(10) unsigned NOT NULL,
@@ -21,3 +22,10 @@ CREATE TABLE `CATALOG_FIELDGROUPFIELDS` (
 
 alter table CATALOG_PRODUCTS add  PRODUCTS_CATEGORYID int unsigned not null after PRODUCTS_ID, 
 	add foreign key (PRODUCTS_CATEGORYID) references CATALOG_CATEGORIES (CATEGORIES_ID) on delete cascade on update cascade;
+
+-- 04-07-2009
+alter table CATALOG_FIELDSGROUPS add FIELDSGROUPS_SORTORDER int unsigned not null default 0;
+
+-- 11-07-2009
+alter table CATALOG_FIELDSGROUPS drop FIELDSGROUPS_ALIAS;
+alter table CATALOG_PRODUCTS modify PRODUCTS_URL text(500), modify PRODUCTS_DRIVERSURL text(500);

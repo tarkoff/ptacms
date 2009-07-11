@@ -66,26 +66,25 @@ class PTA_Catalog_Field_Group_Table extends PTA_DB_Table
 		if ($equal) {
 			$select->where('groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' = ?', $groupId);
 		} else {
-			$groupCategoryIdField = $this->getFieldByAlias('categoryId');
-			$select->joinLeft(
-				array('catGroups' => $this->getTableName()),
-				'catFields.' . $catFieldsTable->getFieldByAlias('categoryId')
-				. ' = catGroups.' . $groupCategoryIdField,
-				array()
-			);
-
 			$catTable = self::get('Catalog_Category');
 			$catIdField = $catTable->getPrimary();
 
-			$parentCats = $catTable->getRootCategory($categoryId);
-			$resCats = array($categoryId);
+			$parentCats = $catTable->getRootCategory($categoryId, true);
+			$resCats = array();
 			foreach ($parentCats as $category) {
-				$resCats[] = $category[$catIdField];
+				$resCats[] = (int)$category[$catIdField];
 			}
 
-			$select->where('catGroups.' . $groupCategoryIdField . ' in (?)', $resCats);
-			$select->where('(groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' <> ?', $groupId);
-			$select->orWhere('groupFields.' . $groupFieldsTable->getFieldByAlias('groupId') . ' is null)');
+			$groupIdField = $groupFieldsTable->getFieldByAlias('groupId');
+			$select->where(
+				'catFields.' . $catFieldsTable->getFieldByAlias('categoryId') . ' in (?)',
+				$resCats
+			);
+			$select->where(
+				'(groupFields.' . $groupIdField . ' <> ? OR groupFields.' . $groupIdField . ' is null)',
+				$groupId
+			);
+			unset($parentCats, $resCats);
 		}
 
 		$select->group('fields.' . $fieldsTable->getPrimary());
