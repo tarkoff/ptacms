@@ -98,7 +98,19 @@ abstract class PTA_App extends PTA_WebModule
 	public function setTitle($title)
 	{
 		$this->setVar('title', trim($title));
+		$this->setDescription($title);
 	}
+
+	/**
+	 * Set meta tag description
+	 *
+	 * @param string $descr
+	 */
+	public function setDescription($descr)
+	{
+		$this->setVar('descr', trim($descr));
+	}
+
 	public static function getInstance()
 	{
 		if (empty(self::$_instance)) {
