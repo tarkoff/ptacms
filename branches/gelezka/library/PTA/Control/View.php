@@ -430,4 +430,13 @@ class PTA_Control_View extends PTA_Object
 		$this->_select = $select;
 	}
 
+	/**
+	 * Get View Select /object
+	 *
+	 * @return Zend_Db_Table_Select
+	 */
+	public function getSelect()
+	{
+		return $this->_select;
+	}
 }
