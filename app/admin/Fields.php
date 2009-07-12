@@ -86,6 +86,7 @@ class Fields extends PTA_WebModule
 	{
 		$this->setVar('tplMode', 'list');
 		$fieldTable = $this->_field->getTable();
+		$fieldTypeField = $fieldTable->getFieldByAlias('fieldType');
 
 		$fields = $fieldTable->getFields();
 		
@@ -93,6 +94,16 @@ class Fields extends PTA_WebModule
 
 		$this->addActions($view);
 		$res = $view->exec();
+		$fieldTypes = PTA_Control_Form_Field::getPossibleFields();
+
+		foreach ($res->data as &$field) {
+			$fieldTypeId = $field[$fieldTypeField];
+			if (isset($fieldTypes[$fieldTypeId])) {
+				$field[$fieldTypeField] = $fieldTypes[$fieldTypeId][1];
+			} else {
+				$field[$fieldTypeField] = 'Unknown';
+			}
+		}
 
 		$this->setVar('view', $res);
 	}

@@ -39,14 +39,14 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 	public static function getPossibleFields()
 	{
 		return array(
-			array(self::TYPE_TEXT, 'Text'),
-			array(self::TYPE_TEXTAREA, 'Text Area'),
-			array(self::TYPE_RADIO, 'Radio Group'),
-			array(self::TYPE_SUBMIT, 'Submit'),
-			array(self::TYPE_IMAGE, 'Image'),
-			array(self::TYPE_SELECT, 'Select'),
-			array(self::TYPE_CHECKBOX, 'Checkbox'),
-			array(self::TYPE_FIELDSGROUP, 'Fields Group')
+			self::TYPE_TEXT => array(self::TYPE_TEXT, 'Text'),
+			self::TYPE_TEXTAREA => array(self::TYPE_TEXTAREA, 'Text Area'),
+			self::TYPE_RADIO => array(self::TYPE_RADIO, 'Radio Group'),
+			self::TYPE_SUBMIT => array(self::TYPE_SUBMIT, 'Submit'),
+			self::TYPE_IMAGE => array(self::TYPE_IMAGE, 'Image'),
+			self::TYPE_SELECT => array(self::TYPE_SELECT, 'Select'),
+			self::TYPE_CHECKBOX => array(self::TYPE_CHECKBOX, 'Checkbox'),
+			self::TYPE_FIELDSGROUP => array(self::TYPE_FIELDSGROUP, 'Fields Group')
 		);
 	}
 

@@ -72,6 +72,7 @@ class Brands extends PTA_WebModule
 		$fieldTable = $this->_brand->getTable();
 
 		$fields = $fieldTable->getFields();
+		unset($fields['URL']);
 		
 		$view = new PTA_Control_View('fieldsView', $this->_brand, array_values($fields));
 

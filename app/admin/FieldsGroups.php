@@ -78,11 +78,20 @@ class FieldsGroups extends PTA_WebModule
 	{
 		$this->setVar('tplMode', 'list');
 		$fieldTable = $this->_fieldGroup->getTable();
-
+		$categoryTable = PTA_DB_Table::get('Catalog_Category');
+		
 		$fields = $fieldTable->getFields();
+		unset($fields['CATEGORYID']);
 		
 		$view = new PTA_Control_View('fieldsView', $this->_fieldGroup, array_values($fields));
 
+		$view->join(
+			array('cats' => $categoryTable->getTableName()),
+			$fieldTable->getTableName() . '.' .$fieldTable->getFieldByAlias('categoryId')
+			. ' = cats.' . $categoryTable->getPrimary(),
+			array('CATEGORY_CATEGORY' => $categoryTable->getFieldByAlias('title'))
+		);
+		
 		$this->addActions($view);
 		$this->setVar('view', $view->exec());
 	}
