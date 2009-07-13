@@ -45,9 +45,10 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 			$categories = $categoryTable->getRootCategory($categoryId, true);
 			$categoryIdField = $categoryTable->getPrimary();
 			foreach ($categories as $category) {
-				$categoriesIds[] = $category[$categoryIdField];
+				$categoriesIds[] = (int)$category[$categoryIdField];
 			}
-		} else {
+		} 
+		if (empty($categoriesIds)) {
 			$categoriesIds = $categoryId;
 		}
 
@@ -55,10 +56,17 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 		$fieldIdField = $this->getFieldByAlias('fieldId');
 		$categoryIdField = $this->getFieldByAlias('categoryId');
 
-		$select = $this->select()->from($this->getTableName(), array($fieldIdField))
-			->where("$categoryIdField in (?)", $categoriesIds);
+		$select = $this->select()->from(
+			$this->getTableName(), array($fieldIdField)
+		);
+
+		$select->where(
+			$this->getFieldByAlias('categoryId') . ' in (?)',
+			$categoriesIds
+		);
+
 		foreach ($this->fetchAll($select)->toArray() as $field) {
-			$fieldsIds[] = $field[$fieldIdField];
+			$fieldsIds[] = (int)$field[$fieldIdField];
 		}
 
 		$resultSet = array();
@@ -213,7 +221,7 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 	public function getMaxSortOrder($categoryId)
 	{
 		if (empty($categoryId)) {
-			return 1;
+			return 100;
 		}
 
 		$order = $this->getAdapter()->fetchOne(
@@ -225,7 +233,7 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 			)
 		);
 		
-		return (empty($order) ? 1 : intval($order));
+		return (empty($order) ? 100 : intval($order));
 	}
 	
 	/**

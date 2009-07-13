@@ -68,30 +68,43 @@ class PTA_Catalog_Product_Category_Table extends PTA_DB_Table
 	 * @param boolean $withProdsCnt
 	 * @return array
 	 */
-	public function getCategoriesByProductId($productId, $withProdsCnt = false)
+	public function getProductCategories($productId, $withProdsCnt = false)
 	{
 		if (empty($productId)) {
 			return array();
 		}
 
-		$productCats = $this->findByFields(array('productId'), array($productId));
+		$categoryTable =  PTA_DB_Table::get('Catalog_Category');
 
-		$productCategories = array();
+		$select = $this->select()->from(array('cats' => $categoryTable->getTableName()));
+		$select->setIntegrityCheck(false);
+
+		$select->join(
+			array('prodCats' => $this->getTableName()),
+			'cats.' . $categoryTable->getPrimary() 
+			. ' = prodCats.' . $this->getFieldByAlias('categoryId'),
+			array($this->getFieldByAlias('isDefault'))
+		);
+
+		$select->where(
+			'prodCats.' . $this->getFieldByAlias('productId') . ' = ?',
+			intval($productId)
+		);
+		
+		$productCats = $this->fetchAll($select)->toArray();
+
 		if (!empty($productCats)) {
 			$catsIds = array();
-			$catIdField = $this->getFieldByAlias('categoryId');
+			$catIdField = $categoryTable->getPrimary();
 			foreach ($productCats as $cat) {
 				$catsIds[$cat[$catIdField]] = $cat[$catIdField];
 			}
-
-			$categoryTable =  PTA_DB_Table::get('Catalog_Category');
-			$productCategories = $categoryTable->findByFields(array('id'), array($catsIds));
 
 			if ($withProdsCnt && !empty($catsIds)) {
 				$prodsCatsCnt = $this->getCategoryProductsCnt($catsIds);
 				$catIdField = $categoryTable->getPrimary();
 				if (!empty($prodsCatsCnt)) {
-					foreach ($productCategories as &$cat) {
+					foreach ($productCats as &$cat) {
 						if (isset($prodsCatsCnt[$cat[$catIdField]])) {
 							$cat['PRODS_CNT'] = $prodsCatsCnt[$cat[$catIdField]];
 						} else {
@@ -102,7 +115,7 @@ class PTA_Catalog_Product_Category_Table extends PTA_DB_Table
 			}
 		}
 
-		return $productCategories;
+		return $productCats;
 	}
 	
 	public function resetCategories($productId)
@@ -113,6 +126,44 @@ class PTA_Catalog_Product_Category_Table extends PTA_DB_Table
 
 		return $this->delete(
 			$this->getFieldByAlias('productId') . ' = ' . intval($productId)
+		);
+	}
+
+	/**
+	 * Get default product category
+	 *
+	 * @param int $productId
+	 * @return int
+	 */
+	public function getDefaultCategory($productId)
+	{
+		if (empty($productId)) {
+			return null;
+		}
+		
+		$select = $this->select()->from(
+			$this->getTableName(),
+			array($this->getFieldByAlias('categoryId'))
+		);
+
+		$select->where(
+			$this->getFieldByAlias('productId') . ' = ? ', intval($productId)
+		);
+		$select->where($this->getFieldByAlias('isDefault') . ' = 1');
+		
+		return $this->getAdapter()->fetchOne($select);
+	}
+
+	public function setDefaultCategory($productId, $categoryId)
+	{
+		if (empty($productId) || empty($categoryId)) {
+			return false;
+		}
+
+		return $this->update(
+			array($this->getFieldByAlias('isDefault') => '1'),
+			$this->getFieldByAlias('productId') . ' = ' . intval($productId)
+			. ' and ' . $this->getFieldByAlias('categoryId') . ' = ' . intval($categoryId)
 		);
 	}
 }

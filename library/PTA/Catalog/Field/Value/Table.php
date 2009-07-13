@@ -42,7 +42,7 @@ class PTA_Catalog_Field_Value_Table extends PTA_DB_Table
 		foreach ($values as $valueId => $value) {
 			$this->update(
 				array($valueField => $value),
-				$adapter->quoteInto($primaryField . ' = ?', $valueId)
+				$adapter->quoteInto($primaryField . ' = ?', intval($valueId))
 			);
 		}
 		return $adapter->commit();

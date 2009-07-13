@@ -33,6 +33,10 @@ class PTA_Catalog_Product extends PTA_DB_Object
 
 	public function getCategoryId()
 	{
+		if (empty($this->_categoryId)) {
+			$this->_categoryId = PTA_DB_Table::get('Catalog_Product_Category')
+			->getDefaultCategory($this->_id);
+		}
 		return $this->_categoryId;
 	}
 
@@ -49,12 +53,10 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	{
 		if (empty($this->_showsInCategories)) {
 			$catTable = PTA_DB_Table::get('Catalog_Product_Category');
-			$categoriesId = $catTable->findByFields(
-				array('productId'), array($this->_id)
-			);
+			$categoriesId = $catTable->getProductCategories($this->_id);
 			$categoryIdField = $catTable->getFieldByAlias('categoryId');
 			foreach ($categoriesId as $productCategory) {
-				$this->_showsInCategories[] = $productCategory[$categoryIdField];
+				$this->_showsInCategories[] = (int)$productCategory[$categoryIdField];
 			}
 		}
 		return $this->_showsInCategories;
@@ -107,7 +109,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 		foreach ($fieldsValues as $fieldId => $valeField) {
 			$id = $valeField[$fieldIdField];
 			if (isset($customFields[$id])) {
-				$resultFields[$customFields[$id]] = $valeField[$fieldValueIdField];
+				$resultFields[$customFields[$id]] = (int)$valeField[$fieldValueIdField];
 			}
 		}
 
@@ -335,8 +337,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	*/	
 	public function save($forceInsert = false)
 	{
-		$this->saveCategories();
-		return parent::save($forceInsert);
+		return (parent::save($forceInsert) && $this->saveCategories());
 	}
 
 	public function saveCategories()
@@ -345,10 +346,14 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			return false;
 		}
 
-		return PTA_DB_Table::get('Catalog_Product_Category')->saveProductCategories(
+		$catTable = PTA_DB_Table::get('Catalog_Product_Category');
+		$catsSaved = $catTable->saveProductCategories(
 			$this->getId(),
 			$this->getShowInCategories()
 		);
+		$mainSaved = $catTable->setDefaultCategory($this->_id, $this->_categoryId);
+		
+		return ($catsSaved && $mainSaved);
 	}
 	
 	public function resetCategories()

@@ -50,7 +50,7 @@ class Catalog_editForm extends PTA_Control_Form
 		//$brand->addOption(array(0, '- Empty -'));
 		$brand->setSelected((int)$this->_product->getBrandId());
 		$this->addVisual($brand);
-
+/*
 		$catsTable = PTA_DB_Table::get('Catalog_Category');
 		$category = new PTA_Control_Form_Select(
 			'categoryId', 'Category', false,
@@ -77,6 +77,49 @@ class Catalog_editForm extends PTA_Control_Form
 		$category->setMultiple(true);
 		$category->addOption(array('0', 'Empty'));
 		$this->addVisual($category);
+*/
+
+		
+		$catsTable = PTA_DB_Table::get('Catalog_Category');
+		$prodCatTable = PTA_DB_Table::get('Catalog_Product_Category');
+		
+		$prodCatIdField = $catsTable->getPrimary();
+		$prodDefaultCatId = $prodCatTable->getFieldByAlias('isDefault');
+
+		$catsList = $catsTable->getSelectedFields(
+			array('id', 'title'),
+			$catsTable->getFieldByAlias('parentId') . ' <> 0'
+		); 
+		
+		$prodCatsList = $prodCatTable->getProductCategories($this->_product->getId());
+		$defaultCategoryId = 0;
+		$prodCatsIds = array();
+		foreach ($prodCatsList as $prodCat) {
+			if (!empty($prodCat[$prodDefaultCatId])) {
+				$defaultCategoryId = intval($prodCat[$prodDefaultCatId]);
+			} else {
+				$prodCatsIds[$prodCat[$prodCatIdField]] = intval($prodCat[$prodCatIdField]);
+			}
+		}
+		
+		$category = new PTA_Control_Form_Select(
+			'categoryId', 'Category', false, $catsList, $defaultCategoryId
+		);
+		$category->setSortOrder(16);
+		$category->addOption(array('0', 'Empty'));
+		//$category->setMultiple(true);
+		$this->addVisual($category);
+
+		$category = new PTA_Control_Form_Select(
+			'showInCategories', 'Show in categories', false, $catsList, $prodCatsIds
+		);
+		$category->setSortOrder(17);
+		$category->setMultiple(true);
+		$category->addOption(array('0', 'Empty'));
+		$this->addVisual($category);
+		
+		
+		
 		
 		$url = new PTA_Control_Form_Text('url', 'URL');
 		$url->setSortOrder(20);
@@ -99,7 +142,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory(
 			$this->_product->getCategoryId(), true, true
 		);
-//var_dump($this->_product->getCategoryId());
+
 		if ($this->_product->getId()) {
 			$fieldsValues = $this->_product->buildCustomFields($categoryFields);
 		} else {
@@ -202,9 +245,12 @@ class Catalog_editForm extends PTA_Control_Form
 			return false;
 		}
 
+		if (!empty($data->categoryId)) {
+			$data->showInCategories[] = intval($data->categoryId);
+		}
+
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		
-		//$oldImg = $this->_product->getImage();
 		$this->_product->loadFrom($data);
 		$savedProduct = $productTable->findByFields(
 			array('categoryId', 'title'),

@@ -76,12 +76,11 @@ class Catalog extends PTA_WebModule
 	{
 		$this->setVar('tplMode', 'list');
 		$catalogTable = $this->_product->getTable();
-		$categoryTable = PTA_DB_Table::get('Catalog_Category');
+//		$categoryTable = PTA_DB_Table::get('Catalog_Category');
 		$brandTable = PTA_DB_Table::get('Catalog_Brand');
 
 		$fields = $catalogTable->getFields();
 		unset(
-			$fields['CATEGORYID'],
 			$fields['BRANDID'],
 			$fields['SHORTDESCR'],
 			$fields['URL'],
@@ -89,14 +88,14 @@ class Catalog extends PTA_WebModule
 		);
 
 		$view = new PTA_Control_View('catalogView', $this->_product, array_values($fields));
-
+/*
 		$view->join(
 			array('cats' => $categoryTable->getTableName()),
 			$catalogTable->getTableName() . '.' .$catalogTable->getFieldByAlias('categoryId')
 			. ' = cats.' . $categoryTable->getPrimary(),
 			array('CATEGORY_CATEGORY' => $categoryTable->getFieldByAlias('title'))
 		);
-
+*/
 		$view->join(
 			array('brands' => $brandTable->getTableName()),
 			$catalogTable->getTableName() . '.' .$catalogTable->getFieldByAlias('brandId')

@@ -29,3 +29,8 @@ alter table CATALOG_FIELDSGROUPS add FIELDSGROUPS_SORTORDER int unsigned not nul
 -- 11-07-2009
 alter table CATALOG_FIELDSGROUPS drop FIELDSGROUPS_ALIAS;
 alter table CATALOG_PRODUCTS modify PRODUCTS_URL text(500), modify PRODUCTS_DRIVERSURL text(500);
+
+-- 13-07-2009
+alter table CATALOG_PRODUCTS drop foreign key CATALOG_PRODUCTS_ibfk_3;
+alter table CATALOG_PRODUCTS drop PRODUCTS_CATEGORYID;
+alter table CATALOG_PRODUCTCATEGORIES add PRODUCTCATEGORIES_ISDEFAULT tinyint(1) unsigned not null default 0;
