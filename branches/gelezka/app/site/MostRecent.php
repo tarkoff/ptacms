@@ -45,7 +45,17 @@ class MostRecent extends PTA_WebModule
 		$catsParentIdField = $catsTable->getFieldByAlias('parentId');
 		$catsAliasField = $catsTable->getFieldByAlias('alias');
 
-		$select->joinLeft(
+		$select->join(
+			array('brands' => $brandsTable->getTableName()),
+			'prods.'. $prodsTable->getFieldByAlias('brandId') 
+			. ' = brands.' . $brandsTable->getPrimary(),
+			array(
+				$brandsTable->getFieldByAlias('alias'),
+				$brandsTable->getFieldByAlias('title')
+			)
+		);
+
+		$select->join(
 			array('prodCats' => $prodsCatsTable->getTableName()),
 			'prods.'. $prodsTable->getPrimary()
 			. ' = prodCats.' . $prodsCatsTable->getFieldByAlias('productId'),
@@ -54,21 +64,11 @@ class MostRecent extends PTA_WebModule
 
 		$select->join(
 			array('cats' => $catsTableName),
-			'(prodCats.'. $prodsCatsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}"
-			. ' or prods.' . $prodsTable->getFieldByAlias('categoryId') .' = cats.' . $catsPrimaryField . ')',
+			'prodCats.'. $prodsCatsTable->getFieldByAlias('categoryId') 
+			. " = cats.{$catsPrimaryField}",
 			array(
 				$catsTable->getFieldByAlias('alias'),
 				$catsTable->getFieldByAlias('title')
-			)
-		);
-
-		$select->join(
-			array('brands' => $brandsTable->getTableName()),
-			'prods.'. $prodsTable->getFieldByAlias('brandId') 
-			. ' = brands.' . $brandsTable->getPrimary(),
-			array(
-				$brandsTable->getFieldByAlias('alias'),
-				$brandsTable->getFieldByAlias('title')
 			)
 		);
 
@@ -84,7 +84,6 @@ class MostRecent extends PTA_WebModule
 			$category[$catsTable->getFieldByAlias('alias')] = '';
 		}
 
-		$select->group('cats.' . $catsTable->getPrimary());
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
 		$select->limit(10);
 		$products = $prodsTable->fetchAll($select)->toArray();

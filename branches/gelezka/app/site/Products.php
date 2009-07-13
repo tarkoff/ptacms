@@ -43,7 +43,7 @@ class Products extends PTA_WebModule
 			$categoryId
 		);
 */
-		$categories = $productCategoryTable->getCategoriesByProductId(
+		$categories = $productCategoryTable->getProductCategories(
 			$product[$productTable->getPrimary()], true
 		);
 		$catTitle = $catTable->getFieldByAlias('title');
