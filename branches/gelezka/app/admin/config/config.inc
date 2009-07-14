@@ -43,4 +43,4 @@ define('PTA_TEMPLATES_CDIR', PTA_CACHE_PATH . '/templates_c/');
 
 //2 days | 3600 - 1hour
 define('PTA_COOKIE_EXPIRE_TIME', 172800);
-define('PTA_PROFILER_TIME', 0);
+define('PTA_PROFILER_TIME', 0.01);
