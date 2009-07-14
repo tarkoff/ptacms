@@ -27,6 +27,8 @@ class Products extends PTA_WebModule
 		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
 		$catTable = PTA_DB_Table::get('Catalog_Category');
 		$brantTable = PTA_DB_Table::get('Catalog_Brand');
+		$fieldGroupTable = PTA_DB_Table::get('Catalog_Field_Group');
+		$valueTable = PTA_DB_Table::get('Catalog_Value');
 
 		$product = current($productTable->findById($productId));
 
@@ -36,22 +38,27 @@ class Products extends PTA_WebModule
 		
 		$app = $this->getApp();
 
-		$categoryId = $product[$productTable->getFieldByAlias('categoryId')];
-		$category = current($catTable->findById($categoryId));
+		$categories = $productCategoryTable->getProductCategories(
+			$product[$productTable->getPrimary()], true
+		);
+
+		$catIdField = $catTable->getPrimary();
+		$catTitle = $catTable->getFieldByAlias('title');
+		$isDefaultField = $productCategoryTable->getFieldByAlias('isDefault');
+
+		foreach ($categories as $cat) {
+			$app->addKeyword($cat[$catTitle]);
+			if (!empty($cat[$isDefaultField])) {
+				$category = $cat;
+				$categoryId = $cat[$catIdField];
+			}
+		}
+
 /*
 		$parentCategories = $this->getApp()->getModule('Categories')->getParentCategories(
 			$categoryId
 		);
 */
-		$categories = $productCategoryTable->getProductCategories(
-			$product[$productTable->getPrimary()], true
-		);
-		$catTitle = $catTable->getFieldByAlias('title');
-		
-		$app->addKeyword($category[$catTitle]);
-		foreach ($categories as $cat) {
-			$app->addKeyword($cat[$catTitle]);
-		}
 
 		$brandTitleField = $brantTable->getFieldByAlias('title');
 		$brand = current(
@@ -70,8 +77,6 @@ class Products extends PTA_WebModule
 		
 		$this->updateProductStat($productId);
 		
-		$fieldGroupTable = PTA_DB_Table::get('Catalog_Field_Group');
-		$valueTable = PTA_DB_Table::get('Catalog_Value');
 
 		$groupIdField = $fieldGroupTable->getPrimary();
 		$groupTitleField = $fieldGroupTable->getFieldByAlias('title');
