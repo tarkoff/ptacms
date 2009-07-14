@@ -17,7 +17,7 @@
 	</p>
 		<!-- Do you want to remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
 	<div>
-		<div>
+		<div class="f-right noprint">
 			{literal}
 				<!--LiveInternet counter--><script type="text/javascript"><!--
 				document.write("<a href='http://www.liveinternet.ru/click' "+
