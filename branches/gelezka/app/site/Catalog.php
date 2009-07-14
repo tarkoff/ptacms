@@ -120,6 +120,17 @@ class Catalog extends PTA_WebModule
 
 		$select = $prodsTable->select()->from(array('prods' => $prodsTable->getTableName()));
 		$select->setIntegrityCheck(false);
+
+		$select->join(
+			array('brands' => $brandsTable->getTableName()),
+			'prods.'. $prodsTable->getFieldByAlias('brandId') 
+			. ' = brands.' . $brandsTable->getPrimary(),
+			array(
+				$brandsTable->getFieldByAlias('alias'),
+				$brandsTable->getFieldByAlias('title')
+			)
+		);
+
 /*
 		$select->joinLeft(
 			array('photos' => $photoTable->getTableName()),
@@ -138,22 +149,14 @@ class Catalog extends PTA_WebModule
 			array()
 		);
 
+		$select->where('prodCats.' . $prodsCatsTable->getFieldByAlias('isDefault') . ' = 1');
+
 		$select->join(
 			array('cats' => $catsTableName),
 			'prodCats.'. $prodsCatsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}",
 			array(
 				$catsTable->getFieldByAlias('alias'),
 				$catsTable->getFieldByAlias('title')
-			)
-		);
-
-		$select->join(
-			array('brands' => $brandsTable->getTableName()),
-			'prods.'. $prodsTable->getFieldByAlias('brandId') 
-			. ' = brands.' . $brandsTable->getPrimary(),
-			array(
-				$brandsTable->getFieldByAlias('alias'),
-				$brandsTable->getFieldByAlias('title')
 			)
 		);
 
