@@ -54,11 +54,11 @@ class Initialize
 
 		$db = Zend_Db::factory(DBADAPTER, $dbConfig);
 		$profiler = $db->getProfiler();
-
+/*
 		if (defined('PTA_PROFILER_TIME')) {
 			$profiler->setFilterElapsedSecs( PTA_PROFILER_TIME );
 		}
-
+*/
 		$profiler->setFilterQueryType(
 			Zend_Db_Profiler::SELECT |
 			Zend_Db_Profiler::INSERT |
