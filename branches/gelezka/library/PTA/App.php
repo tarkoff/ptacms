@@ -242,12 +242,16 @@ abstract class PTA_App extends PTA_WebModule
 
 		$db->beginTransaction();
 		foreach ($queries as $query) {
+			if ($query->getElapsedSecs() < PTA_PROFILER_TIME) {
+				continue;
+			}
+
 			$data = array(
-						'SQLLOG_QUERY' => $query->getQuery(),
-						'SQLLOG_QUERYTYPE' => $query->getQueryType(),
-						'SQLLOG_RUNTIME' => $query->getElapsedSecs()
-					);
-			
+				'SQLLOG_QUERY' => $query->getQuery(),
+				'SQLLOG_QUERYTYPE' => $query->getQueryType(),
+				'SQLLOG_RUNTIME' => $query->getElapsedSecs()
+			);
+
 			$db->insert('SQLLOG', $data);
 		}
 		$db->commit();
