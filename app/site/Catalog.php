@@ -62,6 +62,7 @@ class Catalog extends PTA_WebModule
 		}
 
 		$select = $this->getCatalogQuery($categoryId);
+		$select->group($prodsTable->getPrimary());
 		
 		$prodCatsTable = PTA_DB_Table::get('PTA_Catalog_Product_Category');
 		$view = new PTA_Control_View('catalogView');
@@ -148,8 +149,6 @@ class Catalog extends PTA_WebModule
 			. ' = prodCats.' . $prodsCatsTable->getFieldByAlias('productId'),
 			array()
 		);
-
-		$select->where('prodCats.' . $prodsCatsTable->getFieldByAlias('isDefault') . ' = 1');
 
 		$select->join(
 			array('cats' => $catsTableName),
