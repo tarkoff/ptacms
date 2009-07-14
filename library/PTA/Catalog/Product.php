@@ -337,7 +337,10 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	*/	
 	public function save($forceInsert = false)
 	{
-		return (parent::save($forceInsert) && $this->saveCategories());
+		$ps = parent::save($forceInsert);
+		$cs = $this->saveCategories();
+
+		return ($ps || $cs);
 	}
 
 	public function saveCategories()
