@@ -157,13 +157,13 @@ abstract class PTA_App extends PTA_WebModule
 
 		return true;
 	}
-	
+
 	public function init()
 	{
 		$this->_initStartTime = self::getmicrotime();
-		
+
 		parent::init();
-		
+
 		$this->_templateEngine->init();
 		$this->initModules($this->getModules());
 
@@ -211,15 +211,12 @@ abstract class PTA_App extends PTA_WebModule
 			$module->shutdown();
 		}
 		
-		$this->setVar(
-			'keywords',
-			implode(',', array_unique((array)$this->getVar('keywords')))
-		);
+		$this->setVar('keywords', implode(',', array_unique((array)$this->getVar('keywords'))));
 
+		$this->_sqlLog();
 		$this->setVar('appShutdownTime', number_format((self::getmicrotime() - $this->_shutdownStartTime), 4, '.', ''));
 		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
-		$this->_sqlLog();
-
+		
 		$this->getTemplateEngine()->display();
 		
 		$this->getDB()->closeConnection();
@@ -242,6 +239,7 @@ abstract class PTA_App extends PTA_WebModule
 
 		$db->beginTransaction();
 		foreach ($queries as $query) {
+var_dump($query->getElapsedSecs(), PTA_PROFILER_TIME);
 			if ($query->getElapsedSecs() < PTA_PROFILER_TIME) {
 				continue;
 			}
@@ -305,7 +303,7 @@ abstract class PTA_App extends PTA_WebModule
 		$this->_templateEngine = $engine;
 	}
 
-	public function insertModule($prefix, $module)
+	public function insertModule($prefix, $module, $isActive = false)
 	{
 		if (isset($this->_modules[$prefix] )) {
 			return true;
@@ -313,6 +311,9 @@ abstract class PTA_App extends PTA_WebModule
 		
 		if (class_exists($module, true)) {
 			$this->_modules[$prefix] = new $module($prefix);
+			if ($isActive) {
+				$this->setActiveModule($prefix);
+			}
 			return true;
 		}
 		
@@ -326,19 +327,22 @@ abstract class PTA_App extends PTA_WebModule
 	 */
 	public function getActiveModule()
 	{
-		$activeModule = $this->getModule('activeModule');
-		
-		return (isset($activeModule) ? $activeModule : false);
+		foreach ($this->getModules() as $module) {
+			if ($module->isActive()) {
+				return $module;
+			}
+		}
+
+		return false;
 	}
 	
 	public function setActiveModule($modulePrefix)
 	{
 		if (($module = $this->getModule($modulePrefix))) {
 			if (($activeModule = $this->getActiveModule())) {
-				$activeModule->setActive(false); 
+				$activeModule->setActive(false);
 			}
 			$module->setActive(true);
-			$this->_modules['activeModule'] = $module;
 			return true;
 		}
 
@@ -488,5 +492,19 @@ abstract class PTA_App extends PTA_WebModule
 			'message' => $message
 		);
 		$this->setVar('messages', $messages);
+	}
+
+	public function getVisual($prefix, $fromModules = false)
+	{
+		if ($fromModules) {
+			foreach ($this->getModules() as $module) {
+				$visualElem = $module->getVisual($prefix);
+				if (!empty($visualElem)) {
+					return $visualElem;
+				}
+			}
+		}
+
+		return parent::getVisual($prefix);
 	}
 }

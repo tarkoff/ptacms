@@ -55,7 +55,12 @@ class PTA_TemplateEngine extends PTA_Object
 		$app = $this->getApp();
 
 		foreach ($app->getModules() as $module) {
-			$this->_smarty->assign_by_ref($module->getPrefix(), $module->toString());
+			$toStringModule = $module->toString();
+			if ($module->isActive()) {
+				$this->_smarty->assign_by_ref('activeModule', $toStringModule);
+			}
+			$this->_smarty->assign_by_ref($module->getPrefix(), $toStringModule);
+			unset($toStringModule);
 		}
 
 		$this->_smarty->assign_by_ref($app->getPrefix(), $app->toString());

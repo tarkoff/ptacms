@@ -24,23 +24,7 @@
 
 	{include file=$Header->tpl}
 
-	<!-- Search -->
-	<div id="search-top" class="box"></div>
-	<div id="search">
-		<div id="search-in">
-			<div id="s01">
-				<form action="" method="get">
-					<p class="nom t-center">
-						<label for="search-input01">Поиск:</label>
-						<input type="text" size="75" name="" id="search-input01" />
-						<input type="image" value="Search" src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/search-button.gif" class="search-submit" />
-					</p>
-				</form>
-			</div>
-		<hr class="noscreen" />
-		</div> <!-- /search-in -->
-	</div> <!-- /search -->
-	<div id="search-bottom"></div>
+	{include file="Catalog/searchForm.tpl" form=$Catalog->searchForm}
 
 	<!-- Content -->
 	<div id="page" class="box">

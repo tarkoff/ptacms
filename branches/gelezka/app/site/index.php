@@ -43,7 +43,10 @@ class SiteApp extends PTA_App
 
 		$this->insertModule('Header', 'Header');
 		$this->insertModule('Categories', 'Categories');
-		$this->insertModule('activeModule', $this->getController());
+		$this->insertModule('Catalog', 'Catalog');
+		//$this->insertModule('activeModule', $this->getController());
+		$this->insertModule($this->_controller, $this->_controller);
+		$this->setActiveModule($this->_controller);
 
 		if (($activeModule = $this->getActiveModule())) {
 			$activeModule->setActive(true);
@@ -97,4 +100,6 @@ $app = new SiteApp();
 $app->init();
 $app->run();
 $app->shutdown();
+
 ob_end_flush();
+

@@ -1,7 +1,13 @@
 		<div class="title01-top"></div>
 		<div class="title01">
 			<div class="title01-in">
-				<h3 class="ico-info">{$Categories->category.CATEGORIES_TITLE}</h3>
+				<h3 class="ico-info">
+				{if $data->tplAction == 'list'}
+					{$Categories->category.CATEGORIES_TITLE}
+				{elseif $data->tplAction == 'search'}
+					Резултаты поиска: '{$data->searchRequest}'
+				{/if}
+				</h3>
 			</div>
 		</div>
 		<div class="title01-bottom"></div>
@@ -11,17 +17,21 @@
 		{assign var=catalogObject value=$data->object}
 		{assign var="categoriesObject" value=$Categories->object}
 
-		{assign var=categories value=$categoriesObject->getParentCategories($Categories->category.CATEGORIES_ID)}
-		{defun name="cattree" categories=$categories}
-			{foreach from=$categories item=category}
-			{if !empty($category.childs)}
-				<a href="{$Categories->url}/{$category.CATEGORIES_ALIAS}">{$category.CATEGORIES_TITLE}</a> &raquo;
-				{fun name="cattree" categories=$category.childs}
-			{else}
-				<strong>{$category.CATEGORIES_TITLE}</strong>
-			{/if}
-			{/foreach}
-		{/defun}
+		{if $data->tplAction == 'list'}
+			{assign var=categories value=$categoriesObject->getParentCategories($Categories->category.CATEGORIES_ID)}
+			{defun name="cattree" categories=$categories}
+				{foreach from=$categories item=category}
+					{if !empty($category.childs)}
+						<a href="{$Categories->url}/{$category.CATEGORIES_ALIAS}">{$category.CATEGORIES_TITLE}</a> &raquo;
+						{fun name="cattree" categories=$category.childs}
+					{else}
+						<strong>{$category.CATEGORIES_TITLE}</strong>
+					{/if}
+				{/foreach}
+			{/defun}
+		{elseif $data->tplAction == 'search'}
+			<strong>{$data->searchRequest}</strong>
+		{/if}
 		</p>
 
 		{ assign var=subCategories value=$categoriesObject->getSubCategories($Categories->category.CATEGORIES_ID, 1) }
@@ -96,14 +106,20 @@
 		{foreach from=$data->view->data item=catalogItem}
 			<li>
 				<h4>
-					<a href="{$data->brandUrl}/{$catalogItem->BRANDS_ALIAS}">{$catalogItem->BRANDS_TITLE}</a>&nbsp;
-					<a href="{$data->url}/{$catalogItem->PRODUCTS_ID}">{$catalogItem->PRODUCTS_TITLE}</a> &ndash; 
-					<span><a href="{$data->url}/{$catalogItem->PRODUCTS_ID}" class="high ico-card">Подробнее...</a></span>
+					<a href="{$data->brandUrl}/{$catalogItem.BRANDS_ALIAS}">{$catalogItem.BRANDS_TITLE}</a>&nbsp;
+					<a href="{$data->url}/{$catalogItem.PRODUCTS_ID}">{$catalogItem.PRODUCTS_TITLE}</a> &ndash; 
+					<span><a href="{$data->url}/{$catalogItem.PRODUCTS_ID}" class="high ico-card">Подробнее...</a></span>
 				</h4>
-				<p>{$catalogItem->PRODUCTS_SHORTDESCR|truncate:400}</p>
+				<p>{$catalogItem.PRODUCTS_SHORTDESCR|truncate:400}</p>
 			</li>
 		{foreachelse}
-			<li>Этот раздел пока пуст</li>
+			<li>
+				{if $data->tplAction == 'list'}
+					Этот раздел пока пуст
+				{elseif $data->tplAction == 'search'}
+					Ничего не найдено
+				{/if}
+			</li>
 		{/foreach}
 		</ol>
 

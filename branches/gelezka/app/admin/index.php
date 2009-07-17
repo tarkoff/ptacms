@@ -38,10 +38,10 @@ class adminApp extends PTA_App
 		$this->_action = $this->_router->getActiveAction();
 
 		if (!$this->loginByHash()) {
-			$this->insertModule('activeModule', 'Authorizer');
+			$this->insertModule('Authorizer', 'Authorizer', true);
 		} else {
 			$this->insertModule('Header', 'Header');
-			$this->insertModule('activeModule', $this->getController());
+			$this->insertModule($this->_controller, $this->_controller, true);
 		}
 	}
 	
