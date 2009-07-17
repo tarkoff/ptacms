@@ -239,7 +239,6 @@ abstract class PTA_App extends PTA_WebModule
 
 		$db->beginTransaction();
 		foreach ($queries as $query) {
-var_dump($query->getElapsedSecs(), PTA_PROFILER_TIME);
 			if ($query->getElapsedSecs() < PTA_PROFILER_TIME) {
 				continue;
 			}
