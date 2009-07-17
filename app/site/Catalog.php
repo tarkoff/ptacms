@@ -11,6 +11,7 @@
 
 class Catalog extends PTA_WebModule
 {
+	private $_filterData;
 
 	function __construct ($prefix)
 	{
@@ -22,17 +23,48 @@ class Catalog extends PTA_WebModule
 	{
 		parent::init();
 
-		if ($this->isActive() && ($category = $this->getCategory())) {
-			$catTable = PTA_DB_Table::get('PTA_Catalog_Category');
-			$catTileField = $catTable->getFieldByAlias('title');
-			$this->getApp()->setTitle($category[$catTileField]);
-			unset($catTable, $catTileField, $category);
+		$this->addVisual(new Catalog_searchForm('searchForm'));
+
+		$action = $this->getApp()->getAction();
+		switch (ucfirst($action)) {
+			case 'List':
+				$this->listAction();
+			break;
+			case 'Search':
+				//$this->listAction();
+				$this->searchAction();
+			break;
 		}
 
-		$this->setVar('view', $this->getCatalogPage($this->getCategoryId(), 1));
 		$this->setVar('brandUrl', PTA_BASE_URL . '/Brands/View/Brand');
 	}
 
+	public function listAction()
+	{
+		$this->setVar('tplAction', 'list');
+		if ($this->isActive()) {
+			if (($category = $this->getCategory())) {
+				$catTable = PTA_DB_Table::get('PTA_Catalog_Category');
+				$catTileField = $catTable->getFieldByAlias('title');
+				$this->getApp()->setTitle($category[$catTileField]);
+				unset($catTable, $catTileField, $category);
+			}
+		}
+		$this->setVar('view', $this->getCatalogPage($this->getCategoryId(), 1));
+	}
+	
+	public function searchAction()
+	{
+		$this->setVar('tplAction', 'search');
+		if (!($filterData = $this->getFilterData())) {
+			return false;
+		}
+
+		$this->getApp()->setActiveModule($this->getPrefix());
+		$this->setVar('searchRequest', $this->quote($filterData));
+		$this->setVar('view', $this->getCatalogPage($this->getCategoryId()));
+	}
+	
 	/**
 	 * Get Current Category
 	 *
@@ -51,31 +83,47 @@ class Catalog extends PTA_WebModule
 	public function getCatalogPage($categoryId = null, $page = 1)
 	{
 		$categoryId = (array)$categoryId;
-		$prodsTable = PTA_DB_Table::get('PTA_Catalog_Product');
+		$prodsTable = PTA_DB_Table::get('Catalog_Product');
 		
 		$subCategories = $this->getApp()->getModule('Categories')->getSubCategories($categoryId);
 		if (!empty($subCategories)) {
-			$categoryIdField = PTA_DB_Table::get('PTA_Catalog_Category')->getPrimary();
+			$categoryIdField = PTA_DB_Table::get('Catalog_Category')->getPrimary();
 			foreach ($subCategories as $cat) {
-				$categoryId[] = $cat[$categoryIdField];
+				$categoryId[] = (int)$cat[$categoryIdField];
 			}
 		}
 
-		$select = $this->getCatalogQuery($categoryId);
+		$select = $prodsTable->getCatalogQuery($categoryId);
 		$select->group($prodsTable->getPrimary());
-		
+
+		if (($filterData = $this->getFilterData())) {
+			$brandTable = PTA_DB_Table::get('Catalog_Brand');
+
+			$brandTitleField = $brandTable->getFieldByAlias('title');
+			$productTitleField = $prodsTable->getFieldByAlias('title');
+
+			$filterData = $this->quote($filterData);
+
+			$select->having(
+				'brands.' . $brandTitleField . ' like "' . $filterData . '%"'
+				. ' or prods.' . $productTitleField . ' like "' . $filterData . '%"'
+			);
+		}
+
 		$prodCatsTable = PTA_DB_Table::get('PTA_Catalog_Product_Category');
 		$view = new PTA_Control_View('catalogView');
 		$view->setTable($prodCatsTable);
 		$view->setSelect($select);
-		$view->setTotalRecordsCnt(
-			$view->getTotalRecordsCnt(
-				$prodCatsTable->getAdapter()->quoteInto(
-					$prodCatsTable->getFieldByAlias('categoryId') . ' in (?)',
-					$categoryId
+		if (!empty($categoryId)) {
+			$view->setTotalRecordsCnt(
+				$view->getTotalRecordsCnt(
+					$prodCatsTable->getAdapter()->quoteInto(
+						$prodCatsTable->getFieldByAlias('categoryId') . ' in (?)',
+						$categoryId
+					)
 				)
-			)
-		);
+			);
+		}
 		$view->setMinRpp(10);
 		$view->setMaxRpp(50);
 		return $view->exec();
@@ -95,7 +143,7 @@ class Catalog extends PTA_WebModule
 	public function getMostRecent($categoryId = null)
 	{
 		$prodsTable = PTA_DB_Table::get('PTA_Catalog_Product');
-		$select = $this->getCatalogQuery($categoryId);
+		$select = $prodsTable->getCatalogQuery($categoryId);
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
 		$select->limit(10);
 
@@ -104,71 +152,19 @@ class Catalog extends PTA_WebModule
 		
 	}
 	
-	/**
-	 * Return Zend_DB_Table_Select for catalog items
-	 *
-	 * @param int $categoryId
-	 * @return Zend_Db_Table_Select
-	 */
-	public function getCatalogQuery($categoryId = null)
-	{
-		$catsTable = PTA_DB_Table::get('Catalog_Category');
-		$prodsCatsTable = PTA_DB_Table::get('Catalog_Product_Category');
-		$brandsTable = PTA_DB_Table::get('Catalog_Brand');
-		//$photoTable = PTA_DB_Table::get('Catalog_Product_Photo');
-
-		$prodsTable = PTA_DB_Table::get('PTA_Catalog_Product');
-
-		$select = $prodsTable->select()->from(array('prods' => $prodsTable->getTableName()));
-		$select->setIntegrityCheck(false);
-
-		$select->join(
-			array('brands' => $brandsTable->getTableName()),
-			'prods.'. $prodsTable->getFieldByAlias('brandId') 
-			. ' = brands.' . $brandsTable->getPrimary(),
-			array(
-				$brandsTable->getFieldByAlias('alias'),
-				$brandsTable->getFieldByAlias('title')
-			)
-		);
-
-/*
-		$select->joinLeft(
-			array('photos' => $photoTable->getTableName()),
-			'prods.' . $prodsTable->getPrimary() . ' = ' . $photoTable->getFieldByAlias('productId')
-			. ' AND photos.' . $photoTable->getFieldByAlias('default') . ' = 1',
-			array($photoTable->getFieldByAlias('photo'))
-		);
-*/
-		$catsTableName = $catsTable->getTableName();
-		$catsPrimaryField = $catsTable->getPrimary();
-
-		$select->join(
-			array('prodCats' => $prodsCatsTable->getTableName()),
-			'prods.'. $prodsTable->getPrimary()
-			. ' = prodCats.' . $prodsCatsTable->getFieldByAlias('productId'),
-			array()
-		);
-
-		$select->join(
-			array('cats' => $catsTableName),
-			'prodCats.'. $prodsCatsTable->getFieldByAlias('categoryId') . " = cats.{$catsPrimaryField}",
-			array(
-				$catsTable->getFieldByAlias('alias'),
-				$catsTable->getFieldByAlias('title')
-			)
-		);
-
-		if (!empty($categoryId)) {
-			$select->where('cats.' . $catsTable->getPrimary() . ' in (?)', $categoryId);
-		}
-
-		return $select;
-	}
-	
 	public function getSponsoredLinks()
 	{
 		
+	}
+	
+	public function setFilterData($data)
+	{
+		$this->_filterData = $data;
+	}
+	
+	public function getFilterData()
+	{
+		return $this->_filterData;
 	}
 
 }

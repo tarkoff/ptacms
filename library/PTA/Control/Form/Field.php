@@ -223,7 +223,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 	 */
 	public function getForm()
 	{
-		return $this->getApp()->getActiveModule()->getVisual($this->getFormPrefix());
+		return $this->getApp()->getVisual($this->getFormPrefix(), true);
 	}
 
 	public function isDisabled()

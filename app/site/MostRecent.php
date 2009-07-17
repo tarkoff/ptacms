@@ -84,6 +84,8 @@ class MostRecent extends PTA_WebModule
 			$category[$catsTable->getFieldByAlias('alias')] = '';
 		}
 
+		$select->where('prodCats.' . $prodsCatsTable->getFieldByAlias('isDefault') . ' = 1');
+
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
 		$select->limit(10);
 		$products = $prodsTable->fetchAll($select)->toArray();

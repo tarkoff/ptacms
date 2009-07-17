@@ -19,7 +19,7 @@ class Header extends PTA_WebModule
 
 	public function init()
 	{
-		
+
 	}
 
 }

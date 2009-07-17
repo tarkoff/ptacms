@@ -41,22 +41,15 @@ class PTA_Control_View extends PTA_Object
 
 		$this->_table = $object->getTable();
 		$this->_select = $this->_table->select();
-		$this->_select->setIntegrityCheck(false);
-		
+
 		if (!empty($fields)) {
-			$this->_select->from(
-								$this->_table->getTableName(),
-								(array)$fields
-							);
+			$this->_select->from($this->_table->getTableName(), (array)$fields);
 		} else {
 			$tableFields = array_values((array)$this->_table->getFields());
 			if (empty($tableFields)) {
 				$this->_select->from($this->_table->getTableName());
 			} else {
-		 		$this->_select->from(
-									$this->_table->getTableName(),
-									$tableFields
-								);
+				$this->_select->from($this->_table->getTableName(), $tableFields);
 			}
 		}
 	}
@@ -116,9 +109,11 @@ class PTA_Control_View extends PTA_Object
 		$resultObject->page = $page;
 		$resultObject->nextPage = (($page < $lastPage) ? $page + 1 : $lastPage);
 		$resultObject->lastPage = $lastPage;
-		
+
 		$this->_select->limitPage($page, $rpp);
-		$result = $this->_select->query()->fetchAll();
+		//$result = $this->_select->query()->fetchAll();
+		$this->_select->setIntegrityCheck(false);
+		$result = $this->_table->fetchAll($this->_select)->toArray();
 
 		$fields = (array)@array_keys(current($result));
 		$resultObject->fields = array_map(array($this, '_FieldToAlias'), $fields);
@@ -126,7 +121,7 @@ class PTA_Control_View extends PTA_Object
 		$resultObject->commonActions = $this->getCommonActions();
 
 		if (!empty($resultObject->commonActions)) {
-			$resultObject->fieldsCount = @count($resultObject->fields)+1;
+			$resultObject->fieldsCount = @count($resultObject->fields) + 1;
 			$resultObject->fields[] = 'Actions';
 			$resultObject->actionField = $this->_table->getPrimary();
 		} else {

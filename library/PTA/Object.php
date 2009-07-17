@@ -135,11 +135,21 @@ abstract class PTA_Object
 		$_REQUEST[$name] = $value;
 	}
 
+	/**
+	 * Return true if module inited
+	 *
+	 * @return boolean
+	 */
 	public function inited()
 	{
 		return $this->_inited;
 	}
 
+	/**
+	 * Return true if module runned
+	 *
+	 * @return boolean
+	 */
 	public function runned()
 	{
 		return $this->_runned;
