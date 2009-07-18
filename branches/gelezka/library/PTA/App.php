@@ -116,7 +116,7 @@ abstract class PTA_App extends PTA_WebModule
 		if (empty(self::$_instance)) {
 			self::$_instance = new self('app');
 		}
-		
+
 		return self::$_instance;
 	}
 
@@ -181,19 +181,19 @@ abstract class PTA_App extends PTA_WebModule
 		
 		$this->setVar('appRunTime', number_format((self::getmicrotime() - $this->_runStartTime), 4, '.', ''));
 	}
-	
+
 	public function runModules($modules)
 	{
 		if (empty($modules)) {
 			return false;
 		}
-			
+
 		foreach ($modules as $module) {
 			if (!$module->runned()) {
 				$module->run();
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -216,9 +216,9 @@ abstract class PTA_App extends PTA_WebModule
 		$this->_sqlLog();
 		$this->setVar('appShutdownTime', number_format((self::getmicrotime() - $this->_shutdownStartTime), 4, '.', ''));
 		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
-		
+
 		$this->getTemplateEngine()->display();
-		
+
 		$this->getDB()->closeConnection();
 		return true;
 	}
@@ -243,13 +243,14 @@ abstract class PTA_App extends PTA_WebModule
 				continue;
 			}
 
-			$data = array(
-				'SQLLOG_QUERY' => $query->getQuery(),
-				'SQLLOG_QUERYTYPE' => $query->getQueryType(),
-				'SQLLOG_RUNTIME' => $query->getElapsedSecs()
+			$db->insert(
+				'SQLLOG',
+				array(
+					'SQLLOG_QUERY' => $query->getQuery(),
+					'SQLLOG_QUERYTYPE' => $query->getQueryType(),
+					'SQLLOG_RUNTIME' => $query->getElapsedSecs()
+				)
 			);
-
-			$db->insert('SQLLOG', $data);
 		}
 		$db->commit();
 

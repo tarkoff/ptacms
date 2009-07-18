@@ -111,7 +111,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
 				PTA_Object::MESSAGE_SUCCESS,
 				'Category Fields Successfully saved!'
 			);
-			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			//$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
 		} else {
 			$this->message(
 				PTA_Object::MESSAGE_ERROR,

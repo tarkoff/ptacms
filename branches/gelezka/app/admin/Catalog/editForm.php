@@ -50,36 +50,7 @@ class Catalog_editForm extends PTA_Control_Form
 		//$brand->addOption(array(0, '- Empty -'));
 		$brand->setSelected((int)$this->_product->getBrandId());
 		$this->addVisual($brand);
-/*
-		$catsTable = PTA_DB_Table::get('Catalog_Category');
-		$category = new PTA_Control_Form_Select(
-			'categoryId', 'Category', false,
-			$catsTable->getSelectedFields(
-				array('id', 'title'),
-				$catsTable->getFieldByAlias('parentId') . ' <> 0'
-			), 
-			$this->_product->getCategoryId()
-		);
-		$category->setSortOrder(16);
-		//$category->setMultiple(true);
-		$this->addVisual($category);
 
-		$category = new PTA_Control_Form_Select(
-			'showInCategories', 'Show in categories', false,
-			$catsTable->getSelectedFields(
-				array('id', 'title'),
-				$catsTable->getFieldByAlias('parentId') . ' <> 0'
-				. ' and ' . $catsTable->getPrimary() . ' <> ' .(int)$this->_product->getCategoryId()
-			), 
-			$this->_product->getShowInCategories()
-		);
-		$category->setSortOrder(17);
-		$category->setMultiple(true);
-		$category->addOption(array('0', 'Empty'));
-		$this->addVisual($category);
-*/
-
-		
 		$catsTable = PTA_DB_Table::get('Catalog_Category');
 		$prodCatTable = PTA_DB_Table::get('Catalog_Product_Category');
 		
@@ -90,7 +61,7 @@ class Catalog_editForm extends PTA_Control_Form
 			array('id', 'title'),
 			$catsTable->getFieldByAlias('parentId') . ' <> 0'
 		); 
-		
+
 		$prodCatsList = $prodCatTable->getProductCategories($this->_product->getId());
 		$defaultCategoryId = 0;
 		$prodCatsIds = array();
@@ -101,7 +72,7 @@ class Catalog_editForm extends PTA_Control_Form
 				$prodCatsIds[$prodCat[$prodCatIdField]] = intval($prodCat[$prodCatIdField]);
 			}
 		}
-		
+
 		$category = new PTA_Control_Form_Select(
 			'categoryId', 'Category', false, $catsList, $defaultCategoryId
 		);
@@ -117,10 +88,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$category->setMultiple(true);
 		$category->addOption(array('0', 'Empty'));
 		$this->addVisual($category);
-		
-		
-		
-		
+
 		$url = new PTA_Control_Form_Text('url', 'URL');
 		$url->setSortOrder(20);
 		$this->addVisual($url);
@@ -290,7 +258,7 @@ class Catalog_editForm extends PTA_Control_Form
 				PTA_Object::MESSAGE_SUCCESS,
 				'Product ' . $this->_product->getTitle() . ' successfully saved!'
 			);
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 3);
 		} else {
 			$this->message(
 				PTA_Object::MESSAGE_ERROR,
