@@ -94,13 +94,14 @@ class Products extends PTA_WebModule
 
 		$customFields = $valueTable->getValuesByProductId($productId, false);
 		$groupIdField = PTA_DB_Table::get('Catalog_Field_Group_Field')->getFieldByAlias('groupId');
-		foreach ($customFields as $field) {
+		foreach ($customFields as $fieldKey => $field) {
 			$groupId = $field[$groupIdField];
 			if (isset($fieldGroups[$groupId])) {
 				$fieldGroups[$groupId]['fields'][] = $field; 
 			} else {
 				$fieldGroups['else']['fields'][] = $field;
 			}
+			unset($customFields[$fieldKey]);
 		}
 //var_dump($fieldGroups);
 		$this->setVar('product', $product);
