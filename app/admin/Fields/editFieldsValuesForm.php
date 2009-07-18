@@ -142,7 +142,7 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 				PTA_Object::MESSAGE_SUCCESS,
 				'Field Values Successfully Saved!'
 			);
-			//$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			//$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
 		} else {
 				$this->message(
 					PTA_Object::MESSAGE_ERROR,

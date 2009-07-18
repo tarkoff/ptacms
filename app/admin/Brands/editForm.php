@@ -82,7 +82,7 @@ class Brands_editForm extends PTA_Control_Form
 				PTA_Object::MESSAGE_SUCCESS,
 				'Brand ' . $this->_brand->getTitle() . ' successfully saved!'
 			);
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl(), 3);
+			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 3);
 		} else {
 			$this->message(
 				PTA_Object::MESSAGE_ERROR,

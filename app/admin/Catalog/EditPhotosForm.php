@@ -80,7 +80,7 @@ class Catalog_EditPhotosForm extends PTA_Control_Form
 		
 /*
 		if ($this->_product->save()) {
-			$this->redirect($this->getApp()->getModule('activeModule')->getModuleUrl());
+			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 3);
 		}
 */
 	}
