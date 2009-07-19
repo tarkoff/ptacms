@@ -28,6 +28,7 @@ class Products extends PTA_WebModule
 		$catTable = PTA_DB_Table::get('Catalog_Category');
 		$brantTable = PTA_DB_Table::get('Catalog_Brand');
 		$fieldGroupTable = PTA_DB_Table::get('Catalog_Field_Group');
+		$fieldGroupFieldsTable = PTA_DB_Table::get('Catalog_Field_Group_Field');
 		$valueTable = PTA_DB_Table::get('Catalog_Value');
 
 		$product = current($productTable->findById($productId));
@@ -46,6 +47,7 @@ class Products extends PTA_WebModule
 		$catTitle = $catTable->getFieldByAlias('title');
 		$isDefaultField = $productCategoryTable->getFieldByAlias('isDefault');
 
+		$category = $categoryId = null;
 		foreach ($categories as $cat) {
 			$app->addKeyword($cat[$catTitle]);
 			if (!empty($cat[$isDefaultField])) {
@@ -74,34 +76,42 @@ class Products extends PTA_WebModule
 			$app->setTitle($brand[$brandTitleField] . ' ' . $product[$productTitleField]);
 		}
 		unset($productTitleField);
-		
+
 		$this->updateProductStat($productId);
-		
 
 		$groupIdField = $fieldGroupTable->getPrimary();
 		$groupTitleField = $fieldGroupTable->getFieldByAlias('title');
-		
-		$res = $fieldGroupTable->getCategoryGroups($categoryId);
-		$fieldGroups = array();
-		foreach ($res as $group) {
+
+
+		$fieldGroups = $fieldGroupsIds = array();
+		foreach ($fieldGroupTable->getCategoryGroups($categoryId) as $group) {
 			$groupId = $group[$groupIdField];
 			$group['fields'] = array();
 			$fieldGroups[$groupId] = $group;
 		}
-		unset($res);
-		
+
 		$fieldGroups['else'][0][$groupTitleField] = '';
 
-		$customFields = $valueTable->getValuesByProductId($productId, false);
-		$groupIdField = PTA_DB_Table::get('Catalog_Field_Group_Field')->getFieldByAlias('groupId');
-		foreach ($customFields as $fieldKey => $field) {
-			$groupId = $field[$groupIdField];
-			if (isset($fieldGroups[$groupId])) {
-				$fieldGroups[$groupId]['fields'][] = $field; 
+		$fieldIdField = $fieldGroupFieldsTable->getFieldByAlias('fieldId');
+		$fieldGroupIdField = $fieldGroupFieldsTable->getFieldByAlias('groupId');
+
+		foreach ($fieldGroupFieldsTable->getGroupFields(array_keys($fieldGroups)) as $groupField) {
+			$groupId = $groupField[$fieldGroupIdField];
+			$fieldId = $groupField[$fieldIdField];
+			$fieldGroupsIds[$fieldId] = $groupId;
+		}
+
+		$fieldIdField = $valueTable->getFieldByAlias('fieldId');
+		foreach ($valueTable->getValuesByProductId($productId) as $field) {
+			$fieldId = (int)$field[$fieldIdField];
+			if (
+				isset($fieldGroupsIds[$fieldId])
+				&& isset($fieldGroups[$fieldGroupsIds[$fieldId]])
+			) {
+				$fieldGroups[$fieldGroupsIds[$fieldId]]['fields'][] = $field; 
 			} else {
 				$fieldGroups['else']['fields'][] = $field;
 			}
-			unset($customFields[$fieldKey]);
 		}
 //var_dump($fieldGroups);
 		$this->setVar('product', $product);
