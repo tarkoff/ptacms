@@ -97,11 +97,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 			$customFields[$field[$fieldId]] = $field[$alias];
 		}
 
-		if ($this->getId()) {
-			$fieldsValues = (array)$valuesTable->getValuesByProductId($this->getId());
-		} else {
-			$fieldsValues = array();
-		}
+		$fieldsValues = (array)$valuesTable->getValuesByProductId($this->getId());
 
 		$fieldValueIdField = $valuesTable->getFieldByAlias('valueId');
 		$fieldIdField = $valuesTable->getFieldByAlias('fieldId');

@@ -17,62 +17,59 @@ class PTA_Catalog_Value_Table extends PTA_DB_Table
 	protected $_name = 'CATALOG_PRODUCTSVALUES';
 	protected $_primary = 'PRODUCTSVALUES_ID';
 
-	public function getValuesByProductId($productId, $allValues = true)
+	public function getValuesByProductId($productId)
 	{
+		if (empty($productId)) {
+			return array();
+		}
+
 		$categoryFieldTable = PTA_DB_Table::get('Catalog_Category_Field');
 		$fieldTable = PTA_DB_Table::get('Catalog_Field');
 		$fieldValueTable = PTA_DB_Table::get('Catalog_Field_Value');
-		$fieldGroupTable = PTA_DB_Table::get('Catalog_Field_Group_Field');
+
+/*
+SELECT pv.PRODUCTSVALUES_FIELDID, pv.PRODUCTSVALUES_VALUEID, pf.PRODUCTSFIELDS_TITLE, pfv.PRODUCTSFIELDSVALUES_VALUE
+FROM CATALOG_PRODUCTSVALUES AS pv
+INNER JOIN CATALOG_PRODUCTSFIELDSVALUES AS pfv ON pv.PRODUCTSVALUES_VALUEID = pfv.PRODUCTSFIELDSVALUES_ID
+INNER JOIN CATALOG_CATEGORIESFIELDS AS cf ON pv.PRODUCTSVALUES_FIELDID = cf.CATEGORIESFIELDS_ID
+INNER JOIN CATALOG_PRODUCTSFIELDS AS pf ON pfv.PRODUCTSFIELDSVALUES_FIELDID = pf.PRODUCTSFIELDS_ID
+WHERE pv.PRODUCTSVALUES_PRODUCTID =3
+ORDER BY cf.CATEGORIESFIELDS_SORTORDER
+ */
 
 		$select = $this->select()->from(
-			array('vt' => $this->getTableName()),
+			array('pv' => $this->getTableName()),
 			array(
-				$this->getFieldByAlias('productId'),
 				$this->getFieldByAlias('fieldId'),
 				$this->getFieldByAlias('valueId')
 			)
 		);
-		$select->where(
-			'vt.' . $this->getFieldByAlias('productId') . ' = ?',
-			(int)$productId
+
+		$select->join(
+			array('pfv' => $fieldValueTable->getTableName()),
+			'pv.' . $this->getFieldByAlias('valueId')
+			. ' = pfv.' . $fieldValueTable->getPrimary(),
+			array($fieldValueTable->getFieldByAlias('value'))
 		);
 
 		$select->join(
-			array('cft' => $categoryFieldTable->getTableName()),
-			'vt.' . $this->getFieldByAlias('fieldId') 
-			. ' = cft.' . $categoryFieldTable->getPrimary(),
+			array('cf' => $categoryFieldTable->getTableName()),
+			'pv.' . $this->getFieldByAlias('fieldId') 
+			. ' = cf.' . $categoryFieldTable->getPrimary(),
 			array()
 		);
 
 		$select->join(
-					array('ft' => $fieldTable->getTableName()),
-					'cft.' . $categoryFieldTable->getFieldByAlias('fieldId') . ' = ft.' . $fieldTable->getPrimary()
-				);
-
-		if ($allValues) {
-			$select->join(
-				array('fvt' => $fieldValueTable->getTableName()),
-				'cft.' . $categoryFieldTable->getFieldByAlias('fieldId') 
-				. ' = fvt.' . $fieldValueTable->getFieldByAlias('fieldId'),
-				array($fieldValueTable->getFieldByAlias('value'))
-			);
-		} else {
-			$select->join(
-				array('fvt' => $fieldValueTable->getTableName()),
-				'vt.' .  $this->getFieldByAlias('valueId') 
-				. ' = fvt.' . $fieldValueTable->getPrimary(),
-				array($fieldValueTable->getFieldByAlias('value'))
-			);
-		}
-		
-		$select->joinLeft(
-			array('gf' => $fieldGroupTable->getTableName()),
-			'gf.' . $fieldGroupTable->getFieldByAlias('fieldId')
-			. ' = cft.' . $categoryFieldTable->getPrimary(),
-			array($fieldGroupTable->getFieldByAlias('groupId'))
+			array('pf' => $fieldTable->getTableName()),
+			'pfv.' . $fieldValueTable->getFieldByAlias('fieldId') . ' = pf.' . $fieldTable->getPrimary(),
+			array($fieldTable->getFieldByAlias('title'))
 		);
 
-		$select->order('cft.' . $categoryFieldTable->getFieldByAlias('sortOrder'));
+		$select->where(
+			'pv.' . $this->getFieldByAlias('productId') . ' = ' . (int)$productId
+		);
+
+		$select->order('cf.' . $categoryFieldTable->getFieldByAlias('sortOrder'));
 		$select->setIntegrityCheck(false);
 
 		return $this->fetchAll($select)->toArray();

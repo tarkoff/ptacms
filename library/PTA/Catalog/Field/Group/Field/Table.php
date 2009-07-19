@@ -33,7 +33,14 @@ class PTA_Catalog_Field_Group_Field_Table extends PTA_DB_Table
 
 		return $this->delete($where);
 	}
-	
+
+	/**
+	 * Add Fields To Categories Group
+	 *
+	 * @param int $groupId
+	 * @param array $fieldsIds
+	 * @return boolean
+	 */
 	public function addGroupFields($groupId, $fieldsIds)
 	{
 		if (empty($groupId) || empty($fieldsIds)) {
@@ -56,5 +63,28 @@ class PTA_Catalog_Field_Group_Field_Table extends PTA_DB_Table
 			);
 		}
 		return $this->getAdapter()->commit();
+	}
+	
+	/**
+	 * Get Group Fields
+	 *
+	 * @param int|array $groupId
+	 * @return array
+	 */
+	public function getGroupFields($groupId)
+	{
+		if (empty($groupId)) {
+			return array();
+		}
+
+		$select = $this->select();
+
+		if (is_array($groupId)) {
+			$select->where($this->getFieldByAlias('groupId') . ' in (?)', $groupId);
+		} else {
+			$select->where($this->getFieldByAlias('groupId') . ' = ?', intval($groupId));
+		}
+
+		return $this->fetchAll($select)->toArray();
 	}
 }

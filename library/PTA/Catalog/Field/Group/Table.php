@@ -20,7 +20,7 @@ class PTA_Catalog_Field_Group_Table extends PTA_DB_Table
 	/**
 	 * Get Category Group Fields
 	 *
-	 * @param int $groupId
+	 * @param int|array $groupId
 	 * @param int $categoryId
 	 * @return array
 	 */
@@ -29,7 +29,7 @@ class PTA_Catalog_Field_Group_Table extends PTA_DB_Table
 		return $this->_getGroupFields($groupId, $categoryId, true);
 	}
 
-	private function _getGroupFields($groupId, $categoryId, $equal = true)
+	private function _getGroupFields($groupId, $categoryId = null, $equal = true)
 	{
 		if (empty($groupId) || empty($categoryId)) {
 			return array();
