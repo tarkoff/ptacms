@@ -44,7 +44,7 @@ class Catalog extends PTA_WebModule
 		$this->setVar('tplAction', 'list');
 		if ($this->isActive()) {
 			if (($category = $this->getCategory())) {
-				$catTable = PTA_DB_Table::get('PTA_Catalog_Category');
+				$catTable = PTA_DB_Table::get('Catalog_Category');
 				$catTileField = $catTable->getFieldByAlias('title');
 				$this->getApp()->setTitle($category[$catTileField]);
 				unset($catTable, $catTileField, $category);
