@@ -15,6 +15,7 @@ class PTA_Control_Form_Select extends PTA_Control_Form_Field
 	{
 			parent::__construct($prefix, $label, $mandatory, $value);
 			$this->setOptions($options);
+			$this->setValue($value);
 	}
 
 	public function init()
