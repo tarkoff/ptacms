@@ -252,8 +252,8 @@ class Catalog_editForm extends PTA_Control_Form
 		if (!empty($data->showInCategories)) {
 			$this->_product->setShowInCategories($data->showInCategories);
 		}
-		$this->_product->saveCustomFields($data);
 		if ($this->_product->save()) {
+			$this->_product->saveCustomFields($data);
 			$this->message(
 				PTA_Object::MESSAGE_SUCCESS,
 				'Product ' . $this->_product->getTitle() . ' successfully saved!'
