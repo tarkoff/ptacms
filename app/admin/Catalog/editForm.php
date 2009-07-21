@@ -53,7 +53,7 @@ class Catalog_editForm extends PTA_Control_Form
 
 		$catsTable = PTA_DB_Table::get('Catalog_Category');
 		$prodCatTable = PTA_DB_Table::get('Catalog_Product_Category');
-		
+
 		$prodCatIdField = $catsTable->getPrimary();
 		$prodDefaultCatId = $prodCatTable->getFieldByAlias('isDefault');
 
@@ -67,7 +67,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$prodCatsIds = array();
 		foreach ($prodCatsList as $prodCat) {
 			if (!empty($prodCat[$prodDefaultCatId])) {
-				$defaultCategoryId = intval($prodCat[$prodDefaultCatId]);
+				$defaultCategoryId = intval($prodCat[$prodCatIdField]);
 			} else {
 				$prodCatsIds[$prodCat[$prodCatIdField]] = intval($prodCat[$prodCatIdField]);
 			}
@@ -78,8 +78,13 @@ class Catalog_editForm extends PTA_Control_Form
 		);
 		$category->setSortOrder(16);
 		$category->addOption(array('0', 'Empty'));
-		//$category->setMultiple(true);
 		$this->addVisual($category);
+
+		foreach ($catsList as $catId => $category) {
+			if ($defaultCategoryId == $category[0]) {
+				unset($catsList[$catId]);
+			}
+		}
 
 		$category = new PTA_Control_Form_Select(
 			'showInCategories', 'Show in categories', false, $catsList, $prodCatsIds
