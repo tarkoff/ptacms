@@ -45,7 +45,8 @@ abstract class PTA_Control_Form extends PTA_Object
 
 		if ($this->submitted()) {
 			$data = $this->_fillToData();
-			$this->onSubmit($data);
+			$submitResult = $this->onSubmit($data);
+			$this->setVar('saved' , $submitResult);
 			$this->initForm();
 			$this->_fillFromData($data);
 		} else {
