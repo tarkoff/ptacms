@@ -106,8 +106,9 @@
 					$(function() { 
 						// setup ul.tabs to work as tabs for each div directly under div.panes 
 						$("ul.descr-tabs").tabs("div.descr-panes > div", { 
-							event: 'click', 
-							effect: 'fade', 
+							event: 'click',
+							effect: 'fade',
+							initialIndex: {/literal}{if $data->commentForm->submited}1{else}0{/if}{literal}
 						});
 					});
 				</script>
