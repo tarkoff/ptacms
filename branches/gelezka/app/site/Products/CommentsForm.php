@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-require_once PTA_PUBLIC_PATH . '/recaptcha/recaptchalib.php';
+//require_once PTA_PUBLIC_PATH . '/recaptcha/recaptchalib.php';
 
 class Products_CommentsForm extends PTA_Control_Form 
 {
@@ -39,11 +39,15 @@ class Products_CommentsForm extends PTA_Control_Form
 		$comment->setSortOrder(2);
 		$this->addVisual($comment);
 
+		$captcha = new PTA_Control_Form_Text('captcha', 'Captcha', true);
+		$captcha->setSortOrder(3);
+		$this->addVisual($captcha);
+
 		$submit = new PTA_Control_Form_Submit('submit', 'Search', true, 'Search');
-		$submit->setSortOrder(3);
+		$submit->setSortOrder(4);
 		$this->addVisual($submit);
 		
-		$this->setVar('captcha', recaptcha_get_html(PTA_RECAPTCHA_PUBLIC_KEY));
+//		$this->setVar('captcha', recaptcha_get_html(PTA_RECAPTCHA_PUBLIC_KEY));
 		if (!$this->getVar('error')) {
 			$this->setVar('error', self::COMMENT_ERROR_NONE);
 		}
@@ -66,14 +70,8 @@ class Products_CommentsForm extends PTA_Control_Form
 			return false;
 		}
 
-		$resp = recaptcha_check_answer(
-			PTA_RECAPTCHA_PRIVATE_KEY,
-			$_SERVER["REMOTE_ADDR"],
-			$_POST["recaptcha_challenge_field"],
-			$_POST["recaptcha_response_field"]
-		);
 
-		if (!$resp->is_valid) {
+		if (!$this->isValidCaptcha($data->captcha)) {
 			$this->setVar('error', self::COMMENT_ERROR_CAPTCHA);
 			return false;
 		}
@@ -86,6 +84,19 @@ class Products_CommentsForm extends PTA_Control_Form
 			$this->setVar('error', self::COMMENT_ERROR_NONE);
 			return true;
 		}
+		return false;
+	}
+	
+	public function isValidCaptcha($captcha)
+	{
+		$captcha = strtolower($this->quote($captcha));
+
+		foreach (explode(',', PTA_CAPTCHA_WRITE_UNSWER) as $unswer) {
+			if (strtolower($unswer) == $captcha) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

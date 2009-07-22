@@ -105,7 +105,10 @@
 					// perform JavaScript after the document is scriptable. 
 					$(function() { 
 						// setup ul.tabs to work as tabs for each div directly under div.panes 
-						$("ul.descr-tabs").tabs("div.descr-panes > div"); 
+						$("ul.descr-tabs").tabs("div.descr-panes > div", { 
+							event: 'click', 
+							effect: 'fade', 
+						});
 					});
 				</script>
 			{/literal}
@@ -142,6 +145,18 @@
 				{/if}
 				</div>
 				<div id="prodComments">
+					{if $data->commentForm->submited}
+						{pta_const name="Products_CommentsForm::COMMENT_ERROR_FIELDS" to="fieldsError"}
+						{pta_const name="Products_CommentsForm::COMMENT_ERROR_CAPTCHA" to="captchaError"}
+
+						{if $data->commentForm->error == $fieldsError}
+							<p class="error">Не все поля заполнены!</p>
+						{elseif $data->commentForm->error == $captchaError}
+							<p class="error">Ответ на контрольный вопрос неправильный!</p>
+						{else}
+							<p class="success">Ваш коментарий учпешно добавлен!</p>
+						{/if}
+					{/if}
 					<table class="width100">
 					{foreach from=$data->comments item=comment}
 						<tr class="bb">
@@ -171,7 +186,10 @@
 									<td><textarea name="{$formFields.post->name}" class="formInput commentText"></textarea></td>
 								</tr>
 								<tr>
-									<td colspan="2">{$commentForm->captcha}</td>
+									<td class="" colspan="2">
+										<p class="ico-info "><em>Для добваления коментария ответьте на вопрос</em></p>
+										<p class="bigger strong">Два сапога <input type="text" name="{$formFields.captcha->name}" value="" class="formInput" /></p>
+									</td>
 								</tr>
 								<tr>
 									<td colspan="2" style="width:100%;" align="center"><input type="submit" name="{$formFields.submit->name}" value="Отправить" /></td>
