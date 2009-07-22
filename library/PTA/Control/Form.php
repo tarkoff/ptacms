@@ -160,6 +160,7 @@ abstract class PTA_Control_Form extends PTA_Object
 		
 		uasort($data, array($this, "sortData"));
 		$object->data = $data;
+		$object->submited = $this->submitted();
 		return $object;
 	}
 

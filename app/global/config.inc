@@ -28,9 +28,10 @@ define('PTA_JS_URL', PTA_BASE_URL . '/public/js');
 define('PTA_JS_JQUERY_URL', PTA_JS_URL . '/jquery');
 define('PTA_THUMB_URL', PTA_BASE_URL . '/public/timthumb/timthumb.php');
 
-define('PTA_RECAPTCHA_PRIVATE_KEY', '6LeKcgcAAAAAAJJ3hcJOJXcUDFBa4YJf5ZGa8hl2');
-define('PTA_RECAPTCHA_PUBLIC_KEY', '6LeKcgcAAAAAAHlhPZZh4OwaaMztDXekLRvbOx5u');
+//define('PTA_RECAPTCHA_PRIVATE_KEY', '6LeKcgcAAAAAAJJ3hcJOJXcUDFBa4YJf5ZGa8hl2');
+//define('PTA_RECAPTCHA_PUBLIC_KEY', '6LeKcgcAAAAAAHlhPZZh4OwaaMztDXekLRvbOx5u');
 
+define('PTA_CAPTCHA_WRITE_UNSWER', 'пара,para');
 //2 days | 3600 - 1hour
 define('PTA_COOKIE_EXPIRE_TIME', 172800);
 define('PTA_PROFILER_TIME', 0.01);
