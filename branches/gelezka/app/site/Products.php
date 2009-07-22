@@ -23,6 +23,8 @@ class Products extends PTA_WebModule
 
 		$productId = (int)$this->getHttpProduct();
 
+		$this->addVisual(new Products_CommentsForm('commentForm', $productId));
+		
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
 		$catTable = PTA_DB_Table::get('Catalog_Category');
@@ -117,13 +119,11 @@ class Products extends PTA_WebModule
 		$this->setVar('product', $product);
 		$this->setVar('category', $category);
 //		$this->setVar('parentCategories', $parentCategories);
-		$this->setVar(
-			'photos',
-			PTA_DB_Table::get('Catalog_Product_Photo')->getPhotos($productId)
-		);
+		$this->setVar('photos', PTA_DB_Table::get('Catalog_Product_Photo')->getPhotos($productId));
 		$this->setVar('customFields', $fieldGroups);
 		$this->setVar('categories', $categories);
 		$this->setVar('brand', $brand);
+		$this->setVar('comments', PTA_DB_Table::get('Catalog_Post')->getProductPosts($productId));
 	}
 	
 	public function getHttpProduct()
