@@ -14,11 +14,11 @@
 						<p>
 							<strong>
 								<a href="{$MostRecent->brandUrl}/{$product.BRANDS_ALIAS}">{$product.BRANDS_TITLE}</a>&nbsp;
-								<a href="{$MostRecent->url}/{$product.PRODUCTS_ID}">{$product.PRODUCTS_TITLE}</a>
+								<a href="{$MostRecent->url}/{$product.PRODUCTS_ALIAS}">{$product.PRODUCTS_TITLE}</a>
 							</strong>
 						</p>
 						<p>
-							<span><a class="high ico-card" href="{$MostRecent->url}/{$product.PRODUCTS_ID}">Подробнее...</a></span>&nbsp;
+							<span><a class="high ico-card" href="{$MostRecent->url}/{$product.PRODUCTS_ALIAS}">Подробнее...</a></span>&nbsp;
 							(<a href="{$Categories->url}/{$product.CATEGORIES_ALIAS}" class="folder">{$product.CATEGORIES_TITLE}</a>)<br />
 						</p>
 						<p>{$product.PRODUCTS_SHORTDESCR|truncate:160}</p>
@@ -35,11 +35,11 @@
 						<p>
 							<strong>
 								<a href="{$MostRecent->brandUrl}/{$product.BRANDS_ALIAS}">{$product.BRANDS_TITLE}</a>&nbsp;
-								<a href="{$MostRecent->url}/{$product.PRODUCTS_ID}">{$product.PRODUCTS_TITLE}</a>
+								<a href="{$MostRecent->url}/{$product.PRODUCTS_ALIAS}">{$product.PRODUCTS_TITLE}</a>
 							</strong>
 						</p>
 						<p>
-							<span><a class="high ico-card" href="{$MostRecent->url}/{$product.PRODUCTS_ID}">Подробнее...</a></span>&nbsp;
+							<span><a class="high ico-card" href="{$MostRecent->url}/{$product.PRODUCTS_ALIAS}">Подробнее...</a></span>&nbsp;
 							(<a href="{$Categories->url}/{$product.CATEGORIES_ALIAS}" class="folder">{$product.CATEGORIES_TITLE}</a>)<br />
 						</p>
 						<p>{$product.PRODUCTS_SHORTDESCR|truncate:160}</p>

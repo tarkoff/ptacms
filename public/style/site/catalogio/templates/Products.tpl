@@ -98,6 +98,7 @@
 			<div id="descrBody" class="box">
 				<div id="shortDescr">{$data->product.PRODUCTS_SHORTDESCR}</div>
 			</div>
+			<br />
 			<script src="{$smarty.const.PTA_JS_JQUERY_URL}/tools/tabs/tools.tabs-1.0.1.min.js" type="text/javascript"></script>
 			<link rel="stylesheet" media="screen,projection" type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/tools/tabs/tabs-no-images.css" />
 			{literal}

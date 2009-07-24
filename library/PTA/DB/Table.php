@@ -378,4 +378,22 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 
 		return $resultSet;
 	}
+
+	/**
+	 * Get Item By Alais
+	 *
+	 * @param string $alias
+	 * @return array
+	 */
+	public function getByAlias($alias)
+	{
+		if (empty($alias) || !($aliasField = $this->getFieldByAlias('alias'))) {
+			return array();
+		}
+
+		return $this->fetchAll(
+			$this->select()->where($aliasField . ' = ?', $alias)
+		)->toArray();
+	}
+	
 }
