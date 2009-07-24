@@ -21,9 +21,9 @@ class Products extends PTA_WebModule
 	{
 		parent::init();
 
-		$productId = (int)$this->getHttpProduct();
+		//$productId = (int)$this->getHttpProduct();
+		$productId = $this->getHttpProduct();
 
-		$this->addVisual(new Products_CommentsForm('commentForm', $productId));
 		
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
@@ -33,17 +33,19 @@ class Products extends PTA_WebModule
 		$fieldGroupFieldsTable = PTA_DB_Table::get('Catalog_Field_Group_Field');
 		$valueTable = PTA_DB_Table::get('Catalog_Value');
 
-		$product = current($productTable->findById($productId));
-
+		//$product = current($productTable->findById($productId));
+		$product = current($productTable->getByAlias($productId));
+		
 		if (empty($product)) {
 			$this->redirect($this->getApp()->getBaseUrl());
 		}
 		
 		$app = $this->getApp();
+		$productId = (int)$product[$productTable->getPrimary()];
 
-		$categories = $productCategoryTable->getProductCategories(
-			$product[$productTable->getPrimary()], true
-		);
+		$this->addVisual(new Products_CommentsForm('commentForm', $productId));
+
+		$categories = $productCategoryTable->getProductCategories($productId, true);
 
 		$catIdField = $catTable->getPrimary();
 		$catTitle = $catTable->getFieldByAlias('title');
