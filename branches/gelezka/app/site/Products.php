@@ -94,8 +94,6 @@ class Products extends PTA_WebModule
 			$fieldGroups[$groupId] = $group;
 		}
 
-		$fieldGroups['else'][0][$groupTitleField] = '';
-
 		$fieldIdField = $fieldGroupFieldsTable->getFieldByAlias('fieldId');
 		$fieldGroupIdField = $fieldGroupFieldsTable->getFieldByAlias('groupId');
 
@@ -104,6 +102,8 @@ class Products extends PTA_WebModule
 			$fieldId = $groupField[$fieldIdField];
 			$fieldGroupsIds[$fieldId] = $groupId;
 		}
+
+		$fieldGroups['else'][0][$groupTitleField] = '';
 
 		$fieldIdField = $valueTable->getFieldByAlias('fieldId');
 		foreach ($valueTable->getValuesByProductId($productId) as $field) {

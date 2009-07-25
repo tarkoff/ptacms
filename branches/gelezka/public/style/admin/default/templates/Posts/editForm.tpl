@@ -1,0 +1,1 @@
+{include file="_generic/form.tpl" form=$form}
