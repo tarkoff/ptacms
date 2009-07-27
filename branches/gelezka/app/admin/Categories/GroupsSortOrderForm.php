@@ -37,7 +37,7 @@ class Categories_GroupsSortOrderForm extends PTA_Control_Form
 				'sortOrder' => $field[$groupOrderField]
 			);
 			$input = PTA_Control_Form_Field::getFieldByType(
-				PTA_Control_Form_Field::TYPE_TEXT,
+				PTA_Control_Form_Field::TYPE_HIDDEN,
 				'sortOrder_' . $field[$groupIdField],
 				$options
 			);
@@ -80,7 +80,7 @@ class Categories_GroupsSortOrderForm extends PTA_Control_Form
 				!empty($data->$groupAlias)
 				&& ($data->$groupAlias != $group[$categoryGroupOrderField])
 			) {
-				$sortOrders[$group[$categoryGroupIdField]] = $data->$groupAlias;
+				$sortOrders[$group[$categoryGroupIdField]] = (int)$data->$groupAlias;
 			}
 		}
 
@@ -89,7 +89,7 @@ class Categories_GroupsSortOrderForm extends PTA_Control_Form
 				PTA_Object::MESSAGE_SUCCESS,
 				'Category Groups Order Successfully Saved!'
 			);
-			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 3);
+			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 0);
 		} else {
 			$this->message(
 				PTA_Object::MESSAGE_ERROR,

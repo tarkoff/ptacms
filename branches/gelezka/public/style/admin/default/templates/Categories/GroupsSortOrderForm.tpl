@@ -1,1 +1,1 @@
-{include file="_generic/form.tpl" form=$form}
+{include file="Categories/FieldsSortOrderForm.tpl" form=$form}
