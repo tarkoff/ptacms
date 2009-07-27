@@ -18,6 +18,7 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 	protected $_primary = 'CATEGORIES_ID';
 
 	private static $_categoryChilds = array();
+	private static $_categoryParents = array();
 
 	/**
 	 * Get childs for category by id
@@ -105,6 +106,12 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 		}
 
 		$categoryId = (array)$categoryId;
+
+		$cacheKey = $categoryId . ' _' . intval($allParents);
+		if (isset(self::$_categoryParents[$cacheKey])) {
+			return self::$_categoryParents[$cacheKey];
+		}
+
 		$parentField = $this->getFieldByAlias('parentId');
 		$idField = $this->getPrimary();
 
@@ -128,6 +135,8 @@ class PTA_Catalog_Category_Table extends PTA_DB_Table
 				}
 			} while (!empty($categoryId));
 		}
+
+		self::$_categoryParents[$cacheKey] = $categories;
 
 		return $categories;
 	}

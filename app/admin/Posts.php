@@ -78,7 +78,7 @@ class Posts extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Brand', $this->getModuleUrl() . 'Add/', 'add.png');
+		//$view->addSingleAction('New Brand', $this->getModuleUrl() . 'Add/', 'add.png');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Post', 'edit.png');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Post', 'copy.png');

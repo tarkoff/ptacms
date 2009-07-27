@@ -37,7 +37,7 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 				'sortOrder' => $field[$categoryFieldOrderField]
 			);
 			$input = PTA_Control_Form_Field::getFieldByType(
-				PTA_Control_Form_Field::TYPE_TEXT,
+				PTA_Control_Form_Field::TYPE_HIDDEN,
 				'sortOrder_' . $field[$categoryFieldIdField],
 				$options
 			);
@@ -88,7 +88,7 @@ class Categories_FieldsSortOrderForm extends PTA_Control_Form
 				PTA_Object::MESSAGE_SUCCESS,
 				'Category Fields Order Successfully Saved!'
 			);
-			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 3);
+			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 0);
 		} else {
 			$this->message(
 				PTA_Object::MESSAGE_ERROR,

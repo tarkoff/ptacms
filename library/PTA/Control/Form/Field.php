@@ -66,6 +66,10 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 				$field = new PTA_Control_Form_Text($prefix);
 			break;
 
+			case self::TYPE_HIDDEN:
+				$field = new PTA_Control_Form_Hidden($prefix);
+			break;
+
 			case self::TYPE_TEXTAREA:
 				$field = new PTA_Control_Form_TextArea($prefix);
 			break;
