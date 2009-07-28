@@ -1,15 +1,12 @@
-#Options +FollowSymlinks
-#Options -Indexes
+AddDefaultCharset utf-8
 
-AddDefaultCharset UTF-8
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteBase /app/site/
 
-RewriteEngine on
-RewriteBase /app/site/
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^.htaccess$ - [F]
-
-RewriteCond %{SCRIPT_FILENAME} !-f
-RewriteCond %{SCRIPT_FILENAME} !-d
-
-RewriteRule \.(js|ico|swf|gif|jpg|png|css|xml)$ %{SCRIPT_FILENAME} [L]
-RewriteRule !\.(js|ico|swf|gif|jpg|png|css|xml)$ index.php [L]
+	RewriteRule ^.htaccess$ - [F]
+	RewriteRule . ./index.php [L]
+</IfModule>

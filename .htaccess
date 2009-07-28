@@ -4,6 +4,13 @@ AddDefaultCharset utf-8
 	RewriteEngine On
 	RewriteBase /
 
+	RewriteRule ^.htaccess$ - [F]
+
+	RewriteCond %{REQUEST_FILENAME} -f
+	RewriteCond %{REQUEST_FILENAME} -d
+
+	RewriteRule . %{REQUEST_FILENAME} [L]
+
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 
