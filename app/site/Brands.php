@@ -29,6 +29,10 @@ class Brands extends PTA_WebModule
 	public function viewAction()
 	{
 		$brand = $this->getBrand();
+		if (empty($brand)) {
+			$this->redirect('/');
+		}
+
 		$category = $this->getCategory();
 		$categoryId = $this->getCategoryId();
 

@@ -31,7 +31,7 @@
 					{sectionelse}
 						<strong>1</strong>
 					{/section}
-					&nbsp; <a href="{$data->url}/{$data->brand.BRANDS_ALIAS}/page/{$nav->lastPage}">Вперед &raquo;</a>
+					&nbsp; <a href="{$data->url}/{$data->brand.BRANDS_ALIAS}/page/1">Вперед &raquo;</a>
 				</p>
 			</div>
 		</div>

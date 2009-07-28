@@ -37,7 +37,7 @@ class Products extends PTA_WebModule
 		$product = current($productTable->getByAlias($productId));
 		
 		if (empty($product)) {
-			$this->redirect($this->getApp()->getBaseUrl());
+			$this->redirect('/');
 		}
 		
 		$app = $this->getApp();

@@ -48,6 +48,8 @@ class Catalog extends PTA_WebModule
 				$catTileField = $catTable->getFieldByAlias('title');
 				$this->getApp()->setTitle($category[$catTileField]);
 				unset($catTable, $catTileField, $category);
+			} else {
+				$this->redirect('/');
 			}
 		}
 		$this->setVar('view', $this->getCatalogPage($this->getCategoryId(), 1));
