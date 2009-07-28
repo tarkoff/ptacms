@@ -43,9 +43,9 @@ class Brands extends PTA_WebModule
 			);
 		}
 
-		$this->getApp()->addKeyword(
-			$brand[$brandTable->getFieldByAlias('title')]
-		);
+		$brandTitle = $brand[$brandTable->getFieldByAlias('title')];
+		$this->getApp()->addKeyword($brandTitle);
+		$this->getApp()->setTitle($brandTitle);
 
 		$select = $prodsTable->getCatalogQuery($categoryId);
 

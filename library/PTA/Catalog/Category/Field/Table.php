@@ -73,7 +73,9 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 				'categoriesFields.' . $this->getFieldByAlias('fieldId') . ' = fields.' . $fieldsTable->getPrimary()
 				/*array_values($this->getFields())*/
 			);
-			$select->where('categoriesFields.' . $this->getFieldByAlias('categoryId') . ' is null');
+			$categoryIdField = $this->getFieldByAlias('categoryId');
+			$select->where('categoriesFields.' . $categoryIdField . ' in (?)', $categoriesIds);
+			$select->orWhere('categoriesFields.' . $categoryIdField . ' is null');
 		}
 
 		$select->group('fields.' . $fieldsTable->getPrimary());
