@@ -2,11 +2,17 @@ AddDefaultCharset utf-8
 
 <IfModule mod_rewrite.c>
 	RewriteEngine on
-	RewriteBase /app/site/
+	RewriteBase /app/admin/
+
+	RewriteRule ^.htaccess$ - [F]
+
+	RewriteCond %{REQUEST_FILENAME} -f
+	RewriteCond %{REQUEST_FILENAME} -d
+
+	RewriteRule . %{REQUEST_FILENAME} [L]
 
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 
-	RewriteRule ^.htaccess$ - [F]
 	RewriteRule . ./index.php [L]
 </IfModule>

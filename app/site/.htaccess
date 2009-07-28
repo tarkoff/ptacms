@@ -4,9 +4,15 @@ AddDefaultCharset utf-8
 	RewriteEngine on
 	RewriteBase /app/site/
 
+	RewriteRule ^.htaccess$ - [F]
+
+	RewriteCond %{REQUEST_FILENAME} -f
+	RewriteCond %{REQUEST_FILENAME} -d
+
+	RewriteRule . %{REQUEST_FILENAME} [L]
+
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 
-	RewriteRule ^.htaccess$ - [F]
 	RewriteRule . ./index.php [L]
 </IfModule>
