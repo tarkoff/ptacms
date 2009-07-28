@@ -1,20 +1,12 @@
-#Options +FollowSymlinks
-#Options -Indexes
-
-AddDefaultCharset UTF-8
+AddDefaultCharset utf-8
 
 <IfModule mod_rewrite.c>
-
-	RewriteEngine on
+	RewriteEngine On
 	RewriteBase /
 
-	RewriteRule ^.htaccess$ - [F]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
 
-#	RewriteCond %{SCRIPT_FILENAME} !-f
-#	RewriteCond %{SCRIPT_FILENAME} !-d
-
-	RewriteRule \.(js|ico|swf|gif|jpg|png|css|xml|txt|htm|html)$ %{SCRIPT_FILENAME} [L]
 	RewriteRule ^admin app/admin/ [L]
 	RewriteRule !^admin app/site/ [L]
-
 </IfModule>
