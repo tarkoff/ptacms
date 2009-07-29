@@ -16,7 +16,7 @@ class Brands extends PTA_WebModule
 	function __construct ($prefix)
 	{
 		parent::__construct($prefix, 'Brands.tpl');
-		$this->setModuleUrl(PTA_BASE_URL . '/Brands/View/Brand');
+		$this->setModuleUrl(PTA_BASE_URL . '/Products/View/Product');
 	}
 
 	public function init()
@@ -71,7 +71,7 @@ class Brands extends PTA_WebModule
 
 		$this->setVar('view', $view->exec());
 		$this->setVar('brand', $brand);
-		$this->setVar('prodUrl', '/Products/View/Product');
+		$this->setVar('brandUrl', PTA_BASE_URL . '/Brands/View/Brand');
 	}
 
 	public function getHttpBrand()
