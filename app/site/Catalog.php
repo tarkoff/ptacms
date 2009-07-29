@@ -128,6 +128,7 @@ class Catalog extends PTA_WebModule
 		}
 		$view->setMinRpp(10);
 		$view->setMaxRpp(50);
+		$view->setRpp(10);
 		return $view->exec();
 		/*
 		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
