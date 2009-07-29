@@ -65,7 +65,7 @@
 					{sectionelse}
 						<strong>1</strong>
 					{/section}
-					&nbsp; <a href="{$Categories->url}/{$Categories->category.CATEGORIES_ALIAS}/page/1">Вперед &raquo;</a>
+					&nbsp; <a href="{$Categories->url}/{$Categories->category.CATEGORIES_ALIAS}/page/{$nav->nextPage}">Вперед &raquo;</a>
 				</p>
 			</div>
 		</div>

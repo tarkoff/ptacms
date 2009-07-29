@@ -364,7 +364,7 @@ class PTA_Control_View extends PTA_Object
 		if (empty($recsCnt)) {
 			$page = 1;
 		} else {
-			$page = floor($recsCnt / $this->getRpp()) + 1;
+			$page = ceil($recsCnt / $this->getRpp());
 		}
 
 		$this->setVar('lastPage', $page);
