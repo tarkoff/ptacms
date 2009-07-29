@@ -7,7 +7,6 @@ AddDefaultCharset utf-8
 	RewriteRule ^.htaccess$ - [F]
 
 	RewriteCond %{REQUEST_FILENAME} -f
-	RewriteCond %{REQUEST_FILENAME} -d
 
 	RewriteRule . %{REQUEST_FILENAME} [L]
 
