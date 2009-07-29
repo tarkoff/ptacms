@@ -96,7 +96,7 @@ class Catalog extends PTA_WebModule
 		}
 
 		$select = $prodsTable->getCatalogQuery($categoryId);
-		$select->group($prodsTable->getPrimary());
+		$select->group('prods.' . $prodsTable->getPrimary());
 
 		if (($filterData = $this->getFilterData())) {
 			$brandTable = PTA_DB_Table::get('Catalog_Brand');
@@ -113,9 +113,11 @@ class Catalog extends PTA_WebModule
 		}
 
 		$prodCatsTable = PTA_DB_Table::get('PTA_Catalog_Product_Category');
+
 		$view = new PTA_Control_View('catalogView');
 		$view->setTable($prodCatsTable);
 		$view->setSelect($select);
+
 		if (!empty($categoryId)) {
 			$view->setTotalRecordsCnt(
 				$view->getTotalRecordsCnt(
@@ -123,9 +125,11 @@ class Catalog extends PTA_WebModule
 						$prodCatsTable->getFieldByAlias('categoryId') . ' in (?)',
 						$categoryId
 					)
+					. ' and ' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1'
 				)
 			);
 		}
+
 		$view->setMinRpp(10);
 		$view->setMaxRpp(50);
 		$view->setRpp(10);

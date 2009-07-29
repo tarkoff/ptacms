@@ -63,19 +63,11 @@ class Brands extends PTA_WebModule
 		$view->setTable($prodCategoryTable);
 		$view->setSelect($select);
 
-		if (!empty($categoryId)) {
-			$view->setTotalRecordsCnt(
-				$view->getTotalRecordsCnt(
-					$prodCategoryTable->getAdapter()->quoteInto(
-						$prodCategoryTable->getFieldByAlias('categoryId') . ' in (?)',
-						$categoryId
-					)
-				)
-			);
-		}
+		$view->setTotalRecordsCnt($brandTable->getProductsCnt($brand[$brandIdField]));
 
 		$view->setMinRpp(10);
 		$view->setMaxRpp(50);
+		$view->setRpp(10);
 
 		$this->setVar('view', $view->exec());
 		$this->setVar('brand', $brand);

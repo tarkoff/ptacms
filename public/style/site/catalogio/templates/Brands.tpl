@@ -31,7 +31,7 @@
 					{sectionelse}
 						<strong>1</strong>
 					{/section}
-					&nbsp; <a href="{$data->url}/{$data->brand.BRANDS_ALIAS}/page/1">Вперед &raquo;</a>
+					&nbsp; <a href="{$data->url}/{$data->brand.BRANDS_ALIAS}/page/{$nav->nextPage}">Вперед &raquo;</a>
 				</p>
 			</div>
 		</div>
@@ -73,8 +73,8 @@
 			<li>
 				<h4>
 					<a href="{$data->url}/{$catalogItem.BRANDS_ALIAS}">{$catalogItem.BRANDS_TITLE}</a>&nbsp;
-					<a href="{$data->prodUrl}/{$catalogItem.PRODUCTS_ID}">{$catalogItem.PRODUCTS_TITLE}</a> &ndash; 
-					<span><a href="{$data->url}/{$catalogItem.PRODUCTS_ID}" class="high ico-card">Подробнее...</a></span>
+					<a href="{$data->prodUrl}/{$catalogItem.PRODUCTS_ALIAS}">{$catalogItem.PRODUCTS_TITLE}</a> &ndash; 
+					<span><a href="{$data->url}/{$catalogItem.PRODUCTS_ALIAS}" class="high ico-card">Подробнее...</a></span>
 				</h4>
 				<p>{$catalogItem.PRODUCTS_SHORTDESCR|truncate:400}</p>
 			</li>

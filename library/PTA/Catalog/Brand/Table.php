@@ -31,4 +31,29 @@ class PTA_Catalog_Brand_Table extends PTA_DB_Table
 		
 		return $this->fetchAll($select)->toArray();
 	}
+	
+	public function getProductsCnt($brandId)
+	{
+		$prodCategoryTable = self::get('Catalog_Product_Category');
+		$prodTable = self::get('Catalog_Product');
+
+		$select = $this->select()->from(
+			array('prodCats' => $prodCategoryTable->getTableName()),
+			array('count(*) as cnt')
+		);
+
+		$select->setIntegrityCheck(false);
+
+		$select->join(
+			array('prods' => $prodTable->getTableName()),
+			'prodCats.' . $prodCategoryTable->getFieldByAlias('productId') 
+			. ' = ' . 'prods.' . $prodTable->getPrimary(),
+			array()
+		);
+
+		$select->where('prodCats.' . $prodCategoryTable->getFieldByAlias('isDefault') . ' = 1');
+		$select->where('prods.' . $prodTable->getFieldByAlias('brandId') . ' = ' . intval($brandId));
+
+		return $this->getAdapter()->fetchOne($select);
+	}
 }
