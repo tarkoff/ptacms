@@ -62,7 +62,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
 		$sortOrder->setSortOrder(120);
 		$this->addVisual($sortOrder);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save Fields', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save Fields', true, 'Save Fields');
 		$submit->setSortOrder(300);
 		$this->addVisual($submit);
 	}

@@ -263,7 +263,7 @@ class Catalog_editForm extends PTA_Control_Form
 				PTA_Object::MESSAGE_SUCCESS,
 				'Product ' . $this->_product->getTitle() . ' successfully saved!'
 			);
-			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl(), 3);
+			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
 		} else {
 			$this->message(
 				PTA_Object::MESSAGE_ERROR,
