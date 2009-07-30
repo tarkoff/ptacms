@@ -70,7 +70,7 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_field->loadTo($data);
-		//$data->submit = 'save';
+		$data->newValue = '';
 
 		return $data;
 	}
