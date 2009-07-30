@@ -74,7 +74,7 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 				/*array_values($this->getFields())*/
 			);
 			$categoryIdField = $this->getFieldByAlias('categoryId');
-			$select->where('categoriesFields.' . $categoryIdField . ' in (?)', $categoriesIds);
+			$select->where('categoriesFields.' . $categoryIdField . ' not in (?)', $categoriesIds);
 			$select->orWhere('categoriesFields.' . $categoryIdField . ' is null');
 		}
 
