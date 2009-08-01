@@ -78,7 +78,7 @@ class Fields extends PTA_WebModule
 			$this->_field->loadById($itemId);
 		}
 
-		$editForm = new Fields_editFieldsValuesForm('editForm', $this->_field, $copy);
+		$editForm = new Fields_editFieldsValuesForm('fieldsValuesEditForm', $this->_field, $copy);
 		$this->addVisual($editForm);
 	}
 	

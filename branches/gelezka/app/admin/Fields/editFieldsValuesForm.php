@@ -106,11 +106,7 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 			if (isset($data->$alias)) {
 				if (empty($data->$alias)) {
 					$forRemove[$valueId] = $valueId;
-					$valuesTable->delete(
-						$valuesTable->getAdapter()->quoteInto(
-							$valueIdField . ' = ?', intval($valueId)
-						)
-					);
+					$valuesTable->delete($valueIdField . ' = ?', intval($valueId));
 				} elseif ($data->$alias != $value) {
 					$forUpdate[$valueId] = $data->$alias;
 				}

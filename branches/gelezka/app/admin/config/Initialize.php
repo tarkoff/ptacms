@@ -66,7 +66,7 @@ class Initialize
 		);
 
 		$db->setProfiler($profiler);
-		$db->query('SET NAMES UTF8');
+		//$db->query('SET NAMES UTF8');
 		
 		Zend_Db_Table_Abstract::setDefaultAdapter($db);
 		Zend_Registry::set('db', $db);	 
