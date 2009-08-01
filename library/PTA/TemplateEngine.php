@@ -64,7 +64,12 @@ class PTA_TemplateEngine extends PTA_Object
 		}
 
 		$this->_smarty->assign_by_ref($app->getPrefix(), $app->toString());
-		$this->_smarty->display($app->getTemplate()->getFile());
+		if ($app->ajaxMode() && ($activeModule = $app->getActiveModule())) {
+			$this->_smarty->display($activeModule->getTemplate()->getFile());
+		} else {
+			$this->_smarty->display($app->getTemplate()->getFile());
+		}
+
 		return true;
 	}
 

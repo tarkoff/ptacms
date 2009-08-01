@@ -24,6 +24,7 @@ abstract class PTA_App extends PTA_WebModule
 	protected $_controller;
 	protected $_action;
 	protected $_router;
+	protected $_ajaxMode = false;
 
 	private static $_instance;
 
@@ -134,6 +135,26 @@ abstract class PTA_App extends PTA_WebModule
 	}
 
 	/**
+	 * Return TRUE If App Work In Ajax Mode
+	 *
+	 * @return boolean
+	 */
+	public function ajaxMode()
+	{
+		return $this->_ajaxMode;
+	}
+
+	/**
+	 * Activate Ajax Work Mode
+	 *
+	 * @param boolean $mode
+	 */
+	public function setAjaxMode($mode)
+	{
+		$this->_ajaxMode = (boolean)$mode;
+	}
+
+	/**
 	 * Return current user
 	 *
 	 * @return PTA_User
@@ -166,6 +187,8 @@ abstract class PTA_App extends PTA_WebModule
 
 		$this->_templateEngine->init();
 		$this->initModules($this->getModules());
+
+		$this->_ajaxMode = ($this->getHttpVar($this->getPrefix() . '_ajaxMode') ? true : false);
 
 		$this->setVar('appInitTime', number_format((self::getmicrotime() - $this->_initStartTime), 4, '.', ''));
 	}

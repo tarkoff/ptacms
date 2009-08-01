@@ -5,5 +5,5 @@
 	{include file=Fields/editForm.tpl data=$data->editForm data=$data->editForm}
 {/if}
 {if $data->tplMode == 'EditFieldValues'}
-	{include file=Fields/editFieldsValuesForm.tpl data=$data->editForm data=$data->editForm}
+	{include file=Fields/editFieldsValuesForm.tpl data=$data->fieldsValuesEditForm data=$data->fieldsValuesEditForm}
 {/if}

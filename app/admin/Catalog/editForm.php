@@ -171,10 +171,12 @@ class Catalog_editForm extends PTA_Control_Form
 				"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
 				$options
 			);
-			if (!empty($fieldsValues[$fieldArray[$name]])) {
-				$field->setValue($fieldsValues[$fieldArray[$name]]);
-			}
-			if (!empty($field)) {
+
+			if (is_object($field)) {
+				if (!empty($fieldsValues[$fieldArray[$name]])) {
+					$field->setValue($fieldsValues[$fieldArray[$name]]);
+				}
+				$field->setVar('fieldId', $fieldArray[$fieldId]);
 				$this->addVisual($field);
 			}
 		}
