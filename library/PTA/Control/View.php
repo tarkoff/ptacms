@@ -116,8 +116,8 @@ class PTA_Control_View extends PTA_Object
 
 		$resultObject->prevPage = (($page > 1) ? $page - 1 : 1);
 		$resultObject->page = $page;
+		$resultObject->lastPage = $lastPage = (empty($result) ? 1 : $lastPage);
 		$resultObject->nextPage = (($page < $lastPage) ? $page + 1 : $lastPage);
-		$resultObject->lastPage = (empty($result) ? 1 : $lastPage);
 
 		if (!empty($resultObject->commonActions)) {
 			$resultObject->fieldsCount = @count($resultObject->fields) + 1;
