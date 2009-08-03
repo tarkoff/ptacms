@@ -100,16 +100,6 @@ class PTA_Control_View extends PTA_Object
 			$resultObject->rpps[$rppStep] = $rppStep;
 		}
 
-		$resultObject->rpp = $rpp;
-		
-		$page = $this->getPage();
-		$lastPage = $this->getLastPage();
-		
-		$resultObject->prevPage = (($page > 1) ? $page - 1 : 1);
-		$resultObject->page = $page;
-		$resultObject->nextPage = (($page < $lastPage) ? $page + 1 : $lastPage);
-		$resultObject->lastPage = $lastPage;
-
 		$this->_select->limitPage($page, $rpp);
 		//$result = $this->_select->query()->fetchAll();
 		$this->_select->setIntegrityCheck(false);
@@ -119,6 +109,15 @@ class PTA_Control_View extends PTA_Object
 		$resultObject->fields = array_map(array($this, '_FieldToAlias'), $fields);
 		$resultObject->data = $result;
 		$resultObject->commonActions = $this->getCommonActions();
+
+		$resultObject->rpp = $rpp;
+		$page = $this->getPage();
+		$lastPage = $this->getLastPage();
+		
+		$resultObject->prevPage = (($page > 1) ? $page - 1 : 1);
+		$resultObject->page = $page;
+		$resultObject->nextPage = (($page < $lastPage) ? $page + 1 : $lastPage);
+		$resultObject->lastPage = (empty($result) ? 1 : $lastPage);
 
 		if (!empty($resultObject->commonActions)) {
 			$resultObject->fieldsCount = @count($resultObject->fields) + 1;

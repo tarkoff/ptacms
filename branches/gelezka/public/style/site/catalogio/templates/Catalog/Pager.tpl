@@ -1,7 +1,7 @@
 <!-- Pagination -->
 {defun name="pagination" nav=$view}
 	<div class="title01-top"></div>
-	<div class="title01">	
+	<div class="title01">
 		<div class="title01-in">
 			<p class="pagination">
 				<a href="{$Categories->url}/{$Categories->category.CATEGORIES_ALIAS}/page/{$nav->prevPage}">&laquo; Назад</a> &nbsp;
