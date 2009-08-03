@@ -132,10 +132,12 @@
 						<td>
 							<table class="width100">
 							{foreach from=$group.fields item=field}
+								{if !empty($field.PRODUCTSFIELDSVALUES_VALUE) && $field.PRODUCTSFIELDSVALUES_VALUE != 'empty'}
 								<tr>
 									<td width="50%"><em>{$field.PRODUCTSFIELDS_TITLE}</em></td>
 									<td>{$field.PRODUCTSFIELDSVALUES_VALUE}</dd>
 								</tr>
+								{/if}
 							{/foreach}
 							</table>
 						</td>
