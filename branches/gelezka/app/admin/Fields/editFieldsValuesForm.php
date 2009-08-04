@@ -106,13 +106,12 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 			if (isset($data->$alias)) {
 				if (empty($data->$alias)) {
 					$forRemove[$valueId] = $valueId;
-					$valuesTable->delete($valueIdField . ' = ?', intval($valueId));
 				} elseif ($data->$alias != $value) {
 					$forUpdate[$valueId] = $data->$alias;
 				}
 			}
 		}
-		
+
 		if (!empty($data->newValue)) {
 			$fieldValue = PTA_DB_Object::get('Catalog_Field_Value');
 			$fieldValue->setFieldId($this->_field->getId());
@@ -131,19 +130,35 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 			}
 		}
 		
-		if (
-			$valuesTable->saveFieldValues($forUpdate)
-		) {
-			$this->message(
-				PTA_Object::MESSAGE_SUCCESS,
-				'Field Values Successfully Saved!'
-			);
-			//$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
-		} else {
+		if (!empty($forRemove)) {
+			if (
+				$valuesTable->removeFieldValues($this->_field->getId(), $forRemove)
+			) {
+				$this->message(
+					PTA_Object::MESSAGE_SUCCESS,
+					'Field Value Successfully Removed!'
+				);
+			} else {
 				$this->message(
 					PTA_Object::MESSAGE_ERROR,
-					'Error While Field Values SAving!'
+					'Error While Field Value Removing!'
 				);
+			}
+		}
+
+		if (!empty($forUpdate)) {
+			if ($valuesTable->saveFieldValues($this->_field->getId(), $forUpdate)) {
+				$this->message(
+					PTA_Object::MESSAGE_SUCCESS,
+					'Field Values Successfully Saved!'
+				);
+				//$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
+			} else {
+					$this->message(
+						PTA_Object::MESSAGE_ERROR,
+						'Error While Field Values SAving!'
+					);
+			}
 		}
 
 		return true;
