@@ -271,7 +271,8 @@ abstract class PTA_App extends PTA_WebModule
 				array(
 					'SQLLOG_QUERY' => $query->getQuery(),
 					'SQLLOG_QUERYTYPE' => $query->getQueryType(),
-					'SQLLOG_RUNTIME' => $query->getElapsedSecs()
+					'SQLLOG_RUNTIME' => $query->getElapsedSecs(),
+					'SQLLOG_SITEID' => PTA_SITE_ID
 				)
 			);
 		}
@@ -279,7 +280,7 @@ abstract class PTA_App extends PTA_WebModule
 
 		if (isset($_REQUEST['sql_debug'])) {
 			foreach ($queries as $query) {
-				var_dump($query->getQuery());
+				var_dump($query->getQuery() . '; runTime = ' . number_format($query->getElapsedSecs(), 4, '.', ''));
 			}
 		}
 

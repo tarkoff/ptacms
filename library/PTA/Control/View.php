@@ -12,6 +12,9 @@
 class PTA_Control_View extends PTA_Object
 {
 	const DEFAULT_RPP = 20;
+	
+	const MODE_SIMPLEGRID = 0;
+	const MODE_JGRID = 1;
 
 	private $_table;
 	private $_select;
@@ -22,9 +25,10 @@ class PTA_Control_View extends PTA_Object
 	 * @param string $prefix
 	 * @param object $object 
 	 * @param array $fields
+	 * @param int $workMode
 	 * @access public
 	 */
-	public function __construct($prefix, $object = null, $fields = null)
+	public function __construct($prefix, $object = null, $fields = null, $workMode = self::MODE_SIMPLEGRID)
 	{
 		if (empty($prefix) || empty($object)) {
 			return false;
@@ -41,6 +45,7 @@ class PTA_Control_View extends PTA_Object
 
 		$this->_table = $object->getTable();
 		$this->_select = $this->_table->select();
+		$this->setVar('workMode', $workMode);
 
 		if (!empty($fields)) {
 			$this->_select->from($this->_table->getTableName(), (array)$fields);

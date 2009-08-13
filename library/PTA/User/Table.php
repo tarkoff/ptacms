@@ -21,7 +21,7 @@ class PTA_User_Table extends PTA_DB_Table
 	public function getUserByHash($hash)
 	{
 		$statTable = PTA_DB_Table::get('User_Stat');
-		$dbUser = $statTable->getUserByHash($hash);
+		$dbUser = $statTable->getUserStatByHash($hash);
 
 		if (!empty($dbUser)) {
 			$user = $this->getTableObject('currentUser');

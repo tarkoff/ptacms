@@ -111,6 +111,8 @@ class Catalog extends PTA_WebModule
 				. ' or prods.' . $productTitleField . ' like "' . $filterData . '%"'
 			);
 		}
+		
+		$select->order(array($prodsTable->getFieldByAlias('date') . ' DESC'));
 
 		$prodCatsTable = PTA_DB_Table::get('PTA_Catalog_Product_Category');
 
