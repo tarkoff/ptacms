@@ -104,6 +104,7 @@ class Catalog extends PTA_WebModule
 		);
 
 		$this->addActions($view);
+		$view->getSelect()->order(array($catalogTable->getFieldByAlias('date') . ' DESC'));
 		$this->setVar('view', $view->exec());
 	}
 
