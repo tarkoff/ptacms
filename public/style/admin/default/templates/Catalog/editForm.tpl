@@ -28,8 +28,6 @@
 				return false;
 			});
 		});
-
-		
 	</script>
 {/literal}
 
