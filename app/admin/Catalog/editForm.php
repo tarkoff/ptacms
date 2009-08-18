@@ -73,6 +73,10 @@ class Catalog_editForm extends PTA_Control_Form
 			}
 		}
 
+		if ($this->_product->getCategoryId()) {
+			$defaultCategoryId = $this->_product->getCategoryId();
+		}
+
 		$category = new PTA_Control_Form_Select(
 			'categoryId', 'Category', false, $catsList, $defaultCategoryId
 		);

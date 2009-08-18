@@ -1,1 +1,1 @@
-{include file="_generic/form.tpl" form=$form}
+{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/form.tpl" form=$form}

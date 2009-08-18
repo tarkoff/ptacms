@@ -88,12 +88,23 @@ class Fields extends PTA_WebModule
 		$fieldTable = $this->_field->getTable();
 		$fieldTypeField = $fieldTable->getFieldByAlias('fieldType');
 
+		$app = $this->getApp();
 		$fields = $fieldTable->getFields();
 		
-		$view = new PTA_Control_View('fieldsView', $this->_field, array_values($fields));
+		if ($this->getApp()->ajaxMode()) {
+			$view = new PTA_Control_View(
+				'fieldsView', $this->_field, array_values($fields), PTA_Control_View::MODE_SIMPLEGRID
+			);
+		} else {
+			$view = new PTA_Control_View(
+				'fieldsView', $this->_field, array_values($fields)
+			);
+		}
 
 		$this->addActions($view);
-		$res = $view->exec();
+		
+		$res = $view->exec($app->getHttpVar($app->getPrefix() . '_gridMode'));
+
 		$fieldTypes = PTA_Control_Form_Field::getPossibleFields();
 
 		foreach ($res->data as &$field) {
