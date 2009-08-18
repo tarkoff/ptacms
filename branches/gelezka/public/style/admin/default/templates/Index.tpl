@@ -23,6 +23,6 @@
 		{/if}
 		{include file=$activeModule->tpl data=$activeModule}
 	</div>
-	{include file='Footer.tpl'}
+	{include file='Footer.tpl'} 
 </body>
 </html>
