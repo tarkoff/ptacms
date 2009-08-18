@@ -69,8 +69,7 @@ class Posts extends PTA_WebModule
 	{
 		$this->setVar('tplMode', 'list');
 		$fieldTable = $this->_post->getTable();
-
-		$view = new PTA_Control_View('fieldsView', $this->_post, array_values($fieldTable->getFields()));
+		$view = new PTA_Control_View('fieldsView', $this->_post, $fieldTable->getFields());
 
 		$this->addActions($view);
 		$this->setVar('view', $view->exec());

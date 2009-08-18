@@ -56,11 +56,11 @@ class PTA_Control_View extends PTA_Object
 		if (!empty($fields)) {
 			$this->_select->from($this->_table->getTableName(), (array)$fields);
 		} else {
-			$tableFields = array_values((array)$this->_table->getFields());
+			$tableFields = $this->_table->getFields();
 			if (empty($tableFields)) {
 				$this->_select->from($this->_table->getTableName());
 			} else {
-				$this->_select->from($this->_table->getTableName(), $tableFields);
+				$this->_select->from($this->_table->getTableName(), array_values($tableFields));
 			}
 		}
 	}
@@ -275,9 +275,12 @@ class PTA_Control_View extends PTA_Object
 		$this->_select->setIntegrityCheck(false);
 		$result = $this->_table->fetchAll($this->_select)->toArray();
 
-		$fields = (array)@array_keys(current($result));
-		//$resultObject->fields = array_map(array($this, '_FieldToAlias'), $fields);
-		$resultObject->fields = array_combine(array_map(array($this, '_FieldToAlias'), $fields), $fields);
+		if (!empty($result)) {
+			$fields = (array)array_keys(current($result));
+			$resultObject->fields = array_combine(array_map(array($this, '_FieldToAlias'), $fields), $fields);
+		} else {
+			$resultObject->fields = array();
+		}
 		$resultObject->fieldsCnt = count($resultObject->fields);
 		$resultObject->data = $result;
 		$resultObject->commonActions = $this->getCommonActions();
