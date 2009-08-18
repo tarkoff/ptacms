@@ -18,6 +18,9 @@
 		{$fieldTitle}
 		</th>
 	{/foreach}
+	{if ! empty($view->commonActions)}
+		<th class="columnNames" valign="middle">Actions</th>
+	{/if}
 	</tr>
 	{foreach from=$view->data item=record}
 	<tr bgcolor="{cycle values="#FFFFFF,#EEEEEE"}">
@@ -37,7 +40,7 @@
 	</tr>
 	{/foreach}
 </table>
-<div>{include file="_generic/nav.tpl" form=$data}</div>
+<div>{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/nav.tpl" form=$data}</div>
 </div>
 {literal}
 <script type="text/javascript" language="JavaScript">

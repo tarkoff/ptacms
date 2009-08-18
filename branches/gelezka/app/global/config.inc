@@ -15,6 +15,7 @@ if (empty($_SERVER['DOCUMENT_ROOT'])) {
 
 define('SMARTY_DIR', PTA_ROOT_PATH . '/library/Smarty/libs/');
 define('PTA_PUBLIC_PATH', PTA_ROOT_PATH . '/public');
+define('PTA_GENERIC_TEMPLATES_PATH', PTA_PUBLIC_PATH . '/style/admin/_generic');
 
 define('PTA_SITE_PATH', PTA_ROOT_PATH . '/app/site');
 define('PTA_ADMIN_PATH', PTA_ROOT_PATH . '/app/admin');

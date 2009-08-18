@@ -7,7 +7,7 @@
 	<table cols="2" cellspacing="10px" class="editFormTable">
 		<tr>
 			<td><label for="color">{$formData.photo->label}{if $formData.photo->mandatory}*{/if}:</label></td>
-			<td>{include file="_generic/controls.tpl" field=$formData.photo}</td>
+			<td>{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$formData.photo}</td>
 		</tr>
 		<tr>
 			<th>Is Default</th>
@@ -40,12 +40,12 @@
 		{/foreach}
 		<tr>
 			<td colspan="2" align="center" style="text-align:center;">
-				{include file="_generic/controls.tpl" field=`$formData.$formName`}
+				{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=`$formData.$formName`}
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center" style="text-align:center;">
-				{include file="_generic/controls.tpl" field=$formData.submit}
+				{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$formData.submit}
 			</td>
 		</tr>
 	</table>

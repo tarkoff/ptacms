@@ -8,22 +8,22 @@
 			<td align="right">
 				<fieldset class="notCategoryFields" style="width:300px;">
 					<legend>{$formData.notCategoryFields->label}</legend>
-					{include file="_generic/controls.tpl" field=$formData.notCategoryFields}
+					{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$formData.notCategoryFields}
 				</fieldset>
 			</td>
 			<td align="left">
 				<fieldset class="categoryFields" style="width:500px;">
 					<legend>{$formData.categoryFields->label}</legend>
-					{include file="_generic/controls.tpl" field=$formData.categoryFields}
+					{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$formData.categoryFields}
 				</fieldset>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center">{include file="_generic/controls.tpl" field=`$formData.$formPrefix`}</td>
+			<td colspan="2" align="center">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=`$formData.$formPrefix`}</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center" style="text-align:center;">
-				{include file="_generic/controls.tpl" field=$formData.submit}
+				{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$formData.submit}
 			</td>
 		</tr>
 	</table>

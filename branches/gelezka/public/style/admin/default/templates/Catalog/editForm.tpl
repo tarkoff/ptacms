@@ -1,4 +1,4 @@
-{* include file="_generic/form.tpl" form=$form *}
+{* include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/form.tpl" form=$form *}
 
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/tools/overlay/tools.overlay-1.0.4.min.js"></script>
 <link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/tools/overlay/overlay-minimal.css" rel="stylesheet" />
@@ -38,13 +38,13 @@
 		{foreach from=$form->data item=field}
 		{if !empty($field->isSubmit) || !empty($field->hidden)}
 			<dl>
-				<dd style="text-align:center;">{include file="_generic/controls.tpl" field=$field}</dd>
+				<dd style="text-align:center;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</dd>
 			</dl>
 		{else}
 			<dl>
 				<dt><label for="color">{$field->label}{if $field->mandatory}*{/if}:</label></dt>
 				<dd style="line-height:25px;">
-					<span id="{$field->name}_span" style="float:left;margin-right:3px;">{include file="_generic/controls.tpl" field=$field}</span>
+					<span id="{$field->name}_span" style="float:left;margin-right:3px;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</span>
 					{if !empty($field->fieldId)}
 						<button rel="#newValueForm" type="button" onClick="buildFieldValueForm('{$field->name}', {$field->fieldId})">New Value</button>
 					{/if}

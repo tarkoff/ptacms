@@ -1,4 +1,4 @@
-{* include file="_generic/form.tpl" form=$form *}
+{* include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/form.tpl" form=$form *}
 
 <link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/ui/development-bundle/themes/base/ui.all.css" rel="stylesheet" />
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/development-bundle/ui/ui.core.js"></script>
@@ -46,7 +46,7 @@
 		{if empty($field->isSubmit) && $field->prefix != $form->name}
 			<li class="ui-state-default" id="{$field->prefix}">
 				{$field->label}
-				{include file="_generic/controls.tpl" field=$field}
+				{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}
 			</li>
 		{/if}
 		{/foreach}
@@ -54,8 +54,8 @@
 		<hr class="space" />
 		<p style="text-align:center;">
 			{assign var="formName" value=$form->name}
-			{include file="_generic/controls.tpl" field=$form->data.$formName}
-			{include file="_generic/controls.tpl" field=$form->data.submit}
+			{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$form->data.$formName}
+			{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$form->data.submit}
 		</p>
 	</fieldset>
 </form>

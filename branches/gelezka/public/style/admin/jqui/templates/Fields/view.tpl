@@ -2,7 +2,7 @@
 {pta_const name="PTA_Control_View::MODE_JGRID" to="jsMode"}
 
 {if $view->workMode == $htmlMode}
-	{include file="_generic/view.tpl" view=$view}
+	{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/view.tpl" view=$view}
 {elseif $view->workMode == $jsMode}
 	<link rel="stylesheet" type="text/css" media="screen" href="{$smarty.const.PTA_JS_JQUERY_URL}/jqGrid/themes/basic/grid.css" />
 
