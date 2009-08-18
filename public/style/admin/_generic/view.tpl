@@ -13,9 +13,9 @@
 </div>
 <table class="viewTable" cellspacing="0" cellpadding="0" cols="{$view->fieldsCount}">
 	<tr>
-	{foreach from=$view->fields item=fieldTitle}
+	{foreach from=$view->fields item=fieldName key=fieldAlias}
 		<th class="columnNames" valign="middle">
-		{$fieldTitle}
+		{$fieldAlias}
 		</th>
 	{/foreach}
 	{if ! empty($view->commonActions)}
