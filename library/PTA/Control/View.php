@@ -575,7 +575,7 @@ class PTA_Control_View extends PTA_Object
 	public function getTotalRecordsCnt($where = '')
 	{
 		$recCnt = $this->getVar('recsCnt');
-		if (!empty($recCnt)) {
+		if (is_numeric($recCnt)) {
 			return $recCnt;
 		}
 

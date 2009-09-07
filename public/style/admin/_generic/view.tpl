@@ -3,25 +3,33 @@
 	{if !empty($view->singleActions)}
 		{foreach from=$view->singleActions item=action}
 			<a class="button positive" href="{$action->url}">
-				<img 
-					src="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/plugins/buttons/icons/{$action->img}" 
-				/> 
+				<img src="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/plugins/buttons/icons/{$action->img}" />
 				{$action->title}
 			</a>
 		{/foreach}
 	{/if}
 </div>
-<table class="viewTable" cellspacing="0" cellpadding="0" cols="{$view->fieldsCount}">
-	<tr>
-	{foreach from=$view->fields item=fieldName key=fieldAlias}
-		<th class="columnNames" valign="middle">
-		{$fieldAlias}
-		</th>
-	{/foreach}
-	{if ! empty($view->commonActions)}
-		<th class="columnNames" valign="middle">Actions</th>
-	{/if}
-	</tr>
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/tablesorter/jquery-latest.js"></script> 
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/tablesorter/jquery.tablesorter.js"></script>
+{literal}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#{/literal}{$view->prefix}{literal}").tablesorter(); 
+	});
+</script>
+{/literal}
+<table class="viewTable" cellspacing="0" cellpadding="0" cols="{$view->fieldsCount}" id="{$view->prefix}">
+	<thead>
+		<tr>
+		{foreach from=$view->fields item=fieldName key=fieldAlias}
+			<th class="columnNames" valign="middle">{$fieldAlias}</th>
+		{/foreach}
+		{if ! empty($view->commonActions)}
+			<th class="columnNames" valign="middle">Actions</th>
+		{/if}
+		</tr>
+	</thead>
+	<tbody>
 	{foreach from=$view->data item=record}
 	<tr bgcolor="{cycle values="#FFFFFF,#EEEEEE"}">
 		{foreach from=$record item=field}
@@ -39,6 +47,7 @@
 		{/if}
 	</tr>
 	{/foreach}
+	</tbody>
 </table>
 <div>{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/nav.tpl" form=$data}</div>
 </div>

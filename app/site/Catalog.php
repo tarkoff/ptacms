@@ -84,7 +84,7 @@ class Catalog extends PTA_WebModule
 	
 	public function getCatalogPage($categoryId = null, $page = 1)
 	{
-		$categoryId = (array)$categoryId;
+		$categoryId = (array)intval($categoryId);
 		$prodsTable = PTA_DB_Table::get('Catalog_Product');
 		
 		$subCategories = $this->getApp()->getModule('Categories')->getSubCategories($categoryId);
@@ -121,13 +121,15 @@ class Catalog extends PTA_WebModule
 		$view->setSelect($select);
 
 		if (!empty($categoryId)) {
+			$adapter = $prodCatsTable->getAdapter();
 			$view->setTotalRecordsCnt(
-				$view->getTotalRecordsCnt(
-					$prodCatsTable->getAdapter()->quoteInto(
-						$prodCatsTable->getFieldByAlias('categoryId') . ' in (?)',
-						$categoryId
-					)
-					. ' and ' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1'
+				$adapter->fetchOne(
+					'select count(distinct ' . $prodCatsTable->getFieldByAlias('productId') . ')'
+					. ' from ' . $prodCatsTable->getTableName() 
+						. ' where '
+						 . $adapter->quoteInto(
+							$prodCatsTable->getFieldByAlias('categoryId') . ' in (?)', $categoryId
+						)
 				)
 			);
 		}
