@@ -1,8 +1,7 @@
 {* include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/form.tpl" form=$form *}
 
-<link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/ui/development-bundle/themes/base/ui.all.css" rel="stylesheet" />
-<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/development-bundle/ui/ui.core.js"></script>
-<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/development-bundle/ui/ui.sortable.js"></script>
+<link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/ui/css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
 {literal}
 <style type="text/css">
 	#fieldsSortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
