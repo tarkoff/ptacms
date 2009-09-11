@@ -12,6 +12,7 @@
 abstract class PTA_Module extends PTA_Object 
 {
 	private $_isActive = false;
+	private $_publicAccess = true;
 
 	public function __construct($prefix)
 	{
@@ -72,6 +73,26 @@ abstract class PTA_Module extends PTA_Object
 	public function setActive($active = false)
 	{
 		$this->_isActive = (boolean)$active;
+	}
+	
+	/**
+	 * Return TRUE if module has public access
+	 * 
+	 * @return boolean
+	 */
+	public function isPublic()
+	{
+		return $this->_publicAccess;
+	}
+	
+	/**
+	 * Set access mode for module
+	 * 
+	 * @param boolean $publicAccess
+	 */
+	public function setPublic($publicAccess = true)
+	{
+		$this->_publicAccess = (boolean)$publicAccess;
 	}
 
 }

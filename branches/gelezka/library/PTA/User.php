@@ -16,6 +16,7 @@ class PTA_User extends PTA_DB_Object
 	protected $_groupId;
 	protected $_sessionHash;
 	protected $_registerDate;
+	protected $_accessRights = array();
 
 	public function getLogin()
 	{
@@ -79,5 +80,18 @@ class PTA_User extends PTA_DB_Object
 	public function saveUserSession()
 	{
 		PTA_DB_Table::get('User_Stat')->saveUserSession($this);
+	}
+	
+	public function hasRight(PTA_Module $module)
+	{
+		if (empty($this->_accessRights)) {
+			$this->_accessRights = PTA_DB_Table::get('User_Rights')->getUserRights($this->getId());
+		}
+
+		if ($module->isPublic() || !empty($this->_accessRights[get_class($module)])) {
+			return $this->_accessRights[get_class($module)];
+		}
+
+		return false;
 	}
 }
