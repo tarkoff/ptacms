@@ -12,6 +12,6 @@
 <div id="contacrs">
 	<p class="t-center bigger"><cite>Авторы сайта будут рады Вашим вопросам, пожеланиям и предложениям по поводу работы сайта.</cite></p>
 	<p class="t-center">
-		<span class="ico-send">&nbsp;E-Mail: {mailto address="info@gelezka.net" encode="javascript"}</span>
+		<span class="ico-send">&nbsp;E-Mail: {mailto address="support@gelezka.net" encode="javascript"}</span>
 	</p>
 </div>
