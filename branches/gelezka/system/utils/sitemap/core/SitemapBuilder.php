@@ -134,6 +134,8 @@ class SitemapBuilder
 			}
 		}
 
+		unset($urls, $subUrls);
+
 		$this->buildXml();
 	}
 
@@ -257,6 +259,15 @@ class SitemapBuilder
 			}
 		}
 
-		file_put_contents($this->getSavePath(), $xml->asXML());
+		$xml = $xml->asXML();
+		$fileName = rtrim($this->getSavePath(), '/') . '/sitemap.xml';
+
+		file_put_contents($fileName, $xml);
+
+		if (extension_loaded('zlib')) {
+			$zp = gzopen($fileName . '.gz', "w9");
+			gzwrite($zp, $xml);
+			gzclose($zp);
+		}
 	}
 }
