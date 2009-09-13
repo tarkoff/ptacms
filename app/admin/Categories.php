@@ -98,8 +98,8 @@ class Categories extends PTA_WebModule
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
 		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');
-		$view->addCommonAction('Edit Fields Ordering', $this->getModuleUrl() . 'EditFieldsSortOrder/Category', 'sortorder.png');
-		$view->addCommonAction('Edit Fields Groups Ordering', $this->getModuleUrl() . 'EditGroupsSortOrder/Category', 'sortorder.png');
+		$view->addCommonAction('Edit Fields Ordering', $this->getModuleUrl() . 'EditFieldsSortOrder/Category', 'fieldsOrder.png');
+		$view->addCommonAction('Edit Fields Groups Ordering', $this->getModuleUrl() . 'EditGroupsSortOrder/Category', 'groupsOrder.png');
 		$view->addCommonAction('Add Product', $this->getModuleUrl() . 'addProduct/Category', 'addItem.png');
 		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'remove.png');
 	}
