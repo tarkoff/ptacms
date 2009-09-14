@@ -92,6 +92,18 @@
 				{/if}
 				</table>
 			</td>
+			<td>
+				<script type="text/javascript">
+					<!--
+						google_ad_client = "pub-1610147099732550";
+						/* 336x280, gelezka_products_square */
+						google_ad_slot = "9277947482";
+						google_ad_width = 336;
+						google_ad_height = 280;
+					//-->
+				</script>
+				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+			</td>
 		</tr>
 	</table>
 	<div id="descrBody" class="box">

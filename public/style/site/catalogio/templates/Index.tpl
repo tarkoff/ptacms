@@ -25,7 +25,7 @@
 	{include file=$Header->tpl}
 
 	{include file="Catalog/searchForm.tpl" form=$Catalog->searchForm}
-	<div>
+	<div id="adsense_toph" style="margin:5px 0;">
 		<script type="text/javascript">
 			<!--
 				google_ad_client = "pub-1610147099732550";
