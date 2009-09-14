@@ -2,7 +2,7 @@ AddDefaultCharset utf-8
 
 <IfModule mod_rewrite.c>
 	RewriteEngine on
-	RewriteBase /app/site/
+	RewriteBase /
 
 	RewriteRule ^.htaccess$ - [F]
 
