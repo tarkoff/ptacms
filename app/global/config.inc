@@ -7,10 +7,8 @@ if (!empty($_SERVER['HTTP_HOST'])) {
 	define('PTA_ADMIN_URL', 'http://gelezka.net/admin');
 }
 
-if (empty($_SERVER['DOCUMENT_ROOT'])) {
+if (!defined('PTA_ROOT_PATH')) {
 	define('PTA_ROOT_PATH', realpath(dirname(dirname(dirname(__FILE__)))));
-} else {
-	define('PTA_ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
 }
 
 define('SMARTY_DIR', PTA_ROOT_PATH . '/library/Smarty/libs/');
