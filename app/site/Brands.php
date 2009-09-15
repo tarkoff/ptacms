@@ -8,7 +8,6 @@
  * @version	$Id: Header.php 106 2009-07-17 17:48:15Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-
 class Brands extends PTA_WebModule
 {
 	private $_brand;

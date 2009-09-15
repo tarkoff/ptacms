@@ -8,6 +8,7 @@
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
+
 ob_start();
 
 require_once './config/bootstrap.inc';
