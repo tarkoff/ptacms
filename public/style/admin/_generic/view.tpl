@@ -11,10 +11,18 @@
 </div>
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/tablesorter/jquery-latest.js"></script> 
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/tablesorter/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.quicksearch.js"></script>
 {literal}
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#{/literal}{$view->prefix}{literal}").tablesorter(); 
+		$("#{/literal}{$view->prefix}{literal}").tablesorter();
+		$('table#{/literal}{$view->prefix}{literal} tbody tr').quicksearch({
+			position: 'before',
+			attached: 'table#{/literal}{$view->prefix}{literal}',
+			formId: 'view_searchForm',
+			labelText: 'Search:',
+			loaderText: ''
+		});
 	});
 </script>
 {/literal}
