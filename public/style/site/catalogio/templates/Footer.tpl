@@ -4,7 +4,7 @@
 
 	<p class="noprint t-right">
 		<a href="/">Карта сайта</a>,
-		<a href="/Contacts/View">Обратная связь</a>
+		<a href="/Contacts/">Обратная связь</a>
 	</p>
 
 	<p class="t-center">

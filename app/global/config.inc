@@ -1,14 +1,14 @@
 <?php
 if (!empty($_SERVER['HTTP_HOST'])) {
 	define('PTA_BASE_URL', 'http://' . $_SERVER['HTTP_HOST']);
-	if (0 == strpos( $_SERVER['HTTP_HOST'], 'admin.')) {
+	if (false !== strpos( $_SERVER['HTTP_HOST'], 'admin.')) {
 		define('PTA_ADMIN_URL', 'http://' . $_SERVER['HTTP_HOST']);
 	} else {
-		define('PTA_ADMIN_URL', 'http://admin.' . $_SERVER['HTTP_HOST']);
+		define('PTA_ADMIN_URL', 'http://www.admin.' . ltrim($_SERVER['HTTP_HOST'], 'www.'));
 	}
 } else {
-	define('PTA_BASE_URL', 'http://gelezka.net');
-	define('PTA_ADMIN_URL', 'http://admin.gelezka.net');
+	define('PTA_BASE_URL', 'http://www.gelezka.net');
+	define('PTA_ADMIN_URL', 'http://www.admin.gelezka.net');
 }
 
 if (!defined('PTA_ROOT_PATH')) {
