@@ -96,6 +96,17 @@ hr.space{
 .actions{
 	padding:2px 5px;
 }
+form.quicksearch{
+	display:block;
+	float:right;
+}
+input.qs_input{
+	border:1px solid #9DA2A6;
+	font-size:110%;
+	line-height:130%;
+	margin:0.7em 0.5em 0.7em 0;
+	padding:5px 10px 5px 7px;
+}
 .viewTable {
 	width: 100%;
 //	border: 1px solid #CCCCCC;
