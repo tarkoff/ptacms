@@ -14,10 +14,10 @@ class Initialize
 	
 	public static function startInit()
 	{
-		Zend_Loader::registerAutoload();
+		self::initLoader();
+
 		Zend_Loader::loadClass('Zend_Registry');
 
-		self::initLoader();
 		self::initDB();
 		self::initTemplates();
 		self::initRouter();
@@ -70,7 +70,7 @@ class Initialize
 		$db->query('SET NAMES UTF8');
 
 		Zend_Db_Table_Abstract::setDefaultAdapter($db);
-		Zend_Registry::set('db', $db);	 
+		Zend_Registry::set('db', $db);
 	}
 
 	public static function initRouter()

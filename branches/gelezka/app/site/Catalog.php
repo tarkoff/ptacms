@@ -8,7 +8,6 @@
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-
 class Catalog extends PTA_WebModule
 {
 	private $_filterData;
