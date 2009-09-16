@@ -320,3 +320,7 @@ Others
 .error a {color:#8a1f11;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
+/* --------------- Adds -------------------------------------------------------*/
+.big_hor{
+	margin:5px 0;
+}
