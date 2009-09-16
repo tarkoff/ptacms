@@ -11,7 +11,7 @@ define('PTA_LOG_PATH', PTA_ROOT_PATH . '/system/logs/site');
 define('PTA_DESIGN_NAME', 'catalogio');
 
 define('PTA_DESIGN_PATH', PTA_PUBLIC_PATH . '/style/site/' . PTA_DESIGN_NAME);
-define('PTA_DESIGN_URL', PTA_BASE_URL . '/public/style/site/' . PTA_DESIGN_NAME);
+define('PTA_DESIGN_URL', '/public/style/site/' . PTA_DESIGN_NAME);
 define('PTA_DESIGN_CSS_URL', PTA_DESIGN_URL . '/css');
 define('PTA_DESIGN_IMAGES_URL', PTA_DESIGN_URL . '/img');
 

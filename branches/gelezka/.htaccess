@@ -1,13 +1,20 @@
-AddDefaultCharset utf-8
+Options +ExecCGI -Indexes +FollowSymLinks
+DirectoryIndex index.php index.html index.htm
+
+AddDefaultCharset UTF-8
+SetEnv SERVER_ADMIN support@gelezka.net
 
 <IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteBase /
+        RewriteEngine on
+        RewriteBase /
 
-	RewriteRule ^.htaccess$ - [F]
+        RewriteRule ^.htaccess$ - [F]
 
-	RewriteCond %{REQUEST_FILENAME} -f
+#       RewriteCond %{HTTP_HOST} !^www\\.gelezka\\.(.+)$ [NC]
+#       RewriteRule ^(.*)$ http://www.gelezka.net/$1 [R=301,L]
 
-	RewriteRule . %{REQUEST_FILENAME} [L]
-	RewriteRule (.*) app/site/ [L]
+        RewriteCond %{REQUEST_FILENAME} -f
+
+        RewriteRule . %{REQUEST_FILENAME} [L]
+	RewriteRule ^.*$ app/site/ [L]
 </IfModule>
