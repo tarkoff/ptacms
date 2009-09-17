@@ -24,7 +24,8 @@
 
 	{include file=$Header->tpl}
 
-	{include file="Catalog/searchForm.tpl" form=$Catalog->searchForm}
+	{* include file="Catalog/searchForm.tpl" form=$Catalog->searchForm *}
+	{include file="Catalog/searchFormAdSense.tpl"}
 	<div id="adsense_toph" class="big_hor">
 		<script type="text/javascript">
 			<!--
