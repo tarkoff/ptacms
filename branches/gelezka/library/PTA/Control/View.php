@@ -42,7 +42,7 @@ class PTA_Control_View extends PTA_Object
 		$this->setPrefix($prefix);
 
 		$this->setMinRpp(10);
-		$this->setMaxRpp(100);
+		$this->setMaxRpp(200);
 		//$this->setRpp(20);
 
 		if (empty($object)) {

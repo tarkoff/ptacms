@@ -132,26 +132,42 @@ class PTA_Catalog_Product_Category_Table extends PTA_DB_Table
 	/**
 	 * Get default product category
 	 *
-	 * @param int $productId
-	 * @return int
+	 * @param int $productIds
+	 * @param boolean $onlyIds
+	 * 
+	 * @return array
 	 */
-	public function getDefaultCategory($productId)
+	public function getDefaultCategory($productIds, $onlyIds = true)
 	{
-		if (empty($productId)) {
-			return null;
+		$productIds = (array)$productIds;
+		if (empty($productIds)) {
+			return array();
 		}
 		
+		$catIdField = $this->getFieldByAlias('categoryId');
+		$prodIdField = $this->getFieldByAlias('productId');
+
 		$select = $this->select()->from(
-			$this->getTableName(),
-			array($this->getFieldByAlias('categoryId'))
+			array('prodCats' => $this->getTableName()),
+			array($prodIdField, $catIdField)
 		);
 
-		$select->where(
-			$this->getFieldByAlias('productId') . ' = ? ', intval($productId)
-		);
+		$productIds = array_map('intval', $productIds);
+		$select->where($prodIdField . ' in (?) ', $productIds);
 		$select->where($this->getFieldByAlias('isDefault') . ' = 1');
-		
-		return $this->getAdapter()->fetchOne($select);
+
+		if ($onlyIds) {
+			return $this->getAdapter()->fetchPairs($select);
+		} else {
+			$catsTable = self::get('Catalog_Category');
+			$select->join(
+				array('cats' => $catsTable->getTableName()),
+				'cats.' . $catsTable->getPrimary() . ' = prodCats.' . $catIdField,
+				array($catsTable->getFieldByAlias('alias'), $catsTable->getFieldByAlias('title'))
+			);
+			$select->setIntegrityCheck(false);
+			return $this->fetchAll($select)->toArray();
+		}
 	}
 
 	public function setDefaultCategory($productId, $categoryId)
