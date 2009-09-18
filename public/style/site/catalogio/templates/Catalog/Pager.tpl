@@ -59,12 +59,23 @@
 {/if}
 
 <ol class="cat-results">
+	{if !empty($view->prodsDefaultCats)}
+		{assign var="cats" value=$view->prodsDefaultCats}
+	{/if}
 	{foreach from=$view->data item=catalogItem}
 		<li>
 			<h4>
 				<a href="{$data->brandUrl}/{$catalogItem.BRANDS_ALIAS}">{$catalogItem.BRANDS_TITLE}</a>&nbsp;
 				<a href="{$data->url}/{$catalogItem.PRODUCTS_ALIAS}">{$catalogItem.PRODUCTS_TITLE}</a> &ndash; 
-				<span><a href="{$data->url}/{$catalogItem.PRODUCTS_ALIAS}" class="high ico-card">Подробнее...</a></span>
+				<span>
+					<a href="{$data->url}/{$catalogItem.PRODUCTS_ALIAS}" class="high ico-card">Подробнее...</a>&nbsp;
+					{if empty($cats[$catalogItem.PRODUCTS_ID])}
+						(<a href="{$Categories->url}/{$catalogItem.CATEGORIES_ALIAS}" class="folder">{$catalogItem.CATEGORIES_TITLE}</a>)
+					{else}
+						(<a href="{$Categories->url}/{$cats[$catalogItem.PRODUCTS_ID].CATEGORIES_ALIAS}" class="folder">{$cats[$catalogItem.PRODUCTS_ID].CATEGORIES_TITLE}</a>)
+					{/if}
+				</span>
+				
 			</h4>
 			<p>{$catalogItem.PRODUCTS_SHORTDESCR|truncate:400}</p>
 		</li>

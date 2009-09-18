@@ -85,7 +85,8 @@ class Catalog extends PTA_WebModule
 	{
 		$categoryId = (array)intval($categoryId);
 		$prodsTable = PTA_DB_Table::get('Catalog_Product');
-		
+		$prodCatsTable = PTA_DB_Table::get('PTA_Catalog_Product_Category');
+
 		$subCategories = $this->getApp()->getModule('Categories')->getSubCategories($categoryId);
 		if (!empty($subCategories)) {
 			$categoryIdField = PTA_DB_Table::get('Catalog_Category')->getPrimary();
@@ -95,6 +96,7 @@ class Catalog extends PTA_WebModule
 		}
 
 		$select = $prodsTable->getCatalogQuery($categoryId);
+//		$select->where('prodCats.' . $prodCatsTable->getFieldByAlias('isDEfault') . ' = 1');
 		$select->group('prods.' . $prodsTable->getPrimary());
 
 		if (($filterData = $this->getFilterData())) {
@@ -111,9 +113,7 @@ class Catalog extends PTA_WebModule
 			);
 		}
 		
-		$select->order(array($prodsTable->getFieldByAlias('date') . ' DESC'));
-
-		$prodCatsTable = PTA_DB_Table::get('PTA_Catalog_Product_Category');
+		$select->order(array('prods.' . $prodsTable->getFieldByAlias('date') . ' DESC'));
 
 		$view = new PTA_Control_View('catalogView');
 		$view->setTable($prodCatsTable);
@@ -136,13 +136,20 @@ class Catalog extends PTA_WebModule
 		$view->setMinRpp(10);
 		$view->setMaxRpp(50);
 		$view->setRpp(10);
-		return $view->exec();
-		/*
-		$select->order('prods.' . $prodsTable->getFieldByAlias('date') . ' desc');
-		$select->limitPage(intval($page), 10);
 
-		return $prodsTable->fetchAll($select)->toArray();
-		*/
+		$prodsIds = array();
+		$prodIdField = $prodsTable->getPrimary();
+		$view = $view->exec();
+		foreach ($view->data as $product) {
+			$prodsIds[] = $product[$prodIdField];
+		}
+
+		$prodIdField = $prodCatsTable->getFieldByAlias('productId');
+		foreach ($prodCatsTable->getDefaultCategory($prodsIds, false) as $prodCat) {
+			$view->prodsDefaultCats[$prodCat[$prodIdField]] = $prodCat;
+		}
+
+		return $view;
 	}
 	
 	/**

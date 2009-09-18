@@ -34,8 +34,9 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	public function getCategoryId()
 	{
 		if (empty($this->_categoryId)) {
-			$this->_categoryId = PTA_DB_Table::get('Catalog_Product_Category')
-			->getDefaultCategory($this->_id);
+			$cats = PTA_DB_Table::get('Catalog_Product_Category')->getDefaultCategory($this->_id);
+			$this->_categoryId = (int)$cats[$this->_id];
+			unset($cats);
 		}
 		return $this->_categoryId;
 	}
