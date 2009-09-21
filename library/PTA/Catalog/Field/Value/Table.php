@@ -33,7 +33,7 @@ class PTA_Catalog_Field_Value_Table extends PTA_DB_Table
 		if (empty($fieldId) || empty($values)) {
 			return false;
 		}
-var_dump($fieldId, $values);
+
 		$primaryField = $this->getPrimary();
 		$valueField = $this->getFieldByAlias('value');
 		$fieldIdField = $this->getFieldByAlias('fieldId');
