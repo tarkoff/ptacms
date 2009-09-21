@@ -22,7 +22,7 @@ class Products extends PTA_WebModule
 		parent::init();
 
 		//$productId = (int)$this->getHttpProduct();
-		$productId = $this->getHttpProduct();
+		$productAlias = $this->getHttpProduct();
 
 		
 		$productTable = PTA_DB_Table::get('Catalog_Product');
@@ -34,7 +34,7 @@ class Products extends PTA_WebModule
 		$valueTable = PTA_DB_Table::get('Catalog_Value');
 
 		//$product = current($productTable->findById($productId));
-		$product = current($productTable->getByAlias($productId));
+		$product = current($productTable->getByAlias($productAlias));
 		
 		if (empty($product)) {
 			$this->redirect('/');
@@ -42,6 +42,7 @@ class Products extends PTA_WebModule
 		
 		$app = $this->getApp();
 		$productId = (int)$product[$productTable->getPrimary()];
+		$this->updateProductStat($productId);
 
 		$this->addVisual(new Products_CommentsForm('commentForm', $productId));
 
@@ -80,8 +81,6 @@ class Products extends PTA_WebModule
 			$app->setTitle($brand[$brandTitleField] . ' ' . $product[$productTitleField]);
 		}
 		unset($productTitleField);
-
-		$this->updateProductStat($productId);
 
 		$groupIdField = $fieldGroupTable->getPrimary();
 		$groupTitleField = $fieldGroupTable->getFieldByAlias('title');
@@ -135,6 +134,10 @@ class Products extends PTA_WebModule
 	
 	public function updateProductStat($productId)
 	{
+		if (empty($productId)) {
+			return false;
+		}
+
 		$productStat = PTA_DB_Object::get('Catalog_Product_Stat', $productId);
 		$productStat->setProductId($productId);
 		
