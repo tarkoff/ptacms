@@ -33,25 +33,25 @@ class PTA_Catalog_Field_Value_Table extends PTA_DB_Table
 		if (empty($fieldId) || empty($values)) {
 			return false;
 		}
-		
+var_dump($fieldId, $values);
 		$primaryField = $this->getPrimary();
 		$valueField = $this->getFieldByAlias('value');
 		$fieldIdField = $this->getFieldByAlias('fieldId');
-		
+
 		$adapter = $this->getAdapter();
 		$adapter->beginTransaction();
 		foreach ($values as $valueId => $value) {
 			$this->update(
 				array($valueField => $value),
 				$adapter->quoteInto(
-					$primaryField . ' = ? and ' . $fieldIdField . ' = ?',
-					intval($valueId), $fieldId
+					$primaryField . ' = ? and ' . $fieldIdField . ' = ' . $fieldId,
+					intval($valueId)
 				)
 			);
 		}
 		return $adapter->commit();
 	}
-	
+
 	public function removeFieldValues($fieldId, $valuesIds)
 	{
 		$fieldId = (int)$fieldId;
@@ -59,7 +59,7 @@ class PTA_Catalog_Field_Value_Table extends PTA_DB_Table
 		if (empty($fieldId) || empty($valuesIds)) {
 			return false;
 		}
-		
+
 		$primaryField = $this->getPrimary();
 		$fieldIdField = $this->getFieldByAlias('fieldId');
 		$adapter = $this->getAdapter();
