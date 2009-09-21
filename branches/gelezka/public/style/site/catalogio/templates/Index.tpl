@@ -26,6 +26,7 @@
 
 	{* include file="Catalog/searchForm.tpl" form=$Catalog->searchForm *}
 	{include file="Catalog/searchFormAdSense.tpl"}
+	{if $activeModule->prefix != 'Products'}
 	<div id="adsense_toph" class="big_hor">
 		<script type="text/javascript">
 			<!--
@@ -38,6 +39,7 @@
 		</script>
 		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 	</div>
+	{/if}
 	<!-- Content -->
 	<div id="page" class="box">
 		{include file=$activeModule->tpl data=$activeModule}
