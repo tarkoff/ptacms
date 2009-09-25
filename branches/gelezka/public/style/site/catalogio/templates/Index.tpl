@@ -30,6 +30,9 @@
 			pageTracker._trackPageview();
 		} catch(err) {}
 	</script>
+	<script type="text/javascript">
+		window.google_analytics_uacct = "UA-9266190-2";
+	</script>
 	{/literal}
 </head>
 
