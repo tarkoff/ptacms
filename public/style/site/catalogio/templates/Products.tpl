@@ -203,7 +203,7 @@
 						</tr>
 						<tr>
 							<td class="" colspan="2">
-								<p class="ico-info "><em>Для добваления коментария ответьте на вопрос</em></p>
+								<p class="ico-info "><em>Для добавления комментария ответьте на вопрос</em></p>
 								<p class="bigger strong">Два сапога <input type="text" name="{$formFields.captcha->name}" value="" class="formInput" /></p>
 							</td>
 						</tr>
