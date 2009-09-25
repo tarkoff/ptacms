@@ -19,21 +19,6 @@
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.phpdate.js" type="text/javascript"></script>
 	<title>{$Gelezka->title|default:'Gelezka'} - Описания, Цены, Обзоры, Драйвера</title>
-	{literal}
-	<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-		try {
-			var pageTracker = _gat._getTracker("UA-9266190-2");
-			pageTracker._trackPageview();
-		} catch(err) {}
-	</script>
-	<script type="text/javascript">
-		window.google_analytics_uacct = "UA-9266190-2";
-	</script>
-	{/literal}
 </head>
 
 <body>
@@ -77,5 +62,20 @@
 	{include file="Footer.tpl"}
 </div> <!-- /main -->
 {include file="debuger.tpl" app=$Gelezka}
+{literal}
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try {
+			var pageTracker = _gat._getTracker("UA-9266190-2");
+			pageTracker._trackPageview();
+		} catch(err) {}
+	</script>
+	<script type="text/javascript">
+		window.google_analytics_uacct = "UA-9266190-2";
+	</script>
+{/literal}
 </body>
 </html>
