@@ -27,7 +27,7 @@
 
 {if !empty($data->categories)}
 	<!-- Subcategories -->
-	<h4>Разделы в которые входит {$data->brand.BRANDS_TITLE}&nbsp;{$data->product.PRODUCTS_TITLE}</h4>
+	<h4>Разделы, в которые входит {$data->brand.BRANDS_TITLE}&nbsp;{$data->product.PRODUCTS_TITLE}</h4>
 	<ul class="ul-categories box bb">
 	{foreach from=$data->categories item=category}
 		<li><a href="{$Categories->url}/{$category.CATEGORIES_ALIAS}">{$category.CATEGORIES_TITLE}</a> ({$category.PRODS_CNT|default:'0'})</li>
@@ -182,7 +182,7 @@
 					<td>{$comment.POSTS_POST}</td>
 				</tr>
 			{foreachelse}
-				Коментариев пока нет
+				Комментариев пока нет
 			{/foreach}
 			</table>
 
@@ -198,7 +198,7 @@
 							<td><input type="text" name="{$formFields.author->name}" value="" class="formInput" /></td>
 						</tr>
 						<tr>
-							<td align="right">Коментарий</td>
+							<td align="right">Комментарий</td>
 							<td><textarea name="{$formFields.post->name}" class="formInput commentText"></textarea></td>
 						</tr>
 						<tr>
