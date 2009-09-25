@@ -128,7 +128,7 @@
 
 	<ul class="descr-tabs"> 
 		<li><a href="#">Технические характеристики</a></li> 
-		<li><a href="#">Коментарии</a></li> 
+		<li><a href="#">Комментарии</a></li> 
 	</ul> 
 
 	<div class="descr-panes"> 
@@ -168,7 +168,7 @@
 				{elseif $data->commentForm->error == $captchaError}
 					<p class="error">Ответ на контрольный вопрос неправильный!</p>
 				{else}
-					<p class="success">Ваш коментарий учпешно добавлен!</p>
+					<p class="success">Ваш комментарий успешно добавлен!</p>
 				{/if}
 			{/if}
 
