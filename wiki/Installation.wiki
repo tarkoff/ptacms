@@ -3,7 +3,7 @@
 
 = PTA CMS installation guide =
 
-You have to do couple simple steps for installation sites based on PTA CMS.
+You have to make couple simple steps for installation sites based on PTA CMS.
 
 Add your content here.  Format your content with:
   # First of all you need to do checkout P.T.A. CMS kernel files from SVN repository into the root of your site.
