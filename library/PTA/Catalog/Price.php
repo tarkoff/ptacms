@@ -58,7 +58,7 @@ class PTA_Catalog_Price extends PTA_DB_Object
 
 	public function setPrice($price)
 	{
-		$this->_price = number_format($price, 2, '.', '');
+		$this->_price = number_format(str_replace(',', '.',$price), 2, '.', '');
 		//$this->_price = (float)$price;
 	}
 
