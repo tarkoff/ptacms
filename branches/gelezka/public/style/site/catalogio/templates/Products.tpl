@@ -304,6 +304,7 @@
 			</p>
 		</div>
 		<div id="secondHandPrices">
+		{if !empty($data->secondHandPrice)}
 			<table class="width100">
 			<tr>
 				<th>Описание</th>
@@ -316,10 +317,11 @@
 					<td align="center">{$price.PRICES_PRICE} {$price.CURRENCY}</td>
 					<td align="center">{$price.PRICES_DATETO|date_format:"%d.%m.%Y"}</td>
 				</tr>
-			{foreachelse}
-				Обьявлений пока нет.
 			{/foreach}
 			</table>
+			{else}
+				Обьявлений пока нет.
+			{/if}
 		</div>
 	</div>
 </div>
