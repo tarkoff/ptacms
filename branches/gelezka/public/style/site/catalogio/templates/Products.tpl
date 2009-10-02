@@ -39,6 +39,17 @@
 <!--[if IE]>
 	<link rel="stylesheet" href="{$smarty.const.PTA_JS_JQUERY_URL}/colorbox/css/colorbox-ie.css" type="text/css" media="screen, projection" />
 <![endif]-->
+<link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/ui/css/redmond/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/i18n/ui.datepicker-ru.js"></script>
+
+{assign var="priceForm" value=$data->PriceForm}
+{assign var="fields" value=$priceForm->data}
+{assign var="currencyField" value=$fields.currency}
+{assign var="priceField" value=$fields.price}
+{assign var="descrField" value=$fields.descr}
+{assign var="dateToField" value=$fields.dateTo}
+{assign var="submitField" value=$fields.submit}
 
 {literal}
 	<script type="text/javascript">
@@ -47,8 +58,35 @@
 				transition:"elastic",
 				current : "{current} из {total}"
 			});
+
+			$("#newPriceFormScroller").click(function () {
+				if ($("#newPriceForm").is(":hidden")) {
+					$("#newPriceForm").slideDown("slow");
+				} else {
+					$("#newPriceForm").slideUp("slow");
+				}
+			});
+
+			$("#{/literal}{$dateToField->name}{literal}").datepicker(
+				$.datepicker.regional['ru']
+			);
+			$("#{/literal}{$dateToField->name}{literal}").datepicker(
+				'option', {dateFormat:'yy-mm-dd'}
+			);
 		});
 	</script>
+	<style>
+		.prpiceInput{
+			border:1px solid #CCCCCC;
+			width:90%;
+			padding:5px 5px;
+			line-height:130%;
+			font-size:160%;
+		}
+		.priceDescr{
+			height:60px;
+		}
+	</style>
 {/literal}
 
 <div id="productDescr box">
@@ -69,6 +107,56 @@
 			</td>
 			<td>
 				<table>
+					<tr class="bb">
+						<td colspan="2">
+							<a id="newPriceFormScroller" class="bigger strong add" style="cursor:pointer;">Добавить обьявление о продаже</a>
+							{if $priceForm->submited}
+								{pta_const name="PTA_Control_Form::FORM_ERROR_SAVE" to="saveError"}
+								{pta_const name="PTA_Control_Form::FORM_ERROR_VALIDATE" to="validateError"}
+								{if $priceForm->error == $validateError}
+									<p class="error">Не все поля заполнены!</p>
+								{elseif $priceForm->error == $saveError}
+									<p class="error">Ответ на контрольный вопрос неправильный!</p>
+								{else}
+									<p class="success">Ваше обьявление успешно добавлено!</p>
+								{/if}
+							{/if}
+							<div id="newPriceForm" style="display:none;">
+								{assign var="formName" value=$priceForm->name}
+								<form enctype="{$priceForm->enctype}" method="{$priceForm->method}" action="{$priceForm->action}" id="{$formName}" name="{$formName}">
+									<fieldset>
+										<legend>Добавление новой цены</legend>
+										<dl>
+											<dd style="text-align: center;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$fields.$formName}</dd>
+										</dl>
+										<dl>
+											<dt><label for="{$priceField->name}">Валюта*:</label></dt>
+											<dd>{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$currencyField cssClass="prpiceInput"}</dd>
+										</dl>
+										<dl>
+											<dt><label for="{$priceField->name}">Цена*:</label></dt>
+											<dd><input type="text" value="" maxlength="10" id="{$priceField->name}" name="{$priceField->name}" class="prpiceInput"/></dd>
+										</dl>
+										<dl>
+											<dt><label for="{$descrField->name}">Описание и контакты*:</label></dt>
+											<dd><textarea id="{$descrField->name}" name="{$descrField->name}" class="prpiceInput priceDescr"></textarea></dd>
+										</dl>
+										<dl>
+											<dt><label for="{$dateToField->name}">Актуально до:</label></dt>
+											<dd>
+												<input type="text" value="" readonly="readonly" id="{$dateToField->name}" name="{$dateToField->name}" class="prpiceInput" />
+												<div id="datepicker"></div>
+											</dd>
+										</dl>
+										<dl>
+											<dt style="text-align: center;"><input type="submit" value="Добавить" id="{$submitField->name}" name="{$submitField->name}" class="prpiceInput" /></dt>
+										</dl>
+									</fieldset>
+								</form>
+							</div>
+						</td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
 				{if !empty($data->brand.BRANDS_URL)}
 					<tr class="bb">
 						<td colspan="2">
@@ -128,7 +216,8 @@
 
 	<ul class="descr-tabs"> 
 		<li><a href="#">Технические характеристики</a></li> 
-		<li><a href="#">Комментарии</a></li> 
+		<li><a href="#">Комментарии</a></li>
+		<li><a href="#">Продам Б/У</a></li>
 	</ul> 
 
 	<div class="descr-panes"> 
@@ -161,7 +250,7 @@
 		</div>
 		<div id="prodComments">
 			{if $data->commentForm->submited}
-				{pta_const name="Products_CommentsForm::COMMENT_ERROR_FIELDS" to="fieldsError"}
+				{pta_const name="PTA_Control_Form::FORM_ERROR_VALIDATE" to="fieldsError"}
 				{pta_const name="Products_CommentsForm::COMMENT_ERROR_CAPTCHA" to="captchaError"}
 				{if $data->commentForm->error == $fieldsError}
 					<p class="error">Не все поля заполнены!</p>
@@ -213,7 +302,24 @@
 					</table>
 				</form>
 			</p>
-
+		</div>
+		<div id="secondHandPrices">
+			<table class="width100">
+			<tr>
+				<th>Описание</th>
+				<th width="100px">Цена</th>
+				<th width="100px">Актуально до</th>
+			</tr>
+			{foreach from=$data->secondHandPrices item=price}
+				<tr bgcolor="{cycle values="#eeeeee,#ffffff"}">
+					<td>{$price.PRICES_DESCR}</td>
+					<td align="center">{$price.PRICES_PRICE} {$price.CURRENCY}</td>
+					<td align="center">{$price.PRICES_DATETO|date_format:"%d.%m.%Y"}</td>
+				</tr>
+			{foreachelse}
+				Обьявлений пока нет.
+			{/foreach}
+			</table>
 		</div>
 	</div>
 </div>

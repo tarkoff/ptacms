@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_Post extends PTA_DB_Object
+class PTA_Post extends PTA_DB_Object
 {
 	private $_author;
 	private $_post;

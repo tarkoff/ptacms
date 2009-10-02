@@ -1,24 +1,24 @@
 <?php
 /**
- * User Groups Controller
+ * Currencies Controller
  *
  * @package Core
- * @copyright  2008 P.T.A. Studio
+ * @copyright  2009 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @version	$Id: Users.php 62 2009-05-31 16:59:23Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class UserGroups extends PTA_WebModule
+class Currencies extends PTA_WebModule
 {
-	private $_userGroup;
+	private $_currency;
 
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'UserGroups.tpl');
+		parent::__construct($prefix, 'Users.tpl');
 
-		$this->_userGroup = new PTA_UserGroup('currentUserGroup');
-		$this->setModuleUrl(PTA_ADMIN_URL . '/UserGroups/');
+		$this->_currency = PTA_DB_Object::get('Catalog_Currency');
+		$this->setModuleUrl(PTA_ADMIN_URL . '/Currencies/');
 	}
 
 	public function init()
@@ -26,7 +26,7 @@ class UserGroups extends PTA_WebModule
 		parent::init();
 
 		$action = $this->getApp()->getAction();
-		$item = $this->getApp()->getHttpVar('UserGroup');
+		$item = $this->getApp()->getHttpVar('Currencies');
 
 		switch (ucfirst($action)) {
 			case 'Add': 
@@ -59,21 +59,20 @@ class UserGroups extends PTA_WebModule
 		$this->setVar('tplMode', 'edit');
 
 		if (!empty($itemId)) {
-			$this->_userGroup->loadById($itemId);
+			$this->_currency->loadById($itemId);
 		}
 
-		$editForm = new UserGroups_editForm('editForm', $this->_userGroup, $copy);
-		$this->addVisual($editForm);
+		$this->addVisual(new Currencies_editForm('editForm', $this->_currency, $copy));
 	}
 
 	public function listAction()
 	{
 		$this->setVar('tplMode', 'list');
-		$fieldTable = $this->_userGroup->getTable();
+		$fieldTable = $this->_currency->getTable();
 
 		$fields = $fieldTable->getFields();
 		
-		$view = new PTA_Control_View('userGroupsView', $this->_userGroup, array_values($fields));
+		$view = new PTA_Control_View('currenciesView', $this->_currency, array_values($fields));
 
 		$this->addActions($view);
 		$res = $view->exec();
@@ -83,20 +82,20 @@ class UserGroups extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New User Group', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Currency', $this->getModuleUrl() . 'Add/', 'add.png');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/UserGroup', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/UserGroup', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/UserGroup', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Currencies', 'edit.png');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Currencies', 'copy.png');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Currencies', 'remove.png');
 	}
 
 	public function deleteAction($itemId)
 	{
 		if (!empty($itemId)) {
-			$this->_userGroup->loadById($itemId);
+			$this->_currency->loadById($itemId);
 		}
 
-		$this->_userGroup->remove();
+		$this->_currency->remove();
 
 		$this->redirect($this->getModuleUrl());
 	}

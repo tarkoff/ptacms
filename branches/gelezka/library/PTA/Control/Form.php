@@ -15,6 +15,10 @@ abstract class PTA_Control_Form extends PTA_Object
 	protected $_data = array();
 	protected $_submitted = false;
 
+	const FORM_ERROR_NONE = 0;
+	const FORM_ERROR_VALIDATE = 1;
+	const FORM_ERROR_SAVE = 2;
+
 	function __construct ($prefix, $title = '')
 	{
 		$this->setPrefix($prefix);
@@ -36,25 +40,21 @@ abstract class PTA_Control_Form extends PTA_Object
 		parent::init();
 
 		$this->addVisual(
-			new PTA_Control_Form_Hidden($this->getPrefix(), 
-				'', 
-				true, 
-				md5($this->getPrefix())
+			new PTA_Control_Form_Hidden(
+				$this->getPrefix(), '', true, md5($this->getPrefix())
 			)
 		);
 
 		if ($this->submitted()) {
 			$data = $this->_fillToData();
-			$submitResult = $this->onSubmit($data);
-			$this->setVar('saved' , $submitResult);
+			$this->setVar('error' , $this->onSubmit($data));
 			$this->initForm();
-			$this->_fillFromData($data);
 		} else {
 			$this->initForm();
 			$data = $this->onLoad();
-			$this->_fillFromData($data);
 		}
 
+		$this->_fillFromData($data);
 		$this->_initVisualElements();
 		//$this->_submitted = $this->_submitted();
 	}

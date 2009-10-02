@@ -22,7 +22,7 @@ class Catalog extends PTA_WebModule
 	{
 		parent::init();
 
-		$this->addVisual(new Catalog_searchForm('searchForm'));
+		//$this->addVisual(new Catalog_searchForm('searchForm'));
 
 		$action = $this->getApp()->getAction();
 		switch (ucfirst($action)) {

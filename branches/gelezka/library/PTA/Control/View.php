@@ -281,6 +281,7 @@ class PTA_Control_View extends PTA_Object
 		} else {
 			$resultObject->fields = array();
 		}
+
 		$resultObject->fieldsCnt = count($resultObject->fields);
 		$resultObject->data = $result;
 		$resultObject->commonActions = $this->getCommonActions();
@@ -331,8 +332,8 @@ class PTA_Control_View extends PTA_Object
 	 */
 	private function _FieldToAlias($field)
 	{
-		list($table, $alias) = explode('_', $field);
-		
+		@list($table, $alias) = explode('_', $field);
+
 		return (empty($alias) ? $table : $alias);
 	}
 

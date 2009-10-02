@@ -169,7 +169,7 @@ abstract class PTA_DB_Object extends PTA_Object
 		$realFields = array_values($fields);
 
 		$info = (array)$info;
-		foreach ($info as $alias=>$value) {
+		foreach ($info as $alias => $value) {
 			$method = '';
 			$alias = strtoupper($alias);
 

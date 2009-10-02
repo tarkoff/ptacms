@@ -1,35 +1,38 @@
 <?php
 /**
- * User Group Edit From
+ * User Edit Form
  *
  * @package PTA_Core
- * @copyright  2008 P.T.A Studio
+ * @copyright  2008 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
- * @version	$Id$
+ * @version	$Id: editForm.php 134 2009-07-30 17:20:19Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class UserGroups_editForm extends PTA_Control_Form 
+class Currencies_editForm extends PTA_Control_Form 
 {
-	private $_userGroup;
+	private $_currency;
 	private $_copy;
 
-	public function __construct($prefix, PTA_UserGroup $userGroup, $copy = false)
+	public function __construct($prefix, $user, $copy = false)
 	{
-		$this->_userGroup = $userGroup;
+		$this->_currency = $user;
 		$this->_copy = $copy;
 
 		parent::__construct($prefix);
-//var_dump($userGroup);
-		$this->setTitle('User Group "' . $userGroup->getName() . '" Edit Form');
+
+		$this->setTitle('Currency "' . $user->getTitle() .'" Edit Form');
 	}
 
 	public function initForm()
 	{
-		$title = new PTA_Control_Form_Text('name', 'User Group Name', true, '');
+		$title = new PTA_Control_Form_Text('title', 'Currency Title', true);
 		$title->setSortOrder(100);
-		$title->setCssClass('textField');
 		$this->addVisual($title);
+
+		$reduction = new PTA_Control_Form_Text('reduction', 'Currency Reduction', true);
+		$reduction->setSortOrder(200);
+		$this->addVisual($reduction);
 
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
 		$submit->setSortOrder(300);
@@ -40,7 +43,7 @@ class UserGroups_editForm extends PTA_Control_Form
 	{
 		$data = new stdClass();
 
-		$this->_userGroup->loadTo($data);
+		$this->_currency->loadTo($data);
 		$data->submit = 'save';
 
 		return $data;
@@ -60,22 +63,22 @@ class UserGroups_editForm extends PTA_Control_Form
 			return false;
 		}
 
-		$this->_userGroup->loadFrom($data);
+		$this->_currency->loadFrom($data);
 
 		if ($this->_copy) {
-			$this->_userGroup->setId(null);
+			$this->_currency->setId(null);
 		}
 
-		if ($this->_userGroup->save() || $this->_copy) {
+		if ($this->_currency->save() || $this->_copy) {
 			$this->message(
 				PTA_Object::MESSAGE_SUCCESS,
-				'Field User Successfully saved!'
+				'User Successfully saved!'
 			);
 			$this->redirect($this->getApp()->getActiveModule()->getModuleUrl());
 		} else {
 			$this->message(
 				PTA_Object::MESSAGE_ERROR,
-				'Error While User Group Saving!'
+				'Error While User Saving!'
 			);
 			return false;
 		}

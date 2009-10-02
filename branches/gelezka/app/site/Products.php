@@ -24,7 +24,6 @@ class Products extends PTA_WebModule
 		//$productId = (int)$this->getHttpProduct();
 		$productAlias = $this->getHttpProduct();
 
-		
 		$productTable = PTA_DB_Table::get('Catalog_Product');
 		$productCategoryTable = PTA_DB_Table::get('Catalog_Product_Category');
 		$catTable = PTA_DB_Table::get('Catalog_Category');
@@ -42,7 +41,9 @@ class Products extends PTA_WebModule
 		
 		$app = $this->getApp();
 		$productId = (int)$product[$productTable->getPrimary()];
+
 		$this->updateProductStat($productId);
+		$this->addPriceForm($productId);
 
 		$this->addVisual(new Products_CommentsForm('commentForm', $productId));
 
@@ -124,7 +125,11 @@ class Products extends PTA_WebModule
 		$this->setVar('customFields', $fieldGroups);
 		$this->setVar('categories', $categories);
 		$this->setVar('brand', $brand);
-		$this->setVar('comments', PTA_DB_Table::get('Catalog_Post')->getProductPosts($productId));
+		$this->setVar('comments', PTA_DB_Table::get('Post')->getProductPosts($productId));
+		$this->setVar(
+			'secondHandPrices',
+			PTA_DB_Table::get('Catalog_Price')->getSecondHandPrices()
+		);
 	}
 	
 	public function getHttpProduct()
@@ -145,5 +150,25 @@ class Products extends PTA_WebModule
 		$productStat->setViews(++$viewsCnt);
 
 		return $productStat->save();
+	}
+	
+	public function addPriceForm($productId)
+	{
+		if (empty($productId)) {
+			return false;
+		}
+
+		$price = PTA_DB_Object::get('Catalog_Price');
+
+		if (!$user = $this->getApp()->getUser()) {
+			$user = PTA_DB_Object::get('User_Guest');
+		}
+
+		$price->setUserId($user->getId());
+		$price->setProductId($productId);
+
+//		var_dump($this->_price);
+
+		$this->addVisual(new Prices_EditForm('PriceForm', $price));
 	}
 }
