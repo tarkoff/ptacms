@@ -7,6 +7,7 @@
 				<li><a href="{$smarty.const.PTA_ADMIN_URL}/Fields/">Fields</a></li>
 				<li><a href="{$smarty.const.PTA_ADMIN_URL}/FieldsGroups/">Fields Groups</a></li>
 				<li><a href="{$smarty.const.PTA_ADMIN_URL}/Brands/">Brands</a></li>
+				<li><a href="{$smarty.const.PTA_ADMIN_URL}/Currencies/">Currencies</a></li>
 				<li><a href="{$smarty.const.PTA_ADMIN_URL}/Posts/">Comments</a></li>
 			</ul>
 		</li>

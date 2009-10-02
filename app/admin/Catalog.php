@@ -76,7 +76,8 @@ class Catalog extends PTA_WebModule
 	{
 		$this->setVar('tplMode', 'list');
 		$catalogTable = $this->_product->getTable();
-//		$categoryTable = PTA_DB_Table::get('Catalog_Category');
+		$categoryTable = PTA_DB_Table::get('Catalog_Category');
+		$prodCatsTable = PTA_DB_Table::get('Catalog_Product_Category');
 		$brandTable = PTA_DB_Table::get('Catalog_Brand');
 
 		$fields = $catalogTable->getFields();
@@ -88,14 +89,21 @@ class Catalog extends PTA_WebModule
 		);
 
 		$view = new PTA_Control_View('catalogView', $this->_product, array_values($fields));
-/*
+
+		$view->join(
+			array('prodCats' => $prodCatsTable->getTableName()),
+			$catalogTable->getTableName() . '.' .$catalogTable->getPrimary()
+			. ' = prodCats.' . $prodCatsTable->getFieldByAlias('productId'),
+			array()
+		);
+
 		$view->join(
 			array('cats' => $categoryTable->getTableName()),
-			$catalogTable->getTableName() . '.' .$catalogTable->getFieldByAlias('categoryId')
+			'prodCats.' .$prodCatsTable->getFieldByAlias('categoryId')
 			. ' = cats.' . $categoryTable->getPrimary(),
 			array('CATEGORY_CATEGORY' => $categoryTable->getFieldByAlias('title'))
 		);
-*/
+
 		$view->join(
 			array('brands' => $brandTable->getTableName()),
 			$catalogTable->getTableName() . '.' .$catalogTable->getFieldByAlias('brandId')
@@ -103,8 +111,11 @@ class Catalog extends PTA_WebModule
 			array('BRAND_BRAND' => $brandTable->getFieldByAlias('title'))
 		);
 
+		$select = $view->getSelect();
+
+		$select->where('prodCats.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
+		$select->order(array($catalogTable->getFieldByAlias('date') . ' DESC'));
 		$this->addActions($view);
-		$view->getSelect()->order(array($catalogTable->getFieldByAlias('date') . ' DESC'));
 		$this->setVar('view', $view->exec());
 	}
 

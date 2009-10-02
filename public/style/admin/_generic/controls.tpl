@@ -27,7 +27,8 @@
 	<select 
 		name="{$field->name}{if !empty($field->arrayMode)}{section name=foo start=0 loop=`$field->arrayModeDeep` step=1}[]{/section}{/if}" 
 		id="{$field->name}" 
-		{if !empty($field->cssClass)}class="{$field->cssClass}"{/if}
+		{if !empty($field->cssClass)}class="{$field->cssClass}"
+		{elseif !empty($cssClass)}class="{$cssClass}"{/if}
 		{if !empty($field->disabled)}disabled="disabled"{/if} 
 		{if !empty($field->multiple)}multiple="multiple"{/if}
 	>

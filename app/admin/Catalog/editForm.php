@@ -248,6 +248,7 @@ class Catalog_editForm extends PTA_Control_Form
 
 		if ($this->_copy) {
 			$this->_product->setId(null);
+			$this->_product->setDate(date("Y-m-d H:i:s"));
 		}
 /*
 		$brand = PTA_DB_Object::get('Catalog_Brand', $this->_product->getBrandId());

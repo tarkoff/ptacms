@@ -425,10 +425,8 @@ abstract class PTA_App extends PTA_WebModule
 			return $this->quote($value);
 		}
 
-		if ($withCookie) {
-			if (($value = $this->getCookie($key))) {
-				return $this->quote($value);
-			}
+		if ($withCookie && ($value = $this->getCookie($key))) {
+			return $this->quote($value);
 		}
 
 		return null;

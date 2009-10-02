@@ -15,8 +15,6 @@ class Products_CommentsForm extends PTA_Control_Form
 {
 	private $_productId;
 
-	const COMMENT_ERROR_NONE = 0;
-	const COMMENT_ERROR_FIELDS = 1;
 	const COMMENT_ERROR_CAPTCHA = 2;
 
 	public function __construct($prefix, $productId)
@@ -49,7 +47,7 @@ class Products_CommentsForm extends PTA_Control_Form
 		
 //		$this->setVar('captcha', recaptcha_get_html(PTA_RECAPTCHA_PUBLIC_KEY));
 		if (!$this->getVar('error')) {
-			$this->setVar('error', self::COMMENT_ERROR_NONE);
+			$this->setVar('error', self::FORM_ERROR_NONE);
 		}
 	}
 
@@ -66,25 +64,23 @@ class Products_CommentsForm extends PTA_Control_Form
 		$data->post = $this->quote($data->post);
 
 		if (empty($data->author) || empty($data->post)) {
-			$this->setVar('error', self::COMMENT_ERROR_FIELDS);
-			return false;
+			return self::FORM_ERROR_VALIDATE;
 		}
 
 
 		if (!$this->isValidCaptcha($data->captcha)) {
-			$this->setVar('error', self::COMMENT_ERROR_CAPTCHA);
-			return false;
+			return self::COMMENT_ERROR_CAPTCHA;
 		}
 
-		$post = PTA_DB_Object::get('Catalog_Post');
+		$post = PTA_DB_Object::get('Post');
 		$post->loadFrom($data);
 		$post->setProductId($this->_productId);
 
-		if ($post->save()) {
-			$this->setVar('error', self::COMMENT_ERROR_NONE);
-			return true;
+		if (!$post->save()) {
+			return self::FORM_ERROR_SAVE;
 		}
-		return false;
+
+		return self::FORM_ERROR_NONE;
 	}
 	
 	public function isValidCaptcha($captcha)
