@@ -46,4 +46,4 @@
 	</ul>
 {/if}
 
-{include file="Catalog/Pager.tpl" view = $data->view data = $data}
+{include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}

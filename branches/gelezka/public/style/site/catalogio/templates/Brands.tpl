@@ -12,4 +12,4 @@
 	<strong>{$data->brand.BRANDS_TITLE}</strong>
 </p>
 
-{include file="Catalog/Pager.tpl" view = $data->view data = $data}
+{include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl="`$data->brandUrl`/`$data->brand.BRANDS_ALIAS`"}

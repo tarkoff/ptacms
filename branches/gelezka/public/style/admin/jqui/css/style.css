@@ -178,10 +178,6 @@ position:relative;
 	color:#404040!important;
 }
 
-.header span {
-	float:right;
-}
-
 .view tr .center {
 	padding:15px;
 	width:5px;
@@ -222,7 +218,7 @@ position:relative;
 	padding:5px;
 	color:#464646;
 }
-.form input, .form select, .form textarea{
+.form input, .form select, .form textarea, .quicksearch input{
 	border:1px solid #8F8F8F;
 }
 .fieldTitle{
@@ -231,4 +227,13 @@ position:relative;
 }
 .fieldValue{
 	width:70%;
+}
+.comActions{
+	float:left;
+}
+.quicksearch{
+	display:block;
+	float:right;
+	margin:auto 5px;
+	padding:0;
 }
