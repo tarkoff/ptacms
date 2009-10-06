@@ -16,6 +16,9 @@
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/main-msie.css" /><![endif]-->
 	<link rel="stylesheet" media="print" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/print.css" />
 
+	<link type="text/css" rel="stylesheet" href="http://mixmarket.biz/uni/partner.css">
+
+
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.phpdate.js" type="text/javascript"></script>
 	<title>{$Gelezka->title|default:'Gelezka'} - Описания, Цены, Обзоры, Драйвера</title>
@@ -84,6 +87,10 @@
 	<script type="text/javascript">
 		window.google_analytics_uacct = "UA-9266190-2";
 	</script>
+<!-- MixMarket -->
+<script>
+document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&layout=T3&picsize=70&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>')
+</script>
 {/literal}
 </body>
 </html>
