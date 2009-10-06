@@ -40,20 +40,15 @@
 
 	{* include file="Catalog/searchForm.tpl" form=$Catalog->searchForm *}
 	{include file="Catalog/searchFormAdSense.tpl"}
-	{if $activeModule->prefix != 'Products'}
-	<div id="adsense_toph" class="big_hor">
-		<script type="text/javascript">
-			<!--
-				google_ad_client = "pub-1610147099732550";
-				/* 728x90, gelezka_horizontal_top */
-				google_ad_slot = "2138937626";
-				google_ad_width = 728;
-				google_ad_height = 90;
-			//-->
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	</div>
-	{/if}
+	{literal}
+		<style>
+			.mix_horiz_tr{height:60px; overflow:hidden;}
+			.mix_inter table{margin:0;}
+			.mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
+			.mix_outer .mix_horiz_td {border:none;}
+		</style
+		<div id="mix_block_12949300631294932072"></div>
+	{/literal}
 	<!-- Content -->
 	<div id="page" class="box">
 		{include file=$activeModule->tpl data=$activeModule}
@@ -87,6 +82,11 @@
 	<script type="text/javascript">
 		window.google_analytics_uacct = "UA-9266190-2";
 	</script>
+
+<!-- MixMarket -->
+<script>
+document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&layout=T3&picsize=50&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>')
+</script>
 {/literal}
 </body>
 </html>
