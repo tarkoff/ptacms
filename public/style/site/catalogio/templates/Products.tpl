@@ -198,14 +198,6 @@
 		<div id="shortDescr">{$data->product.PRODUCTS_SHORTDESCR}</div>
 	</div>
 	
-	{literal}
-	<style>
-		.mix_horiz_tr{height:60px; overflow:hidden;}
-		.mix_inter table{margin:0;}
-		.mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
-	</style
-	<div id="mix_block_12949300631294932072"></div>
-	{/literal}
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/tools/tabs/tools.tabs-1.0.1.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/tools/tabs/tabs-no-images.css" />
 	{literal}
@@ -333,9 +325,3 @@
 		</div>
 	</div>
 </div>
-{literal}
-<!-- MixMarket -->
-<script>
-document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&layout=T3&picsize=50&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>')
-</script>
-{/literal}
