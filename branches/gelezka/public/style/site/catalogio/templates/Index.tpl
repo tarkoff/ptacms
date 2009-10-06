@@ -26,6 +26,8 @@
 
 <body>
 {literal}
+<style>.img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}</style>
+<div class="img1px">
 <script>
 	if (uni_tracker_shown===undefined || mix_tracker_shown===undefined) {
 		document.write('<img src="http://mixmarket.biz/t.php?uid=1294931752&id=3539779&r=' + escape(document.referrer) + '&t=' + (new Date()).getTime() + '" width="1" height="1"/>');
@@ -33,6 +35,7 @@
 	}
 </script>
 <noscript><img src="http://mixmarket.biz/t.php?uid=1294931752&id=3539779" width="1" height="1"/></noscript>
+</div>
 {/literal}
 <div id="main">
 
@@ -40,19 +43,23 @@
 
 	{* include file="Catalog/searchForm.tpl" form=$Catalog->searchForm *}
 	{include file="Catalog/searchFormAdSense.tpl"}
+
 	{literal}
 		<style>
-			.mix_horiz_tr{height:60px; overflow:hidden;}
+			#mix_block_12949300631294932072, .mix_horiz_tr{height:120px; overflow:hidden;}
 			.mix_inter table{margin:0;}
 			.mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
 			.mix_outer .mix_horiz_td {border:none;}
+			#mix_block_12949300631294932072 img{margin:0;padding:0;font-size:0;line-height:0;}
 		</style
 		<div id="mix_block_12949300631294932072"></div>
 	{/literal}
+
 	<!-- Content -->
 	<div id="page" class="box">
 		{include file=$activeModule->tpl data=$activeModule}
 	</div> <!-- /page -->
+
 	<div id="adsense_bottomh" class="big_hor">
 		<script type="text/javascript">
 			<!--
@@ -65,6 +72,7 @@
 		</script>
 		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 	</div>
+
 	{include file="Footer.tpl"}
 </div> <!-- /main -->
 {include file="debuger.tpl" app=$Gelezka}
@@ -85,7 +93,7 @@
 
 <!-- MixMarket -->
 <script>
-document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&layout=T3&picsize=50&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>')
+document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>')
 </script>
 {/literal}
 </body>
