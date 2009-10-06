@@ -82,11 +82,11 @@ class AuthorTypes extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Brand', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Brand', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Brand', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Brand', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Brand', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Brand', 'Edit');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Brand', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Brand', 'Remove');
 	}
 
 	public function deleteAction($itemId)

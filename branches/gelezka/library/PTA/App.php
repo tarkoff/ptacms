@@ -497,7 +497,16 @@ abstract class PTA_App extends PTA_WebModule
 	 */
 	public function getBaseUrl()
 	{
+		if (($baseUrl = $this->getVar('url'))) {
+			return $baseUrl;
+		}
+
 		return (defined('PTA_BASE_URL') ? PTA_BASE_URL : $_SERVER['HTTP_HOST']);
+	}
+
+	public function setBaseUrl($url)
+	{
+		$this->setVar('url', $url);
 	}
 
 	/**

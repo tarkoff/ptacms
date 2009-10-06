@@ -24,6 +24,7 @@ class PTA_Control_View extends PTA_Object
 	private $_orderField;
 	private $_orderDirection = 'ASC';
 	private $_where = array('and' => array(), 'or' => array());
+	private $_actionImgs = array();
 
 	/**
 	 * __construct
@@ -61,6 +62,13 @@ class PTA_Control_View extends PTA_Object
 				$this->_select->from($this->_table->getTableName());
 			} else {
 				$this->_select->from($this->_table->getTableName(), array_values($tableFields));
+			}
+		}
+
+		if (defined('PTA_TEMPLATES_DIR')) {
+			$actionsIniFile = rtrim(PTA_TEMPLATES_DIR, '/') . '/Theme.ini';
+			if (file_exists($actionsIniFile)) {
+				$this->_actionImgs = parse_ini_file($actionsIniFile, true);
 			}
 		}
 	}
@@ -458,15 +466,17 @@ class PTA_Control_View extends PTA_Object
 	 * @param string $title
 	 * @param string $image
 	 */
-	public function addSingleAction($title, $url, $image = null)
+	public function addSingleAction($title, $url, $type)
 	{
 		$action = new stdClass();
 		
 		$action->title = $title;
 		$action->url = rtrim($url, '/');
 
-		if (!empty($image)) {
-			$action->img = $image;
+		if (!empty($this->_actionImgs['Actions'][$type])) {
+			$action->img = $this->_actionImgs['Actions'][$type];
+		} else {
+			$action->img = '';
 		}
 
 		$actions = (array)$this->getVar('singleActions');;
@@ -481,15 +491,17 @@ class PTA_Control_View extends PTA_Object
 	 * @param string $title
 	 * @param string $image
 	 */
-	public function addCommonAction($title, $url, $image = null)
+	public function addCommonAction($title, $url, $type)
 	{
 		$action = new stdClass();
 
 		$action->title = $title;
 		$action->url = rtrim($url, '/');
-		
-		if (!empty($image)) {
-			$action->img = $image;
+
+		if (!empty($this->_actionImgs['Actions'][$type])) {
+			$action->img = $this->_actionImgs['Actions'][$type];
+		} else {
+			$action->img = '';
 		}
 
 		$actions = (array)$this->getVar('commonActions');;

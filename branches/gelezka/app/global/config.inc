@@ -11,9 +11,7 @@ if (!empty($_SERVER['HTTP_HOST'])) {
 	define('PTA_ADMIN_URL', 'http://www.admin.gelezka.net');
 }
 
-if (!defined('PTA_ROOT_PATH')) {
-	define('PTA_ROOT_PATH', realpath(dirname(dirname(dirname(__FILE__)))));
-}
+defined('PTA_ROOT_PATH') || define('PTA_ROOT_PATH', realpath(dirname(dirname(dirname(__FILE__)))));
 
 define('SMARTY_DIR', PTA_ROOT_PATH . '/library/Smarty/libs/');
 define('PTA_PUBLIC_PATH', PTA_ROOT_PATH . '/public');

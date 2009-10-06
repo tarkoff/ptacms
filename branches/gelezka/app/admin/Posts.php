@@ -76,11 +76,11 @@ class Posts extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		//$view->addSingleAction('New Brand', $this->getModuleUrl() . 'Add/', 'add.png');
+		//$view->addSingleAction('New Brand', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Post', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Post', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Post', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Post', 'Edit');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Post', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Post', 'Delete');
 	}
 
 	public function deleteAction($itemId)

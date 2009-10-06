@@ -15,7 +15,7 @@ class Currencies extends PTA_WebModule
 
 	function __construct ($prefix)
 	{
-		parent::__construct($prefix, 'Users.tpl');
+		parent::__construct($prefix, 'Currencies.tpl');
 
 		$this->_currency = PTA_DB_Object::get('Catalog_Currency');
 		$this->setModuleUrl(PTA_ADMIN_URL . '/Currencies/');
@@ -82,11 +82,11 @@ class Currencies extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Currency', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Currency', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Currencies', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Currencies', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Currencies', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Currencies', 'Edit');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Currencies', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Currencies', 'Remove');
 	}
 
 	public function deleteAction($itemId)

@@ -18,7 +18,16 @@ class Authorizer extends PTA_WebModule
 	
 	public function init()
 	{
-		$this->login();
+		$action = $this->getApp()->getAction();
+		
+		switch (ucfirst($action)) {
+			case 'Logout':
+				$this->logOut();
+			break;
+			default:
+				$this->login();
+		}
+		
 	}
 
 	public function login()
@@ -34,14 +43,15 @@ class Authorizer extends PTA_WebModule
 	
 	public function loginByHash()
 	{
-		$loginHash = $this->quote($this->getApp()->getCookie('login'));
+		$app = $this->getApp();
+		$loginHash = $this->quote($app->getCookie('login'));
 		if (empty($loginHash)) {
 			return false;
 		}
 
 		$userByHash = PTA_DB_Table::get('User')->getUserByHash($loginHash);
 		if ($userByHash instanceof PTA_User) {
-			$this->getApp()->setUser($userByHash);
+			$app->setUser($userByHash);
 			return true;
 		}
 
@@ -56,4 +66,10 @@ class Authorizer extends PTA_WebModule
 		$this->addVisual($loginForm);
 	}
 
+	public function logOut()
+	{
+		$app = $this->getApp();
+		$app->setCookie('SID', '', -100);
+		$this->redirect($app->getBaseUrl());
+	}
 }

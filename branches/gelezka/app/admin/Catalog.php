@@ -121,10 +121,10 @@ class Catalog extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Item', 'edit.png');
-		$view->addCommonAction('Edit Photos', $this->getModuleUrl() . 'EditPhotos/Item', 'pictures.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Item', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Item', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Item', 'Edit');
+		$view->addCommonAction('Edit Photos', $this->getModuleUrl() . 'EditPhotos/Item', 'EditPhotos');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Item', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Item', 'Remove');
 	}
 
 	public function deleteAction()

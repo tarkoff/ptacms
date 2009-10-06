@@ -4,6 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>P.T.A. CMS Admin Panel</title>
+<link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/screen.css" type="text/css" media="screen, projection" />
+<!--[if IE]>
+  <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/ie.css" type="text/css" media="screen, projection" />
+<![endif]-->
 <link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/redmond/jquery-ui-1.7.2.custom.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/style.css" media="screen" />
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
@@ -12,28 +16,20 @@
 <body>
 	{if !empty($Header)}
 		{include file=$Header->tpl data=$Header}
+		<hr class="space" />
+		{include file="SideBar.tpl"}
+		<div id="content" class="last span-24">
+	{else}
+		<div id="content" style="margin:0 auto !Important;width:300px;padding-top:100px;">
 	{/if}
-	<table class="layout-grid" cellspacing="0" cellpadding="0">
-		<tr>
-			<td class="left-nav">
-				{include file=$MainMenu->tpl data=$MainMenu}
-			</td>
-			<td class="normal">
-				{if !empty($app->messages)}
-					<div class="normal">
-						{include file="Messages.tpl" messages=$app->messages}
-					</div
-				{/if}
-				<div class="normal">
-						<h4 class="demo-subheader">{$activeModule->prefix}:</h4>
-						<h3 class="demo-header">tabs</h3>
-							{include file=$activeModule->tpl data=$activeModule}
-				</div>
-
-			</td>
-		</tr>
-	</table>
-
+		<div class="ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="padding:5px;">
+		{if !empty($app->messages)}
+			{include file="Messages.tpl" messages=$app->messages}
+		{/if}
+		{include file=$activeModule->tpl data=$activeModule}
+		</div>
+	</div>
+	
 	{include file='Footer.tpl'}
 </body>
 </html>
