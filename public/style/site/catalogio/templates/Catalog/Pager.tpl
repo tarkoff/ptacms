@@ -4,13 +4,13 @@
 	<div class="title01">
 		<div class="title01-in">
 			<p class="pagination">
-				<a href="{$Categories->url}/{$Categories->category.CATEGORIES_ALIAS}/page/{$nav->prevPage}">&laquo; Назад</a> &nbsp;
+				<a href="{$pagerUrl}/page/{$nav->prevPage}">&laquo; Назад</a> &nbsp;
 				{math equation="x + y" x=$nav->lastPage y=1 assign="lastPage"}
 				{section name=page start=1 loop=$lastPage step=1}
 					{if $smarty.section.page.index == $nav->page}
 						<strong>{$nav->page}</strong>
 					{else}
-						<a href="{$Categories->url}/{$Categories->category.CATEGORIES_ALIAS}/page/{$smarty.section.page.index}">{$smarty.section.page.index}</a>
+						<a href="{$pagerUrl}/page/{$smarty.section.page.index}">{$smarty.section.page.index}</a>
 					{/if}
 					{if $smarty.section.page.index != $smarty.section.page.last}
 						<span class="noscreen">,</span>
@@ -18,7 +18,7 @@
 				{sectionelse}
 					<strong>1</strong>
 				{/section}
-				&nbsp; <a href="{$Categories->url}/{$Categories->category.CATEGORIES_ALIAS}/page/{$nav->nextPage}">Вперед &raquo;</a>
+				&nbsp; <a href="{$pagerUrl}/page/{$nav->nextPage}">Вперед &raquo;</a>
 			</p>
 		</div>
 	</div>

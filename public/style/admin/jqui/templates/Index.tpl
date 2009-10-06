@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/style.css" media="screen" />
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="{$smarty.const.PTA_DESIGN_URL}/js/custom.js"></script>
 </head>
 <body>
 	{if !empty($Header)}

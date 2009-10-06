@@ -1,20 +1,44 @@
 {* include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/view.tpl" view=$data *}
 <div id="actions" class="actions ui-widget ui-widget-content ui-helper-clearfix" style="display:block;">
 	{if !empty($view->singleActions)}
+	<div id="commonActions" class="comActions">
 		{foreach from=$view->singleActions item=action}
 			<a class="btn ui-state-default ui-corner-all" href="{$action->url}">
 				<span class="ui-icon {$action->img}"></span>{$action->title|default:'New Item'}
 			</a>
 		{/foreach}
+	</div>
 	{/if}
+	<div>
+	<span id="filterForm"></span>
+	</div>
 </div>
 <hr class="space" />
+
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/tablesorter/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.quicksearch.js"></script>
+{literal}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#viewTable").tablesorter();
+
+		$('table#viewTable tbody tr').quicksearch({
+			position: 'before',
+			attached: 'span#filterForm',
+			formId: 'view_searchForm',
+			labelText: 'Search:',
+			loaderText: ''
+		});
+	});
+</script>
+{/literal}
+
 <div id="{$view->prefix}" class="view">
-	<table cellspacing="0" cellpadding="0" cols="{$view->fieldsCount}" id="{$view->prefix}Table">
+	<table cellspacing="0" cellpadding="0" cols="{$view->fieldsCount}" id="viewTable">
 		<thead>
 			<tr>
 			{foreach from=$view->fields item=fieldName key=fieldAlias}
-				<th class="columnNames " valign="middle">{$fieldAlias}</th>
+				<th valign="middle">{$fieldAlias}</th>
 			{/foreach}
 			{if ! empty($view->commonActions)}
 				<th class="columnNames" valign="middle">Actions</th>
