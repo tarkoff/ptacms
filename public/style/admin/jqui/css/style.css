@@ -1,3 +1,6 @@
+body{
+	min-width:1500px;
+}
 .ui-widget-header {
 	font-weight: bold;
 	font-size:0.9em;
