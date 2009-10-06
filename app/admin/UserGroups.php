@@ -83,11 +83,11 @@ class UserGroups extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New User Group', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New User Group', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/UserGroup', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/UserGroup', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/UserGroup', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/UserGroup', 'Edit');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/UserGroup', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/UserGroup', 'Delete');
 	}
 
 	public function deleteAction($itemId)

@@ -74,10 +74,10 @@ class Menus extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'Edit');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'Delete');
 	}
 
 	public function deleteAction()

@@ -27,6 +27,7 @@ class adminApp extends PTA_App
 		parent::__construct('app', 'Index.tpl');
 
 		$this->_router = Zend_Registry::get('router');
+		$this->setBaseUrl(PTA_ADMIN_URL);
 
 		$this->insertModules();
 	}

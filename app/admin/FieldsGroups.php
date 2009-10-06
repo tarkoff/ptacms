@@ -98,12 +98,12 @@ class FieldsGroups extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Field Group', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Field Group', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/FieldGroup', 'edit.png');
-		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'EditFields/FieldGroup', 'fields.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/FieldGroup', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/FieldGroup', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/FieldGroup', 'Edit');
+		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'EditFields/FieldGroup', 'EditFields');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/FieldGroup', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/FieldGroup', 'Delete');
 	}
 
 	public function deleteAction()

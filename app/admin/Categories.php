@@ -94,14 +94,14 @@ class Categories extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Category', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Category', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'edit.png');
-		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'addFields/Category', 'fields.png');
-		$view->addCommonAction('Edit Fields Ordering', $this->getModuleUrl() . 'EditFieldsSortOrder/Category', 'fieldsOrder.png');
-		$view->addCommonAction('Edit Fields Groups Ordering', $this->getModuleUrl() . 'EditGroupsSortOrder/Category', 'groupsOrder.png');
-		$view->addCommonAction('Add Product', $this->getModuleUrl() . 'addProduct/Category', 'addItem.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'Edit');
+		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'addFields/Category', 'AddFields');
+		$view->addCommonAction('Edit Fields Ordering', $this->getModuleUrl() . 'EditFieldsSortOrder/Category', 'FieldsOrdering');
+		$view->addCommonAction('Edit Fields Groups Ordering', $this->getModuleUrl() . 'EditGroupsSortOrder/Category', 'FieldsGroupsOrdering');
+		$view->addCommonAction('Add Product', $this->getModuleUrl() . 'addProduct/Category', 'Add');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'Remove');
 	}
 
 	public function deleteAction()

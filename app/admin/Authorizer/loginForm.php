@@ -14,7 +14,7 @@ class Authorizer_LoginForm extends PTA_Control_Form
 	public function __construct($prefix)
 	{
 		parent::__construct($prefix);
-		$this->setTitle('Login Form');
+		$this->setTitle('P.T.A. CMS Login Form');
 	}
 
 	public function initForm()

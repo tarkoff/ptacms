@@ -121,12 +121,12 @@ class Fields extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Field', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New Field', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Field', 'edit.png');
-		$view->addCommonAction('Edit Field Values', $this->getModuleUrl() . 'EditFieldValues/Field', 'fields.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Field', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Field', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Field', 'Edit');
+		$view->addCommonAction('Edit Field Values', $this->getModuleUrl() . 'EditFieldValues/Field', 'EditFieldValues');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Field', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Field', 'Delete');
 	}
 
 	public function deleteAction($itemId)

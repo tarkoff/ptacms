@@ -83,11 +83,11 @@ class Users extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New User', $this->getModuleUrl() . 'Add/', 'add.png');
+		$view->addSingleAction('New User', $this->getModuleUrl() . 'Add/', 'Add');
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/User', 'edit.png');
-		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/User', 'copy.png');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/User', 'remove.png');
+		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/User', 'Edit');
+		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/User', 'Copy');
+		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/User', 'Delete');
 	}
 
 	public function deleteAction($itemId)
