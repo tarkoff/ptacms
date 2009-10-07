@@ -21,3 +21,4 @@ set_include_path(
 
 Initialize::startInit();
 
+defined('PTA_DESIGN_THEME') || define('PTA_DESIGN_THEME', 'default');

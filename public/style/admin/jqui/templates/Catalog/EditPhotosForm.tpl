@@ -20,7 +20,7 @@
 		{foreach from=`$form->photos` item=photo}
 		<tr>
 			<td>
-				<input type="radio" name="{$formData.default->name}" value="{$photo.PHOTOS_ID}" {if empty($photo.PHOTOS_DEFAULT)}checked="checked"{/if}>
+				<input type="radio" name="{$formData.default->name}" value="{$photo.PHOTOS_ID}" {if !empty($photo.PHOTOS_DEFAULT)}checked="checked"{/if}>
 			</td>
 			<td>
 				{if !empty($photo.PHOTOS_PHOTO)}
