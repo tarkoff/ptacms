@@ -33,10 +33,12 @@ body{
 
 
 /* ----------------------- Top Menu ------------------------------------------*/
-.topMenu{
-	background:#252525;
+.themeswitcher select, .topMenu{
 	color:#646464;
 	font-size:0.9em;
+}
+.topMenu{
+	background:#252525;
 	font-weight:bold;
 	height:28px;
 	padding:0 5px;
@@ -50,7 +52,10 @@ body{
 .topMenu a:hover{
 	color:#fff;
 }
-
+.themeswitcher{
+	float:left;
+//	margin:2px;
+}
 /* ----------------------- Site logo ------------------------------------------*/
 .siteLogo{
 	color:#fff;
@@ -64,7 +69,6 @@ body{
 	color:#AAA;
 	text-decoration:none;
 }
-
 /* ------------------------ SideBar -------------------------------------------*/
 .sidebar{
 	padding:0 2px;
@@ -128,7 +132,11 @@ margin:2px;
 padding:4px;
 position:relative;
 }
-
+a.btn_vertical{
+	text-decoration:none;
+	text-align:center;
+	width:16px;
+}
 /* ---------------------- Content View ----------------------------------------*/
 .view table {
 	margin:0;

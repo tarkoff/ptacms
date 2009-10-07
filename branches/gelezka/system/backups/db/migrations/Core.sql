@@ -21,3 +21,23 @@ insert into USERGROUPS (USERGROUPS_NAME) values ('Guests'), ('Market');
 select USERGROUPS_ID from USERGROUPS where USERGROUPS_NAME = 'Guests' into @groupId;
 insert into USERS (USERS_GROUPID, USERS_LOGIN, USERS_PASSWORD) values (@groupId, 'Guest', '0144712dd81be0c3d9724f5e56ce6685');
 -- rename table CATALOG_POSTS to POSTS;
+
+-- 08-10-2009
+CREATE TABLE `SITES` (
+  `SITE_ID` int(10) unsigned NOT NULL auto_increment,
+  `SITE_TITLE` char(50) NOT NULL default '',
+  `SITE_URL` char(100) NOT NULL default 'http://',
+  PRIMARY KEY  (`SITE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into SITES (SITE_TITLE) values ('Admin Panel'), ('User Area');
+
+CREATE TABLE `THEMES` (
+  `THEME_ID` int(10) unsigned NOT NULL auto_increment,
+  `THEME_SITEID` int(10) unsigned NOT NULL,
+  `THEME_TITLE` char(50) NOT NULL default '',
+  `THEME_ACTIVE` tinyint(1) unsigned default '0',
+  PRIMARY KEY  (`THEME_ID`),
+  KEY `THEME_SITEID` (`THEME_SITEID`),
+  CONSTRAINT `THEMES_ibfk_1` FOREIGN KEY (`THEME_SITEID`) REFERENCES `SITES` (`SITE_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -20,6 +20,7 @@ class Initialize
 		self::initLoader();
 		self::initDB();
 		self::initTemplates();
+		self::initTheme();
 		self::initRouter();
 	}
 
@@ -42,6 +43,16 @@ class Initialize
 		Zend_Registry::set('Smarty', $smarty);
 	}
 
+	public static function initTheme()
+	{
+		$themeTable = PTA_DB_Table::get('Theme');
+		$theme = current($themeTable->getActiveTheme(PTA_SITE_ID));
+
+		if (!empty($theme)) {
+			defined('PTA_DESIGN_THEME') || define('PTA_DESIGN_THEME', $theme[$themeTable->getFieldByAlias('title')]);
+		}
+	}
+	
 	public static function initDB()
 	{
 		$dbConfig = array(

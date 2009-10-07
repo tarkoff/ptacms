@@ -8,16 +8,18 @@
 <!--[if IE]>
   <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/ie.css" type="text/css" media="screen, projection" />
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/redmond/jquery-ui-1.7.2.custom.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/{$smarty.const.PTA_DESIGN_THEME}/jquery-ui-1.7.2.custom.css" title="style" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/style.css" media="screen" />
 <script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.cookie.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="{$smarty.const.PTA_DESIGN_URL}/js/custom.js"></script>
 </head>
 <body>
 	{if !empty($Header)}
 		{include file=$Header->tpl data=$Header}
 		<hr class="space" />
+		<div id="layout">
 		{include file="SideBar.tpl"}
 		<div id="content" class="last span-24">
 	{else}
@@ -30,7 +32,7 @@
 		{include file=$activeModule->tpl data=$activeModule}
 		</div>
 	</div>
-	
+	</div>
 	{include file='Footer.tpl'}
 </body>
 </html>
