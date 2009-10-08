@@ -42,4 +42,16 @@ class PTA_Theme_Table extends PTA_DB_Table
 
 		return $this->fetchAll($select)->toArray();
 	}
+	
+	public function resetSiteThemes($siteId)
+	{
+		if (empty($siteId)) {
+			return array();
+		}
+		
+		return $this->update(
+			array($this->getFieldByAlias('active') => 0),
+			$this->getFieldByAlias('siteId') . ' = ' . intval($siteId)
+		);
+	}
 }

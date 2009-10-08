@@ -72,6 +72,9 @@ class Themes_editForm extends PTA_Control_Form
 		$this->_theme->loadFrom($data);
 		if (empty($data->active)) {
 			$this->_theme->setActive(0);
+		} else {
+			$this->_theme->getTable()->resetSiteThemes($this->_theme->getSiteId());
+			$this->_theme->setActive(1);
 		}
 
 		if ($this->_copy) {
