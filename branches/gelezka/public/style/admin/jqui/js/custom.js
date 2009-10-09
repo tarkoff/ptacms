@@ -19,45 +19,16 @@ $(document).ready(function() {
 		$(this).parents(".ui-widget").toggle('slow');
 		$(this).parents(".sidebar:first").width('auto').find("#showMenu").show("slow");
 	});
+	
+	// Calculate document width
+	$(function() {
+		var sidBarWidth = $('#sidebar').width();
+		var contentWidth = $('#content').width();
+		$('body').css('min-width', sidBarWidth + contentWidth + 20 + 'px');
+	});
 
 });
 
-/*
-$(window).load(function () {
-	themeSwitcher();
-});
-
-//Theme switcher
-function themeSwitcher(themeAlias)
-{
-	var date = new Date();
-	var themePath = 'http://admin.gelezka/public/style/admin/jqui/css/';
-	var themeFile = 'jquery-ui-1.7.2.custom.css';
-	//var theme = 'ui-lightness';
-	if (!themeAlias) {
-		themeAlias = $.cookie('ui_theme');
-	}
-	switch(themeAlias) {
-		case 'ui_lght':
-			theme = 'ui-lightness';
-			themeAlias = 'ui_lght';
-		break;
-		case 'ui_rdmnd':
-			theme = 'redmond';
-			themeAlias = 'ui_rdmnd';
-		break;
-		default:
-			theme = 'redmond';
-			themeAlias = 'ui_rdmnd';
-	}
-	
-	$("link[title='style']").attr("href", themePath + theme + '/' + themeFile);
-	
-	date.setTime(date.getTime() + (3 * 24 * 60 * 60 * 1000)); 
-	$.cookie('ui_theme', themeAlias, { path: '/', expires: date });
-	$(".themeswitcher select").val(themeAlias);
-}
-*/
 function showSideBar()
 {
 	var sideBar = $(".sidebar:first");
