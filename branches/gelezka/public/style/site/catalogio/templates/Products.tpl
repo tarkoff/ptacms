@@ -41,6 +41,7 @@
 <![endif]-->
 <link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/ui/css/redmond/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/i18n/ui.datepicker-ru.js"></script>
 
 {assign var="priceForm" value=$data->PriceForm}
 {assign var="fields" value=$priceForm->data}
@@ -49,6 +50,32 @@
 {assign var="descrField" value=$fields.descr}
 {assign var="dateToField" value=$fields.dateTo}
 {assign var="submitField" value=$fields.submit}
+
+{literal}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("a[rel='photos']").colorbox({
+				transition:"elastic",
+				current : "{current} из {total}"
+			});
+
+			$("#newPriceFormScroller").click(function () {
+				if ($("#newPriceForm").is(":hidden")) {
+					$("#newPriceForm").slideDown("slow");
+				} else {
+					$("#newPriceForm").slideUp("slow");
+				}
+			});
+
+			$("#{/literal}{$dateToField->name}{literal}").datepicker(
+				$.datepicker.regional['ru']
+			);
+			$("#{/literal}{$dateToField->name}{literal}").datepicker(
+				'option', {dateFormat:'yy-mm-dd'}
+			);
+		});
+	</script>
+{/literal}
 
 <div id="productDescr box">
 	<table class="width100">
@@ -163,15 +190,13 @@
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/tools/tabs/tabs-no-images.css" />
 	{literal}
 		<script type="text/javascript">
-			$(document).ready(function() {
-				// perform JavaScript after the document is scriptable. 
-				$(function() { 
-					// setup ul.tabs to work as tabs for each div directly under div.panes 
-					$("ul.descr-tabs").tabs("div.descr-panes > div", { 
-						event: 'click',
-						effect: 'fade',
-						initialIndex: {/literal}{if $data->commentForm->submited}1{else}0{/if}{literal}
-					});
+			// perform JavaScript after the document is scriptable. 
+			$(function() { 
+				// setup ul.tabs to work as tabs for each div directly under div.panes 
+				$("ul.descr-tabs").tabs("div.descr-panes > div", { 
+					event: 'click',
+					effect: 'fade',
+					initialIndex: {/literal}{if $data->commentForm->submited}1{else}0{/if}{literal}
 				});
 			});
 		</script>
