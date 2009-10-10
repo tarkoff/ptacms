@@ -22,7 +22,7 @@ class Categories_addFieldsForm extends PTA_Control_Form
 
 		$title = 'Add Fields To "' . $category->getTitle() . '" Category';
 		$this->setTitle($title);
-		$this->message(PTA_Object::MESSAGE_NOTICE, $title);
+//		$this->message(PTA_Object::MESSAGE_NOTICE, $title);
 
 	}
 

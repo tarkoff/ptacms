@@ -106,7 +106,7 @@ class Prices extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Theme', $this->getModuleUrl() . 'Add/', 'Add');
+		$view->addSingleAction('New Price', $this->getModuleUrl() . 'Add/', 'Add');
 
 		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Price', 'Edit');
 		$view->addCommonAction('Copy', $this->getModuleUrl() . 'Copy/Price', 'Copy');
