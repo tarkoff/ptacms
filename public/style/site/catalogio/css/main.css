@@ -38,9 +38,7 @@ blockquote {margin:15px 20px; font-style:italic;}
 
 hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#CCC; color:#CCC;}
 
-/* ----------------------------------------------------------------------------------------------------------
-Universal
----------------------------------------------------------------------------------------------------------- */
+/* -------------- Universal ------------------------------------------------- */
 
 .clear {clear:both;}
 .f-left {float:left !important;} img.f-left {float:left; margin-right:10px;}
@@ -70,9 +68,7 @@ Universal
 
 .noscreen {display:none;}
 
-/* ----------------------------------------------------------------------------------------------------------
-HTML styles
----------------------------------------------------------------------------------------------------------- */
+/* --------------- HTML styles ---------------------------------------------- */
 
 .ul-style01 {margin:15px 0; margin-left:20px; padding:0; list-style-type:square;}
 .ul-style01 li {margin:0; padding:0;}
@@ -82,9 +78,7 @@ HTML styles
 
 .table-style01 td {padding:3px 0;}
 
-/* ----------------------------------------------------------------------------------------------------------
-LAYOUT
----------------------------------------------------------------------------------------------------------- */
+/* --------------- LAYOUT --------------------------------------------------- */
 
 #main {width:900px; margin:0 auto; text-align:left;}
 
@@ -103,9 +97,7 @@ LAYOUT
         #copy, #copy a {color:#777;}
         #copy a:hover {color:#333;}
 
-/* ----------------------------------------------------------------------------------------------------------
-Page: Homepage
----------------------------------------------------------------------------------------------------------- */
+/* ---------------- Page: Homepage ------------------------------------------ */
 
 .date {position:absolute; top:0; right:0; margin:0; text-align:right;}
 
@@ -191,9 +183,7 @@ dl.cat dd a:hover {color:#404040;}
     .l-01 {font-size:95%;}
     .l-02 {font-size:85%;}
 
-/* ----------------------------------------------------------------------------------------------------------
-Page: Category
----------------------------------------------------------------------------------------------------------- */
+/* ----------- Page: Category ----------------------------------------------- */
 
 .cat-results {margin:10px 0; padding:0; list-style:none;}
 .cat-results li {padding:7px 0; background:url("../img/dot02.gif") 0 100% repeat-x;}
@@ -201,9 +191,7 @@ Page: Category
 .cat-results li h4 span {font-size:85%; font-weight:normal;}
 .cat-results .high {color:#490;}
 
-/* ----------------------------------------------------------------------------------------------------------
-Page: Results
----------------------------------------------------------------------------------------------------------- */
+/* ----------- Page: Results ------------------------------------------------ */
 
 .pagination {clear:both; text-align:center; font-size:120%;}
 .pagination strong {padding:2px 7px; background:#FC0 url("../img/pagination.gif") 0 100% repeat-x; color:#FFF; font-weight:bold;}
@@ -215,9 +203,7 @@ Page: Results
 .results li h4, .results li p {margin:0;}
 .results li h4 span {font-size:85%; font-weight:normal;}
 
-/* ----------------------------------------------------------------------------------------------------------
-Page: Submit
----------------------------------------------------------------------------------------------------------- */
+/* ----------- Page: Submit ------------------------------------------------- */
 
 optgroup {background:#FFF; font:bold 100%/1.2 "arial",sans-serif !important; color:#997C00;}
 option { background:#FFF; padding-left:15px; color:#2F2F2F;}
@@ -237,16 +223,12 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 #tooltip {position:absolute; left:-300px; width:300px; border:1px solid #000; padding:4px 6px; background-color:#FFC; visibility:hidden; z-index:998; text-align:left;}
 #tooltip-arrow {position:absolute; left:-300px; z-index:999; visibility:hidden;}
 
-/* ----------------------------------------------------------------------------------------------------------
-Page: Detail
----------------------------------------------------------------------------------------------------------- */
+/* ----------- Page: Detail ------------------------------------------------- */
 
 .ul-folder {margin:15px 0 15px 15px; padding:0; list-style:none;}
 .ul-folder li {padding-left:20px; background:url("../img/folder.gif") 0 3px no-repeat;}
 
-/* ----------------------------------------------------------------------------------------------------------
-Products
----------------------------------------------------------------------------------------------------------- */
+/* ----------- Products ----------------------------------------------------- */
 .imgBox {
 	width:200px;
 }
@@ -257,9 +239,7 @@ Products
 	width:700px;
 	height:200px;
 }
-/* ----------------------------------------------------------------------------------------------------------
-Others
----------------------------------------------------------------------------------------------------------- */
+/* ----------- Others ------------------------------------------------------- */
 
 .title01-top {width:900px; height:6px; background:#FFF5C7 url("../img/title01-top.gif") 0 100% no-repeat; font-size:0;}
 .title01 {margin:0; background:#FFF5C7 url("../img/title01.gif") 0 0 repeat-y;}
@@ -310,7 +290,7 @@ Others
 .ico-card {padding-left:20px; background:url("../img/ico-card.gif") 0 1px no-repeat;}
 .ico-reg {padding-left:22px !important; background:url("../img/ico-reg.gif") 0 1px no-repeat;}
 .ico-send {padding-left:22px !important; background:url("../img/ico-send.gif") 0 2px no-repeat;}
-    
+
 .relative {position:relative;}
 
 /* --------------- Messages ---------------------------------------------------*/
@@ -321,7 +301,18 @@ Others
 .error a {color:#8a1f11;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
-/* --------------- Adds -------------------------------------------------------*/
+/* --------------- Adds ------------------------------------------------------*/
 .big_hor{
 	margin:5px 0;
+}
+/* -------------- Products ---------------------------------------------------*/
+.prpiceInput{
+	border:1px solid #CCCCCC;
+	width:90%;
+	padding:5px 5px;
+	line-height:130%;
+	font-size:160%;
+}
+.priceDescr{
+	height:60px;
 }

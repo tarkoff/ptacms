@@ -1,6 +1,6 @@
 $(document).ready(function() { 
 	//Hover states on the static widgets
-	$('.btn, .btn_no_text').hover(
+	$('.ui-state-default').hover(
 		function() { $(this).addClass('ui-state-hover'); }, 
 		function() { $(this).removeClass('ui-state-hover'); }
 	);

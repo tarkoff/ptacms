@@ -9,26 +9,27 @@
 	<meta content="index,follow,noodp,noydir" name="robots"/>
 	<meta name="verify-v1" content="9fJg4XE0nrThqvm74P7/ATkDKlFvRledoo8jQ9aTfMs=" />
 
-	<link rel="icon" href="{$smarty.const.PTA_DESIGN_IMAGES_URL}/favicon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="{$smarty.const.PTA_DESIGN_IMAGES_URL}/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="{$smarty.const.PTA_DESIGN_IMAGES_URL}/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="{$smarty.const.PTA_DESIGN_IMAGES_URL}/favicon.ico" type="image/x-icon" />
 
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/main.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/main-msie.css" /><![endif]-->
 	<link rel="stylesheet" media="print" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/print.css" />
 
-	<link type="text/css" rel="stylesheet" href="http://mixmarket.biz/uni/partner.css">
+	<link type="text/css" rel="stylesheet" href="http://mixmarket.biz/uni/partner.css" />
 
 
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.phpdate.js" type="text/javascript"></script>
+	<script src="{$smarty.const.PTA_DESIGN_URL}/js/custom.js" type="text/javascript"></script>
 	<title>{$Gelezka->title|default:'Gelezka'} - Описания, Цены, Обзоры, Драйвера</title>
 </head>
 
 <body>
 {literal}
-<style>.img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}</style>
+<style type="text/css">.img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}</style>
 <div class="img1px">
-<script>
+<script type="text/javascript">
 	if (uni_tracker_shown===undefined || mix_tracker_shown===undefined) {
 		document.write('<img src="http://mixmarket.biz/t.php?uid=1294931752&id=3539779&r=' + escape(document.referrer) + '&t=' + (new Date()).getTime() + '" width="1" height="1"/>');
 		var uni_tracker_shown=true;var mix_tracker_shown=true;
@@ -45,7 +46,7 @@
 	{include file="Catalog/searchFormAdSense.tpl"}
 
 	{literal}
-		<style>
+		<style type="text/css">
 			#mix_block_12949300631294932072, .mix_horiz_tr{height:120px; overflow:hidden;}
 			.mix_inter table{margin:0;}
 			.mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
@@ -92,7 +93,7 @@
 	</script>
 
 <!-- MixMarket -->
-<script>
+<script type="text/javascript">
 document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>')
 </script>
 {/literal}
