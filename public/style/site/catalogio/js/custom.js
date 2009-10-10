@@ -25,27 +25,4 @@ $(document).ready(function() {
 		dateDiv.addClass('date date-' + todayDay);
 	});
 
-	// Image resizer
-	$("a[rel='photos']").colorbox({
-		transition:"elastic",
-		current : "{current} из {total}"
-	});
-
-	// Add price form
-	$("#newPriceFormScroller").click(function () {
-		if ($("#newPriceForm").is(":hidden")) {
-			$("#newPriceForm").slideDown("slow");
-		} else {
-			$("#newPriceForm").slideUp("slow");
-		}
-	});
-
-	var dateTo = $("#PriceForm_dateTo");
-	dateTo.datepicker(
-		$.datepicker.regional['ru']
-	);
-	dateTo.datepicker(
-		'option', {dateFormat:'yy-mm-dd'}
-	);
-
 });

@@ -302,9 +302,19 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
 /* --------------- Adds ------------------------------------------------------*/
+/* -- Adsense -- */
 .big_hor{
 	margin:5px 0;
 }
+
+/* -- MixMarket -- */
+.img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}
+#mix_block_12949300631294932072, .mix_horiz_tr{height:120px; overflow:hidden;}
+.mix_inter table{margin:0;}
+.mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
+.mix_outer .mix_horiz_td {border:none;}
+#mix_block_12949300631294932072 img{margin:0;padding:0;font-size:0;line-height:0;}
+
 /* -------------- Products ---------------------------------------------------*/
 .prpiceInput{
 	border:1px solid #CCCCCC;
