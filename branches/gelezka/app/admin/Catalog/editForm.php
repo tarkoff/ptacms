@@ -13,7 +13,7 @@ class Catalog_editForm extends PTA_Control_Form
 	private $_product;
 	private $_category;
 	private $_copy;
-
+	
 	public function __construct($prefix, $product, $copy = false)
 	{
 		$this->_product = $product;
@@ -38,10 +38,12 @@ class Catalog_editForm extends PTA_Control_Form
 	{
 		$title = new PTA_Control_Form_Text('title', 'Title');
 		$title->setSortOrder(10);
+		$title->setVar('groupId', 0);
 		$this->addVisual($title);
 
 		$alias = new PTA_Control_Form_Text('alias', 'Alias');
 		$alias->setSortOrder(15);
+		$alias->setVar('groupId', 0);
 		$this->addVisual($alias);
 
 		$brand = new PTA_Control_Form_Select('brandId', 'Brand', false);
@@ -49,6 +51,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$brand->setOptions(PTA_DB_Table::get('Catalog_Brand')->getSelectedFields(array('id', 'title')));
 		//$brand->addOption(array(0, '- Empty -'));
 		$brand->setSelected((int)$this->_product->getBrandId());
+		$brand->setVar('groupId', 0);
 		$this->addVisual($brand);
 
 		$catsTable = PTA_DB_Table::get('Catalog_Category');
@@ -82,6 +85,7 @@ class Catalog_editForm extends PTA_Control_Form
 		);
 		$category->setSortOrder(16);
 		$category->addOption(array('0', 'Empty'));
+		$category->setVar('groupId', 0);
 		$this->addVisual($category);
 
 		foreach ($catsList as $catId => $category) {
@@ -96,18 +100,22 @@ class Catalog_editForm extends PTA_Control_Form
 		$category->setSortOrder(17);
 		$category->setMultiple(true);
 		$category->addOption(array('0', 'Empty'));
+		$category->setVar('groupId', 0);
 		$this->addVisual($category);
 
 		$url = new PTA_Control_Form_Text('url', 'URL');
 		$url->setSortOrder(20);
+		$url->setVar('groupId', 0);
 		$this->addVisual($url);
 
 		$driversUrl = new PTA_Control_Form_Text('driversUrl', 'Drivers URL');
 		$driversUrl->setSortOrder(21);
+		$driversUrl->setVar('groupId', 0);
 		$this->addVisual($driversUrl);
 
 		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Description');
 		$desc->setSortOrder(40);
+		$desc->setVar('groupId', 0);
 		$this->addVisual($desc);
 	}
 
@@ -115,10 +123,33 @@ class Catalog_editForm extends PTA_Control_Form
 	{
 		$categoryFieldTable = PTA_DB_Table::get('Catalog_Category_Field');
 		$fieldsTable = PTA_DB_Table::get('Catalog_Field');
+		$fieldGroupTable = PTA_DB_Table::get('Catalog_Field_Group');
+		$fieldGroupFieldsTable = PTA_DB_Table::get('Catalog_Field_Group_Field');
 
+		$groupIdField = $fieldGroupTable->getPrimary();
+		$groupTitleField = $fieldGroupTable->getFieldByAlias('title');
+
+		$categoryId = $this->_product->getCategoryId();
 		$categoryFields = (array)$categoryFieldTable->getFieldsByCategory(
-			$this->_product->getCategoryId(), true, true
+			$categoryId, true, true
 		);
+
+		$fieldGroups = $groupFields = array();
+		foreach ($fieldGroupTable->getCategoryGroups($categoryId) as $group) {
+			$groupId = $group[$groupIdField];
+			$fieldGroups[$groupId] = $group[$groupTitleField];
+//			$fieldGroups[$groupId]['fields'] = array();
+		}
+
+		$fieldIdField = $fieldGroupFieldsTable->getFieldByAlias('fieldId');
+		$fieldGroupIdField = $fieldGroupFieldsTable->getFieldByAlias('groupId');
+
+		foreach ($fieldGroupFieldsTable->getGroupFields(array_keys($fieldGroups)) as $groupField) {
+			$groupId = $groupField[$fieldGroupIdField];
+			$groupFields[$groupField[$fieldIdField]] = $groupId;
+		}
+//var_dump($groupFields);
+		$this->setVar('fieldGroups', $fieldGroups);
 
 		if ($this->_product->getId()) {
 			$fieldsValues = $this->_product->buildCustomFields($categoryFields);
@@ -130,6 +161,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$title = $fieldsTable->getFieldByAlias('title');
 		$sortOrder = $categoryFieldTable->getFieldByAlias('sortOrder');
 		$fieldId = $categoryFieldTable->getFieldByAlias('fieldId');
+		$categoryFieldId = $categoryFieldTable->getPrimary();
 		$fieldType = $fieldsTable->getFieldByAlias('fieldType');
 
 		$fieldsIds = array();
@@ -181,6 +213,11 @@ class Catalog_editForm extends PTA_Control_Form
 					$field->setValue($fieldsValues[$fieldArray[$name]]);
 				}
 				$field->setVar('fieldId', $fieldArray[$fieldId]);
+				if (isset($groupFields[$fieldArray[$categoryFieldId]])) {
+					$field->setVar('groupId', $groupFields[$fieldArray[$categoryFieldId]]);
+				} else {
+					$field->setVar('groupId', 0);
+				}
 				$this->addVisual($field);
 			}
 		}

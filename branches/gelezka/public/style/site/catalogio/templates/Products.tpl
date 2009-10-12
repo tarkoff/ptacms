@@ -41,7 +41,6 @@
 <![endif]-->
 <link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/ui/css/redmond/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
-<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/i18n/ui.datepicker-ru.js"></script>
 
 {assign var="priceForm" value=$data->PriceForm}
 {assign var="fields" value=$priceForm->data}

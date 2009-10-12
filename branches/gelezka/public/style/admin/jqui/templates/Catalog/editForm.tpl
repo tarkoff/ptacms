@@ -31,32 +31,54 @@
 	</script>
 {/literal}
 
+
+
 <div class="ui-widget ui-helper-clearfix ui-corner-all">
 	<div class="portlet-header ui-widget-header ui-corner-all">
 		<span class="ui-icon ui-icon-circle-arrow-s"></span>{$form->title}
 	</div>
 	<div class="form ui-widget-content ui-corner-all">
 		<form name="{$form->name}" id="{$form->name}" action="{$form->action}" method="{$form->method}" enctype="{$form->enctype}" {if !empty($formCss)}class="{$formCss}"{/if}>
-		<table>
-		{foreach from=$form->data item=field}
-			<tr>
-			{if !empty($field->isSubmit) || !empty($field->hidden)}
-				<td colspan="2" style="text-align:center;">
-					{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}
-				</td>
-			{else}
-				<td class="fieldTitle"><label for="color">{$field->label}{if $field->mandatory}*{/if}</label></td>
-				<td>
-					<span id="{$field->name}_span" style="float:left;margin-right:3px;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</span>
-					{if !empty($field->fieldId)}
-						<a href="javascript:return false;" rel="#newValueForm" onClick="buildFieldValueForm('{$field->name}', {$field->fieldId})" class="btn_no_text ui-state-default ui-corner-all" title="New Value">
-							<span class="ui-icon ui-icon-plus"></span>
-						</a>
-					{/if}
-				</td>
-			{/if}
-			</tr>
+		{defun name="groupWidget" groupTitle='Static Fields' groupId=0}
+			<div class="ui-widget ui-helper-clearfix ui-corner-all">
+				<div class="portlet-header ui-widget-header ui-corner-all">
+					<span class="ui-icon ui-icon-circle-arrow-s"></span>{$groupTitle}
+				</div>
+				<div class="form ui-widget-content ui-corner-all">
+					<table>
+					{foreach from=$form->data item=field}
+						{if isset($field->groupId) && $field->groupId == $groupId}
+							<tr>
+							{if !empty($field->isSubmit) || !empty($field->hidden)}
+								<td colspan="2" style="text-align:center;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</td>
+							{else}
+								<td class="fieldTitle"><label for="color">{$field->label}{if $field->mandatory}*{/if}</label></td>
+								<td>
+									<span id="{$field->name}_span" style="float:left;margin-right:3px;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</span>
+									{if !empty($field->fieldId)}
+										<a href="javascript:return false;" rel="#newValueForm" onClick="buildFieldValueForm('{$field->name}', {$field->fieldId})" class="btn_no_text ui-helper-clearfix ui-state-default ui-corner-all" title="New Value">
+											<span class="ui-icon ui-icon-plus"></span>
+										</a>
+									{/if}
+								</td>
+							{/if}
+							</tr>
+						{/if}
+					{/foreach}
+					</table>
+				</div>
+			</div>
+			<br />
+		{/defun}
+		{foreach from = $form->fieldGroups item = group key = groupId}
+			{fun name="groupWidget" groupTitle=$group groupId=$groupId}
 		{/foreach}
+		<table>
+			{foreach from=$form->data item=field}
+				{if !empty($field->isSubmit) || !empty($field->hidden)}
+					<tr><td colspan="2" style="text-align:center;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</td></tr>
+				{/if}
+			{/foreach}
 		</table>
 		</form>
 	</div>
