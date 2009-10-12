@@ -117,7 +117,7 @@ class Products extends PTA_WebModule
 				$fieldGroups['else']['fields'][] = $field;
 			}
 		}
-//var_dump($fieldGroups);
+
 		$this->setVar('product', $product);
 		$this->setVar('category', $category);
 //		$this->setVar('parentCategories', $parentCategories);
