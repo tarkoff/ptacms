@@ -28,10 +28,9 @@ class UserGroups_editForm extends PTA_Control_Form
 	{
 		$title = new PTA_Control_Form_Text('name', 'User Group Name', true, '');
 		$title->setSortOrder(100);
-		$title->setCssClass('textField');
 		$this->addVisual($title);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save Group');
 		$submit->setSortOrder(300);
 		$this->addVisual($submit);
 	}
@@ -41,7 +40,6 @@ class UserGroups_editForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_userGroup->loadTo($data);
-		$data->submit = 'save';
 
 		return $data;
 	}

@@ -91,7 +91,6 @@
 	color:#616161;
 	display:block;
 	text-decoration:none;
-	
 }
 .menuList li:hover{
 	background-color:#F5F5F5;
@@ -108,18 +107,18 @@
 	line-height:50px;
 	padding:3px;
 }
-a.btn{
+.btn{
 	padding:0.4em 1em 0.4em 20px;
 	position:relative;
 	text-decoration:none;
 }
-a.btn span.ui-icon {
+.btn span.ui-icon {
 	left:0.2em;
 	margin:-8px 5px 0 0;
 	position:absolute;
 	top:50%;
 }
-a.btn_no_text {
+.btn_no_text {
 	cursor:pointer;
 float:left;
 list-style-image:none;
@@ -129,7 +128,7 @@ margin:2px;
 padding:4px;
 position:relative;
 }
-a.btn_vertical{
+.btn_vertical{
 	text-decoration:none;
 	text-align:center;
 	width:16px;
@@ -196,8 +195,6 @@ a.btn_vertical{
 }
 
 	/* Tables Pagination */
-
-
 .rpp {
 	margin:5px;
 	float: left;
@@ -225,9 +222,10 @@ a.btn_vertical{
 .form{
 	padding:5px;
 	color:#464646;
+	width:auto;
 }
 .form input, .form select, .form textarea, .quicksearch input{
-	border:1px solid #8F8F8F;
+//	border:1px solid #8F8F8F;
 }
 .fieldTitle{
 	text-align:right;
@@ -245,3 +243,13 @@ a.btn_vertical{
 	margin:auto 5px;
 	padding:0;
 }
+
+/* ----- New field value form ------ */
+.newValueForm fieldset{
+	width:auto;
+	marin:5px;
+}
+.newValueForm fieldset input{
+	width: 95%;
+}
+ 

@@ -36,7 +36,7 @@ class Posts_editForm extends PTA_Control_Form
 		$alias->setCssClass('textField');
 		$this->addVisual($alias);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save Post');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
 	}
@@ -46,7 +46,6 @@ class Posts_editForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_post->loadTo($data);
-		$data->submit = 'save';
 
 		return $data;
 	}
