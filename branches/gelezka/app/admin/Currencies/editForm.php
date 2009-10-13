@@ -34,7 +34,7 @@ class Currencies_editForm extends PTA_Control_Form
 		$reduction->setSortOrder(200);
 		$this->addVisual($reduction);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save Currency', true, 'Save Currency');
 		$submit->setSortOrder(300);
 		$this->addVisual($submit);
 	}
@@ -44,7 +44,6 @@ class Currencies_editForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_currency->loadTo($data);
-		$data->submit = 'save';
 
 		return $data;
 	}

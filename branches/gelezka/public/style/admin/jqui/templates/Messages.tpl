@@ -1,7 +1,7 @@
 {pta_const to="typeSuccess" name=PTA_Object::MESSAGE_SUCCESS}
 {pta_const to="typeError" name=PTA_Object::MESSAGE_ERROR}
 {pta_const to="typeNotice" name=PTA_Object::MESSAGE_NOTICE}
-<hr class="space"/>
+<br />
 <div id="messages" class="container">
 	{if !empty($messages)}
 		{foreach from=$messages item=message}
@@ -11,4 +11,4 @@
 		{/foreach}
 	{/if}
 </div>
-<hr class="space"/>
+<br />

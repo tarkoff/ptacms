@@ -41,7 +41,7 @@ class Brands_editForm extends PTA_Control_Form
 		$url->setCssClass('textField');
 		$this->addVisual($url);
 		
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save Brand', true, 'Save Brand');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
 	}
@@ -51,7 +51,7 @@ class Brands_editForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_brand->loadTo($data);
-		$data->submit = 'save';
+		$data->submit = 'Save Brand';
 
 		return $data;
 	}

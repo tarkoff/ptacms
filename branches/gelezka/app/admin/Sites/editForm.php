@@ -34,7 +34,7 @@ class Sites_editForm extends PTA_Control_Form
 		$url->setSortOrder(200);
 		$this->addVisual($url);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save Site');
 		$submit->setSortOrder(300);
 		$this->addVisual($submit);
 	}
@@ -44,7 +44,6 @@ class Sites_editForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_site->loadTo($data);
-		$data->submit = 'Save Site';
 
 		return $data;
 	}

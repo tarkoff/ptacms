@@ -40,12 +40,12 @@
 		</tr>
 		{/foreach}
 		<tr>
-			<td colspan="2" align="center" style="text-align:center;">
+			<td colspan="3" align="center" style="text-align:center;">
 				{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=`$formData.$formName`}
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center" style="text-align:center;">
+			<td colspan="3" align="center" style="text-align:center;">
 				{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$formData.submit}
 			</td>
 		</tr>

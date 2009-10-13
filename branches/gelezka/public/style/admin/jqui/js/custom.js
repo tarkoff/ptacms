@@ -1,9 +1,7 @@
 $(document).ready(function() { 
-	//Hover states on the static widgets
-	$('.ui-state-default').hover(
-		function() { $(this).addClass('ui-state-hover'); }, 
-		function() { $(this).removeClass('ui-state-hover'); }
-	);
+	//Apply theme style for form inputes
+	$('input[type="text"], textarea').addClass('text ui-corner-all');
+	$('input[type="submit"]').addClass('btn ui-state-default ui-corner-all');
 
 	// SideBar Menu Accordion
 	$("#menuAccordion").accordion();
@@ -27,7 +25,18 @@ $(document).ready(function() {
 		$('body').css('min-width', sidBarWidth + contentWidth + 20 + 'px');
 	});
 
+	//Hover states on the static widgets
+	$('.ui-state-default').hover(
+		function() { $(this).addClass('ui-state-hover'); }, 
+		function() { $(this).removeClass('ui-state-hover'); }
+	);
 });
+
+/*
+$(window).load(function () {
+	
+});
+*/
 
 function showSideBar()
 {

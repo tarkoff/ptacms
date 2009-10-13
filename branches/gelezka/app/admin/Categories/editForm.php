@@ -55,7 +55,7 @@ class Categories_editForm extends PTA_Control_Form
 		$public->setSortOrder(250);
 		$this->addVisual($public);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save Category', true, 'Save Category');
 		$submit->setSortOrder(300);
 		$this->addVisual($submit);
 	}
@@ -64,7 +64,6 @@ class Categories_editForm extends PTA_Control_Form
 	{
 		$data = new stdClass();
 		$this->_category->loadTo($data);
-		$data->submit = 'save';
 		return $data;
 	}
 

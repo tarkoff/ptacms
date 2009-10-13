@@ -51,7 +51,7 @@ class FieldsGroups_editForm extends PTA_Control_Form
 		$sortOrder->setSortOrder(202);
 		$this->addVisual($sortOrder);
 		
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save Group');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
 	}
@@ -61,7 +61,6 @@ class FieldsGroups_editForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_fieldGroup->loadTo($data);
-		$data->submit = 'save';
 
 		return $data;
 	}

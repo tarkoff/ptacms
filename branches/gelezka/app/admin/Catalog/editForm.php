@@ -29,7 +29,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$this->_initStaticFields();
 		$this->_initDinamicFields();
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Remove Field', true, 'Save Product');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save Product', true, 'Save Product');
 		$submit->setSortOrder(5000);
 		$this->addVisual($submit);
 	}

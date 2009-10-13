@@ -28,12 +28,10 @@ class Users_editForm extends PTA_Control_Form
 	{
 		$title = new PTA_Control_Form_Text('login', 'User Login', true, '');
 		$title->setSortOrder(100);
-		$title->setCssClass('textField');
 		$this->addVisual($title);
 
 		$alias = new PTA_Control_Form_Password('password', 'User Password', true, '');
 		$alias->setSortOrder(200);
-		$alias->setCssClass('textField');
 		$this->addVisual($alias);
 		
 		$groups = PTA_DB_Table::get('UserGroup')->getSelectedFields(array('id', 'name'));
@@ -41,7 +39,7 @@ class Users_editForm extends PTA_Control_Form
 		$group->setSortOrder(210);
 		$this->addVisual($group);
 
-		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
+		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save User');
 		$submit->setSortOrder(300);
 		$this->addVisual($submit);
 	}
@@ -51,7 +49,6 @@ class Users_editForm extends PTA_Control_Form
 		$data = new stdClass();
 
 		$this->_user->loadTo($data);
-		$data->submit = 'save';
 
 		return $data;
 	}
