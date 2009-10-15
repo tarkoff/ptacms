@@ -120,13 +120,13 @@
 }
 .btn_no_text {
 	cursor:pointer;
-float:left;
-list-style-image:none;
-list-style-position:outside;
-list-style-type:none;
-margin:2px;
-padding:4px;
-position:relative;
+	float:left;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:2px;
+	padding:4px;
+	position:relative;
 }
 .btn_vertical{
 	text-decoration:none;

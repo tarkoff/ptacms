@@ -1,15 +1,36 @@
 <?php
-if (!empty($_SERVER['HTTP_HOST'])) {
-	define('PTA_BASE_URL', 'http://' . $_SERVER['HTTP_HOST']);
-	if (false !== strpos( $_SERVER['HTTP_HOST'], 'admin.')) {
-		define('PTA_ADMIN_URL', 'http://' . $_SERVER['HTTP_HOST']);
-	} else {
-		define('PTA_ADMIN_URL', 'http://www.admin.' . ltrim($_SERVER['HTTP_HOST'], 'www.'));
+
+if (class_exists('Zend_Registry') && Zend_Registry::get('db')) {
+	$siteTable = PTA_DB_Table::get('Site');
+	$siteIdField = $siteTable->getPrimary();
+	$siteUrl = $siteTable->getFieldByAlias('url');
+	
+	foreach ($siteTable->getAll() as $site) {
+		if (!defined('PTA_ADMIN_URL') && 1 == intval($site[$siteIdField])) {
+			define('PTA_ADMIN_URL', $site[$siteUrl]);
+		} elseif (!defined('PTA_BASE_URL') && 2 == intval($site[$siteIdField])) {
+			define('PTA_BASE_URL', $site[$siteUrl]);
+		}
 	}
 } else {
-	define('PTA_BASE_URL', 'http://www.gelezka.net');
-	define('PTA_ADMIN_URL', 'http://www.admin.gelezka.net');
+	$url = getenv('HTTP_HOST');
+	if (false !== strpos($url, 'admin.')) {
+		define('PTA_BASE_URL', 'http://' . str_replace('admin.', '', $url));
+		define('PTA_ADMIN_URL', 'http://' . $url);
+	} else {
+		define('PTA_BASE_URL', 'http://' . $url);
+		define(
+			'PTA_ADMIN_URL',
+			'http://' . str_replace(
+							array('www.' . $url, $url),
+							array('www.admin.' . $url, 'admin.' . $url)
+						)
+		);
+	}
 }
+
+defined('PTA_BASE_URL') || define('PTA_BASE_URL', 'http://' . getenv('HTTP_HOST'));
+defined('PTA_ADMIN_URL') || define('PTA_ADMIN_URL', 'http://admin.' . getenv('HTTP_HOST'));
 
 defined('PTA_ROOT_PATH') || define('PTA_ROOT_PATH', realpath(dirname(dirname(dirname(__FILE__)))));
 

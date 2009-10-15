@@ -20,15 +20,15 @@
 			$("#newValueForm").dialog({
 				bgiframe: true,
 				autoOpen: false,
-				height: 214,
+				height: 216,
 				modal: true,
 				show: 'scale',
 				buttons: {
-					'Add Value': function() {
-						$("#fieldsValuesEditForm").submit();
+					'Cancel': function() {
 						$(this).dialog('close');
 					},
-					Cancel: function() {
+					'Add Value': function() {
+						$("#fieldsValuesEditForm").submit();
 						$(this).dialog('close');
 					}
 				},

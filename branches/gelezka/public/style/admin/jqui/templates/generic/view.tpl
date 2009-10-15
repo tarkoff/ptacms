@@ -66,7 +66,7 @@
 		</tbody>
 	</table>
 	<div id="pagination" class="pagination ui-widget ui-widget-content ui-helper-clearfix">
-		<select name="rpp" id="rpp" onchange="setRpp(this.value)" class="rpp">
+		<select name="rpp" id="rpp" class="rpp">
 		{foreach from=$view->rpps key=key item=rpp}
 			{if $view->rpp == $rpp}
 				<option value="{$key}" selected="selected">{$rpp}</option>
@@ -77,36 +77,25 @@
 		</select>
 		<ul>
 			{if $view->page <= $view->prevPage}
-				<li class="unactive btn ui-state-default ui-corner-all ui-state-disabled">« Prev.</li>
+				<li class="unactive ui-state-default ui-corner-all ui-state-disabled">« Prev.</li>
 			{else}
-				<li class="btn ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$view->prevPage}">« Prev.</a></li>
+				<li class="ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$view->prevPage}">« Prev.</a></li>
 			{/if}
 			{math equation="x + y" x=$view->lastPage y=1 assign="lastPage"}
 			{section name=page start=1 loop=$lastPage step=1}
 				{if $smarty.section.page.index == $view->page}
-					<li class="unactive btn ui-state-default ui-corner-all ui-state-disabled">{$view->page}</li>
+					<li class="unactive ui-state-default ui-corner-all ui-state-disabled">{$view->page}</li>
 				{else}
-					<li class="btn ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$smarty.section.page.index}">{$smarty.section.page.index}</a></li>
+					<li class="ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$smarty.section.page.index}">{$smarty.section.page.index}</a></li>
 				{/if}
 			{sectionelse}
-				<li class="unactive btn ui-state-default ui-corner-all ui-state-disabled">1</li>
+				<li class="unactive ui-state-default ui-corner-all ui-state-disabled">1</li>
 			{/section}
 			{if $view->page >= $view->lastPage}
-				<li class="unactive btn ui-state-default ui-corner-all ui-state-disabled">Next »</li>
+				<li class="unactive ui-state-default ui-corner-all ui-state-disabled">Next »</li>
 			{else}
-				<li class="btn ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$view->nextPage}">Next »</a></li>
+				<li class="ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$view->nextPage}">Next »</a></li>
 			{/if}
 		</ul>
 	</div>
 </div>
-{literal}
-<script type="text/javascript" language="JavaScript">
-function setRpp(rpp)
-{
-	var ww;
-	ww = '?rpp=' + rpp;
- 
-	location.href = ww;
-}
-</script>
-{/literal}
