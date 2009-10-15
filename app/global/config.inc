@@ -23,7 +23,8 @@ if (class_exists('Zend_Registry') && Zend_Registry::get('db')) {
 			'PTA_ADMIN_URL',
 			'http://' . str_replace(
 							array('www.' . $url, $url),
-							array('www.admin.' . $url, 'admin.' . $url)
+							array('www.admin.' . $url, 'admin.' . $url),
+							$url
 						)
 		);
 	}
