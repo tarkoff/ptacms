@@ -4,9 +4,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>P.T.A. CMS Admin Panel</title>
-<link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="/public/css/blueprint/screen.css" type="text/css" media="screen, projection" />
 <!--[if IE]>
-  <link rel="stylesheet" href="{$smarty.const.PTA_BASE_URL}/public/css/blueprint/ie.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/public/css/blueprint/ie.css" type="text/css" media="screen, projection" />
 <![endif]-->
 <link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/{$smarty.const.PTA_DESIGN_THEME}/jquery-ui-1.7.2.custom.css" title="style" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/style.css" media="screen" />

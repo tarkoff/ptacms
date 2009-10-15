@@ -53,8 +53,7 @@ abstract class PTA_App extends PTA_WebModule
 
 	public function setRequestVars()
 	{
-		$urlParams = @parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
-		
+		$urlParams = @parse_url(getenv('REQUEST_URI'), PHP_URL_QUERY);
 		if (empty($urlParams)) {
 			return true;
 		}
@@ -332,7 +331,7 @@ abstract class PTA_App extends PTA_WebModule
 		if (isset($this->_modules[$prefix] )) {
 			return true;
 		}
-		
+
 		if (class_exists($module, true)) {
 			$this->_modules[$prefix] = new $module($prefix);
 			if ($isActive) {
@@ -340,7 +339,7 @@ abstract class PTA_App extends PTA_WebModule
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -388,7 +387,7 @@ abstract class PTA_App extends PTA_WebModule
 	{
 		return (isset($this->_modules[$prefix]) ? $this->_modules[$prefix] : false);
 	}
-	
+
 	/**
 	 * Get App Router
 	 *
@@ -398,7 +397,7 @@ abstract class PTA_App extends PTA_WebModule
 	{
 		return $this->_router;
 	}
-	
+
 	/**
 	 * Set App Router
 	 *
@@ -420,7 +419,7 @@ abstract class PTA_App extends PTA_WebModule
 		if (($value = parent::getHttpVar($key))) {
 			return $value;
 		}
-		
+
 		if (($value = $this->getRouter()->getQueryVar($key))) {
 			return $this->quote($value);
 		}
@@ -458,7 +457,7 @@ abstract class PTA_App extends PTA_WebModule
 
 		return null;
 	}
-	
+
 	/**
 	 * Set cookie for PTA application
 	 *
@@ -474,9 +473,9 @@ abstract class PTA_App extends PTA_WebModule
 	public function setCookie($name, $value, $expire= null, $path = '/', $domain = '', $secure= false, $httponly= false)
 	{
 		if (empty($domain)) {
-			$domain = $_SERVER['SERVER_NAME'];
+			$domain = getenv('SERVER_NAME');
 		}
-		
+
 		if (is_null($expire)) {
 			if (defined('PTA_COOKIE_EXPIRE_TIME')) {
 				$expire =time() + PTA_COOKIE_EXPIRE_TIME;
@@ -485,11 +484,11 @@ abstract class PTA_App extends PTA_WebModule
 			}
 		}
 
-		$name = $this->getPrefix() . "_{$name}";
+		$name = $this->getPrefix() . '_' . $name;
 		return setcookie($name, $value, $expire, $path);
 		//return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 	}
-	
+
 	/**
 	 * Get Base App URL
 	 *
@@ -501,7 +500,7 @@ abstract class PTA_App extends PTA_WebModule
 			return $baseUrl;
 		}
 
-		return (defined('PTA_BASE_URL') ? PTA_BASE_URL : $_SERVER['HTTP_HOST']);
+		return (defined('PTA_BASE_URL') ? PTA_BASE_URL : getenv('HTTP_HOST'));
 	}
 
 	public function setBaseUrl($url)

@@ -30,6 +30,12 @@ $(document).ready(function() {
 		function() { $(this).addClass('ui-state-hover'); }, 
 		function() { $(this).removeClass('ui-state-hover'); }
 	);
+
+	//Set records per page
+	$('#rpp').change(function() {
+		location.href = '?rpp=' + $(this).val();
+	});
+
 });
 
 /*

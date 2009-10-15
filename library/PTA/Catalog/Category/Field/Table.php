@@ -158,25 +158,12 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 		$categoryField = $this->getFieldByAlias('categoryId');
 		$fieldIdField = $this->getFieldByAlias('fieldId');
 		$sortOrderField = $this->getFieldByAlias('sortOrder');
-/*
-		$existsFields = $this->getSelectedFields(
-										array('fieldId'),
-										array(
-											$this->getFullFieldName('categoryId') . ' = ?',
-											array($categoryId)
-										)
-								);
-*/
+
 		$sortOrder = $this->getMaxSortOrder($categoryId);
 
 		$this->getAdapter()->beginTransaction();
 		//$this->clearbyCategoryId($categoryId);
 		foreach ($fieldsIds as $fieldId) {
-/*
-			if (in_array($fieldId, $existsFields)) {
-				continue;
-			}
-*/
 			$row = $this->createRow(
 							array(
 								$categoryField => $categoryId,
@@ -190,7 +177,7 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 		}
 		return $this->getAdapter()->commit();
 	}
-	
+
 	/**
 	 * Remove cztegory fields
 	 *

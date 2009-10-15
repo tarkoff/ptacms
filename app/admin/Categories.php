@@ -66,6 +66,10 @@ class Categories extends PTA_WebModule
 				$this->editGroupsSortOrder();
 			break;
 
+			case 'EditFilterFields':
+				$this->editFilterFields();
+			break;
+
 			case 'Delete':
 				$this->deleteAction();
 			break;
@@ -94,14 +98,17 @@ class Categories extends PTA_WebModule
 
 	public function addActions(&$view)
 	{
-		$view->addSingleAction('New Category', $this->getModuleUrl() . 'Add/', 'Add');
+		$moduleUrl = $this->getModuleUrl();
 
-		$view->addCommonAction('Edit', $this->getModuleUrl() . 'Edit/Category', 'Edit');
-		$view->addCommonAction('Add/Remove Fields', $this->getModuleUrl() . 'addFields/Category', 'AddFields');
-		$view->addCommonAction('Edit Fields Ordering', $this->getModuleUrl() . 'EditFieldsSortOrder/Category', 'FieldsOrdering');
-		$view->addCommonAction('Edit Fields Groups Ordering', $this->getModuleUrl() . 'EditGroupsSortOrder/Category', 'FieldsGroupsOrdering');
-		$view->addCommonAction('Add Product', $this->getModuleUrl() . 'addProduct/Category', 'Add');
-		$view->addCommonAction('Delete', $this->getModuleUrl() . 'Delete/Category', 'Remove');
+		$view->addSingleAction('New Category', $moduleUrl . 'Add/', 'Add');
+
+		$view->addCommonAction('Edit', $moduleUrl . 'Edit/Category', 'Edit');
+		$view->addCommonAction('Add/Remove Fields', $moduleUrl . 'addFields/Category', 'AddFields');
+		$view->addCommonAction('Edit Fields Ordering', $moduleUrl . 'EditFieldsSortOrder/Category', 'FieldsOrdering');
+		$view->addCommonAction('Edit Fields Groups Ordering', $moduleUrl . 'EditGroupsSortOrder/Category', 'FieldsGroupsOrdering');
+		$view->addCommonAction('Edit Filter Fields', $moduleUrl . 'EditFilterFields/Category', 'EditFilter');
+		$view->addCommonAction('Add Product', $moduleUrl . 'addProduct/Category', 'Add');
+		$view->addCommonAction('Delete', $moduleUrl . 'Delete/Category', 'Remove');
 	}
 
 	public function deleteAction()
@@ -115,14 +122,6 @@ class Categories extends PTA_WebModule
 		$this->setVar('tplMode', 'addFields');
 
 		$editForm = new Categories_addFieldsForm('addFieldsForm', $this->_category);
-		$this->addVisual($editForm);
-	}
-
-	public function delFieldsAction()
-	{
-		$this->setVar('tplMode', 'delFields');
-
-		$editForm = new Categories_delFieldsForm('delFieldsForm', $this->_category);
 		$this->addVisual($editForm);
 	}
 
@@ -149,6 +148,14 @@ class Categories extends PTA_WebModule
 		$this->setVar('tplMode', 'EditGroupsSortOrder');
 		$this->addVisual(
 			new Categories_GroupsSortOrderForm('groupsSortOrderForm', $this->_category)
+		);
+	}
+
+	public function editFilterFields()
+	{
+		$this->setVar('tplMode', 'EditFilterFields');
+		$this->addVisual(
+			new Categories_addFilterFieldsForm('filterFieldsForm', $this->_category)
 		);
 	}
 }

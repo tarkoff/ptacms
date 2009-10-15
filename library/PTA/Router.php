@@ -47,7 +47,7 @@ class PTA_Router extends PTA_Object {
 		if(!empty($route)){
 			$route = parse_url($route);
 		}else{
-			$route = parse_url($_SERVER['REQUEST_URI']);
+			$route = parse_url(getenv('REQUEST_URI'));
 		}
 
 		if (empty($route['path'])) return ;
