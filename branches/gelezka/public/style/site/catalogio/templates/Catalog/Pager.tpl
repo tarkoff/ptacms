@@ -29,34 +29,16 @@
 {if !empty($catalogObject)}
 	{assign var="sponsoredLinks" value=$catalogObject->getSponsoredLinks()}
 {/if}
-{if !empty($sponsoredLinks)}
-	<!-- Sponsored links -->
+<!-- Sponsored links -->
 	<div class="title03-top"></div>
 	<div class="title03">
 
-		<h3 class="nom">Лучшие предложения:</h3>
+		<h3 class="nom">Лучшие предложения партнеров:</h3>
 
-		<ol class="cat-results">
-			<li>
-				<h4><a href="">Lorem ipsum dolor sit amete</a> &ndash; <span><a href="" class="ico-card">Details</a></span></h4>
-				<p><span class="high">http://www.server.com/index.php</span><br />
-				Lorem ipsum dolor sit amete, consectetuer adipiscing elit. Integer eget risus a ante gravida suscipit. Maecenas luctus metus. Pellentesque habitant esti. Lorem ipsum dolor sit amete, consectetuer adipiscing elit. Integer eget risus a ante gravida suscipit. Maecenas luctus metus. Pellentesque esti.</p>
-			</li>
-			<li>
-				<h4><a href="">Lorem ipsum dolor sit amete</a> &ndash; <span><a href="" class="ico-card">Details</a></span></h4>
-				<p><span class="high">http://www.server.com/index.php</span><br />
-				Lorem ipsum dolor sit amete, consectetuer adipiscing elit. Integer eget risus a ante gravida suscipit. Maecenas luctus metus. Pellentesque habitant esti. Lorem ipsum dolor sit amete, consectetuer adipiscing elit. Integer eget risus a ante gravida suscipit. Maecenas luctus metus. Pellentesque esti.</p>
-			</li>
-			<li>
-				<h4><a href="">Lorem ipsum dolor sit amete</a> &ndash; <span><a href="" class="ico-card">Details</a></span></h4>
-				<p><span class="high">http://www.server.com/index.php</span><br />
-				Lorem ipsum dolor sit amete, consectetuer adipiscing elit. Integer eget risus a ante gravida suscipit. Maecenas luctus metus. Pellentesque habitant esti. Lorem ipsum dolor sit amete, consectetuer adipiscing elit. Integer eget risus a ante gravida suscipit. Maecenas luctus metus. Pellentesque esti.</p>
-			</li>
-		</ol>
+		<div id="mix_block_12949300631294932072" class="cat-results"></div>
 
 	</div>
 	<div class="title03-bottom"></div>
-{/if}
 
 <ol class="cat-results">
 	{if !empty($view->prodsDefaultCats)}
@@ -92,3 +74,8 @@
 
 <!-- Pagination -->
 {fun name="pagination" nav=$view}
+{literal}
+<script type="text/javascript">
+document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&layout=T3&picsize=50&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+</script>
+{/literal}

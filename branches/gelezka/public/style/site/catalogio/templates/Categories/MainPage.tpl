@@ -2,7 +2,7 @@
 <div class="box">
 
 	<div id="col-l">
-
+		{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'html'}
 		<div class="title01-top"></div>
 		<div class="title01">
 			<div class="title01-in">
@@ -43,19 +43,10 @@
 
 	<!-- Sidebar -->
 	<div id="col-r" class="noprint">
-	{literal}
-		<script type="text/javascript"><!--
-			google_ad_client = "pub-1610147099732550";
-			/* 250x250, gelezka_main_square */
-			google_ad_slot = "5826348543";
-			google_ad_width = 250;
-			google_ad_height = 250;
-			//-->
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	{/literal}
+	{include file="ads/adsense_250x250.tpl}
 		{*include file="Users/LoginForm.tpl"*}
 		{*include file="Catalog/Tabs.tpl"*}
 	</div> <!-- /col-r -->
 </div> <!-- /box -->
 {include file="Catalog/MostRecent.tpl"}
+{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js'}
