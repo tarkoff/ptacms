@@ -74,7 +74,7 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
 .ul-style01 li {margin:0; padding:0;}
 
 .ul-categories {margin:20px 0; padding:0; list-style:none;}
-.ul-categories li {margin:0; padding:0; display:block; float:left; width:270px; margin-right:10px; padding-left:20px; background:url("../img/folder.gif") 0 4px no-repeat;}
+.ul-categories li {margin:0 10px 10px 0; padding:0; display:block; float:left; width:270px; padding-left:20px; background:url("../img/folder.gif") 0 4px no-repeat;}
 
 .table-style01 td {padding:3px 0;}
 
@@ -309,11 +309,10 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 
 /* -- MixMarket -- */
 .img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}
-#mix_block_12949300631294932072, .mix_horiz_tr{height:120px; overflow:hidden;}
-.mix_inter table{margin:0;}
+
+.mix_inter table{margin:2px;}
 .mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
 .mix_outer .mix_horiz_td {border:none;}
-#mix_block_12949300631294932072 img{margin:0;padding:0;font-size:0;line-height:0;}
 
 /* -------------- Products ---------------------------------------------------*/
 .prpiceInput{

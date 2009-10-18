@@ -43,13 +43,11 @@
 	{* include file="Catalog/searchForm.tpl" form=$Catalog->searchForm *}
 	{include file="Catalog/searchFormAdSense.tpl"}
 
-	<div id="mix_block_12949300631294932072"></div>
-
 	<!-- Content -->
 	<div id="page" class="box">
 		{include file=$activeModule->tpl data=$activeModule}
 	</div> <!-- /page -->
-
+{literal}
 	<div id="adsense_bottomh" class="big_hor">
 		<script type="text/javascript">
 			<!--
@@ -62,7 +60,7 @@
 		</script>
 		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 	</div>
-
+{/literal}
 	{include file="Footer.tpl"}
 </div> <!-- /main -->
 {include file="debuger.tpl" app=$Gelezka}
@@ -80,11 +78,6 @@
 	<script type="text/javascript">
 		window.google_analytics_uacct = "UA-9266190-2";
 	</script>
-
-<!-- MixMarket -->
-<script type="text/javascript">
-document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>')
-</script>
 {/literal}
 </body>
 </html>
