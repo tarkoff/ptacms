@@ -20,12 +20,12 @@ class Catalog_FilterForm extends PTA_Control_Form
 	{
 		$this->setAction($this->getApp()->getBaseUrl() . '/Catalog/Search');
 		
-		$title = new PTA_Control_Form_Text('searchRequest', 'Search', true, '');
-		$title->setSortOrder(1);
+		$title = new PTA_Control_Form_Text('searchRequest', 'Search', true);
+		$title->setSortOrder(10);
 		$this->addVisual($title);
 
 		$submit = new PTA_Control_Form_Submit('submit', 'Search', true, 'Search');
-		$submit->setSortOrder(2);
+		$submit->setSortOrder(30);
 		$this->addVisual($submit);
 	}
 

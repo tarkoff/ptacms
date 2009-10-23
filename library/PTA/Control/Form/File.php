@@ -56,9 +56,9 @@ class PTA_Control_Form_File extends PTA_Control_Form_Field
 	public function isImage($isImage = true)
 	{
 		if ($isImage) {
-			$this->_uploader->addValidator('IsImage', false, 'jpg, jpeg,png,gif');
+			$this->_uploader->addValidator('IsImage', false, 'jpg,jpeg,png,gif');
 			$this->_uploader->addValidator('MimeType', false, 'image');
-			$this->_uploader->addValidator('Extension', false, 'jpg, jpeg,png,gif');
+			$this->_uploader->addValidator('Extension', false, 'jpg,jpeg,png,gif');
 /*
 			$this->_uploader->addValidator('ImageSize', false,
 									array(

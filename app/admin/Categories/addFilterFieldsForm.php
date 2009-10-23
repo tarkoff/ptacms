@@ -37,7 +37,28 @@ class Categories_addFilterFieldsForm extends PTA_Control_Form
 		$select = new PTA_Control_Form_Hidden('filterFields', 'Category Fields', false);
 		$select->setSortOrder(110);
 		$this->addVisual($select);
-		
+
+		$fieldType = new PTA_Control_Form_Hidden('fieldtype', 'Field Type', false);
+		$fieldType->setSortOrder(115);
+		$this->addVisual($fieldType);
+
+		$this->setVar(
+			'fieldsTypes',
+			array(
+				array(PTA_Control_Form_Field::TYPE_SELECT, 'Select'),
+				array(PTA_Control_Form_Field::TYPE_TEXT, 'Text'),
+				array(PTA_Control_Form_Field::TYPE_CHECKBOX, 'Checkbox')
+			)
+		);
+
+		$select = new PTA_Control_Form_Hidden('sortOrder', 'Field Sort Order', false);
+		$select->setSortOrder(120);
+		$this->addVisual($select);
+
+		$select = new PTA_Control_Form_Hidden('autocomplete', 'Field Autocomplete', false);
+		$select->setSortOrder(130);
+		$this->addVisual($select);
+
 		$this->setVar('filterFields', $filterFields);
 		$this->setVar('notFilterFields', $notFilterFields);
 

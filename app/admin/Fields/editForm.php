@@ -14,7 +14,7 @@ class Fields_editForm extends PTA_Control_Form
 	private $_field;
 	private $_copy;
 
-	public function __construct($prefix, $field, $copy = false)
+	public function __construct($prefix, PTA_Catalog_Field $field, $copy = false)
 	{
 		$this->_field = $field;
 		$this->_copy = $copy;
@@ -28,24 +28,28 @@ class Fields_editForm extends PTA_Control_Form
 	{
 		$title = new PTA_Control_Form_Text('title', 'Field Title', true, '');
 		$title->setSortOrder(100);
-		$title->setCssClass('textField');
 		$this->addVisual($title);
 
 		$alias = new PTA_Control_Form_Text('alias', 'Field Alias', true, '');
 		$alias->setSortOrder(200);
-		$alias->setCssClass('textField');
 		$this->addVisual($alias);
 
 		$fieldType = new PTA_Control_Form_Select(
 			'fieldtype', 'Field Type', true, 
 			array(
-				array(PTA_Control_Form_Field::TYPE_SELECT, 'Select')
+				array(PTA_Control_Form_Field::TYPE_SELECT, 'Select'),
+				array(PTA_Control_Form_Field::TYPE_TEXT, 'Text'),
+				array(PTA_Control_Form_Field::TYPE_CHECKBOX, 'Checkbox')
 			)
 		);
 		$fieldType->setSortOrder(300);
-		$fieldType->setCssClass('textField');
 		$this->addVisual($fieldType);
-		
+
+		$autoc = new PTA_Control_Form_Checkbox('autocomplete', 'Autocomplete', false, '1');
+		$autoc->setChecked(false);
+		$autoc->setSortOrder(320);
+		$this->addVisual($autoc);
+
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save Field');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
@@ -78,6 +82,10 @@ class Fields_editForm extends PTA_Control_Form
 
 		if ($this->_copy) {
 			$this->_field->setId(null);
+		}
+
+		if (empty($data->autocomplete)) {
+			$this->_field->setAutocomplete(0);
 		}
 
 		if ($this->_field->save() || $this->_copy) {

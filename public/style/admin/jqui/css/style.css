@@ -220,8 +220,6 @@
 
 /* ---------------- Froms -----------------------------------------------------*/
 .form{
-	padding:5px;
-	color:#464646;
 	width:auto;
 }
 .form input, .form select, .form textarea, .quicksearch input{
@@ -244,6 +242,8 @@
 	padding:0;
 }
 
+.form input.text { width:95%; padding: .4em; }
+
 /* ----- New field value form ------ */
 .newValueForm fieldset{
 	width:auto;
@@ -252,4 +252,3 @@
 .newValueForm fieldset input{
 	width: 95%;
 }
- 
