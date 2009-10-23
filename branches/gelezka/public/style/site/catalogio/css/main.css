@@ -313,7 +313,8 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 .mix_inter table{margin:2px;}
 .mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
 .mix_outer .mix_horiz_td {border:none;}
-
+#mixkt_4294945452 * { background:#F4FDE8; }
+#mixkt_4294945452 a { font-weight:bold; }
 /* -------------- Products ---------------------------------------------------*/
 .prpiceInput{
 	border:1px solid #CCCCCC;

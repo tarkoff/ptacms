@@ -20,7 +20,6 @@
 			$("#newValueForm").dialog({
 				bgiframe: true,
 				autoOpen: false,
-				height: 216,
 				modal: true,
 				show: 'scale',
 				buttons: {

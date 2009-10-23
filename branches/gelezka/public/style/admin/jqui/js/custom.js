@@ -1,6 +1,6 @@
 $(document).ready(function() { 
 	//Apply theme style for form inputes
-	$('input[type="text"], textarea').addClass('text ui-corner-all');
+	$('input[type="text"], input[type="password"], textarea').addClass('text ui-corner-all');
 	$('input[type="submit"]').addClass('btn ui-state-default ui-corner-all');
 
 	// SideBar Menu Accordion
@@ -34,6 +34,33 @@ $(document).ready(function() {
 	//Set records per page
 	$('#rpp').change(function() {
 		location.href = '?rpp=' + $(this).val();
+	});
+	
+	//Warning message befor delete
+	$("#removeWarning").dialog({
+		bgiframe: true,
+		resizable: false,
+		autoOpen: false,
+		modal: true,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'Yes': function() {
+				$(this).dialog('close');
+				document.location = $("a:has(.ui-icon-trash)").attr('href');
+			},
+			'No': function() {
+				$(this).dialog('close');
+				return false
+			}
+		}
+	});
+
+	$("a:has(.ui-icon-trash)").click(function(e) {
+		e.preventDefault();
+		$('#removeWarning').dialog('open');
 	});
 
 });

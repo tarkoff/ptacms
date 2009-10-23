@@ -3,7 +3,7 @@
  * Catalog Category Filter Field
  *
  * @package PTA_Catalog
- * @copyright  2008 P.T.A. Studio
+ * @copyright  2009 P.T.A. Studio
  * @license	http://framework.zend.com/license   BSD License
  * @version	$Id: CategoryField.php 62 2009-05-31 16:59:23Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
@@ -13,7 +13,9 @@ class PTA_Catalog_Category_Filter_Field extends PTA_DB_Object
 {
 	private $_categoryId;
 	private $_categoryFieldId;
+	private $_fieldType;
 	private $_sortOrder;
+	private $_autocomplete = 0;
 
 	public function getCategoryId()
 	{
@@ -45,24 +47,23 @@ class PTA_Catalog_Category_Filter_Field extends PTA_DB_Object
 		$this->_sortOrder = (int)$value;
 	}
 
-	/**
- 	 * Load object By ID
-	 *
-	 * @method loadById
-	 * @access public
-	 * @param int $id
-	 * @return boolean
-	*/	
-	public function loadByCategoryId($id)
+	public function getFieldType()
 	{
-		$info = $this->getTable()->findById(intval($id));
-
-		if (empty($info)) {
-			return false;
-		}
-
-		$this->loadFrom(current($info));
-		return true;
+		return $this->_fieldType;
 	}
 
+	public function setFieldType($fieldType)
+	{
+		$this->_fieldType = $fieldType;
+	}
+
+	public function getAutocomplete()
+	{
+		return $this->_autocomplete;
+	}
+
+	public function setAutocomplete($autocomplete = 0)
+	{
+		$this->_autocomplete = intval((boolean)$autocomplete);
+	}
 }

@@ -14,6 +14,7 @@ class PTA_Catalog_Field extends PTA_DB_Object
 	private $_title;
 	private $_alias;
 	private $_fieldType;
+	private $_autocomplete = 0;
 
 	public function getCategoryId()
 	{
@@ -53,5 +54,15 @@ class PTA_Catalog_Field extends PTA_DB_Object
 	public function setFieldType($fieldType)
 	{
 		$this->_fieldType = $fieldType;
+	}
+
+	public function getAutocomplete()
+	{
+		return $this->_autocomplete;
+	}
+
+	public function setAutocomplete($autocomplete = 0)
+	{
+		$this->_autocomplete = intval((boolean)$autocomplete);
 	}
 }

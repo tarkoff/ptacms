@@ -32,11 +32,8 @@
 <!-- Sponsored links -->
 	<div class="title03-top"></div>
 	<div class="title03">
-
 		<h3 class="nom">Лучшие предложения партнеров:</h3>
-
-		<div id="mix_block_12949300631294932072" class="cat-results"></div>
-
+		<div id="mixkt_4294945452" class="mix_blue"></div>
 	</div>
 	<div class="title03-bottom"></div>
 
@@ -76,6 +73,6 @@
 {fun name="pagination" nav=$view}
 {literal}
 <script type="text/javascript">
-document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932072/&layout=T3&picsize=50&div=mix_block_12949300631294932072&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+if (document.getElementById('mixkt_4294945452')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/show/4294945452/&div=mixkt_4294945452&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
 </script>
 {/literal}
