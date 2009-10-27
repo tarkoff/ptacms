@@ -11,28 +11,28 @@
 	</database>
 	<tables>
 		<advertizers>
-			<table>MIXMART_ADVERTIZERS</table>
+			<name>MIXMART_ADVERTIZERS</name>
 			<fields>
 				<id>ADVERTIZERS_ID</id>
 				<title>ADVERTIZERS_TITLE</title>
 			</fields>
 		</advertizers>
 		<regions_delivery>
-			<table>MIXMART_REGIONSDELIVERY</table>
+			<name>MIXMART_REGIONSDELIVERY</name>
 			<fields>
 				<id>REGIONSDELIVERY_ID</id>
 				<title>REGIONSDELIVERY_TITLE</title>
 			</fields>
 		</regions_delivery>
 		<adv_region_delivery>
-			<table>MIXMARKET_ADVREGIONDELIVERY</table>
+			<name>MIXMARKET_ADVREGIONDELIVERY</name>
 			<fields>
 				<advid>ADVREGIONDELIVERY_ADVID</advid>
 				<rdid>ADVREGIONDELIVERY_RDID</rdid>
 			</fields>
 		</adv_region_delivery>
 		<regions_geotarget>
-			<table>MIXMARKET_REGIONSGEOTAGRET</table>
+			<name>MIXMARKET_REGIONSGEOTAGRET</name>
 			<fields>
 				<id>REGIONSGEOTAGRET_ID</id>
 				<pid>REGIONSGEOTAGRET_PID</pid>
@@ -40,28 +40,28 @@
 			</fields>
 		</regions_geotarget>
 		<adv_region_geotarget>
-			<table>MIXMARKET_ADVREGIONGEOTARGET</table>
+			<name>MIXMARKET_ADVREGIONGEOTARGET</name>
 			<fields>
 				<advid>ADVREGIONGEOTARGET_ADVID</advid>
 				<rgtid>ADVREGIONGEOTARGET_RGTID</rgtid>
 			</fields>
 		</adv_region_geotarget>
 		<currencies>
-			<table>MIXMARKET_CURRENCIES</table>
+			<name>MIXMARKET_CURRENCIES</name>
 			<fields>
 				<id>CURRENCIES_ID</id>
 				<rate>CURRENCIES_RATE</rate>
 			</fields>
 		</currencies>
 		<brands>
-			<table>MIXMARKET_BRANDS</table>
+			<name>MIXMARKET_BRANDS</name>
 			<fields>
 				<id>BRANDS_ID</id>
 				<title>BRANDS_TITLE</title>
 			</fields>
 		</brands>
 		<categories>
-			<table>MIXMARKET_CATEGORIES</table>
+			<name>MIXMARKET_CATEGORIES</name>
 			<fields>
 				<id>CATEGORIES_ID</id>
 				<parentId>CATEGORIES_PID</parentId>
