@@ -1,19 +1,44 @@
 <?php
+/**
+ * Class for parsing incomming MixMarket xml file and store it to database
+ *
+ * @package    Tools
+ * @copyright  Copyright (c) 2009 Taras Pavuk (tpavuk@gmail.com)
+ * @license    BSD License
+ */
+
 require_once 'Zend/Config/Xml.php';
 require_once 'Zend/Db.php';
 
 class MixParser
 {
 	/**
+	 * Database adapter
 	 * 
 	 * @var Zend_Db_Adapter_Abstract
 	 */
 	protected $_db;
+	
+	/**
+	 * Xml file name  for parsing
+	 * 
+	 * @var string
+	 */
 	protected $_xmlFile;
-	protected $_xml;
-	protected $_zipEnabled = false;
-	protected $_loadMode = self::LOAD_LOCAL;
-	protected $_config = array();
+
+	/**
+	 * Xml parser object
+	 * 
+	 * @var unknown_type
+	 */
+	protected $_parser;
+
+	/**
+	 * Database and other settings
+	 * 
+	 * @var Zend_Config_Xml
+	 */
+	protected $_config;
 
 	protected $_section;
 	protected $_currentTag;
@@ -22,33 +47,57 @@ class MixParser
 
 	protected static $_configFile = 'config.xml';
 
-	const LOAD_LOCAL = 0;
-	const LOAD_REMOTE = 1;
-	
 	const SECTION_INIT = 0;
 	const SECTION_RUN = 1;
 	const SECTION_FLUSH = 2;
 
 	public function __construct($file)
 	{
+		$this->alert('Parsing started');
+
 		$this->_xmlFile = $file;
-		if (strpos($file, 'http://') !== false) {
-			$this->setLoadMode(self::LOAD_REMOTE);
-		}
-		
+
+		$this->_parser = xml_parser_create('UTF-8');
+		xml_set_object($this->_parser, $this);
+
+		xml_parser_set_option($this->_parser, XML_OPTION_TARGET_ENCODING, 'UTF-8');
+		xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, 0);
+		xml_parser_set_option($this->_parser, XML_OPTION_SKIP_WHITE, 1); 
+
+		xml_set_element_handler($this->_parser, 'startElement', 'endElement');
+		xml_set_character_data_handler($this->_parser, 'textData');
 	}
 
+	public function __destruct()
+	{
+		xml_parser_free( $this->_parser );
+		$this->alert('Parsing finished');
+	}
+
+	public function init()
+	{
+		$this->_initConfig();
+		$this->_initDb();
+	}
+
+	/**
+	 * Connect to dtabase
+	 * 
+	 * @return boolean
+	 */
 	protected function _initDb()
 	{
 		$this->_db = Zend_Db::factory($this->_config->database);
 		is_object($this->_db) || trigger_error('Database connection error.', E_USER_ERROR);
+		return true;
 	}
 
-	public function setLoadMode($mode = self::LOAD_LOCAL)
-	{
-		$this->_loadMode = ((self::LOAD_LOCAL == intval($mode)) ? self::LOAD_LOCAL : self::LOAD_REMOTE);
-	}
-
+	/**
+	 * Set config file
+	 * 
+	 * @param string $file
+	 * @return void
+	 */
 	public function setConfigFile($file = '')
 	{
 		if (file_exists($file)) {
@@ -56,67 +105,80 @@ class MixParser
 		}
 	}
 
-	protected function _parseConfig()
+	/**
+	 * Parse config xml file
+	 * 
+	 * @return boolean
+	 */
+	protected function _initConfig()
 	{
 		$this->_config = new Zend_Config_Xml(self::$_configFile);
 		!empty($this->_config) || trigger_error('Config file not found.', E_USER_ERROR);
+		return $this->_config;
 	}
 
+	/**
+	 * Parse MixMarket xml file
+	 * 
+	 * @return boolean
+	 */
 	public function parse()
 	{
-		$this->_parseConfig();
-		$this->_initDb();
-
-		$parser = xml_parser_create('UTF-8');
-
-		xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, 'UTF-8');
-		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
-		xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1); 
-
-		xml_set_element_handler( $parser, array($this, 'startElement'), array($this, 'endElement'));
-		xml_set_character_data_handler( $parser, array($this, 'textData'));
-
 		$fp = fopen( $this->_xmlFile, 'r' );
 
 		$data = null;
 		while( !feof($fp) ) {
 			$data = str_replace('&', '__-xxx-__', fgets($fp, 4096));
-			if (!xml_parse( $parser, $data, feof($fp) )) {
+			if (!xml_parse($this->_parser, $data, feof($fp))) {
 				trigger_error(
 					sprintf(
 						'XML Error: %s in line %d',
-						xml_error_string(xml_get_error_code($parser)),
-						xml_get_current_line_number($parser)
+						xml_error_string(xml_get_error_code($this->_parser)),
+						xml_get_current_line_number($this->_parser)
 					),
 					E_USER_ERROR
 				);
 			}
 		}
+		fclose($fp);
 
-		xml_parser_free( $parser );
+		return true;
 	}
-	
-	protected function _getXml($url = null)
+
+	/**
+	 * Clear database tables
+	 * 
+	 * @return boolean
+	 */
+	public function clearTables()
 	{
-		!empty($url) || $url = $this->_url;
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//		curl_setopt($ch, CURLOPT_TIMEOUT, 4);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-
-		$data = curl_exec($ch);
-		if (curl_errno($ch)) {
-			trigger_error(curl_error($ch));
+		if (empty($this->_config->tables)) {
 			return false;
-		} else {
-			curl_close($ch);
 		}
 
-		return $data;
+		$this->_db->beginTransaction();
+		foreach ($this->_config->tables as $table) {
+			if (!empty($table->name)) {
+				$this->_db->query('truncate table ' . $table->name);
+				$this->alert('Table ' . $table->name . ' truncated');
+			}
+		}
+		return $this->_db->commit();
 	}
 
+	public function alert($message)
+	{
+		echo date(DATE_RFC822) . ' : ' . $message . "\n";
+	}
+
+	/**
+	 * Parsing xml element open tag
+	 * 
+	 * @param object $parser
+	 * @param string $name
+	 * @param array $attrs
+	 * @return void
+	 */
 	protected function startElement($parser, $name, $attrs)
 	{
 		$this->_currentTag = $name;
@@ -180,9 +242,17 @@ class MixParser
 		}
 	}
 
+	/**
+	 * Parsing xml element close tag
+	 * 
+	 * @param object $parser
+	 * @param string $name
+	 * @return void
+	 */
 	protected function endElement($parser, $name)
 	{
 		$this->_currentTag = $name;
+		$this->_currentText = trim($this->_currentText);
 
 		switch ($name) {
 			case 'advertizers':
@@ -298,12 +368,18 @@ class MixParser
 		$this->_currentText = null;
 	}
 
+	/**
+	 * Parsing xml element text content
+	 * 
+	 * @param object $parser
+	 * @param string $text
+	 * @return void
+	 */
 	protected function textData($parser, $text)
 	{
-
-		$text = str_replace('__-xxx-__amp;', '&', $text);
-		$this->_currentText .= $text;
-		var_dump($this->_currentTag . ' == ' . $this->_currentText . "\n");
+		if (strlen($this->_currentText) < 500) {
+			$this->_currentText .= str_replace(array('__-xxx-__amp;', '__-xxx-__'), '&', $text);
+		}
 	}
 
 	protected function _parseAdvertizers($attrs = array(), $mode = self::SECTION_INIT)
@@ -585,7 +661,7 @@ class MixParser
 		if (
 			!empty($values)
 			&& (
-				$bulkPos % 50 == 0
+				($bulkPos % 50 == 0)
 				|| (self::SECTION_FLUSH == $mode && 'offers' == $this->_currentTag)
 			)
 		) {
@@ -612,31 +688,32 @@ class MixParser
 		}
 	}
 
+	/**
+	 * Save parsed data to database
+	 * 
+	 * @param array $data
+	 * @param string $table
+	 * @param array $sqlFields
+	 * @return boolean
+	 */
 	protected function _insert($data, $table, $sqlFields)
 	{
-		$fp = fopen('sqlLog.txt', "a");
-		
-		$sql = 'insert ignore into ' . $table 
-			. ' (' . implode(', ', $sqlFields) . ') ' . ' values ';
+		$sql = 'insert ignore into ' . $table . ' (' . implode(', ', $sqlFields) . ') values ';
 		$valSql = array();
-		$bulkPos = 1;
-		$this->_db->beginTransaction();
+		static $inserted = array();
+
 		foreach ($data as $values) {
 			$valSql[] = $this->_db->quoteInto(' (?)', $values);
-			if (($bulkPos % 50 == 0) && !empty($valSql)) {
-//var_dump($sql . implode(',', $valSql));
-fwrite($fp, $sql . implode(',', $valSql) . "\n\n");
-				$this->_db->query($sql . implode(',', $valSql));
-				$valSql = array();
-			}
-			$bulkPos++;
 		}
+
 		if (!empty($valSql)) {
-//var_dump($sql . implode(',', $valSql));
-fwrite($fp, $sql . implode(',', $valSql) . "\n\n");
-$this->_db->query($sql . implode(',', $valSql));
+			$this->_db->beginTransaction();
+			$this->_db->query($sql . implode(',', $valSql));
+			$inserted[$table] += count($valSql);
+			$this->alert($table . ' insert ' . $inserted[$table] . ' records');
+			return $this->_db->commit();
 		}
-fclose($fp);
-		return $this->_db->commit();
+
+		return false;
 	}
 }
