@@ -7,10 +7,10 @@ set_include_path(
 
 require './lib/MixParser.php';
 
-//$file = 'http://mixmarket.biz/mixml.plx?id=4294945418';
-$file = 'mixml.plx';
+define('MIX_XML_FILE', 'mixml.plx');
 
-$parser = new MixParser($file);
+$parser = new MixParser(MIX_XML_FILE);
 
-//$parser->setLoadMode(MixParser::LOAD_LOCAL);
+$parser->init();
+$parser->clearTables();
 $parser->parse();
