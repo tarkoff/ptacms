@@ -49,7 +49,11 @@ $(document).ready(function() {
 		buttons: {
 			'Yes': function() {
 				$(this).dialog('close');
-				document.location = $("a:has(.ui-icon-trash)").attr('href');
+				if (window.delUrl) {
+					document.location = window.delUrl;
+				} else {
+					alert('Delete dialog box error!');
+				}
 			},
 			'No': function() {
 				$(this).dialog('close');
@@ -59,6 +63,7 @@ $(document).ready(function() {
 	});
 
 	$("a:has(.ui-icon-trash)").click(function(e) {
+		window.delUrl = $(this).attr('href');
 		e.preventDefault();
 		$('#removeWarning').dialog('open');
 	});

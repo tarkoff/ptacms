@@ -417,7 +417,7 @@ abstract class PTA_App extends PTA_WebModule
 	public function getHttpVar($key, $withCookie = false)
 	{
 		if (($value = parent::getHttpVar($key))) {
-			return $value;
+			return $this->quote($value);
 		}
 
 		if (($value = $this->getRouter()->getQueryVar($key))) {

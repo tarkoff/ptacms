@@ -146,7 +146,7 @@ class Catalog extends PTA_WebModule
 	{
 		$photoId = $this->getApp()->getHttpVar('PhotoId');
 		$productId = 0;
-		
+
 		$photo = PTA_DB_Object::get('Catalog_Product_Photo', intval($photoId));
 		if ($photo->getId()) {
 			$productId = $photo->getProductId();
