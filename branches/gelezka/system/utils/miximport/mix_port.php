@@ -5,10 +5,11 @@ set_include_path(
 	. get_include_path() 
 );
 
-require 'Mix/Parser.php';
+require 'Mix/Port.php';
 
-$parser = new Mix_Parser('mixml.plx');
+$parser = new Mix_Port();
 
 $parser->init();
-$parser->clearTables();
-$parser->parse();
+$parser->portCategories();
+$parser->portBrands();
+$parser->portOffers();

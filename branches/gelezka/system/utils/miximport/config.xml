@@ -16,6 +16,7 @@
 				<id>ADVERTIZERS_ID</id>
 				<title>ADVERTIZERS_TITLE</title>
 			</fields>
+			<clear>0</clear>
 		</advertizers>
 		<regions_delivery>
 			<name>MIXMART_REGIONSDELIVERY</name>
@@ -23,6 +24,7 @@
 				<id>REGIONSDELIVERY_ID</id>
 				<title>REGIONSDELIVERY_TITLE</title>
 			</fields>
+			<clear>0</clear>
 		</regions_delivery>
 		<adv_region_delivery>
 			<name>MIXMARKET_ADVREGIONDELIVERY</name>
@@ -30,6 +32,7 @@
 				<advid>ADVREGIONDELIVERY_ADVID</advid>
 				<rdid>ADVREGIONDELIVERY_RDID</rdid>
 			</fields>
+			<clear>1</clear>
 		</adv_region_delivery>
 		<regions_geotarget>
 			<name>MIXMARKET_REGIONSGEOTAGRET</name>
@@ -38,6 +41,7 @@
 				<pid>REGIONSGEOTAGRET_PID</pid>
 				<title>REGIONSGEOTAGRET_TITLE</title>
 			</fields>
+			<clear>0</clear>
 		</regions_geotarget>
 		<adv_region_geotarget>
 			<name>MIXMARKET_ADVREGIONGEOTARGET</name>
@@ -45,6 +49,7 @@
 				<advid>ADVREGIONGEOTARGET_ADVID</advid>
 				<rgtid>ADVREGIONGEOTARGET_RGTID</rgtid>
 			</fields>
+			<clear>1</clear>
 		</adv_region_geotarget>
 		<currencies>
 			<name>MIXMARKET_CURRENCIES</name>
@@ -52,6 +57,7 @@
 				<id>CURRENCIES_ID</id>
 				<rate>CURRENCIES_RATE</rate>
 			</fields>
+			<clear>1</clear>
 		</currencies>
 		<brands>
 			<name>MIXMARKET_BRANDS</name>
@@ -59,6 +65,7 @@
 				<id>BRANDS_ID</id>
 				<title>BRANDS_TITLE</title>
 			</fields>
+			<clear>0</clear>
 		</brands>
 		<categories>
 			<name>MIXMARKET_CATEGORIES</name>
@@ -67,6 +74,7 @@
 				<parentId>CATEGORIES_PID</parentId>
 				<title>CATEGORIES_TITLE</title>
 			</fields>
+			<clear>0</clear>
 		</categories>
 		<offers>
 			<name>MIXMARKET_OFFERS</name>
@@ -85,6 +93,7 @@
 				<desc>OFFERS_DESC</desc>
 				<price>OFFERS_PRICE</price>
 			</fields>
+			<clear>1</clear>
 		</offers>
 	</tables>
 </configdata>

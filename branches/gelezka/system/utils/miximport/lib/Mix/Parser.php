@@ -7,18 +7,10 @@
  * @license    BSD License
  */
 
-require_once 'Zend/Config/Xml.php';
-require_once 'Zend/Db.php';
+require_once 'Mix/Abstract.php';
 
-class MixParser
+class Mix_Parser extends Mix_Abstract
 {
-	/**
-	 * Database adapter
-	 * 
-	 * @var Zend_Db_Adapter_Abstract
-	 */
-	protected $_db;
-	
 	/**
 	 * Xml file name  for parsing
 	 * 
@@ -33,19 +25,10 @@ class MixParser
 	 */
 	protected $_parser;
 
-	/**
-	 * Database and other settings
-	 * 
-	 * @var Zend_Config_Xml
-	 */
-	protected $_config;
-
 	protected $_section;
 	protected $_currentTag;
 	protected $_currentTagAttrs;
 	protected $_currentText;
-
-	protected static $_configFile = 'config.xml';
 
 	const SECTION_INIT = 0;
 	const SECTION_RUN = 1;
@@ -54,8 +37,6 @@ class MixParser
 	public function __construct($file)
 	{
 		$this->alert('Parsing started');
-
-		$this->_xmlFile = $file;
 
 		$this->_parser = xml_parser_create('UTF-8');
 		xml_set_object($this->_parser, $this);
@@ -66,55 +47,18 @@ class MixParser
 
 		xml_set_element_handler($this->_parser, 'startElement', 'endElement');
 		xml_set_character_data_handler($this->_parser, 'textData');
+
+		if (file_exists($file)) {
+			$this->_xmlFile = $file;
+		} else {
+			trigger_error('Xml file ' . $file . ' not found', E_USER_ERROR);
+		}
 	}
 
 	public function __destruct()
 	{
 		xml_parser_free( $this->_parser );
 		$this->alert('Parsing finished');
-	}
-
-	public function init()
-	{
-		$this->_initConfig();
-		$this->_initDb();
-	}
-
-	/**
-	 * Connect to dtabase
-	 * 
-	 * @return boolean
-	 */
-	protected function _initDb()
-	{
-		$this->_db = Zend_Db::factory($this->_config->database);
-		is_object($this->_db) || trigger_error('Database connection error.', E_USER_ERROR);
-		return true;
-	}
-
-	/**
-	 * Set config file
-	 * 
-	 * @param string $file
-	 * @return void
-	 */
-	public function setConfigFile($file = '')
-	{
-		if (file_exists($file)) {
-			self::$_configFile = $file;
-		}
-	}
-
-	/**
-	 * Parse config xml file
-	 * 
-	 * @return boolean
-	 */
-	protected function _initConfig()
-	{
-		$this->_config = new Zend_Config_Xml(self::$_configFile);
-		!empty($this->_config) || trigger_error('Config file not found.', E_USER_ERROR);
-		return $this->_config;
 	}
 
 	/**
@@ -124,7 +68,11 @@ class MixParser
 	 */
 	public function parse()
 	{
-		$fp = fopen( $this->_xmlFile, 'r' );
+		if (!file_exists($this->_xmlFile)) {
+			trigger_error('Xml file ' . $file . ' not found', E_USER_ERROR);
+		}
+
+		$fp = fopen($this->_xmlFile, 'r' );
 
 		$data = null;
 		while( !feof($fp) ) {
@@ -143,32 +91,6 @@ class MixParser
 		fclose($fp);
 
 		return true;
-	}
-
-	/**
-	 * Clear database tables
-	 * 
-	 * @return boolean
-	 */
-	public function clearTables()
-	{
-		if (empty($this->_config->tables)) {
-			return false;
-		}
-
-		$this->_db->beginTransaction();
-		foreach ($this->_config->tables as $table) {
-			if (!empty($table->name)) {
-				$this->_db->query('truncate table ' . $table->name);
-				$this->alert('Table ' . $table->name . ' truncated');
-			}
-		}
-		return $this->_db->commit();
-	}
-
-	public function alert($message)
-	{
-		echo date(DATE_RFC822) . ' : ' . $message . "\n";
 	}
 
 	/**
