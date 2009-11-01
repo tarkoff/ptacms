@@ -23,9 +23,10 @@ class Mix_Port extends Mix_Abstract
 				. 'from CATALOG_CATEGORIES where CATEGORIES_ISPUBLIC = 1'
 		);
 
-		$db->beginTransaction();
+		$insertValues = array();
+		$bulkPos = 1;
 		foreach ($catalogCategories as $catId => $catTitle) {
-			$sql = 'update MIXMARKET_CATEGORIES set CATEGORIES_CATALOGID = ' . $catId . ' where ';
+			$sql = 'select CATEGORIES_ID from MIXMARKET_CATEGORIES where ';
 			$keywords = explode(' ', $catTitle);
 			$sqlLikes = array();
 			$keywordsCnt = count($keywords);
@@ -39,11 +40,31 @@ class Mix_Port extends Mix_Abstract
 					}
 				}
 			}
-			$sql .= implode(' and ', $sqlLikes);
-			$this->alert($sql);
-			$db->query($sql);
+			$sql .= implode(' and ', $sqlLikes) . ' limit 1';
+
+			$mixId = $db->fetchOne($sql);
+			if (!empty($mixId)) {
+				$insertValues[] = "({$catId}, {$mixId})";
+			}
+
+			if ($bulkPos > self::QUERY_LIMIT) {
+				$db->query(
+					'insert ignore into MIXMARKET_LINKCATEGORIES '
+					. '(LINKCATEGORIES_CATALOGID, LINKCATEGORIES_MIXID) values '
+					. implode(', ', $insertValues)
+				);
+				$insertValues = array();
+				$bulkPos = 1;
+			}
 		}
-		$db->commit();
+
+		if (!empty($insertValues)) {
+			$db->query(
+				'insert ignore into MIXMARKET_LINKCATEGORIES '
+				. '(LINKCATEGORIES_CATALOGID, LINKCATEGORIES_MIXID) values '
+				. implode(', ', $insertValues)
+			);
+		}
 		$this->alert('Categories porting finished');
 	}
 	
@@ -56,13 +77,13 @@ class Mix_Port extends Mix_Abstract
 			'select BRANDS_ID, BRANDS_TITLE from CATALOG_BRANDS'
 		);
 
-		$db->beginTransaction();
+		$insertValues = array();
+		$bulkPos = 1;
 		foreach ($catalogBrands as $brandId => $brandTitle) {
-			$sql = 'update MIXMARKET_BRANDS set BRANDS_CATALOGID = ' . $brandId
-				. ' where ';
+			$sql = 'select BRANDS_ID from MIXMARKET_BRANDS where ';
 			$keywords = explode(' ', $brandTitle);
-			$keywordsCnt = count($keywords);
 			$sqlLikes = array();
+			$keywordsCnt = count($keywords);
 			foreach ($keywords as $keyword) {
 				$keyword = trim($keyword);
 				if (mb_strlen($keyword, 'UTF-8') > 1) {
@@ -73,11 +94,33 @@ class Mix_Port extends Mix_Abstract
 					}
 				}
 			}
-			$sql .= implode(' and ', $sqlLikes);
-			$this->alert($sql);
-			$db->query($sql);
+			$sql .= implode(' and ', $sqlLikes) . ' limit 1';
+
+			$mixId = $db->fetchOne($sql);
+			if (!empty($mixId)) {
+				$insertValues[] = "({$brandId}, {$mixId})";
+				$bulkPos++;
+			}
+
+			if ($bulkPos > self::QUERY_LIMIT) {
+				$db->query(
+					'insert ignore into MIXMARKET_LINKBRANDS '
+					. '(LINKBRANDS_CATALOGID, LINKBRANDS_MIXID) values '
+					. implode(', ', $insertValues)
+				);
+				$insertValues = array();
+				$bulkPos = 1;
+			}
 		}
-		$db->commit();
+
+		if (!empty($insertValues)) {
+			$db->query(
+					'insert ignore into MIXMARKET_LINKBRANDS '
+					. '(LINKBRANDS_CATALOGID, LINKBRANDS_MIXID) values '
+					. implode(', ', $insertValues)
+			);
+		}
+
 		$this->alert('Brands porting finished');
 	}
 	
@@ -87,33 +130,44 @@ class Mix_Port extends Mix_Abstract
 
 		$db = $this->_db;
 
-		$sql = 'select prods.PRODUCTS_ID as ID, prods.PRODUCTS_TITLE as TITLE, brands.BRANDS_ID as BRANDID, mixCats.CATEGORIES_ID as CATEGORYID '
-			. 'from CATALOG_PRODUCTS as prods inner join CATALOG_PRODUCTCATEGORIES as cats '
-				. 'on prods.PRODUCTS_ID = cats.PRODUCTCATEGORIES_PRODUCTID '
-			. 'inner join MIXMARKET_BRANDS as brands '
-				. 'on prods.PRODUCTS_BRANDID = brands.BRANDS_CATALOGID '
-			. 'inner join MIXMARKET_CATEGORIES as mixCats '
-				. 'on cats.PRODUCTCATEGORIES_ID = mixCats.CATEGORIES_CATALOGID '
-			. 'where cats.PRODUCTCATEGORIES_ISDEFAULT = 1 limit ';
+		$sql = 'select prods.PRODUCTS_ID, prods.PRODUCTS_BRANDID, cats.PRODUCTCATEGORIES_CATEGORYID, prods.PRODUCTS_TITLE '
+			. 'from CATALOG_PRODUCTS as prods '
+			. 'inner join CATALOG_PRODUCTCATEGORIES as cats on prods.PRODUCTS_ID = cats.PRODUCTCATEGORIES_PRODUCTID '
+			. ' where cats.PRODUCTCATEGORIES_ISDEFAULT = 1 limit ';
+
 		$offset = 0;
 		$prods = array();
-var_dump($sql);
-return;
+		$bulkPos = 1;
+		$insertValues = array();
 		while ($prods = $db->fetchAll($sql . $offset . ',' . self::QUERY_LIMIT)) {
 			foreach ($prods as $product) {
-				$updateSql = 'update MIXMARKET_OFFERS set OFFERS_CATALOGID = ' . $product['ID']
-					. ' where OFFERS_CAT OFFERS_BRANDID';
-				$keywords = explode(' ', $product['TITLE']);
+				$mixProdSql = 'select mo.OFFERS_ID from MIXMARKET_OFFERS as mo '
+					. ' inner join MIXMARKET_LINKCATEGORIES as mlc on mo.OFFERS_CATID = mlc.LINKCATEGORIES_MIXID '
+					. ' inner join MIXMARKET_LINKBRANDS as mlb on mo.OFFERS_BRANDID = mlb.LINKBRANDS_MIXID '
+						. ' where mlb.LINKBRANDS_CATALOGID = ' . $product['PRODUCTS_BRANDID']
+						. ' and mlc.LINKCATEGORIES_CATALOGID = ' . $product['PRODUCTCATEGORIES_CATEGORYID'] . ' and ';
+				$keywords = explode(' ', $product['PRODUCTS_TITLE']);
 				$sqlLikes = array();
 				foreach ($keywords as $keyword) {
 					$keyword = trim($keyword);
 					if (mb_strlen($keyword, 'UTF-8') > 1) {
-						$sqlLikes[] = 'UCASE(OFFERS_TITLE) like "%' . $keyword . '%"';
+						$sqlLikes[] = 'UCASE(mo.OFFERS_NAME) like "%' . $keyword . '%"';
 					}
 				}
-				$sql .= implode(' and ', $sqlLikes);
-				$this->alert($sql);
-				//$db->query($sql);
+				foreach ($db->fetchAll($mixProdSql . implode(' and ', $sqlLikes)) as $mixId) {
+					$insertValues[] = "({$product['PRODUCTS_ID']}, {$mixId['OFFERS_ID']})";
+					$bulkPos++;
+				}
+
+				if ($bulkPos > self::QUERY_LIMIT) {
+					$db->query(
+						'insert ignore into MIXMARKET_LINKOFFERS '
+						. '(LINKOFFERS_CATALOGID, LINKOFFERS_MIXID) values '
+						. implode(', ', $insertValues)
+					);
+					$insertValues = array();
+					$bulkPos = 1;
+				}
 			}
 			$offset += self::QUERY_LIMIT + 1;
 		}

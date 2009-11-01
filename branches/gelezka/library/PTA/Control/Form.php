@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-abstract class PTA_Control_Form extends PTA_Object 
+abstract class PTA_Control_Form extends PTA_Object
 {
 	protected $_elements = array();
 	protected $_data = array();
@@ -82,11 +82,11 @@ abstract class PTA_Control_Form extends PTA_Object
 	{
 		foreach ($this->getVisualAll() as $fieldAlias => $field) {
 			if (isset($data->$fieldAlias)) {
-				$field->setValue($data->$fieldAlias);
+				$field->setValue(trim($data->$fieldAlias));
 			} else {
 				$fieldAlias = strtolower($fieldAlias);
 				if (isset($data->$fieldAlias)) {
-					$field->setValue($data->$fieldAlias);
+					$field->setValue(trim($data->$fieldAlias));
 				}
 			}
 		}
@@ -166,7 +166,7 @@ abstract class PTA_Control_Form extends PTA_Object
 
 	public static function sortData($a, $b)
 	{
-		$orderA = (isset($a->sortOrder) ? $a->sortOrder : 0); 
+		$orderA = (isset($a->sortOrder) ? $a->sortOrder : 0);
 		$orderB = (isset($b->sortOrder) ? $b->sortOrder : 0);
 		
 		if ( $orderA == $orderB) {

@@ -8,7 +8,7 @@
  * @version	$Id$
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-class Catalog_editForm extends PTA_Control_Form 
+class Catalog_editForm extends PTA_Control_Form
 {
 	private $_product;
 	private $_category;
@@ -46,9 +46,11 @@ class Catalog_editForm extends PTA_Control_Form
 		$alias->setVar('groupId', 0);
 		$this->addVisual($alias);
 
+		$brands = PTA_DB_Table::get('Catalog_Brand')->getSelectedFields(array('id', 'title'));
+		usort($brands, array($this, '_sortOptions'));
 		$brand = new PTA_Control_Form_Select('brandId', 'Brand', false);
 		$brand->setSortOrder(16);
-		$brand->setOptions(PTA_DB_Table::get('Catalog_Brand')->getSelectedFields(array('id', 'title')));
+		$brand->setOptions($brands);
 		//$brand->addOption(array(0, '- Empty -'));
 		$brand->setSelected((int)$this->_product->getBrandId());
 		$brand->setVar('groupId', 0);
@@ -63,7 +65,7 @@ class Catalog_editForm extends PTA_Control_Form
 		$catsList = $catsTable->getSelectedFields(
 			array('id', 'title'),
 			$catsTable->getFieldByAlias('parentId') . ' <> 0'
-		); 
+		);
 
 		$prodCatsList = $prodCatTable->getProductCategories($this->_product->getId());
 		$defaultCategoryId = 0;
@@ -203,7 +205,7 @@ class Catalog_editForm extends PTA_Control_Form
 			);
 
 			$field = PTA_Control_Form_Field::getFieldByType(
-				$fieldArray[$fieldType], 
+				$fieldArray[$fieldType],
 				"{$fieldArray[$name]}_{$fieldArray[$fieldId]}",
 				$options
 			);
