@@ -7,4 +7,5 @@ wget --output-document=mixml.plx.gz "http://mixmarket.biz/mixml.plx?id=429494541
 gunzip -f mixml.plx.gz
 
 # Parse xml file
-php parser.php > mix_import.log
+php mix_import.php > mix_import.log
+php mix_port.php > mix_port.log

@@ -25,7 +25,8 @@ class Initialize
 
 	public static function initLoader()
 	{
-		Zend_Loader::registerAutoload();
+		$autoloader = Zend_Loader_Autoloader::getInstance();
+		$autoloader->setFallbackAutoloader(true);
 	}
 
 	public static function initTemplates()

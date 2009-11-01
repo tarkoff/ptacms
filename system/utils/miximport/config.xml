@@ -10,6 +10,21 @@
 		</params>
 	</database>
 	<tables>
+		<linkcategories>
+			<name>MIXMARKET_LINKCATEGORIES</name>
+			<fields></fields>
+			<clear>1</clear>
+		</linkcategories>
+		<linkbrands>
+			<name>MIXMARKET_LINKBRANDS</name>
+			<fields></fields>
+			<clear>1</clear>
+		</linkbrands>
+		<linkoffers>
+			<name>MIXMARKET_LINKOFFERS</name>
+			<fields></fields>
+			<clear>1</clear>
+		</linkoffers>
 		<advertizers>
 			<name>MIXMART_ADVERTIZERS</name>
 			<fields>
