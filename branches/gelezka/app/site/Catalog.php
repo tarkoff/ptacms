@@ -51,7 +51,12 @@ class Catalog extends PTA_WebModule
 				$this->redirect('/');
 			}
 		}
-		$this->setVar('view', $this->getCatalogPage($this->getCategoryId(), 1));
+		$catId = $this->getCategoryId();
+		$this->setVar('view', $this->getCatalogPage($catId, 1));
+		$this->getApp()->setVar(
+			'mixCategory',
+			PTA_DB_Table::get('MixMarket_Category')->getMixCategoryId($catId)
+		);
 	}
 	
 	public function searchAction()
@@ -124,7 +129,7 @@ class Catalog extends PTA_WebModule
 			$view->setTotalRecordsCnt(
 				$adapter->fetchOne(
 					'select count(distinct ' . $prodCatsTable->getFieldByAlias('productId') . ')'
-					. ' from ' . $prodCatsTable->getTableName() 
+					. ' from ' . $prodCatsTable->getTableName()
 						. ' where '
 						 . $adapter->quoteInto(
 							$prodCatsTable->getFieldByAlias('categoryId') . ' in (?)', $categoryId

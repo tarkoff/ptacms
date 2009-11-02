@@ -65,6 +65,16 @@
 </div> <!-- /main -->
 {include file="debuger.tpl" app=$Gelezka}
 {literal}
+	//Catalog Markets
+	<script type="text/javascript">
+		if (document.getElementById('mixkt_4294945452')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/show/4294945452/&div=mixkt_4294945452{/literal}{if !empty($Gelezka->mixCategory)}&cat_id={$Gelezka->mixCategory}{/if}{literal}&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
+	</script>
+
+	//ForOffice Banner
+	<script type="text/javascript">
+		if (document.getElementById('mix_block_12949300631294933091')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294933091/&div=mix_block_12949300631294933091&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+	</script>
+
 	<script type="text/javascript">
 		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

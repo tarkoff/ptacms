@@ -49,4 +49,4 @@
 	</div>
 </div>
 {include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}
-{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js'}
+{* include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js' *}

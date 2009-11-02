@@ -202,20 +202,45 @@
 	{/literal}
 
 	<ul class="descr-tabs"> 
-		<li><a href="#">Технические характеристики</a></li>
 		{if !empty($data->mixPrices)}<li><a href="#">Купить в России</a></li>{/if}
+		<li><a href="#">Технические характеристики</a></li>
 		<li><a href="#">Комментарии</a></li>
 		<li><a href="#">Продам Б/У</a></li>
 	</ul> 
 
 	<div class="descr-panes"> 
+		{if !empty($data->mixPrices)}
+			<div>
+				<table cols="2" class="width100" cellspacing="2">
+				{foreach from=$data->mixPrices item=offer}
+					<tr>
+						<td rowspan="2">
+							<a href="{$offer.OFFERS_URL}"><img src="{$offer.OFFERS_IMG}" height="{$offer.OFFERS_IMGH}" width="{$offer.OFFERS_IMGW}" /></a>
+						</td>
+						<th style="text-align:left;">
+							<a href="{$offer.OFFERS_URL}">{$offer.OFFERS_NAME}</a> - {$offer.OFFERS_PRICE} {if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}
+						</th>
+					</tr>
+					<tr>
+						<td>
+							{$offer.OFFERS_DESC|truncate:400}<br />
+							<a href="{$offer.OFFERS_URL}"><b>{$offer.ADVERTIZERS_TITLE}</b></a>
+						</td>
+					</tr>
+					<tr class="bb" style="margin-bottom:10px;">
+						<td colspan="2"></td>
+					</tr>
+				{/foreach}
+				</table>
+			</div>
+		{/if}
 		<div id="prodCustomDescr" class="box">
 		{if !empty($data->customFields)}
 			<table cols="2" class="width100">
 			{foreach from=$data->customFields item=group}
 				{if !empty($group.fields)}
 					<tr class="bb">
-						<th colspan="2" style="text-align:left;">{$group.FIELDSGROUPS_TITLE|default:'Разное'}</th>
+						<th colspan="2" style="text-align:left;">{$group.FIELDSGROUPS_TITLE|default:'Общие характеристики'}</th>
 					</tr>
 					<tr>
 						<td>
@@ -236,24 +261,6 @@
 			</table>
 		{/if}
 		</div>
-		{if !empty($data->mixPrices)}
-			<div>
-				<table class="width100">
-					<tr>
-						<th width="20%">Магазин</th>
-						<th width="70%">Описание</th>
-						<th width="10%">Цена</th>
-					</tr>
-				{foreach from=$data->mixPrices item=offer}
-					<tr>
-						<td><a href="{$offer.OFFERS_URL}">{$offer.ADVERTIZERS_TITLE}</a></td>
-						<td>{if empty($offer.OFFERS_DESC)}{$offer.OFFERS_NAME}{else}{$offer.OFFERS_DESC|truncate:400}{/if}</td>
-						<td><a href="{$offer.OFFERS_URL}">{$offer.OFFERS_PRICE}&nbsp;{if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}</a></td>
-					</tr>
-				{/foreach}
-				</table>
-			</div>
-		{/if}
 		<div id="prodComments">
 			{if $data->commentForm->submited}
 				{pta_const name="PTA_Control_Form::FORM_ERROR_VALIDATE" to="fieldsError"}
