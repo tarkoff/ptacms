@@ -202,7 +202,8 @@
 	{/literal}
 
 	<ul class="descr-tabs"> 
-		<li><a href="#">Технические характеристики</a></li> 
+		<li><a href="#">Технические характеристики</a></li>
+		{if !empty($data->mixPrices)}<li><a href="#">Купить в России</a></li>{/if}
 		<li><a href="#">Комментарии</a></li>
 		<li><a href="#">Продам Б/У</a></li>
 	</ul> 
@@ -235,6 +236,24 @@
 			</table>
 		{/if}
 		</div>
+		{if !empty($data->mixPrices)}
+			<div>
+				<table class="width100">
+					<tr>
+						<th width="20%">Магазин</th>
+						<th width="70%">Описание</th>
+						<th width="10%">Цена</th>
+					</tr>
+				{foreach from=$data->mixPrices item=offer}
+					<tr>
+						<td><a href="{$offer.OFFERS_URL}">{$offer.ADVERTIZERS_TITLE}</a></td>
+						<td>{if empty($offer.OFFERS_DESC)}{$offer.OFFERS_NAME}{else}{$offer.OFFERS_DESC|truncate:400}{/if}</td>
+						<td><a href="{$offer.OFFERS_URL}">{$offer.OFFERS_PRICE}&nbsp;{if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}</a></td>
+					</tr>
+				{/foreach}
+				</table>
+			</div>
+		{/if}
 		<div id="prodComments">
 			{if $data->commentForm->submited}
 				{pta_const name="PTA_Control_Form::FORM_ERROR_VALIDATE" to="fieldsError"}

@@ -9,12 +9,12 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_MixMarket_Advertizer_Table extends PTA_DB_Table 
+class PTA_MixMarket_Advertizer_Table extends PTA_DB_Table
 {
 	/**
-	 * The default table name 
+	 * The default table name
 	 */
-	protected $_name = 'MIXMARKET_BRANDS';
-	protected $_primary = 'BRANDS_ID';
+	protected $_name = 'MIXMART_ADVERTIZERS';
+	protected $_primary = 'ADVERTIZERS_ID';
 
 }

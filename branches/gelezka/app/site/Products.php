@@ -112,7 +112,7 @@ class Products extends PTA_WebModule
 				isset($fieldGroupsIds[$fieldId])
 				&& isset($fieldGroups[$fieldGroupsIds[$fieldId]])
 			) {
-				$fieldGroups[$fieldGroupsIds[$fieldId]]['fields'][] = $field; 
+				$fieldGroups[$fieldGroupsIds[$fieldId]]['fields'][] = $field;
 			} else {
 				$fieldGroups['else']['fields'][] = $field;
 			}
@@ -130,6 +130,7 @@ class Products extends PTA_WebModule
 			'secondHandPrices',
 			PTA_DB_Table::get('Catalog_Price')->getSecondHandPrices()
 		);
+		$this->setVar('mixPrices', PTA_DB_Table::get('MixMarket_Offer')->getOffers($productId));
 	}
 	
 	public function getHttpProduct()
