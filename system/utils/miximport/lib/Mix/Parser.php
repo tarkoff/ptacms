@@ -13,14 +13,14 @@ class Mix_Parser extends Mix_Abstract
 {
 	/**
 	 * Xml file name  for parsing
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_xmlFile;
 
 	/**
 	 * Xml parser object
-	 * 
+	 *
 	 * @var unknown_type
 	 */
 	protected $_parser;
@@ -43,7 +43,7 @@ class Mix_Parser extends Mix_Abstract
 
 		xml_parser_set_option($this->_parser, XML_OPTION_TARGET_ENCODING, 'UTF-8');
 		xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, 0);
-		xml_parser_set_option($this->_parser, XML_OPTION_SKIP_WHITE, 1); 
+		xml_parser_set_option($this->_parser, XML_OPTION_SKIP_WHITE, 1);
 
 		xml_set_element_handler($this->_parser, 'startElement', 'endElement');
 		xml_set_character_data_handler($this->_parser, 'textData');
@@ -63,7 +63,7 @@ class Mix_Parser extends Mix_Abstract
 
 	/**
 	 * Parse MixMarket xml file
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function parse()
@@ -75,8 +75,9 @@ class Mix_Parser extends Mix_Abstract
 		$fp = fopen($this->_xmlFile, 'r' );
 
 		$data = null;
+		$enc = iconv_get_encoding('input_encoding');
 		while( !feof($fp) ) {
-			$data = str_replace('&', '__-xxx-__', fgets($fp, 4096));
+			$data = iconv($enc, 'UTF-8', str_replace('&', '__-xxx-__', fgets($fp, 4092)));
 			if (!xml_parse($this->_parser, $data, feof($fp))) {
 				trigger_error(
 					sprintf(
@@ -95,7 +96,7 @@ class Mix_Parser extends Mix_Abstract
 
 	/**
 	 * Parsing xml element open tag
-	 * 
+	 *
 	 * @param object $parser
 	 * @param string $name
 	 * @param array $attrs
@@ -166,7 +167,7 @@ class Mix_Parser extends Mix_Abstract
 
 	/**
 	 * Parsing xml element close tag
-	 * 
+	 *
 	 * @param object $parser
 	 * @param string $name
 	 * @return void
@@ -292,7 +293,7 @@ class Mix_Parser extends Mix_Abstract
 
 	/**
 	 * Parsing xml element text content
-	 * 
+	 *
 	 * @param object $parser
 	 * @param string $text
 	 * @return void
@@ -612,7 +613,7 @@ class Mix_Parser extends Mix_Abstract
 
 	/**
 	 * Save parsed data to database
-	 * 
+	 *
 	 * @param array $data
 	 * @param string $table
 	 * @param array $sqlFields
