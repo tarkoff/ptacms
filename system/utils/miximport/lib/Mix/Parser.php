@@ -75,9 +75,12 @@ class Mix_Parser extends Mix_Abstract
 		$fp = fopen($this->_xmlFile, 'r' );
 
 		$data = null;
-		$enc = iconv_get_encoding('input_encoding');
 		while( !feof($fp) ) {
-			$data = iconv($enc, 'UTF-8', str_replace('&', '__-xxx-__', fgets($fp, 4092)));
+			$data = iconv(
+				'Windows-1251',
+				'UTF-8',
+				str_replace('&', '__-xxx-__', trim(fgets($fp, 4092)))
+			);
 			if (!xml_parse($this->_parser, $data, feof($fp))) {
 				trigger_error(
 					sprintf(

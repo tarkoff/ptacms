@@ -71,8 +71,3 @@
 
 <!-- Pagination -->
 {fun name="pagination" nav=$view}
-{literal}
-<script type="text/javascript">
-if (document.getElementById('mixkt_4294945452')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/show/4294945452/&div=mixkt_4294945452&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
-</script>
-{/literal}

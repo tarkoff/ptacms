@@ -9,12 +9,23 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_MixMarket_Category_Table extends PTA_DB_Table 
+class PTA_MixMarket_Category_Table extends PTA_DB_Table
 {
 	/**
-	 * The default table name 
+	 * The default table name
 	 */
 	protected $_name = 'MIXMARKET_CATEGORIES';
 	protected $_primary = 'CATEGORIES_ID';
 
+	public function getMixCategoryId($catId)
+	{
+		if (empty($catId)) {
+			return 0;
+		}
+
+		return $this->getAdapter()->fetchOne(
+			'select LINKCATEGORIES_MIXID from MIXMARKET_LINKCATEGORIES '
+				. 'where LINKCATEGORIES_CATALOGID = ' . intval($catId)
+		);
+	}
 }
