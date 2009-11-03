@@ -28,12 +28,10 @@
 {literal}
 <div class="img1px">
 <script type="text/javascript">
-	if (uni_tracker_shown===undefined || mix_tracker_shown===undefined) {
-		document.write('<img src="http://mixmarket.biz/t.php?uid=1294931752&id=3539779&r=' + escape(document.referrer) + '&t=' + (new Date()).getTime() + '" width="1" height="1"/>');
-		var uni_tracker_shown=true;var mix_tracker_shown=true;
-	}
+	document.write('<img src="http://mixmarket.biz/t.php?id=3539779&uid=1294931752&r=' + escape(document.referrer) + '&t=' + (new Date()).getTime() + '" width="1" height="1"/>');
+	var mix_tracker_shown=true;
 </script>
-<noscript><img src="http://mixmarket.biz/t.php?uid=1294931752&id=3539779" width="1" height="1"/></noscript>
+<noscript><img src="http://mixmarket.biz/t.php?id=3539779&uid=1294931752" width="1" height="1"/></noscript>
 </div>
 {/literal}
 <div id="main">
