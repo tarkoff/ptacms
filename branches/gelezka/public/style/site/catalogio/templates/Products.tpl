@@ -215,16 +215,16 @@
 				{foreach from=$data->mixPrices item=offer}
 					<tr>
 						<td rowspan="2">
-							<a href="{$offer.OFFERS_URL}"><img src="{$offer.OFFERS_IMG}" height="{$offer.OFFERS_IMGH}" width="{$offer.OFFERS_IMGW}" /></a>
+							<a href="{$offer.OFFERS_URL}" target="_blank"><img src="{$offer.OFFERS_IMG}" height="{$offer.OFFERS_IMGH}" width="{$offer.OFFERS_IMGW}" /></a>
 						</td>
 						<th style="text-align:left;">
-							<a href="{$offer.OFFERS_URL}">{$offer.OFFERS_NAME}</a> - {$offer.OFFERS_PRICE} {if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}
+							<a href="{$offer.OFFERS_URL}" target="_blank">{$offer.OFFERS_NAME}</a> - {$offer.OFFERS_PRICE} {if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}
 						</th>
 					</tr>
 					<tr>
 						<td>
-							{$offer.OFFERS_DESC|truncate:400}<br />
-							<a href="{$offer.OFFERS_URL}"><b>{$offer.ADVERTIZERS_TITLE}</b></a>
+							<p style="margin:5px 0;">{if empty($offer.OFFERS_DESC)}{$offer.OFFERS_NAME}{else}{$offer.OFFERS_DESC|truncate:400}{/if}</p>
+							<a href="{$offer.OFFERS_URL}" target="_blank">Купить в <b>{$offer.ADVERTIZERS_TITLE}</b></a>
 						</td>
 					</tr>
 					<tr class="bb" style="margin-bottom:10px;">
