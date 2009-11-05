@@ -11,10 +11,10 @@ $(document).ready(function() {
 		months['08'] = 'Августа';
 		months['09'] = 'Сентября';
 		months['10'] = 'Октября';
-		months['11'] = 'Нояьря';
+		months['11'] = 'Ноября';
 		months['12'] = 'Декабря';
 
-		var todayDay = $.PHPDate('j', new Date());
+		var todayDay = $.PHPDate('d', new Date());
 
 		$("#todayDate").html(
 			todayDay + ' ' + months[$.PHPDate('m', new Date())] 
