@@ -39,9 +39,6 @@
 <!--[if IE]>
 	<link rel="stylesheet" href="{$smarty.const.PTA_JS_JQUERY_URL}/colorbox/css/colorbox-ie.css" type="text/css" media="screen, projection" />
 <![endif]-->
-<link type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/jquery-ui.css" rel="stylesheet" />
-<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
-<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/i18n/jquery-ui-i18n.min.js"></script>
 
 {assign var="priceForm" value=$data->PriceForm}
 {assign var="fields" value=$priceForm->data}
