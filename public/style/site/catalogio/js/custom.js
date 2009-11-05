@@ -24,5 +24,11 @@ $(document).ready(function() {
 		dateDiv.removeClass();
 		dateDiv.addClass('date date-' + todayDay);
 	});
+	
+	//Product description tabs
+	$(function() { 
+		$("#tabs").tabs();
+	});
+
 
 });

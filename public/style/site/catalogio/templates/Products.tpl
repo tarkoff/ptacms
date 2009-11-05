@@ -39,8 +39,9 @@
 <!--[if IE]>
 	<link rel="stylesheet" href="{$smarty.const.PTA_JS_JQUERY_URL}/colorbox/css/colorbox-ie.css" type="text/css" media="screen, projection" />
 <![endif]-->
-<link type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/ui/css/redmond/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
+<link type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/i18n/jquery-ui-i18n.min.js"></script>
 
 {assign var="priceForm" value=$data->PriceForm}
 {assign var="fields" value=$priceForm->data}
@@ -185,53 +186,48 @@
 		<div id="shortDescr">{$data->product.PRODUCTS_SHORTDESCR}</div>
 	</div>
 	<br />
-	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/tools/tabs/tools.tabs-1.0.1.min.js" type="text/javascript"></script>
-	<link rel="stylesheet" media="screen,projection" type="text/css" href="{$smarty.const.PTA_JS_JQUERY_URL}/tools/tabs/tabs-no-images.css" />
-	{literal}
-		<script type="text/javascript">
-			// perform JavaScript after the document is scriptable. 
-			$(function() { 
-				// setup ul.tabs to work as tabs for each div directly under div.panes 
-				$("ul.descr-tabs").tabs("div.descr-panes > div", { 
-					event: 'click',
-					effect: 'fade',
-					initialIndex: {/literal}{if $data->commentForm->submited}1{else}0{/if}{literal}
-				});
-			});
-		</script>
-	{/literal}
 
-	<ul class="descr-tabs"> 
-		{if !empty($data->mixPrices)}<li><a href="#">Купить в России</a></li>{/if}
-		<li><a href="#">Технические характеристики</a></li>
-		<li><a href="#">Комментарии</a></li>
-		<li><a href="#">Продам Б/У</a></li>
-	</ul> 
-
-	<div class="descr-panes"> 
+	<div class="descr-panes" id="tabs"> 
+		<ul class="descr-tabs"> 
+			{if !empty($data->mixPrices)}<li><a href="#prices">Купить в России</a></li>{/if}
+			<li><a href="#prodCustomDescr">Технические характеристики</a></li>
+			<li><a href="#prodComments">Комментарии</a></li>
+			<li><a href="#secondHandPrices">Продам Б/У</a></li>
+		</ul> 
 		{if !empty($data->mixPrices)}
-			<div>
-				<table cols="2" class="width100" cellspacing="2">
+			<div id="prices">
 				{foreach from=$data->mixPrices item=offer}
-					<tr>
-						<td rowspan="2">
-							<a href="{$offer.OFFERS_URL}" target="_blank"><img src="{$offer.OFFERS_IMG}" height="{$offer.OFFERS_IMGH}" width="{$offer.OFFERS_IMGW}" /></a>
-						</td>
-						<th style="text-align:left;">
-							<a href="{$offer.OFFERS_URL}" target="_blank">{$offer.OFFERS_NAME}</a> - {$offer.OFFERS_PRICE} {if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<p style="margin:5px 0;">{if empty($offer.OFFERS_DESC)}{$offer.OFFERS_NAME}{else}{$offer.OFFERS_DESC|truncate:400}{/if}</p>
-							<a href="{$offer.OFFERS_URL}" target="_blank">Купить в <b>{$offer.ADVERTIZERS_TITLE}</b></a>
-						</td>
-					</tr>
-					<tr class="bb" style="margin-bottom:10px;">
-						<td colspan="2"></td>
-					</tr>
+					<div class="bb" style="margin:5px 0;">
+						<table>
+							<tr>
+								<td rowspan="5" width="100px">
+									<a href="{$offer.OFFERS_URL}" target="_blank"><img src="{$offer.OFFERS_IMG}" height="{$offer.OFFERS_IMGH}" width="{$offer.OFFERS_IMGW}" /></a>
+								</td>
+								<th style="text-align:left;">
+									<a href="{$offer.OFFERS_URL}" target="_blank" class="bigger strong high">{$offer.OFFERS_NAME}</a>
+								</th>
+							</tr>
+							<tr>
+								<td>
+									<em>Цена</em>: <a href="{$offer.OFFERS_URL}" target="_blank" class="bigger strong">{$offer.OFFERS_PRICE} {if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<em>Магазин</em>: <a href="{$offer.OFFERS_URL}" target="_blank">{$offer.ADVERTIZERS_TITLE}</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<em>Описание</em>: {if empty($offer.OFFERS_DESC)}{$offer.OFFERS_NAME}{else}{$offer.OFFERS_DESC|truncate:400}{/if}
+								</td>
+							</tr>
+							<tr>
+								<td><a href="{$offer.OFFERS_URL}" target="_blank">Подробнее об этом предложении от магазина <b>{$offer.ADVERTIZERS_TITLE}</b> >></a></td>
+							</tr>
+						</table>
+					</div>
 				{/foreach}
-				</table>
 			</div>
 		{/if}
 		<div id="prodCustomDescr" class="box">
