@@ -29,7 +29,7 @@ class UserGroups extends PTA_WebModule
 		$item = $this->getApp()->getHttpVar('UserGroup');
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -68,12 +68,18 @@ class UserGroups extends PTA_WebModule
 
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
+
 		$this->setVar('tplMode', 'list');
 		$fieldTable = $this->_userGroup->getTable();
 
 		$fields = $fieldTable->getFields();
 		
 		$view = new PTA_Control_View('userGroupsView', $this->_userGroup, array_values($fields));
+
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
 
 		$this->addActions($view);
 		$res = $view->exec();

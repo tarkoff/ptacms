@@ -33,7 +33,7 @@ class FieldsGroups extends PTA_WebModule
 		}
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -76,13 +76,15 @@ class FieldsGroups extends PTA_WebModule
 
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
+
 		$this->setVar('tplMode', 'list');
 		$fieldTable = $this->_fieldGroup->getTable();
 		$categoryTable = PTA_DB_Table::get('Catalog_Category');
-		
+
 		$fields = $fieldTable->getFields();
 		unset($fields['CATEGORYID']);
-		
+
 		$view = new PTA_Control_View('fieldsView', $this->_fieldGroup, array_values($fields));
 
 		$view->join(
@@ -91,7 +93,11 @@ class FieldsGroups extends PTA_WebModule
 			. ' = cats.' . $categoryTable->getPrimary(),
 			array('CATEGORY_CATEGORY' => $categoryTable->getFieldByAlias('title'))
 		);
-		
+
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
+
 		$this->addActions($view);
 		$this->setVar('view', $view->exec());
 	}

@@ -249,6 +249,5 @@
 	width:auto;
 	marin:5px;
 }
-.newValueForm fieldset input{
-	width: 95%;
-}
+/* --------------- Modal forms --------------------*/
+.ui-dialog-content input { width:95%; }

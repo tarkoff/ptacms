@@ -124,20 +124,6 @@ class Catalog extends PTA_WebModule
 		$view->setTable($prodCatsTable);
 		$view->setSelect($select);
 
-		if (!empty($categoryId)) {
-			$adapter = $prodCatsTable->getAdapter();
-			$view->setTotalRecordsCnt(
-				$adapter->fetchOne(
-					'select count(distinct ' . $prodCatsTable->getFieldByAlias('productId') . ')'
-					. ' from ' . $prodCatsTable->getTableName()
-						. ' where '
-						 . $adapter->quoteInto(
-							$prodCatsTable->getFieldByAlias('categoryId') . ' in (?)', $categoryId
-						)
-				)
-			);
-		}
-
 		$view->setMinRpp(10);
 		$view->setMaxRpp(50);
 		$view->setRpp(10);

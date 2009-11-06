@@ -29,7 +29,7 @@ class Fields extends PTA_WebModule
 		$item = $this->getApp()->getHttpVar('Field');
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -84,6 +84,8 @@ class Fields extends PTA_WebModule
 	
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
+
 		$this->setVar('tplMode', 'list');
 		$fieldTable = $this->_field->getTable();
 		$fieldTypeField = $fieldTable->getFieldByAlias('fieldType');
@@ -102,7 +104,11 @@ class Fields extends PTA_WebModule
 		}
 
 		$this->addActions($view);
-		
+
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
+
 		$res = $view->exec($app->getHttpVar($app->getPrefix() . '_gridMode'));
 
 		$fieldTypes = PTA_Control_Form_Field::getPossibleFields();
