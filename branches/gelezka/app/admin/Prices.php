@@ -29,7 +29,7 @@ class Prices extends PTA_WebModule
 		$item = $this->getApp()->getHttpVar('Price');
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -67,6 +67,7 @@ class Prices extends PTA_WebModule
 
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
 		$this->setVar('tplMode', 'list');
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
@@ -99,6 +100,10 @@ class Prices extends PTA_WebModule
 			$priceTable->getFieldByAlias('currency') . ' = currency.' . $currencyTable->getPrimary(),
 			array('CURRENCY_CURRENCY' => $currencyTable->getFieldByAlias('title'))
 		);
+
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
 
 		$this->addActions($view);
 		$this->setVar('view', $view->exec());

@@ -34,7 +34,7 @@ class Categories extends PTA_WebModule
 		}
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -89,11 +89,16 @@ class Categories extends PTA_WebModule
 
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
+
 		$view = new PTA_Control_View('categoriesView', $this->_category);
 		$this->addActions($view);
 
-		$res = $view->exec();
-		$this->setVar('view', $res);
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
+
+		$this->setVar('view', $view->exec());
 	}
 
 	public function addActions(&$view)

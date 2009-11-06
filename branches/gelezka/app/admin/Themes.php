@@ -29,7 +29,7 @@ class Themes extends PTA_WebModule
 		$item = $this->getApp()->getHttpVar('Theme');
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -67,8 +67,14 @@ class Themes extends PTA_WebModule
 
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
+
 		$this->setVar('tplMode', 'list');
 		$view = new PTA_Control_View('fieldsView', $this->_theme);
+
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
 
 		$this->addActions($view);
 		$this->setVar('view', $view->exec());

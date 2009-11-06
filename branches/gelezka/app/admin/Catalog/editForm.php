@@ -150,7 +150,7 @@ class Catalog_editForm extends PTA_Control_Form
 			$groupId = $groupField[$fieldGroupIdField];
 			$groupFields[$groupField[$fieldIdField]] = $groupId;
 		}
-//var_dump($groupFields);
+
 		$this->setVar('fieldGroups', $fieldGroups);
 
 		if ($this->_product->getId()) {

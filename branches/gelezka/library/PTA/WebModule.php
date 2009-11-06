@@ -139,4 +139,37 @@ abstract class PTA_WebModule extends PTA_Module
 	{
 		$this->setVar('url', $url);
 	}
+
+	public function setFilterData($data = array())
+	{
+		$data = (array)$data;
+		$prefix = $this->getPrefix();
+/*
+		$app = $this->getApp();
+		$cookieName = 'filter[' . $prefix . ']';
+		if (empty($data)) {
+			$app->setCookie($cookieName . '[' . $prefix . ']', null, -10);
+		} else {
+			foreach ($data as $filterName => $filterValue) {
+				$app->setCookie($cookieName . '[' . $filterName . ']', $filterValue);
+			}
+		}
+*/
+		$filterData = (array)$this->getVar('filterData');
+		$filterData[$prefix] = $data;
+		$this->setVar('filterData', $filterData);
+	}
+	
+	public function getFilterData()
+	{
+		$data = $this->getVar('filterData');
+
+		if (empty($data) && ($data = $this->getApp()->getCookie('filter'))) {
+			$this->setVar('filterData', $data);
+		}
+
+		$prefix = $this->getPrefix();
+
+		return (!empty($data[$prefix]) ? $data[$prefix] : array());
+	}
 }

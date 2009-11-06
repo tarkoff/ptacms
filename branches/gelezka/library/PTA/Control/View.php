@@ -28,9 +28,9 @@ class PTA_Control_View extends PTA_Object
 
 	/**
 	 * __construct
-	 * 
+	 *
 	 * @param string $prefix
-	 * @param object $object 
+	 * @param object $object
 	 * @param array $fields
 	 * @param int $workMode
 	 * @access public
@@ -75,9 +75,9 @@ class PTA_Control_View extends PTA_Object
 
 	/**
 	 * join - inner join table to view
-	 * 
+	 *
 	 * @param array $table
-	 * @param string $condition 
+	 * @param string $condition
 	 * @param array $fields
 	 * @access public
 	 */
@@ -88,9 +88,9 @@ class PTA_Control_View extends PTA_Object
 
 	/**
 	 * leftJoin - left join table to view
-	 * 
+	 *
 	 * @param array $table
-	 * @param string $condition 
+	 * @param string $condition
 	 * @param array $fields
 	 * @access public
 	 */
@@ -111,10 +111,10 @@ class PTA_Control_View extends PTA_Object
 
 	/**
 	 * exec - get result set
-	 * 
-	 * @method exec 
+	 *
+	 * @method exec
 	 * @access public
-	 * @return array 
+	 * @return array
 	 */
 	public function exec($gridMode = self::JGRID_XML)
 	{
@@ -138,7 +138,7 @@ class PTA_Control_View extends PTA_Object
 		$this->setOrderDirection(isset($_GET['sord']) ? $_GET['sord'] : 'ASC');
 		$this->setOrderField(empty($_GET['sidx']) ? null : $_GET['sidx']);
 		if (isset($_GET['_search']) && $_GET['_search'] == true) {
-			$this->_setFilterOptions();
+			$this->setFilter();
 		}
 
 		if ($gridMode == self::JGRID_XML) {
@@ -177,12 +177,11 @@ class PTA_Control_View extends PTA_Object
 		if ( strpos($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
 			header("Content-type: application/xhtml+xml;charset=utf-8");
 		} else {
-			header("Content-type: text/xml;charset=utf-8"); 
+			header("Content-type: text/xml;charset=utf-8");
 		}
 
 		unset($simpleRes);
-		echo $xml->saveXML();
-		exit(0);
+		return $xml->saveXML();
 	}
 
 	private function _buildJson()
@@ -204,53 +203,68 @@ class PTA_Control_View extends PTA_Object
 		exit(0);
 	}
 
-	private function _setFilterOptions()
+	public function setFilter($filterData = array())
 	{
-//http://gelezka/admin/Fields/?app_ajaxMode=1&app_asXml=1&nd=1250508298853&_search=true&rows=90&page=1&sidx=&sord=asc&searchField=PRODUCTSFIELDS_ID&searchString=30&searchOper=eq
-		if (empty($_REQUEST['searchField'])) {
+		if (empty($filterData)) {
 			return false;
 		}
 
-		$searchField = $this->quote($_REQUEST['searchField']);
-		$searchCond = $this->quote($_REQUEST['searchOper']);
-		$searchValue = $this->quote($_REQUEST['searchString']);
-		
 		$qopers = array(
-				'eq'=>" = ",
-				'ne'=>" <> ",
-				'lt'=>" < ",
-				'le'=>" <= ",
-				'gt'=>" > ",
-				'ge'=>" >= ",
-				'bw'=>" LIKE ",
-				'bn'=>" NOT LIKE ",
-				'in'=>" IN ",
-				'ni'=>" NOT IN ",
-				'ew'=>" LIKE ",
-				'en'=>" NOT LIKE ",
-				'cn'=>" LIKE " ,
-				'nc'=>" NOT LIKE " 
+				'eq'=>" = ?",
+				'ne'=>" <> ?",
+				'lt'=>" < ?",
+				'le'=>" <= ?",
+				'gt'=>" > ?",
+				'ge'=>" >= ?",
+				'bw'=>" LIKE '?%'",
+				'bn'=>" NOT LIKE '?%'",
+				'in'=>" IN (?)",
+				'ni'=>" NOT IN (?)",
+				'ew'=>" LIKE '%?'",
+				'en'=>" NOT LIKE '%?'",
+				'cn'=>" LIKE '%?%'" ,
+				'nc'=>" NOT LIKE '%?%'"
 		);
 
-		$this->addWhere(
-			$searchField 
-			. (isset($qopers[$searchCond]) ? $qopers[$searchCond] : ' = ') 
-			. $searchValue
-		);
+		$fields = $this->getFields();
+		$this->setVar('fields', $fields);
+
+		$db = $this->_select->getAdapter();
+		foreach ($filterData as $fieldAlias => $field) {
+			if (isset($fields[$fieldAlias]) && !empty($field['value'])) {
+				$cond = (isset($qopers[$field['cond']]) ? $qopers[$field['cond']] : $qopers['eq']);
+				$this->addWhere(
+					$fields[$fieldAlias] . str_replace('?', $field['value'], $cond)
+				);
+			}
+		}
 
 		return true;
 	}
 
 	/**
 	 * prepear view for using in static html
-	 * 
-	 * @method _simpleExec 
+	 *
+	 * @method _simpleExec
 	 * @access private
-	 * @return array 
+	 * @return array
 	 */
 	private function _simpleExec()
 	{
 		$resultObject = $this->toString();
+
+		if (($orderField = $this->getOrderField())) {
+			$this->_select->order(array($orderField . ' ' . $this->getOrderDirection()));
+		}
+
+		if (!empty($this->_where['and']) || !empty($this->_where['or'])) {
+			foreach ($this->_where['and'] as $where) {
+				$this->_select->where($where);
+			}
+			foreach ($this->_where['or'] as $where) {
+				$this->_select->orWhere($where);
+			}
+		}
 
 		$resultObject->rpps = array();
 		$minRpp = $this->getMinRpp();
@@ -263,33 +277,28 @@ class PTA_Control_View extends PTA_Object
 
 		$resultObject->rpp = $rpp;
 		$page = $this->getPage();
-		$lastPage = $this->getLastPage();
-
-		if (($orderField = $this->getOrderField())) {
-			$this->_select->order(array($orderField . ' ' . $this->getOrderDirection()));
-		}
-		
-		if (!empty($this->_where['and']) || !empty($this->_where['or'])) {
-			foreach ($this->_where['and'] as $where) {
-				$this->_select->where($where);
-			}
-			foreach ($this->_where['or'] as $where) {
-				$this->_select->orWhere($where);
-			}
-		}
 
 		$this->_select->limitPage($page, $rpp);
 		//$result = $this->_select->query()->fetchAll();
 		$this->_select->setIntegrityCheck(false);
-		$result = $this->_table->fetchAll($this->_select)->toArray();
+		$sql = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $this->_select->assemble());
+		$db = $this->_table->getAdapter();
 
-		if (!empty($result)) {
-			$fields = (array)array_keys(current($result));
-			$resultObject->fields = array_combine(array_map(array($this, '_FieldToAlias'), $fields), $fields);
+		$fetchMode = $db->getFetchMode();
+		$db->setFetchMode(Zend_Db::FETCH_ASSOC);
+		$db->beginTransaction();
+		$result = $db->fetchAll($sql);
+		$recsCnt = $db->fetchOne('SELECT FOUND_ROWS()');
+		$db->commit();
+		$db->setFetchMode($fetchMode);
+
+		if (empty($recsCnt)) {
+			$lastPage = 1;
 		} else {
-			$resultObject->fields = array();
+			$lastPage = ceil($recsCnt / $this->getRpp());
 		}
 
+		$resultObject->fields = $this->getFields();
 		$resultObject->fieldsCnt = count($resultObject->fields);
 		$resultObject->data = $result;
 		$resultObject->commonActions = $this->getCommonActions();
@@ -310,6 +319,24 @@ class PTA_Control_View extends PTA_Object
 		$resultObject->singleActions = $this->getSingleActions();
 
 		return $resultObject;
+	}
+
+	public function getFields()
+	{
+		if (!($fields = $this->getVar('fields'))) {
+			$fields = array();
+			foreach ($this->getSelect()->getPart(Zend_Db_Select::COLUMNS) as $field) {
+				if (empty($field[2])) {
+					$fields[$this->_FieldToAlias($field[1])] = $field[1];
+				} else {
+					$fields[$this->_FieldToAlias($field[2])] = $field[1];
+				}
+			}
+
+			$this->setVar('fields', $fields);
+		}
+
+		return $fields;
 	}
 
 	public function getWhere()
@@ -386,7 +413,7 @@ class PTA_Control_View extends PTA_Object
 	}
 
 	/**
-	 * set rpp 
+	 * set rpp
 	 *
 	 * @param int $rpp
 	 */
@@ -527,9 +554,11 @@ class PTA_Control_View extends PTA_Object
 			return $page;
 		}
 
-		$page = $this->getHttpVar('page');
+		$page = (int)$this->getHttpVar('page');
+/*
 		$firstPage = 1;
 		$lastPage = $this->getLastPage();
+		
 
 		if (empty($page)) {
 			$page = (int)$this->getApp()->getCookie('page');
@@ -539,6 +568,10 @@ class PTA_Control_View extends PTA_Object
 			$page = $firstPage;
 		} elseif ($page > $lastPage) {
 			$page = $lastPage;
+		}
+*/
+		if (empty($page)) {
+			$page = 1;
 		}
 		
 		$this->setPage($page);
@@ -553,7 +586,7 @@ class PTA_Control_View extends PTA_Object
 	public function setPage($page)
 	{
 		$this->setVar('page', intval($page));
-		$this->getApp()->setCookie('page', $page, 0);
+		//$this->getApp()->setCookie('page', $page, 0);
 	}
 	
 	/**
@@ -569,6 +602,7 @@ class PTA_Control_View extends PTA_Object
 		}
 		
 		$recsCnt = $this->getTotalRecordsCnt();
+
 		if (empty($recsCnt)) {
 			$page = 1;
 		} else {
@@ -585,21 +619,17 @@ class PTA_Control_View extends PTA_Object
 	 *
 	 * @return int
 	 */
-	public function getTotalRecordsCnt($where = '')
+	public function getTotalRecordsCnt()
 	{
+
 		$recCnt = $this->getVar('recsCnt');
 		if (is_numeric($recCnt)) {
 			return $recCnt;
 		}
 
-		$sql = 'select count(*) from '. $this->_table->getTableName();
-		if (!empty($where)) {
-			$sql .= ' where ' . $where;
-		}
-
-		$recCnt = $this->_table->getAdapter()->fetchOne($sql);
-
+		$recCnt = $this->_table->getAdapter()->fetchOne('SELECT FOUND_ROWS()');
 		$this->setTotalRecordsCnt($recCnt);
+
 		return $recCnt;
 	}
 	

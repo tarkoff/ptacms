@@ -29,7 +29,7 @@ class Currencies extends PTA_WebModule
 		$item = $this->getApp()->getHttpVar('Currencies');
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -67,12 +67,18 @@ class Currencies extends PTA_WebModule
 
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
+
 		$this->setVar('tplMode', 'list');
 		$fieldTable = $this->_currency->getTable();
 
 		$fields = $fieldTable->getFields();
 		
 		$view = new PTA_Control_View('currenciesView', $this->_currency, array_values($fields));
+
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
 
 		$this->addActions($view);
 		$res = $view->exec();

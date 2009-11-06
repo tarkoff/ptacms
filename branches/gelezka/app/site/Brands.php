@@ -58,11 +58,11 @@ class Brands extends PTA_WebModule
 			$select->where('prodCats.' . $prodCategoryTable->getFieldByAlias('isDefault') . ' = 1');
 		}
 
+		$select->order(array('prods.' . $prodsTable->getFieldByAlias('date') . ' DESC'));
+
 		$view = new PTA_Control_View('catalogView');
 		$view->setTable($prodCategoryTable);
 		$view->setSelect($select);
-
-		$view->setTotalRecordsCnt($brandTable->getProductsCnt($brand[$brandIdField]));
 
 		$view->setMinRpp(10);
 		$view->setMaxRpp(50);

@@ -67,6 +67,39 @@ $(document).ready(function() {
 		e.preventDefault();
 		$('#removeWarning').dialog('open');
 	});
+	
+	//Filter Form
+	$("#filterDiv").dialog({
+		bgiframe: true,
+		resizable: false,
+		autoOpen: false,
+		modal: true,
+		width:400,
+		overlay: {
+			backgroundColor: '#000',
+			opacity: 0.5
+		},
+		buttons: {
+			'Cancel': function() {
+				$(this).dialog('close');
+				return false
+			},
+			'Clear Filter': function() {
+				$(this).dialog('close');
+				document.location = window.location.protocol + '//' + location.host + location.pathname;
+				return false
+			},
+			'Apply Filter': function() {
+				$(this).dialog('close');
+				$("#Common_FilterForm").submit();
+			}
+		}
+	});
+
+	$('#filterOpen').click(function() {
+		$('#filterDiv').dialog('open');
+	})
+
 
 });
 

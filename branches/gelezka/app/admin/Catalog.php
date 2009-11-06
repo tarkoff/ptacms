@@ -33,7 +33,7 @@ class Catalog extends PTA_WebModule
 		}
 
 		switch (ucfirst($action)) {
-			case 'Add': 
+			case 'Add':
 					$this->editAction();
 			break;
 
@@ -74,6 +74,8 @@ class Catalog extends PTA_WebModule
 
 	public function listAction()
 	{
+		$this->addVisual(new Common_FilterForm('Common_FilterForm'));
+
 		$this->setVar('tplMode', 'list');
 		$catalogTable = $this->_product->getTable();
 		$categoryTable = PTA_DB_Table::get('Catalog_Category');
@@ -116,6 +118,11 @@ class Catalog extends PTA_WebModule
 		$select->where('prodCats.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
 		$select->order(array($catalogTable->getFieldByAlias('date') . ' DESC'));
 		$this->addActions($view);
+
+		if (($filter = $this->getFilterData())) {
+			$view->setFilter($filter);
+		}
+
 		$this->setVar('view', $view->exec());
 	}
 
