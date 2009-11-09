@@ -278,24 +278,20 @@ class PTA_Control_View extends PTA_Object
 		$resultObject->rpp = $rpp;
 		$page = $this->getPage();
 
-		$this->_select->limitPage($page, $rpp);
 		//$result = $this->_select->query()->fetchAll();
-		$this->_select->setIntegrityCheck(false);
-		$sql = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $this->_select->assemble());
 		$db = $this->_table->getAdapter();
 
-		$fetchMode = $db->getFetchMode();
-		$db->setFetchMode(Zend_Db::FETCH_ASSOC);
-		$db->beginTransaction();
-		$result = $db->fetchAll($sql);
+		$result = $this->_getPageData($page);
+		if (empty($result)) {
+			$page = 1;
+			$result = $this->_getPageData($page);
+		}
 		$recsCnt = $db->fetchOne('SELECT FOUND_ROWS()');
-		$db->commit();
-		$db->setFetchMode($fetchMode);
 
 		if (empty($recsCnt)) {
 			$lastPage = 1;
 		} else {
-			$lastPage = ceil($recsCnt / $this->getRpp());
+			$lastPage = ceil($recsCnt / $rpp);
 		}
 
 		$resultObject->fields = $this->getFields();
@@ -319,6 +315,21 @@ class PTA_Control_View extends PTA_Object
 		$resultObject->singleActions = $this->getSingleActions();
 
 		return $resultObject;
+	}
+
+	private function _getPageData($page)
+	{
+		$this->_select->limitPage($page, $this->getRpp());
+		$this->_select->setIntegrityCheck(false);
+		$sql = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $this->_select->assemble());
+		$db = $this->_table->getAdapter();
+		$fetchMode = $db->getFetchMode();
+		$db->setFetchMode(Zend_Db::FETCH_ASSOC);
+		$db->beginTransaction();
+		$result = $db->fetchAll($sql);
+		$db->commit();
+		$db->setFetchMode($fetchMode);
+		return $result;
 	}
 
 	public function getFields()
