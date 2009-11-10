@@ -220,7 +220,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><a href="{$offer.OFFERS_URL}" target="_blank">Подробнее об этом предложении от магазина <b>{$offer.ADVERTIZERS_TITLE}</b> >></a></td>
+								<td><a href="{$offer.OFFERS_URL}" target="_blank">Купить в магазине <b>{$offer.ADVERTIZERS_TITLE}</b> >></a></td>
 							</tr>
 						</table>
 					</div>
