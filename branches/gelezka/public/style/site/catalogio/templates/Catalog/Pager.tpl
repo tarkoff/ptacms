@@ -34,6 +34,7 @@
 	<div class="title03">
 		<h3 class="nom">Лучшие предложения партнеров:</h3>
 		<div id="mixkt_4294945452" class="mix_blue"></div>
+		<div id="mix_block_12949300631294932579"></div>
 	</div>
 	<div class="title03-bottom"></div>
 

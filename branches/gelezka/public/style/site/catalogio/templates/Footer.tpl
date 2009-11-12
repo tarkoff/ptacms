@@ -1,12 +1,6 @@
 <!-- Footer -->
 <div id="footer">
 	<hr class="noscreen" />
-
-	<p class="noprint t-right">
-		<a href="/">Карта сайта</a>,
-		<a href="/Contacts/">Обратная связь</a>
-	</p>
-
 	<p class="t-center">
 		Copyrighted &copy;&nbsp;2009 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
 		Поддержка сайта {mailto address="support@gelezka.net" encode="javascript"}<br />

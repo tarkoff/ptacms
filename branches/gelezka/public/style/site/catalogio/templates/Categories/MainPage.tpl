@@ -2,7 +2,6 @@
 <div class="box">
 
 	<div id="col-l">
-		{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'html'}
 		<div class="title01-top"></div>
 		<div class="title01">
 			<div class="title01-in">
@@ -49,4 +48,3 @@
 	</div> <!-- /col-r -->
 </div> <!-- /box -->
 {include file="Catalog/MostRecent.tpl"}
-{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js'}

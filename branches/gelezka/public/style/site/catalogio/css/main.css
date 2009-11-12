@@ -74,7 +74,7 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
 .ul-style01 li {margin:0; padding:0;}
 
 .ul-categories {margin:20px 0; padding:0; list-style:none;}
-.ul-categories li {margin:0 10px 10px 0; padding:0; display:block; float:left; width:270px; padding-left:20px; background:url("../img/folder.gif") 0 4px no-repeat;}
+.ul-categories li {margin:0; padding:0; display:block; float:left; width:270px; margin-right:10px; padding-left:20px; background:url("../img/folder.gif") 0 4px no-repeat;}
 
 .table-style01 td {padding:3px 0;}
 
@@ -98,40 +98,6 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
         #copy a:hover {color:#333;}
 
 /* ---------------- Page: Homepage ------------------------------------------ */
-
-.date {position:absolute; top:0; right:0; margin:0; text-align:right;}
-
-    .date-01 {padding-right:40px; background:url("../img/ico-cal-01.gif") 100% 50% no-repeat;}
-    .date-02 {padding-right:40px; background:url("../img/ico-cal-02.gif") 100% 50% no-repeat;}
-    .date-03 {padding-right:40px; background:url("../img/ico-cal-03.gif") 100% 50% no-repeat;}
-    .date-04 {padding-right:40px; background:url("../img/ico-cal-04.gif") 100% 50% no-repeat;}
-    .date-05 {padding-right:40px; background:url("../img/ico-cal-05.gif") 100% 50% no-repeat;}
-    .date-06 {padding-right:40px; background:url("../img/ico-cal-06.gif") 100% 50% no-repeat;}
-    .date-07 {padding-right:40px; background:url("../img/ico-cal-07.gif") 100% 50% no-repeat;}
-    .date-08 {padding-right:40px; background:url("../img/ico-cal-08.gif") 100% 50% no-repeat;}
-    .date-09 {padding-right:40px; background:url("../img/ico-cal-09.gif") 100% 50% no-repeat;}
-    .date-10 {padding-right:40px; background:url("../img/ico-cal-10.gif") 100% 50% no-repeat;}
-    .date-11 {padding-right:40px; background:url("../img/ico-cal-11.gif") 100% 50% no-repeat;}
-    .date-12 {padding-right:40px; background:url("../img/ico-cal-12.gif") 100% 50% no-repeat;}
-    .date-13 {padding-right:40px; background:url("../img/ico-cal-13.gif") 100% 50% no-repeat;}
-    .date-14 {padding-right:40px; background:url("../img/ico-cal-14.gif") 100% 50% no-repeat;}
-    .date-15 {padding-right:40px; background:url("../img/ico-cal-15.gif") 100% 50% no-repeat;}
-    .date-16 {padding-right:40px; background:url("../img/ico-cal-16.gif") 100% 50% no-repeat;}
-    .date-17 {padding-right:40px; background:url("../img/ico-cal-17.gif") 100% 50% no-repeat;}
-    .date-18 {padding-right:40px; background:url("../img/ico-cal-18.gif") 100% 50% no-repeat;}
-    .date-19 {padding-right:40px; background:url("../img/ico-cal-19.gif") 100% 50% no-repeat;}
-    .date-20 {padding-right:40px; background:url("../img/ico-cal-20.gif") 100% 50% no-repeat;}
-    .date-21 {padding-right:40px; background:url("../img/ico-cal-21.gif") 100% 50% no-repeat;}
-    .date-22 {padding-right:40px; background:url("../img/ico-cal-22.gif") 100% 50% no-repeat;}
-    .date-23 {padding-right:40px; background:url("../img/ico-cal-23.gif") 100% 50% no-repeat;}
-    .date-24 {padding-right:40px; background:url("../img/ico-cal-24.gif") 100% 50% no-repeat;}
-    .date-25 {padding-right:40px; background:url("../img/ico-cal-25.gif") 100% 50% no-repeat;}
-    .date-26 {padding-right:40px; background:url("../img/ico-cal-26.gif") 100% 50% no-repeat;}
-    .date-27 {padding-right:40px; background:url("../img/ico-cal-27.gif") 100% 50% no-repeat;}
-    .date-28 {padding-right:40px; background:url("../img/ico-cal-28.gif") 100% 50% no-repeat;}
-    .date-29 {padding-right:40px; background:url("../img/ico-cal-29.gif") 100% 50% no-repeat;}
-    .date-30 {padding-right:40px; background:url("../img/ico-cal-30.gif") 100% 50% no-repeat;}
-    .date-31 {padding-right:40px; background:url("../img/ico-cal-31.gif") 100% 50% no-repeat;}
 
 #search-tabs {position:relative; bottom:-1px; padding-left:260px;}
 #search-tabs ul {margin:0; padding:0; list-style:none;}
