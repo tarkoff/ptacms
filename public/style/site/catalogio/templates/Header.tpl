@@ -1,15 +1,13 @@
 <!-- Header -->
 <div id="header">
-	<h1 id="logo"><a href="/" title="На главную"><img src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/logo.gif" alt="На главную" /></a></h1>
-	<hr class="noscreen" />
+<div class="f-left" style="padding-top:34px;">
+	<h1 id="logo"><a href="/" title="На главную"><img width="210" height="56" src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/logo.gif" alt="На главную" /></a></h1>
+</div>
 	<!-- Date -->
-	<div class="date date-01">
-		<p class="nom">
-			Сегодня <strong id="todayDate"></strong><br />
-			<span class="nonhigh"><a href="">Сделать стартовой</a></span>
-		</p>
+	<div class="f-right">
+		{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'html'}
 	</div>
 	<!-- /date -->
-	<hr class="noscreen" />
 </div>
+<hr class="noscreen" />
 <!-- /header -->

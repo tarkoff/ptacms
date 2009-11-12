@@ -1,9 +1,6 @@
 {assign var=catalogObject value=$data->object}
 {assign var="categoriesObject" value=$Categories->object}
 {assign var=subCategories value=$categoriesObject->getSubCategories($Categories->category.CATEGORIES_ID, 1) }
-<div class="box">
-	<div id="col-l">
-		{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'html'}
 		<div class="title01-top"></div>
 		<div class="title01">
 			<div class="title01-in">
@@ -34,19 +31,15 @@
 			{/if}
 		</p>
 
-		{if !empty($subCategories)}
-			<!-- Subcategories -->
-			<h4>Подразделы:</h4>
-			<ul class="ul-categories box" style="float:left;">
-			{foreach from=$subCategories item=category}
-				<li><a href="{$Categories->url}/{$category.CATEGORIES_ALIAS}">{$category.CATEGORIES_TITLE}</a> ({$category.PRODS_CNT|default:'0'})</li>
-			{/foreach}
-			</ul>
-		{/if}
-	</div>
-	<div id="col-r" class="noprint">
-		{include file="ads/adsense_250x250.tpl}
-	</div>
-</div>
+{if !empty($subCategories)}
+	<!-- Subcategories -->
+	<h4>Подразделы:</h4>
+	<ul class="ul-categories box">
+	{foreach from=$subCategories item=category}
+		<li><a href="{$Categories->url}/{$category.CATEGORIES_ALIAS}">{$category.CATEGORIES_TITLE}</a> ({$category.PRODS_CNT|default:'0'})</li>
+	{/foreach}
+	</ul>
+{/if}
+{include file="ads/adsense_links_728x15.tpl"}
 {include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}
 {* include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js' *}

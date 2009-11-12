@@ -1,4 +1,5 @@
 $(document).ready(function() {
+/*
 	$(function() {
 		var months = new Array();
 		months['01'] = 'Января';
@@ -24,7 +25,7 @@ $(document).ready(function() {
 		dateDiv.removeClass();
 		dateDiv.addClass('date date-' + todayDay);
 	});
-	
+*/
 	//Product description tabs
 	$(function() { 
 		$("#tabs").tabs();
