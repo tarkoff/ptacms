@@ -81,21 +81,15 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
 /* --------------- LAYOUT --------------------------------------------------- */
 
 #main {width:900px; margin:0 auto; text-align:left;}
-
-	#header {position:relative; overflow:hidden;}
-
-    #logo {margin:0; border:0;}
-
-    #page {clear:both; margin:15px 0;}
-
-    	#col-l {float:left; width:610px;}
-    	#col-r {float:right; width:280px; overflow:hidden;}
-
-	#footer {clear:both; border-top:3px solid #EFEFEF;}
-	#footer p {margin-top:7px;}
-
-        #copy, #copy a {color:#777;}
-        #copy a:hover {color:#333;}
+#header {position:relative; overflow:hidden;}
+#logo {margin:0; border:0;}
+#page {clear:both; margin:15px 0;}
+#col-l {float:left; width:610px;}
+#col-r {float:right; width:280px; overflow:hidden;}
+#footer {clear:both; border-top:3px solid #EFEFEF;}
+#footer p {margin-top:7px;}
+#copy, #copy a {color:#777;}
+#copy a:hover {color:#333;}
 
 /* ---------------- Page: Homepage ------------------------------------------ */
 
@@ -144,15 +138,15 @@ dl.cat dd a:hover {color:#404040;}
 .tabs-sidebar ul li a.active {background:#6B0 url("../img/tab-active.gif") 0 0 no-repeat; text-decoration:none; color:#FFF; font-weight:bold;}
 .tabs-sidebar ul li a.active span {background:#6B0 url("../img/tab-active-02.gif") 100% 0 no-repeat; text-decoration:none;}
 
-    .h-02 {font-size:140%;}
-    .h-01 {font-size:120%;}
-    .l-01 {font-size:95%;}
-    .l-02 {font-size:85%;}
+.h-02 {font-size:140%;}
+.h-01 {font-size:120%;}
+.l-01 {font-size:95%;}
+.l-02 {font-size:85%;}
 
 /* ----------- Page: Category ----------------------------------------------- */
 
 .cat-results {margin:10px 0; padding:0; list-style:none;}
-.cat-results li {padding:7px 0; background:url("../img/dot02.gif") 0 100% repeat-x;}
+.cat-results li {padding:7px 0; background:url("../img/dot02.gif") 0 100% repeat-x; min-height:60px;}
 .cat-results li h4, .cat-results li p {margin:0;}
 .cat-results li h4 span {font-size:85%; font-weight:normal;}
 .cat-results .high {color:#490;}
@@ -276,11 +270,9 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 /* -- MixMarket -- */
 .img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}
 
-.mix_inter table{margin:2px;}
-.mix_outer .mix_head, .mix_outer .mix_desc, .mix_outer .mix_domain, .mix_outer .mix_img {padding:0.2em;}
-.mix_outer .mix_horiz_td {border:none;}
 #mixkt_4294945452 * { background:#F4FDE8; }
 #mixkt_4294945452 a { font-weight:bold; }
+#mixkt_4294945452 table { margin:0;}
 /* -------------- Products ---------------------------------------------------*/
 .prpiceInput{
 	border:1px solid #CCCCCC;
