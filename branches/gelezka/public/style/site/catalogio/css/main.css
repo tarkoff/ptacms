@@ -273,6 +273,7 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 #mixkt_4294945452 * { background:#F4FDE8; }
 #mixkt_4294945452 a { font-weight:bold; }
 #mixkt_4294945452 table { margin:0;}
+.mix_inter { border:none !Important; }
 /* -------------- Products ---------------------------------------------------*/
 .prpiceInput{
 	border:1px solid #CCCCCC;
