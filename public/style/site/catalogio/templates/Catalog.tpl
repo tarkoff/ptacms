@@ -40,6 +40,5 @@
 	{/foreach}
 	</ul>
 {/if}
-{include file="ads/adsense_links_728x15.tpl"}
 {include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}
 {* include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js' *}

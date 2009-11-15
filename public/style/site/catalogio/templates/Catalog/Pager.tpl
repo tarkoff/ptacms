@@ -42,7 +42,10 @@
 	{if !empty($view->prodsDefaultCats)}
 		{assign var="cats" value=$view->prodsDefaultCats}
 	{/if}
-	{foreach from=$view->data item=catalogItem}
+	{foreach from=$view->data item=catalogItem name=catalog}
+		{if $smarty.foreach.catalog.iteration == 6}
+		<li>{include file=ads/adsense_728x90.tpl}</li>
+		{/if}
 		<li>
 			<h4>
 				<a href="{$data->brandUrl}/{$catalogItem.BRANDS_ALIAS}">{$catalogItem.BRANDS_TITLE}</a>&nbsp;
