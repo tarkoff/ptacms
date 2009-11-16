@@ -82,7 +82,7 @@ abstract class PTA_Control_Form extends PTA_Object
 	{
 		foreach ($this->getVisualAll() as $fieldAlias => $field) {
 			if (isset($data->$fieldAlias)) {
-				$field->setValue(trim($data->$fieldAlias));
+				$field->setValue($data->$fieldAlias);
 			} else {
 				$fieldAlias = strtolower($fieldAlias);
 				if (isset($data->$fieldAlias)) {

@@ -26,7 +26,7 @@ class Common_FilterForm extends PTA_Control_Form
 				'gt' => 'greater',
 				'bw' => 'begins with',
 				'ew' => 'ends with',
-				'cn'=> 'contain'
+				'cn'=> 'contains'
 			)
 		);
 		

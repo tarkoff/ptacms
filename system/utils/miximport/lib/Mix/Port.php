@@ -130,9 +130,10 @@ class Mix_Port extends Mix_Abstract
 
 		$db = $this->_db;
 
-		$sql = 'select prods.PRODUCTS_ID, prods.PRODUCTS_BRANDID, cats.PRODUCTCATEGORIES_CATEGORYID, prods.PRODUCTS_TITLE '
+		$sql = 'select prods.PRODUCTS_ID, prods.PRODUCTS_BRANDID, cats.PRODUCTCATEGORIES_CATEGORYID, prods.PRODUCTS_TITLE, prodSet.PRODUCTSETTINGS_SETTINGS '
 			. 'from CATALOG_PRODUCTS as prods '
 			. 'inner join CATALOG_PRODUCTCATEGORIES as cats on prods.PRODUCTS_ID = cats.PRODUCTCATEGORIES_PRODUCTID '
+			. 'left join CATALOG_PRODUCTSETTINGS as prodSet on prods.PRODUCTS_ID = prodSet.PRODUCTSETTINGS_PRODUCTID '
 			. ' where cats.PRODUCTCATEGORIES_ISDEFAULT = 1 limit ';
 
 		$offset = 0;
@@ -146,7 +147,19 @@ class Mix_Port extends Mix_Abstract
 					. ' inner join MIXMARKET_LINKBRANDS as mlb on mo.OFFERS_BRANDID = mlb.LINKBRANDS_MIXID '
 						. ' where mlb.LINKBRANDS_CATALOGID = ' . $product['PRODUCTS_BRANDID']
 						. ' and mlc.LINKCATEGORIES_CATALOGID = ' . $product['PRODUCTCATEGORIES_CATEGORYID'] . ' and ';
-				$keywords = explode(' ', $product['PRODUCTS_TITLE']);
+				$settings = $keywords = $stopKeywords = array();
+				if (!empty($product['PRODUCTSETTINGS_SETTINGS'])) {
+					$settings = (array)unserialize($product['PRODUCTSETTINGS_SETTINGS']);
+				}
+
+				if (!empty($settings['tags'])) {
+					$keywords = explode(',', $settings['tags']);
+					if (!empty($settings['stopTags'])) {
+						$stopKeywords = explode(',', $settings['stopTags']);
+					}
+				} else {
+					$keywords = explode(' ', $product['PRODUCTS_TITLE']);
+				}
 				$sqlLikes = array();
 				foreach ($keywords as $keyword) {
 					$keyword = trim($keyword);
@@ -154,7 +167,15 @@ class Mix_Port extends Mix_Abstract
 						$sqlLikes[] = 'UCASE(mo.OFFERS_NAME) like "%' . $keyword . '%"';
 					}
 				}
-				foreach ($db->fetchAll($mixProdSql . implode(' and ', $sqlLikes)) as $mixId) {
+				foreach ($stopKeywords as $keyword) {
+					$keyword = trim($keyword);
+					if (mb_strlen($keyword, 'UTF-8') > 1) {
+						$sqlLikes[] = 'UCASE(mo.OFFERS_NAME) not like "%' . $keyword . '%"';
+					}
+				}
+				$mixProdSql .= implode(' and ', $sqlLikes);
+				$this->alert($mixProdSql);
+				foreach ($db->fetchAll($mixProdSql) as $mixId) {
 					$insertValues[] = "({$product['PRODUCTS_ID']}, {$mixId['OFFERS_ID']})";
 					$bulkPos++;
 				}

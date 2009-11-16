@@ -116,9 +116,19 @@ class Catalog_editForm extends PTA_Control_Form
 		$this->addVisual($driversUrl);
 
 		$desc = new PTA_Control_Form_TextArea('shortDescr', 'Description');
-		$desc->setSortOrder(40);
+		$desc->setSortOrder(22);
 		$desc->setVar('groupId', 0);
 		$this->addVisual($desc);
+
+		$tags = new PTA_Control_Form_Text('tags', 'Tags');
+		$tags->setSortOrder(23);
+		$tags->setVar('groupId', 0);
+		$this->addVisual($tags);
+
+		$tags = new PTA_Control_Form_Text('stopTags', 'Stop Tags');
+		$tags->setSortOrder(24);
+		$tags->setVar('groupId', 0);
+		$this->addVisual($tags);
 	}
 
 	private function _initDinamicFields()
@@ -246,6 +256,15 @@ class Catalog_editForm extends PTA_Control_Form
 	{
 		$data = new stdClass();
 		$this->_product->loadTo($data);
+
+		if (
+			($settings = $this->_product->getSettings())
+			&& ($settings = (array)$settings->getSettings(false))
+		) {
+			foreach ($settings as $key => $value) {
+				$data->$key = $value;
+			}
+		}
 		return $data;
 	}
 
@@ -305,6 +324,14 @@ class Catalog_editForm extends PTA_Control_Form
 		}
 		if ($this->_product->save()) {
 			$this->_product->saveCustomFields($data);
+			if (!empty($data->tags)) {
+				$this->_product->saveSettings(
+					array(
+						'tags' => $data->tags,
+						'stopTags' => (empty($data->stopTags) ? '' : $data->stopTags)
+					)
+				);
+			}
 			$this->message(
 				PTA_Object::MESSAGE_SUCCESS,
 				'Product ' . $this->_product->getTitle() . ' successfully saved!'

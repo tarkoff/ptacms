@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_Product extends PTA_DB_Object 
+class PTA_Catalog_Product extends PTA_DB_Object
 {
 	private $_title;
 	private $_categoryId;
@@ -331,7 +331,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	 * @param boolean $forceInsert
 	 * @access public
 	 * @return boolean
-	*/	
+	*/
 	public function save($forceInsert = false)
 	{
 		$ps = parent::save($forceInsert);
@@ -372,7 +372,7 @@ class PTA_Catalog_Product extends PTA_DB_Object
 	 * @method remove
 	 * @access public
 	 * @return boolean
-	*/	
+	*/
 	public function remove()
 	{
 		$photosTable = PTA_DB_Table::get('Catalog_Product_Photo');
@@ -387,5 +387,36 @@ class PTA_Catalog_Product extends PTA_DB_Object
 		}
 
 		return false;
+	}
+
+	public function getSettings()
+	{
+		$productId = $this->getId();
+		$settingsObject = self::get('Catalog_Product_Settings', $productId);
+		$settingsObject->setId($productId);
+		return $settingsObject;
+	}
+	
+	/**
+	 * Save product settings
+	 *
+	 * @param array $settings
+	 * @return boolean
+	 */
+	public function saveSettings($settings)
+	{
+		$productId = $this->getId();
+		if (empty($settings) || empty($productId)) {
+			return false;
+		}
+
+		$settingsObject = self::get('Catalog_Product_Settings', $productId);
+		$settingsObject->setSettings($settings);
+		if (!$settingsObject->getId()) {
+			$settingsObject->setId($productId);
+			return $settingsObject->save(true);
+		}
+
+		return $settingsObject->save();
 	}
 }

@@ -70,7 +70,7 @@
 								<td colspan="2" style="text-align:center;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</td>
 							{else}
 								<td class="fieldTitle"><label for="color">{$field->label}{if $field->mandatory}*{/if}</label></td>
-								<td>
+								<td class="fieldValue">
 									<span id="{$field->name}_span" style="float:left;margin-right:3px;">{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}</span>
 									{if !empty($field->fieldId)}
 										<a href="#" rel="#newValueForm" onClick="buildFieldValueForm('{$field->name}', {$field->fieldId})" class="btn_no_text ui-helper-clearfix ui-state-default ui-corner-all" title="New Value">
