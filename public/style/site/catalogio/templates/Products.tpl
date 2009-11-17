@@ -87,7 +87,7 @@
 					<a href="{$smarty.const.PTA_CONTENT_URL}/{$photo.PHOTOS_PHOTO}" rel="photos" title="{$data->brand.BRANDS_TITLE} {$data->product.PRODUCTS_TITLE}"></a>
 				{/if}
 			{foreachelse}
-				<img src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/noImg180.gif" alt="{$data->product.PRODUCTS_TITLE}" />
+				<img src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/noImg180.jpg" alt="{$data->product.PRODUCTS_TITLE}" width="180" height="135"/>
 			{/foreach}
 			</td>
 			<td>
@@ -193,12 +193,13 @@
 		</ul> 
 		{if !empty($data->mixPrices)}
 			<div id="prices">
+				{assign var="noImg" value="`$smarty.const.PTA_DESIGN_IMAGES_URL`/noImg90.jpg"}
 				{foreach from=$data->mixPrices item=offer}
 					<div class="bb" style="margin:5px 0;">
 						<table>
 							<tr>
 								<td rowspan="5" width="100px">
-									<a href="{$offer.OFFERS_URL}" target="_blank"><img src="{$offer.OFFERS_IMG}" height="{$offer.OFFERS_IMGH}" width="{$offer.OFFERS_IMGW}" /></a>
+									<a href="{$offer.OFFERS_URL}" target="_blank"><img src="{$offer.OFFERS_IMG|default:$noImg}" width="{if empty($offer.OFFERS_IMGW)}90{else}{$offer.OFFERS_IMGW}{/if}" height="{if empty($offer.OFFERS_IMGH)}67{else}{$offer.OFFERS_IMGH}{/if}" /></a>
 								</td>
 								<th style="text-align:left;">
 									<a href="{$offer.OFFERS_URL}" target="_blank" class="bigger strong high">{$offer.OFFERS_NAME}</a>
