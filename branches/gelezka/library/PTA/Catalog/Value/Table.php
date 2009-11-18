@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_Value_Table extends PTA_DB_Table 
+class PTA_Catalog_Value_Table extends PTA_DB_Table
 {
 	/**
 	 * The default table name
@@ -36,25 +36,28 @@ INNER JOIN CATALOG_PRODUCTSFIELDS AS pf ON pfv.PRODUCTSFIELDSVALUES_FIELDID = pf
 WHERE pv.PRODUCTSVALUES_PRODUCTID =3
 ORDER BY cf.CATEGORIESFIELDS_SORTORDER
  */
+		$fieldIdField = $this->getFieldByAlias('fieldId');
+		$valueIdField = $this->getFieldByAlias('valueId');
+		$valueField = $fieldValueTable->getFieldByAlias('value');
 
 		$select = $this->select()->from(
 			array('pv' => $this->getTableName()),
 			array(
-				$this->getFieldByAlias('fieldId'),
-				$this->getFieldByAlias('valueId')
+				$fieldIdField,
+				$valueIdField
 			)
 		);
 
 		$select->join(
 			array('pfv' => $fieldValueTable->getTableName()),
-			'pv.' . $this->getFieldByAlias('valueId')
+			'pv.' . $valueIdField
 			. ' = pfv.' . $fieldValueTable->getPrimary(),
-			array($fieldValueTable->getFieldByAlias('value'))
+			array($valueField)
 		);
 
 		$select->join(
 			array('cf' => $categoryFieldTable->getTableName()),
-			'pv.' . $this->getFieldByAlias('fieldId') 
+			'pv.' . $fieldIdField
 			. ' = cf.' . $categoryFieldTable->getPrimary(),
 			array()
 		);
@@ -71,7 +74,21 @@ ORDER BY cf.CATEGORIESFIELDS_SORTORDER
 
 		$select->order('cf.' . $categoryFieldTable->getFieldByAlias('sortOrder'));
 		$select->setIntegrityCheck(false);
-
+/*
+		$res = array();
+		foreach ($this->fetchAll($select)->toArray() as $value) {
+			$fieldId = $value[$fieldIdField];
+			if (empty($res[$fieldId])) {
+				$res[$fieldId] = $value;
+			} else {
+				if (!is_array($res[$fieldId][$valueField])) {
+					$res[$fieldId][$valueField] = (array)$res[$fieldId][$valueField];
+				}
+				$res[$fieldId][$valueField][] = $value[$valueField];
+			}
+		}
+		return $res;
+*/
 		return $this->fetchAll($select)->toArray();
 	}
 }

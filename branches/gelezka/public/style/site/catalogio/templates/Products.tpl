@@ -243,7 +243,19 @@
 								{if !empty($field.PRODUCTSFIELDSVALUES_VALUE) && $field.PRODUCTSFIELDSVALUES_VALUE != 'empty'}
 								<tr>
 									<td width="50%"><em>{$field.PRODUCTSFIELDS_TITLE}</em></td>
-									<td>{$field.PRODUCTSFIELDSVALUES_VALUE}</dd>
+									<td>
+									{if is_array($field.PRODUCTSFIELDSVALUES_VALUE)}
+										{foreach from=$field.PRODUCTSFIELDSVALUES_VALUE item=fieldValue name=fv}
+											{if $smarty.foreach.fv.first}
+												{$fieldValue}
+											{else}
+												; {$fieldValue}
+											{/if}
+										{/foreach}
+									{else}
+										{$field.PRODUCTSFIELDSVALUES_VALUE}
+									{/if}
+									</td>
 								</tr>
 								{/if}
 							{/foreach}

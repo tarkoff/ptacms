@@ -233,6 +233,7 @@
 	text-align:left;
 	width:70%;
 }
+.fieldValue select { margin:4px; }
 .comActions{
 	float:left;
 }
