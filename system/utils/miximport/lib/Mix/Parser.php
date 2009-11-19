@@ -78,7 +78,7 @@ class Mix_Parser extends Mix_Abstract
 		while( !feof($fp) ) {
 			$data = iconv(
 				'Windows-1251', 'UTF-8',
-				str_replace('&', '__-xxx-__', trim(fgets($fp, 4092)))
+				str_replace('&', '__-xxx-__', fgets($fp, 4092))
 			);
 			if (!xml_parse($this->_parser, $data, feof($fp))) {
 				trigger_error(
@@ -319,7 +319,7 @@ class Mix_Parser extends Mix_Abstract
 
 			case 'adv':
 				$bulkPos++;
-				$values[] = array((int)$attrs['id'], $this->_currentText);
+				$values[] = array((int)$attrs['id'], trim($this->_currentText));
 			break;
 		}
 
@@ -346,7 +346,7 @@ class Mix_Parser extends Mix_Abstract
 
 			case 'rd':
 				$bulkPos++;
-				$values[] = array((int)$attrs['id'], $this->_currentText);
+				$values[] = array((int)$attrs['id'], trim($this->_currentText));
 			break;
 		}
 
@@ -407,7 +407,7 @@ class Mix_Parser extends Mix_Abstract
 
 			case 'geo':
 				$bulkPos++;
-				$values[] = array((int)$attrs['id'], (int)$attrs['pid'], $this->_currentText);
+				$values[] = array((int)$attrs['id'], (int)$attrs['pid'], trim($this->_currentText));
 			break;
 		}
 
@@ -488,7 +488,7 @@ class Mix_Parser extends Mix_Abstract
 
 			case 'brand':
 				$bulkPos++;
-				$values[] = array((int)$attrs['id'], $this->_currentText);
+				$values[] = array((int)$attrs['id'], trim($this->_currentText));
 			break;
 		}
 
@@ -515,7 +515,7 @@ class Mix_Parser extends Mix_Abstract
 
 			case 'category':
 				$bulkPos++;
-				$values[] = array((int)$attrs['id'], (int)$attrs['parentId'], $this->_currentText);
+				$values[] = array((int)$attrs['id'], (int)$attrs['parentId'], trim($this->_currentText));
 			break;
 		}
 
@@ -559,27 +559,27 @@ class Mix_Parser extends Mix_Abstract
 			break;
 
 			case 'type':
-				$offer[] = $this->_currentText;
+				$offer[] = trim($this->_currentText);
 			break;
 
 			case 'name':
-				$offer[] = $this->_currentText;
+				$offer[] = trim($this->_currentText);
 			break;
 
 			case 'url':
-				$offer[] = $this->_currentText;
+				$offer[] = trim($this->_currentText);
 			break;
 
 			case 'currencyId':
-				$offer[] = $this->_currentText;
+				$offer[] = trim($this->_currentText);
 			break;
 
 			case 'desc':
-				$offer[] = $this->_currentText;
+				$offer[] = trim($this->_currentText);
 			break;
 
 			case 'price':
-				$offer[] = $this->_currentText;
+				$offer[] = trim($this->_currentText);
 			break;
 		}
 
@@ -635,7 +635,7 @@ class Mix_Parser extends Mix_Abstract
 			$this->_db->beginTransaction();
 			$this->_db->query($sql . implode(',', $valSql));
 			$inserted[$table] += count($valSql);
-			$this->alert($table . ' insert ' . $inserted[$table] . ' records');
+			$this->alert($table . $inserted[$table] . ' records inserted');
 			return $this->_db->commit();
 		}
 
