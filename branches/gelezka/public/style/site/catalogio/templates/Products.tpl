@@ -195,7 +195,7 @@
 			<div id="prices">
 				{assign var="noImg" value="`$smarty.const.PTA_DESIGN_IMAGES_URL`/noImg90.jpg"}
 				{foreach from=$data->mixPrices item=offer}
-					<div class="bb" style="margin:5px 0;">
+					<div class="bb" style="margin:5px 0;font-size:0.9em;">
 						<table>
 							<tr>
 								<td rowspan="5" width="100px">

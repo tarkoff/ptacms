@@ -53,9 +53,8 @@
 			$("a[rel='#applyValue']").click(function(e) {
 				e.preventDefault();
 				var fieldName = $(this).attr('id').split("-")[0];
-				var cell = $(this).parent();
-				var textSpan = cell.find('#' + fieldName + '-values');
-				cell.find("select option:selected").each(function () {
+				var textSpan = $('#' + fieldName + '-values');
+				$('#' + fieldName + '_span').find("select option:selected").each(function () {
 					textSpan.append('<em id="' + fieldName + '-' + $(this).val() + '">' + $(this).text() + '; </em>');
 					textSpan.append('<input type="hidden" name="' + fieldName + '[]" id="' + fieldName + '[]" value="' + $(this).val() + '" />');
 				});
@@ -73,7 +72,7 @@
 		
 		function applyRemoveAction()
 		{
-			$('em').click(function(e) {
+			$('em').dblclick(function(e) {
 				$(this).fadeOut(
 					"slow",
 					function () {
@@ -115,32 +114,38 @@
 							{else}
 								<td class="fieldTitle"><label for="color">{$field->label}{if $field->mandatory}*{/if}</label></td>
 								<td class="fieldValue">
-									<span id="{$field->name}-values" style="float:left;color:#333;margin:2px 5px;">
-										{if !empty($field->groupId)}
-											{if is_array($field->value)}
-												{foreach from=$field->value item=valueId}
-													<input type="hidden" name="{$field->name}[]" id="{$field->name}[]" value="{$valueId}" />
-													{foreach from=$field->options item=option}
-														{if $option[0] == $valueId}<em id="{$field->name}-{$valueId}">{$option[1]}; </em>{/if}
-													{/foreach}
-												{/foreach}
-											{elseif isset($field->options)}
-												{foreach from=$field->options item=option}
-													{if $option[0] == $field->value}{$option[1]}{/if}
-												{/foreach}
-											{/if}
-										{/if}
-									</span>
-									<span id="{$field->name}_span" {if !empty($field->groupId)}rel="dynamicField"{/if} style="float:left;">
+									{if empty($field->groupId)}
 										{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}
-									</span>
-									{if !empty($field->fieldId)}
-										<a href="#" rel="#applyValue" id="{$field->name}-applyValue" class="btn_no_text ui-helper-clearfix ui-state-default ui-corner-all" title="Apply Value">
-											<span class="ui-icon ui-icon-check"></span>
-										</a>
-										<a href="#" rel="#newValueForm" onClick="buildFieldValueForm('{$field->name}', {$field->fieldId})" class="btn_no_text ui-helper-clearfix ui-state-default ui-corner-all" title="New Value">
-											<span class="ui-icon ui-icon-plus"></span>
-										</a>
+									{else}
+										<table>
+										<tr><td>
+											<span id="{$field->name}_span" {if !empty($field->groupId)}rel="dynamicField"{/if} style="float:left;">
+												{include file="`$smarty.const.PTA_GENERIC_TEMPLATES_PATH`/controls.tpl" field=$field}
+											</span>
+											<a href="#" rel="#applyValue" id="{$field->name}-applyValue" class="btn_no_text ui-helper-clearfix ui-state-default ui-corner-all" title="Apply Value">
+												<span class="ui-icon ui-icon-check"></span>
+											</a>
+											<a href="#" rel="#newValueForm" onClick="buildFieldValueForm('{$field->name}', {$field->fieldId})" class="btn_no_text ui-helper-clearfix ui-state-default ui-corner-all" title="New Value">
+												<span class="ui-icon ui-icon-plus"></span>
+											</a>
+										</td></tr>
+										<tr><td>
+											<span id="{$field->name}-values" style="float:left;color:#333;margin:2px 5px;">
+												{if is_array($field->value)}
+													{foreach from=$field->value item=valueId}
+														<input type="hidden" name="{$field->name}[]" id="{$field->name}[]" value="{$valueId}" />
+														{foreach from=$field->options item=option}
+															{if $option[0] == $valueId}<em id="{$field->name}-{$valueId}">{$option[1]}; </em>{/if}
+														{/foreach}
+													{/foreach}
+												{elseif isset($field->options)}
+													{foreach from=$field->options item=option}
+														{if $option[0] == $field->value}{$option[1]}{/if}
+													{/foreach}
+												{/if}
+											</span>
+										</td></tr>
+										</table>
 									{/if}
 								</td>
 							{/if}

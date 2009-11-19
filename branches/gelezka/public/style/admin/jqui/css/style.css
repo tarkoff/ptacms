@@ -222,9 +222,6 @@
 .form{
 	width:auto;
 }
-.form input, .form select, .form textarea, .quicksearch input{
-//	border:1px solid #8F8F8F;
-}
 .fieldTitle{
 	text-align:right;
 	width:30%;
@@ -244,7 +241,7 @@
 	padding:0;
 }
 
-.form input.text { width:95%; padding: .4em; }
+.form input.text, .form textarea.text { width:95%; padding: .4em; }
 
 /* ----- New field value form ------ */
 .newValueForm fieldset{
