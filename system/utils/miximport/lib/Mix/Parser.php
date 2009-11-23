@@ -635,7 +635,7 @@ class Mix_Parser extends Mix_Abstract
 			$this->_db->beginTransaction();
 			$this->_db->query($sql . implode(',', $valSql));
 			$inserted[$table] += count($valSql);
-			$this->alert($table . $inserted[$table] . ' records inserted');
+			$this->alert($table . ' ' . $inserted[$table] . ' records inserted');
 			return $this->_db->commit();
 		}
 
