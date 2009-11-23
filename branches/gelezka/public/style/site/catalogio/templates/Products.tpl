@@ -186,7 +186,7 @@
 
 	<div class="descr-panes" id="tabs"> 
 		<ul class="descr-tabs"> 
-			{if !empty($data->mixPrices)}<li><a href="#prices">Купить в России</a></li>{/if}
+			{if !empty($data->mixPrices)}<li><a href="#prices">Цены</a></li>{/if}
 			<li><a href="#prodCustomDescr">Технические характеристики</a></li>
 			<li><a href="#prodComments">Комментарии</a></li>
 			<li><a href="#secondHandPrices">Продам Б/У</a></li>

@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-abstract class PTA_App extends PTA_WebModule 
+abstract class PTA_App extends PTA_WebModule
 {
 	protected $_templateEngine;
 	protected $_modules = array();
@@ -45,10 +45,10 @@ abstract class PTA_App extends PTA_WebModule
 		self::$_instance = $this;
 	}
 
-	public static function getmicrotime() 
-	{ 
-		list($usec, $sec) = explode(" ", microtime()); 
-		return ((float)$usec + (float)$sec); 
+	public static function getmicrotime()
+	{
+		list($usec, $sec) = explode(" ", microtime());
+		return ((float)$usec + (float)$sec);
 	}
 
 	public function setRequestVars()
@@ -232,10 +232,12 @@ abstract class PTA_App extends PTA_WebModule
 		foreach ($this->_modules as $module) {
 			$module->shutdown();
 		}
-		
+
 		$this->setVar('keywords', implode(',', array_unique((array)$this->getVar('keywords'))));
 
-		$this->_sqlLog();
+		if (isset($_REQUEST['sql_debug']) && !empty($_REQUEST['sql_debug'])) {
+			$this->_sqlLog();
+		}
 		$this->setVar('appShutdownTime', number_format((self::getmicrotime() - $this->_shutdownStartTime), 4, '.', ''));
 		$this->setVar('globalAppTime', number_format((self::getmicrotime() - $this->_appStartTime), 4, '.', ''));
 
@@ -277,7 +279,7 @@ abstract class PTA_App extends PTA_WebModule
 		}
 		$db->commit();
 
-		if (isset($_REQUEST['sql_debug'])) {
+		if (isset($_REQUEST['sql_debug']) && !empty($_REQUEST['sql_debug'])) {
 			foreach ($queries as $query) {
 				var_dump($query->getQuery() . '; runTime = ' . number_format($query->getElapsedSecs(), 4, '.', ''));
 			}
@@ -307,7 +309,7 @@ abstract class PTA_App extends PTA_WebModule
 	}
 
 	/**
-	 * Get App Template Engine 
+	 * Get App Template Engine
 	 *
 	 * @return PTA_TemplateEngine
 	 */
@@ -509,7 +511,7 @@ abstract class PTA_App extends PTA_WebModule
 	}
 
 	/**
-	 * Add New App Message 
+	 * Add New App Message
 	 *
 	 * @param int $type
 	 * @param string $message
