@@ -233,7 +233,7 @@
 			<table cols="2" class="width100">
 			<tr>
 				<td colspan="2" style="text-align:left;">
-				<IFRAME src="http://2.auction.ua/cgi-bin/nuclon_core.fcgi?0;1;228;gelezka.net;1" frameborder="0" width="728" height="90" marginwidth="0" marginheight="0" scrolling="no" style="border:1px dotted #AAAAAA;"></IFRAME>
+					<div id="mixkt_4294944591"></div>
 				</td>
 			</tr>
 			{foreach from=$data->customFields item=group}

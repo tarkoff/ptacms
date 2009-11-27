@@ -1,20 +1,20 @@
 #!/bin/bash
 
 CURDATE=$(date +"%Y%m%d")
-DUMPDIR="/srv/www/gelezka/system/backups/daylly"
-CONTENTDIR="/srv/www/gelezka/public/content"
+DUMPDIR="/home/gelezkan/public_html/system/backups/daylly"
+CONTENTDIR="/home/gelezkan/public_html/public/content"
 
-ONEMONTHAGO=$(date --date='1 month ago' +"%Y%m%d")
+ONEMONTHAGO=$(date --date='7 days ago' +"%Y%m%d")
 for i in $( ls $DUMPDIR); do
 	if [ "$i" -lt "$ONEMONTHAGO" ] ; then
 		rm -rf $DUMPDIR/$i
 	fi
 done
 
-DUMPDIR="/srv/www/gelezka/system/backups/daylly/$CURDATE"
+DUMPDIR="$DUMPDIR/$CURDATE"
 
 mkdir -p $DUMPDIR
-mysqldump --opt --user=root --password= --databases GELEZKA > $DUMPDIR/database.sql
+mysqldump --opt --user=gelezkan_gelezka --password=ZaWZ5E9Aily3 --databases gelezkan_gelezka > $DUMPDIR/database.sql
 zip -r $DUMPDIR/content.zip $CONTENTDIR
 zip -r $DUMPDIR/database.zip $DUMPDIR/database.sql
 rm -f $DUMPDIR/database.sql
