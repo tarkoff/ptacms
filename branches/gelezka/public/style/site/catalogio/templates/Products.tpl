@@ -349,3 +349,4 @@
 		</div>
 	</div>
 </div>
+{literal}<script type="text/javascript">$("#tabs").tabs();</script>{/literal}
