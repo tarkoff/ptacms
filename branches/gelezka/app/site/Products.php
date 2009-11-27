@@ -150,6 +150,10 @@ class Products extends PTA_WebModule
 			PTA_DB_Table::get('Catalog_Price')->getSecondHandPrices()
 		);
 		$this->setVar('mixPrices', PTA_DB_Table::get('MixMarket_Offer')->getOffers($productId));
+		$this->getApp()->setVar(
+			'mixCategory',
+			PTA_DB_Table::get('MixMarket_Category')->getMixCategoryId($categoryId)
+		);
 	}
 	
 	public function getHttpProduct()
