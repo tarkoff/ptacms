@@ -19,11 +19,9 @@
 	<link type="text/css" rel="stylesheet" href="http://mixmarket.biz/uni/partner.css" />
 
 	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery-1.3.2.min.js" type="text/javascript"></script>
-<link type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/jquery-ui.css" rel="stylesheet" />
-<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
-<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/i18n/jquery-ui-i18n.min.js"></script>
-	<script src="{$smarty.const.PTA_JS_JQUERY_URL}/jquery.phpdate.js" type="text/javascript"></script>
-	<script src="{$smarty.const.PTA_DESIGN_URL}/js/custom.js" type="text/javascript"></script>
+	<link type="text/css" href="{$smarty.const.PTA_DESIGN_CSS_URL}/jquery-ui.css" rel="stylesheet" />
+	<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/jquery-ui-1.7.2.custom.min.js"></script>
+	<script type="text/javascript" src="{$smarty.const.PTA_JS_JQUERY_URL}/ui/js/i18n/jquery-ui-i18n.min.js"></script>
 	<title>{$Gelezka->title|default:'Gelezka'} - Описания, Цены, Обзоры, Драйвера</title>
 </head>
 
