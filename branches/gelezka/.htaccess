@@ -10,8 +10,11 @@ SetEnv SERVER_ADMIN support@gelezka.net
 
         RewriteRule ^.htaccess$ - [F]
 
-#       RewriteCond %{HTTP_HOST} !^www\\.gelezka\\.(.+)$ [NC]
-#       RewriteRule ^(.*)$ http://www.gelezka.net/$1 [R=301,L]
+	RewriteCond %{HTTP_HOST} ^(www\.)?gelezka\.info$ [NC]
+	RewriteRule ^(.*)$ http://www.gelezka.net/$1 [R=301,L]
+
+	RewriteCond %{HTTP_HOST} ^gelezka\.net$ [NC]
+	RewriteRule ^(.*)$ http://www.gelezka.net/$1 [R=301,L]
 
         RewriteCond %{REQUEST_FILENAME} -f
 
