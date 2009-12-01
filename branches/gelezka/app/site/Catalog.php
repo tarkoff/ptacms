@@ -57,7 +57,7 @@ class Catalog extends PTA_WebModule
 			}
 		}
 		$catId = $this->getCategoryId();
-		$this->setVar('view', $this->getCatalogPage($catId, 1));
+		$this->setVar('view', $this->getCatalogPage($catId));
 		$this->getApp()->setVar(
 			'mixCategory',
 			PTA_DB_Table::get('MixMarket_Category')->getMixCategoryId($catId)
@@ -155,6 +155,7 @@ class Catalog extends PTA_WebModule
 		$subCategories = $this->getApp()->getModule('Categories')->getSubCategories($categoryId);
 		if (!empty($subCategories)) {
 			$categoryIdField = PTA_DB_Table::get('Catalog_Category')->getPrimary();
+			$categoryId = array((int)$categoryId);
 			foreach ($subCategories as $cat) {
 				$categoryId[] = (int)$cat[$categoryIdField];
 			}
