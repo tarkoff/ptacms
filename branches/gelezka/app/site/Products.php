@@ -107,6 +107,7 @@ class Products extends PTA_WebModule
 		$fieldGroups['else'][0][$groupTitleField] = '';
 
 		$fieldIdField = $valueTable->getFieldByAlias('fieldId');
+		$valueIdField = $valueTable->getFieldByAlias('valueId');
 		$valueField = $fieldValueTable->getFieldByAlias('value');
 
 		foreach ($valueTable->getValuesByProductId($productId) as $field) {
@@ -120,9 +121,9 @@ class Products extends PTA_WebModule
 					$value = $field;
 				} else {
 					if (!is_array($value[$valueField])) {
-						$value[$valueField] = (array)$value[$valueField];
+						$value[$valueField] = array($field[$valueIdField] => $value[$valueField]);
 					}
-					$value[$valueField][] = $field[$valueField];
+					$value[$valueField][$field[$valueIdField]] = $field[$valueField];
 				}
 			} else {
 				$value = $fieldGroups['else']['fields'][$fieldId];
@@ -130,9 +131,9 @@ class Products extends PTA_WebModule
 					$value = $field;
 				} else {
 					if (!is_array($value[$valueField])) {
-						$value[$valueField] = (array)$value[$valueField];
+						$value[$valueField] = array($field[$valueIdField] => $value[$valueField]);
 					}
-					$value[$valueField][] = $field[$valueField];
+					$value[$valueField][$field[$valueIdField]] = $field[$valueField];
 				}
 			}
 		}

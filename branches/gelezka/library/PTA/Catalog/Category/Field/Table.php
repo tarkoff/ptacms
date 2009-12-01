@@ -9,10 +9,10 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_Catalog_Category_Field_Table extends PTA_DB_Table 
+class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 {
 	/**
-	 * The default table name 
+	 * The default table name
 	 */
 	protected $_name = 'CATALOG_CATEGORIESFIELDS';
 	protected $_primary = 'CATEGORIESFIELDS_ID';
@@ -47,7 +47,7 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 			foreach ($categories as $category) {
 				$categoriesIds[] = (int)$category[$categoryIdField];
 			}
-		} 
+		}
 		if (empty($categoriesIds)) {
 			$categoriesIds = $categoryId;
 		}
@@ -213,7 +213,7 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 
 		$order = $this->getAdapter()->fetchOne(
 			$this->select()->from(
-				$this->getTableName(), 
+				$this->getTableName(),
 				array('max' => 'MAX(' . $this->getFieldByAlias('sortOrder') . ')')
 			)->where(
 				$this->getFieldByAlias('categoryId') . ' = ?', $categoryId
@@ -248,5 +248,24 @@ class PTA_Catalog_Category_Field_Table extends PTA_DB_Table
 			);
 		}
 		return $this->getAdapter()->commit();
+	}
+	
+	/**
+	 * Get categories ids by fields ids
+	 *
+	 * @param array|int $fieldIds
+	 * @return array
+	 */
+	public function getFieldCategories($fieldIds)
+	{
+		if (empty($fieldIds)) {
+			return array();
+		}
+		
+		$fieldIds = (array)$fieldIds;
+		
+		$select = $this->select()->columns($this->getFieldByAlias('categoryId'));
+		$select->where($this->getFieldByAlias('fieldId') . ' in (?)', $fieldIds);
+		return $this->fetchAll($select)->toArray();
 	}
 }
