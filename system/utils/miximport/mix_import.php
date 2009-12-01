@@ -11,4 +11,6 @@ $parser = new Mix_Parser('mixml.plx');
 
 $parser->init();
 $parser->clearTables();
+$parser->disableKeys();
 $parser->parse();
+$parser->enableKeys();

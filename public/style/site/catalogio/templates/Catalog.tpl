@@ -7,6 +7,8 @@
 				<h3 class="ico-info">
 				{if $data->tplAction == 'list'}
 					{$Categories->category.CATEGORIES_TITLE}
+				{elseif $data->tplAction == 'filter'}
+					{$data->searchRequest.fieldTitle} &raquo; {$data->searchRequest.fieldValue}
 				{elseif $data->tplAction == 'search'}
 					Резултаты поиска: '{$data->searchRequest}'
 				{/if}
@@ -26,7 +28,11 @@
 						{else}<strong>{$category.CATEGORIES_TITLE}</strong>{/if}
 					{/foreach}
 				{/defun}
+			{elseif $data->tplAction == 'filter'}
+				{$data->searchRequest.fieldTitle} &raquo; {$data->searchRequest.fieldValue}
+				{assign var="pagerUrl" value="`$smarty.const.PTA_BASE_URL`/Catalog/Filter/Value/`$data->searchRequest.valueId`"}
 			{elseif $data->tplAction == 'search'}
+				{assign var="pagerUrl" value="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}
 				<strong>{$data->searchRequest}</strong>
 			{/if}
 		</p>
@@ -40,5 +46,6 @@
 	{/foreach}
 	</ul>
 {/if}
-{include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}
+
+{include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl = $pagerUrl}
 {* include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js' *}

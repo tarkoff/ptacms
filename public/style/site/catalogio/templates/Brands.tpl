@@ -7,4 +7,4 @@
 </div>
 
 {include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl="`$data->brandUrl`/`$data->brand.BRANDS_ALIAS`"}
-{include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js'}
+{* include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js' *}

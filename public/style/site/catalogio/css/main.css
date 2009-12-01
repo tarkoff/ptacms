@@ -283,6 +283,6 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 	line-height:130%;
 	font-size:160%;
 }
-.priceDescr{
-	height:60px;
-}
+.priceDescr{ height:60px; }
+.prodValue a { text-decoration:none; }
+.prodValue a:hover { text-decoration:underline; }

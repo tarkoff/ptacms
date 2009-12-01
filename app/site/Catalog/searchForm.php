@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class Catalog_searchForm extends PTA_Control_Form 
+class Catalog_searchForm extends PTA_Control_Form
 {
 	public function __construct($prefix)
 	{
@@ -40,7 +40,7 @@ class Catalog_searchForm extends PTA_Control_Form
 	{
 		if (!empty($data->searchRequest)) {
 			if (($catalog = $this->getApp()->getModule('Catalog'))) {
-				$catalog->setFilterData($data->searchRequest);
+				$catalog->setSearchData($data->searchRequest);
 			}
 			return true;
 		}

@@ -14,7 +14,7 @@ abstract class Mix_Abstract
 {
 	/**
 	 * Database adapter
-	 * 
+	 *
 	 * @var Zend_Db_Adapter_Abstract
 	 */
 	protected $_db;
@@ -22,7 +22,7 @@ abstract class Mix_Abstract
 
 	/**
 	 * Database and other settings
-	 * 
+	 *
 	 * @var Zend_Config_Xml
 	 */
 	protected $_config;
@@ -36,7 +36,7 @@ abstract class Mix_Abstract
 
 	/**
 	 * Connect to dtabase
-	 * 
+	 *
 	 * @return boolean
 	 */
 	protected function _initDb()
@@ -47,9 +47,39 @@ abstract class Mix_Abstract
 		return true;
 	}
 
+	public function disableKeys()
+	{
+		if (empty($this->_config->tables)) {
+			return false;
+		}
+
+		$this->_db->beginTransaction();
+		foreach ($this->_config->tables as $table) {
+			if (!empty($table->name)) {
+				$this->_db->query('ALTER TABLE ' . $table->name . ' DISABLE KEYS');
+			}
+		}
+		return $this->_db->commit();
+	}
+
+	public function enableKeys()
+	{
+		if (empty($this->_config->tables)) {
+			return false;
+		}
+
+		$this->_db->beginTransaction();
+		foreach ($this->_config->tables as $table) {
+			if (!empty($table->name)) {
+				$this->_db->query('ALTER TABLE ' . $table->name . ' ENABLE KEYS');
+			}
+		}
+		return $this->_db->commit();
+	}
+
 	/**
 	 * Set config file
-	 * 
+	 *
 	 * @param string $file
 	 * @return void
 	 */
@@ -62,7 +92,7 @@ abstract class Mix_Abstract
 
 	/**
 	 * Parse config xml file
-	 * 
+	 *
 	 * @return boolean
 	 */
 	protected function _initConfig()
@@ -74,7 +104,7 @@ abstract class Mix_Abstract
 
 	/**
 	 * Clear database tables
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function clearTables()

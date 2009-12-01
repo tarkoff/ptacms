@@ -12,7 +12,7 @@
 class PTA_DB_Table extends Zend_Db_Table_Abstract
 {
 	/**
-	 * The default table name 
+	 * The default table name
 	 */
 	protected $_sequence = true;
 	private static $_tables;
@@ -142,7 +142,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 		$result = null;
 		if (is_array($this->_primary)) {
 			foreach ($this->_primary as $primary) {
-				$result[] = $this->getFullFieldName($primary); 
+				$result[] = $this->getFullFieldName($primary);
 			}
 
 			if (count($result) < 2) {
@@ -166,7 +166,7 @@ class PTA_DB_Table extends Zend_Db_Table_Abstract
 	}
 
 	/**
-	 * return real DB Table field name by alias 
+	 * return real DB Table field name by alias
 	 *
 	 * @param string $alias
 	 * @return string
