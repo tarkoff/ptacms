@@ -28,6 +28,7 @@
 						{else}<strong>{$category.CATEGORIES_TITLE}</strong>{/if}
 					{/foreach}
 				{/defun}
+				{assign var="pagerUrl" value="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}
 			{elseif $data->tplAction == 'filter'}
 				{$data->searchRequest.fieldTitle} &raquo; {$data->searchRequest.fieldValue}
 				{assign var="pagerUrl" value="`$smarty.const.PTA_BASE_URL`/Catalog/Filter/Value/`$data->searchRequest.valueId`"}
