@@ -109,7 +109,7 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
     /* #search-input01, #search-input02, #search-input03, #search-input04, #search-input05 {width:500px; padding:3px; border:1px solid #66A6FF;} */
 	.search-input {width:500px; padding:3px; border:1px solid #66A6FF;}
     /*.search-submit {border: 0px none ; position:relative; width:80px; height:26px; background:#DCEBFF url("../img/search-button.gif") 0 0 no-repeat;}*/
-    .search-submit {border: none; bottom:-1px; background:#DCEBFF url("../img/search-button-clean.gif")no-repeat top left; height:26px; position:relative; width:80px;}
+    .search-submit {border: 0px solid #DCEBFF; bottom:-1px; background:#DCEBFF url("../img/search-button-clean.gif") no-repeat top left; height:26px; position:relative; width:80px;}
 
 .add {padding-left:20px; background:url("../img/add.gif") 0 1px no-repeat;}
 a:hover.add {color:#6B0;}
@@ -190,16 +190,9 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 .ul-folder li {padding-left:20px; background:url("../img/folder.gif") 0 3px no-repeat;}
 
 /* ----------- Products ----------------------------------------------------- */
-.imgBox {
-	width:200px;
-}
-.formInput {
-	border:1px solid #ccc;
-}
-.commentText {
-	width:700px;
-	height:200px;
-}
+.imgBox { width:200px; }
+.formInput { border:1px solid #ccc; }
+.commentText { width:700px; height:200px;}
 /* ----------- Others ------------------------------------------------------- */
 
 .title01-top {width:900px; height:6px; background:#FFF5C7 url("../img/title01-top.gif") 0 100% no-repeat; font-size:0;}
@@ -264,9 +257,7 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 .success a {color:#264409;}
 /* --------------- Adds ------------------------------------------------------*/
 /* -- Adsense -- */
-.big_hor{
-	margin:5px 0;
-}
+.big_hor{ margin:5px 0; }
 
 /* -- MixMarket -- */
 .img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}
@@ -277,13 +268,7 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 #mixkt_4294944591 table { margin:0; font-size:0.9em;}
 .mix_inter { border:none !Important; }
 /* -------------- Products ---------------------------------------------------*/
-.prpiceInput{
-	border:1px solid #CCCCCC;
-	width:90%;
-	padding:5px 5px;
-	line-height:130%;
-	font-size:160%;
-}
+.prpiceInput{ border:1px solid #CCCCCC; width:90%; padding:5px 5px; line-height:130%; font-size:160%; }
 .priceDescr{ height:60px; }
-.prodValue a { text-decoration:none; }
-.prodValue a:hover { text-decoration:underline; }
+.prodValue a { text-decoration:none; color:#2E6E9E; font-weight:bold;}
+.prodValue a:hover { text-decoration:underline;}

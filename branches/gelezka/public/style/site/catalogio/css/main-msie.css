@@ -13,7 +13,7 @@ LAYOUT
 #logo span {cursor:hand;}
 
 #search-input01, #search-input02, #search-input03, #search-input04, #search-input05 {width:508px; height:24px; border:1px solid #66A6FF;}
-.search-submit {position:relative; bottom:-6px;}
+/* .search-submit {position:relative; bottom:-6px;} */
 
 /* ----------------------------------------------------------------------------------------------------------
 Page: Homepage
