@@ -308,15 +308,7 @@ class Catalog_editForm extends PTA_Control_Form
 			$this->_product->setId(null);
 			$this->_product->setDate(date("Y-m-d H:i:s"));
 		}
-/*
-		$brand = PTA_DB_Object::get('Catalog_Brand', $this->_product->getBrandId());
-		if (($imgFile = PTA_Util::upload($brand->getContentPhotoPath()))) {
-			if (!empty($oldImg)) {
-				PTA_Util::unlink(PTA_CONTENT_PATH . '/' . $oldImg);
-			}
-			$this->_product->setImage($imgFile);
-		}
-*/
+
 		//var_dump($data->categoryId);
 		$this->_product->setCategoryId($data->categoryId);
 		if (!empty($data->showInCategories)) {

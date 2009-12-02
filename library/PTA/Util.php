@@ -51,7 +51,7 @@ class PTA_Util
 		return $resData;
 	}
 	
-	public static function upload($destPath, $uploader = null)
+	public static function upload($destPath, $uploader = null, $distFileName = null)
 	{
 		if (
 			empty($uploader)
@@ -81,7 +81,7 @@ class PTA_Util
 			if (!empty($oldFileName)) {
 				$fileProperties = pathinfo($oldFileName);
 				$newFileName = $fileProperties['dirname']
-					. '/' . self::getUniqueFileName($fileProperties['basename'])
+					. '/' . self::getUniqueFileName($distFileName)
 					. '.' . $fileProperties['extension'];
 				if (rename($oldFileName, $newFileName)) {
 					return str_replace(PTA_CONTENT_PATH . '/', '', $newFileName);
@@ -101,7 +101,6 @@ class PTA_Util
 	 */
 	public static function unlink($dest)
 	{
-var_dump($dest);
 		// Sanity check
 		if (!file_exists($dest)) {
 			return false;
@@ -169,7 +168,7 @@ var_dump($dest);
 	
 	public static function getUniqueFileName($key = PTA_CONTENT_PHOTOS_PATH)
 	{
-		return  substr(md5($key), 0, 8);
+		return  substr(md5($key . date("r")), 0, 16);
 	}
 	
 }

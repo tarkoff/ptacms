@@ -20,7 +20,7 @@ if (defined('PTA_APP_DEBUG') && constant('PTA_APP_DEBUG')) {
 	ini_set('dipslay_errors', 0);
 }
 
-class adminApp extends PTA_App 
+class adminApp extends PTA_App
 {
 	function __construct ()
 	{

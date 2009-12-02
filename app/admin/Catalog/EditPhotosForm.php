@@ -8,14 +8,17 @@
  * @version	$Id: editForm.php 63 2009-05-31 22:53:26Z TPavuk $
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
-class Catalog_EditPhotosForm extends PTA_Control_Form 
+class Catalog_EditPhotosForm extends PTA_Control_Form
 {
+	/**
+	 * @var PTA_Catalog_Product
+	 */
 	private $_product;
 	private $_photosTable;
 	private $_photos;
 	private $_defaultPhoto;
 
-	public function __construct($prefix, $product)
+	public function __construct($prefix, PTA_Catalog_Product $product)
 	{
 		$this->_product = $product;
 		$this->_photosTable = PTA_DB_Table::get('Catalog_Product_Photo');
@@ -30,7 +33,7 @@ class Catalog_EditPhotosForm extends PTA_Control_Form
 		$image = new PTA_Control_Form_File('photo', 'Photo');
 		$image->setSortOrder(10);
 		$image->getUploader()->setDestination(
-			PTA_CONTENT_PHOTOS_PATH 
+			PTA_CONTENT_PHOTOS_PATH
 		);
 		$image->isImage(true);
 		$this->addVisual($image);
@@ -49,7 +52,12 @@ class Catalog_EditPhotosForm extends PTA_Control_Form
 		$photo = PTA_DB_Object::get('Catalog_Product_Photo');
 
 		$brand = PTA_DB_Object::get('Catalog_Brand', $this->_product->getBrandId());
-		if (($imgFile = PTA_Util::upload($brand->getContentPhotoPath()))) {
+		$imgFile = PTA_Util::upload(
+			$brand->getContentPhotoPath(),
+			null,
+			$this->_product->getAlias()
+		);
+		if ($imgFile) {
 			$photo->setPhoto($imgFile);
 			$photo->setProductId($this->_product->getId());
 			if ($photo->save()) {
