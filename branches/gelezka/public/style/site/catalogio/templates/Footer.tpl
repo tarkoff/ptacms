@@ -12,23 +12,23 @@
 	</p>
 
 	<!-- Do you want to remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
-	<div id="counters" class="t-center f-right">
+	<div id="counters" class="t-center f-right ui-widget-shadow" style="background:#fff">
 		<div class="col120 noprint ">
 			{literal}
-				<!--LiveInternet counter--><script type="text/javascript"><!--
+			<!--LiveInternet counter--><script type="text/javascript"><!--
 				document.write("<a href='http://www.liveinternet.ru/click' "+
-				"target='_blank' rel='nofollow'><img src='http://counter.yadro.ru/hit?t14.6;r"+
+				"target=_blank><img src='http://counter.yadro.ru/hit?t27.6;r"+
 				escape(document.referrer)+((typeof(screen)=="undefined")?"":
 				";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
 				screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-				";h"+escape(document.title.substring(0,80))+";"+Math.random()+
-				"' alt='' title='LiveInternet: показано число просмотров за 24"+
-				" часа, посетителей за 24 часа и за сегодня' "+
-				"border='0' width='88' height='31'><\/a>")
-				//--></script><!--/LiveInternet-->
+				";"+Math.random()+
+				"' alt='' title='LiveInternet: показано количество просмотров и"+
+				" посетителей' "+
+				"border='0' width='88' height='120'><\/a>")
+			//--></script><!--/LiveInternet-->
 			{/literal}
 		</div>
-		<div class="col120 noprint ">
+		<div class="col120 noprint">
 			{literal}
 				<!--bigmir)net TOP 100-->
 				<script type="text/javascript" language="javascript"><!--
@@ -49,9 +49,7 @@
 						bmD.write('<sc'+'ript type="text/javascript" language="javascript" src="http://c.bigmir.net/?'+bs.join('&')+'"></sc'+'ript>');
 				//-->
 				</script>
-				<noscript>
-				<a href="http://www.bigmir.net/" target="_blank"><img src="http://c.bigmir.net/?v16828507&s16828507&t2" width="88" height="31" alt="bigmir)net TOP 100" title="bigmir)net TOP 100" border="0" /></a>
-				</noscript>
+				<noscript><a href="http://www.bigmir.net/" target="_blank"><img src="http://c.bigmir.net/?v16828507&s16828507&t2" width="88" height="31" alt="bigmir)net TOP 100" title="bigmir)net TOP 100" border="0" /></a></noscript>
 				<!--bigmir)net TOP 100-->
 			{/literal}
 		</div>
