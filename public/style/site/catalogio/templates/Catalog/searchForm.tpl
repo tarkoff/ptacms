@@ -10,7 +10,7 @@
 			<form action="{$form->action}" method="get" name="{$form->name}" id="{$form->name}">
 				<input type="hidden" id="{$validationField->name}" name="{$validationField->name}" value="{$validationField->value}" />
 				<p class="nom t-center">
-					<label for="search-catalog">Поиск:</label>
+					<label for="{$inputField->name}">Поиск:</label>
 					<input type="text" size="75" id="{$inputField->name}" name="{$inputField->name}" class="nonhigh" value="{$inputField->value|default:'поиск по производителю или модели...'}" {literal}onblur="if (this.value == '') {this.value = 'поиск по производителю или модели...';}" onfocus="if (this.value == 'поиск по производителю или модели...') {this.value = '';}"{/literal} />
 					<input type="image" id="{$submitField->name}" name="{$submitField->name}" value="{$submitField->value}" src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/search-button.gif" class="search-submit" />
 				</p>

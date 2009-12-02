@@ -117,25 +117,14 @@ class Products extends PTA_WebModule
 				&& isset($fieldGroups[$fieldGroupsIds[$fieldId]])
 			) {
 				$value = &$fieldGroups[$fieldGroupsIds[$fieldId]]['fields'][$fieldId];
-				if (empty($value)) {
-					$value = $field;
-				} else {
-					if (!is_array($value[$valueField])) {
-						$value[$valueField] = array($field[$valueIdField] => $value[$valueField]);
-					}
-					$value[$valueField][$field[$valueIdField]] = $field[$valueField];
-				}
 			} else {
 				$value = $fieldGroups['else']['fields'][$fieldId];
-				if (empty($value)) {
-					$value = $field;
-				} else {
-					if (!is_array($value[$valueField])) {
-						$value[$valueField] = array($field[$valueIdField] => $value[$valueField]);
-					}
-					$value[$valueField][$field[$valueIdField]] = $field[$valueField];
-				}
 			}
+			if (empty($value)) { $value = $field; }
+			if (!is_array($value[$valueField])) {
+				$value[$valueField] = array($field[$valueIdField] => $value[$valueField]);
+			}
+			$value[$valueField][$field[$valueIdField]] = $field[$valueField];
 		}
 
 		$this->setVar('product', $product);
