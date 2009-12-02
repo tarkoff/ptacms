@@ -40,6 +40,7 @@
 
 	{include file=$Header->tpl}
 
+	{* include file="Catalog/searchForm.tpl" *}
 	{* include file="Catalog/searchForm.tpl" form=$Catalog->searchForm *}
 	{include file="Catalog/searchFormAdSense.tpl"}
 

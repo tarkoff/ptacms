@@ -103,12 +103,13 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
 
 #search-top {width:900px; height:6px; background:#DCEBFF url("../img/search-top.gif") 0 100% no-repeat; font-size:0;}
 #search {background:#DCEBFF url("../img/search.gif") 0 0 repeat-y; overflow:hidden;}
-#search-in {padding:4px 0; background:url("../img/search-in.gif") 0 0 no-repeat; font-size:120%;}
+#search-in {padding:4px; background:url("../img/search-in.gif") 0 0 no-repeat; font-size:120%;}
 #search-bottom {width:900px; height:6px; background:#DCEBFF url("../img/search-bottom.gif") 0 0 no-repeat; font-size:0;}
 
     /* #search-input01, #search-input02, #search-input03, #search-input04, #search-input05 {width:500px; padding:3px; border:1px solid #66A6FF;} */
 	.search-input {width:500px; padding:3px; border:1px solid #66A6FF;}
-    .search-submit {border: 0px none ; position:relative; width:80px; height:26px; background:#DCEBFF url("../img/search-button.gif") 0 0 no-repeat;}
+    /*.search-submit {border: 0px none ; position:relative; width:80px; height:26px; background:#DCEBFF url("../img/search-button.gif") 0 0 no-repeat;}*/
+    .search-submit {border: none; bottom:-1px; background:#DCEBFF url("../img/search-button-clean.gif")no-repeat top left; height:26px; position:relative; width:80px;}
 
 .add {padding-left:20px; background:url("../img/add.gif") 0 1px no-repeat;}
 a:hover.add {color:#6B0;}
