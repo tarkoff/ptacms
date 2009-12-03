@@ -111,6 +111,7 @@ class Catalog extends PTA_WebModule
 			$res['fieldValue'] = $field[$valueField];
 		}
 
+		$this->getApp()->setTitle($res['fieldTitle'] . ' > ' . $res['fieldValue']);
 		$this->setFilterData($res);
 
 		$this->getApp()->setActiveModule($this->getPrefix());
