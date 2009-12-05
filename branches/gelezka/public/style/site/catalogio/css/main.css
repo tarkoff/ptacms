@@ -101,9 +101,20 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
 #search-tabs ul li a.active {background:#F0F6FF url("../img/search-active.gif") 0 0 no-repeat; text-decoration:none; color:#2F2F2F; font-weight:bold;}
 #search-tabs ul li a.active span {background:#F0F6FF url("../img/search-active-02.gif") 100% 0 no-repeat; text-decoration:none;}
 
+#search-tabs {padding:0;background:#fff;border:none;}
+#search-tabs ul {background:#fff;border:none;padding:0 0 0 360px;}
+#search-tabs ul li.ui-state-default {background:#fff;border:none;display:inline; margin:0; padding:0;}
+#search-tabs ul li.ui-state-default a {color:#0067E6;float:left; margin:0; padding:0 0 0 15px; text-align:center; cursor:pointer; font-size:120%;}
+#search-tabs ul li.ui-state-active {border:none;bottom:-1px;}
+#search-tabs ul li.ui-state-active a {background:#F0F6FF url("../img/search-active.gif") 0 0 no-repeat; text-decoration:none; color:#2F2F2F; font-weight:bold;}
+#search-tabs ul li.ui-state-active a span {background:#F0F6FF url("../img/search-active-02.gif") 100% 0 no-repeat; text-decoration:none;}
+
+#search-in div.ui-tabs-panel {margin:0; padding:0;}
+#search-in div.ui-tabs-panel, #search-in div.ui-widget-content, #search-in div.ui-corner-bottom {border:none; background:transporent;}
+
 #search-top {width:900px; height:6px; background:#DCEBFF url("../img/search-top.gif") 0 100% no-repeat; font-size:0;}
 #search {background:#DCEBFF url("../img/search.gif") 0 0 repeat-y; overflow:hidden;}
-#search-in {padding:4px; background:url("../img/search-in.gif") 0 0 no-repeat; font-size:120%;}
+#search-in {padding: 8px 0; background:url("../img/search-in.gif") 0 0 no-repeat; font-size:120%;}
 #search-bottom {width:900px; height:6px; background:#DCEBFF url("../img/search-bottom.gif") 0 0 no-repeat; font-size:0;}
 
     /* #search-input01, #search-input02, #search-input03, #search-input04, #search-input05 {width:500px; padding:3px; border:1px solid #66A6FF;} */

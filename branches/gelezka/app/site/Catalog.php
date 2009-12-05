@@ -23,7 +23,7 @@ class Catalog extends PTA_WebModule
 	{
 		parent::init();
 
-		//$this->addVisual(new Catalog_searchForm('searchForm'));
+		$this->addVisual(new Catalog_searchForm('searchForm'));
 
 		$action = $this->getApp()->getAction();
 		switch (ucfirst($action)) {
@@ -174,12 +174,20 @@ class Catalog extends PTA_WebModule
 
 			$searchData = $this->quote($searchData);
 
+			$searchData = explode(' ', $searchData);
+			$likeQueries = array();
+			foreach ($searchData as $sq) {
+				$sq = strtoupper($sq);
+				$likeQueries['brands'][] = 'UCASE(brands.' . $brandTitleField . ') like "%' . $sq . '%"';
+				$likeQueries['prods'][] = 'UCASE(prods.' . $productTitleField . ') like "%' . $sq . '%"';
+			}
 			$select->having(
-				'brands.' . $brandTitleField . ' like "%' . $searchData . '%"'
-				. ' or prods.' . $productTitleField . ' like "%' . $searchData . '%"'
+				'(' . implode(' or ', $likeQueries['brands'])
+				. ( count($searchData) > 1 ? ') and (' : ') or (')
+				. implode(' or ', $likeQueries['prods']) . ')'
 			);
 		}
-		
+
 		if (($filterData = $this->getFilterData())) {
 			$catFieldsTable = PTA_DB_Table::get('Catalog_Category_Field');
 			$valuesTable = PTA_DB_Table::get('Catalog_Value');
