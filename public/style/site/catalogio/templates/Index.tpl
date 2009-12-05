@@ -40,9 +40,33 @@
 
 	{include file=$Header->tpl}
 
+	<!-- Tabs -->
+	<div id="search-tabs">
+		<ul id="search-type">
+			<li><a href="#s01"><span>Каталог</span></a></li>
+			<li><a href="#s02"><span>Интернет</span></a></li>
+		</ul>
+		<div id="search-top"></div>
+			<div id="search">
+				<div id="search-in">
+					{include file="Catalog/searchForm.tpl" form=$Catalog->searchForm}
+					{include file="Catalog/searchFormAdSense.tpl"}
+					<hr class="noscreen" />
+				</div> <!-- /search-in -->
+			</div> <!-- /search -->
+		<div id="search-bottom"></div>
+		</div> <!-- /search-tabs -->
+
 	{* include file="Catalog/searchForm.tpl" *}
 	{* include file="Catalog/searchForm.tpl" form=$Catalog->searchForm *}
-	{include file="Catalog/searchFormAdSense.tpl"}
+	{* include file="Catalog/searchFormAdSense.tpl" *}
+
+{literal}
+<script type="text/javascript">
+	$("#search-tabs").tabs();
+	//$("#search-tabs > div").addClass('ui-helper-clearfix');
+</script>
+{/literal}
 
 	<!-- Content -->
 	<div id="page" class="box">

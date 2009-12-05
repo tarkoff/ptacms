@@ -31,7 +31,7 @@ class Mix_Port extends Mix_Abstract
 			$sqlLikes = array();
 			$keywordsCnt = count($keywords);
 			foreach ($keywords as $keyword) {
-				$keyword = trim($keyword);
+				$keyword = strtoupper(trim($keyword));
 				if (mb_strlen($keyword, 'UTF-8') > 1) {
 					if ($keywordsCnt > 1) {
 						$sqlLikes[] = 'UCASE(CATEGORIES_TITLE) like "%' . $keyword . '%"';
@@ -85,7 +85,7 @@ class Mix_Port extends Mix_Abstract
 			$sqlLikes = array();
 			$keywordsCnt = count($keywords);
 			foreach ($keywords as $keyword) {
-				$keyword = trim($keyword);
+				$keyword = strtoupper(trim($keyword));
 				if (mb_strlen($keyword, 'UTF-8') > 1) {
 					if ($keywordsCnt > 1) {
 						$sqlLikes[] = 'UCASE(BRANDS_TITLE) like "%' . $keyword . '%"';
@@ -162,13 +162,13 @@ class Mix_Port extends Mix_Abstract
 				}
 				$sqlLikes = array();
 				foreach ($keywords as $keyword) {
-					$keyword = trim($keyword);
+					$keyword = strtoupper(trim($keyword));
 					if (mb_strlen($keyword, 'UTF-8') > 1) {
 						$sqlLikes[] = 'UCASE(mo.OFFERS_NAME) like "%' . $keyword . '%"';
 					}
 				}
 				foreach ($stopKeywords as $keyword) {
-					$keyword = trim($keyword);
+					$keyword = strtoupper(trim($keyword));
 					if (mb_strlen($keyword, 'UTF-8') > 1) {
 						$sqlLikes[] = 'UCASE(mo.OFFERS_NAME) not like "%' . $keyword . '%"';
 					}
