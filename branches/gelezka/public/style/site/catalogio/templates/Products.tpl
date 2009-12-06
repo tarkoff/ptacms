@@ -245,18 +245,16 @@
 						<td>
 							<table class="width100">
 							{foreach from=$group.fields item=field}
-								{if !empty($field.PRODUCTSFIELDSVALUES_VALUE) && $field.PRODUCTSFIELDSVALUES_VALUE != 'empty'}
+								{if is_array($field.PRODUCTSFIELDSVALUES_VALUE) && !in_array('empty', $field.PRODUCTSFIELDSVALUES_VALUE)}
 								<tr>
 									<td width="50%"><em>{$field.PRODUCTSFIELDS_TITLE}</em></td>
 									<td class="prodValue">
-									{if is_array($field.PRODUCTSFIELDSVALUES_VALUE)}
-										{foreach from=$field.PRODUCTSFIELDSVALUES_VALUE item=fieldValue key=valueId name=fv}
+									{foreach from=$field.PRODUCTSFIELDSVALUES_VALUE item=fieldValue key=valueId name=fv}
+										{if !empty($fieldValue)}
 											{if !$smarty.foreach.fv.first}&nbsp;/&nbsp;{/if}
 											<a href="{$smarty.const.PTA_BASE_URL}/Catalog/Filter/Value/{$valueId}" title="Показать все описаения со значением '{$fieldValue}' поля '{$field.PRODUCTSFIELDS_TITLE}'">{$fieldValue}</a>
-										{/foreach}
-									{else}
-										<a href="{$smarty.const.PTA_BASE_URL}/Catalog/Filter/Value/{$field.PRODUCTSVALUES_VALUEID}" title="Показать все описаения со значением '{$field.PRODUCTSFIELDSVALUES_VALUE}' поля '{$field.PRODUCTSFIELDS_TITLE}'">{$field.PRODUCTSFIELDSVALUES_VALUE}</a>
-									{/if}
+										{/if}
+									{/foreach}
 									</td>
 								</tr>
 								{/if}
