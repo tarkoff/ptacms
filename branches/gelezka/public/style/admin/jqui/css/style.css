@@ -250,3 +250,6 @@
 }
 /* --------------- Modal forms --------------------*/
 .ui-dialog-content input { width:95%; }
+
+/* --------------- Product Edit Fotm --------------*/
+.cvt { float:left; color:#333333 !Important; margin:2px 5px; max-width:600px; }

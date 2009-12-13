@@ -120,12 +120,12 @@ class Catalog_editForm extends PTA_Control_Form
 		$desc->setVar('groupId', 0);
 		$this->addVisual($desc);
 
-		$tags = new PTA_Control_Form_Text('tags', 'Tags');
+		$tags = new PTA_Control_Form_Text('tags', 'Tags (Comma separated)');
 		$tags->setSortOrder(23);
 		$tags->setVar('groupId', 0);
 		$this->addVisual($tags);
 
-		$tags = new PTA_Control_Form_Text('stopTags', 'Stop Tags');
+		$tags = new PTA_Control_Form_Text('stopTags', 'Stop Tags (Comma separated)');
 		$tags->setSortOrder(24);
 		$tags->setVar('groupId', 0);
 		$this->addVisual($tags);
@@ -237,6 +237,10 @@ class Catalog_editForm extends PTA_Control_Form
 	
 	private function _sortOptions($a, $b)
 	{
+		if (is_numeric($a[1])) {
+			$a[1] = floatval($a[1]);
+			$b[1] = floatval($b[1]);
+		}
 		if ($a[1] == $b[1]) {
 			return 0;
  		}

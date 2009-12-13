@@ -186,7 +186,7 @@ abstract class PTA_Object
 	public function quote($value)
 	{
 		if (is_numeric($value)) {
-			$value = intval($value);
+			$value = (is_float($value) ? floatval($value) : intval($value));
 		} else {
 			$value = htmlspecialchars(strip_tags(trim($value)));
 		}
