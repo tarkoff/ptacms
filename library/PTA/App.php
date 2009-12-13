@@ -124,13 +124,16 @@ abstract class PTA_App extends PTA_WebModule
 	 * Set Current App User
 	 *
 	 * @param PTA_User $user
+	 * @return boolean
 	 */
 	public function setUser(PTA_User $user)
 	{
-		if ($this->setCookie('SID', $user->getSessionHash())) {
+		if ($this->setCookie('SID', $user->getSessionHash(true))) {
 			$user->saveUserSession();
 			$this->_user = $user;
+			return true;
 		}
+		return false;
 	}
 
 	/**

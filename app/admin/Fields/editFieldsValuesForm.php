@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class Fields_editFieldsValuesForm extends PTA_Control_Form 
+class Fields_editFieldsValuesForm extends PTA_Control_Form
 {
 	private $_field;
 	private $_copy;
@@ -28,7 +28,7 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 	public function initForm()
 	{
 		$title = new PTA_Control_Form_Select(
-			'title', 'Field', true, 
+			'title', 'Field', true,
 			array(
 				array(0, $this->_field->getTitle())
 			)
@@ -41,7 +41,7 @@ class Fields_editFieldsValuesForm extends PTA_Control_Form
 		$fieldValues = $valuesTable->getFieldValues($this->_field->getId());
 		$valueIdField = $valuesTable->getPrimary();
 		$valueValueField = $valuesTable->getFieldByAlias('value');
-
+//var_dump($fieldValues);
 		$sortOrder = 100;
 		foreach ($fieldValues as $field) {
 			$value = new PTA_Control_Form_Text(

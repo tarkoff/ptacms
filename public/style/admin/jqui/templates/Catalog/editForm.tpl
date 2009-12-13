@@ -130,7 +130,7 @@
 											</a>
 										</td></tr>
 										<tr><td>
-											<span id="{$field->name}-values" style="float:left;color:#333;margin:2px 5px;">
+											<span id="{$field->name}-values" class="cvt">
 												{if is_array($field->value)}
 													{foreach from=$field->value item=valueId}
 														<input type="hidden" name="{$field->name}[]" id="{$field->name}[]" value="{$valueId}" />

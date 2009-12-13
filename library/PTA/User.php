@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class PTA_User extends PTA_DB_Object 
+class PTA_User extends PTA_DB_Object
 {
 	protected $_login;
 	protected $_password;
@@ -58,9 +58,15 @@ class PTA_User extends PTA_DB_Object
 		$this->_registerDate = $date;
 	}
 
-	public function getSessionHash()
+	/**
+	 * Get user session hash
+	 *
+	 * @param boolean $force
+	 * @return string
+	 */
+	public function getSessionHash($force = false)
 	{
-		if (empty($this->_sessionHash)) {
+		if (empty($this->_sessionHash) || $force) {
 			$this->_sessionHash = md5("{$this->_login}_" . date("Ymd"));
 		}
 
