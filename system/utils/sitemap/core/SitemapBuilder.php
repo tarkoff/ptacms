@@ -203,8 +203,7 @@ class SitemapBuilder
 			
 			$baseUrl = current($this->_localUrls[0]);
 			$urls = $this->_db->fetchCol('select PRODUCTS_ALIAS from CATALOG_PRODUCTS order by PRODUCTS_ID desc');
-			$i = 0;
-			$pos = 1;
+			$pos = $i = 1;
 			foreach ($urls as $url) {
 				$this->_localUrls[$pos][] = $baseUrl . '/Products/View/Product/' . $url;
 				if ($i % 500 == 0) { $pos++; }
