@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configdata>
+	<database>
+		<adapter>Mysqli</adapter>
+		<params>
+			<host>127.0.0.1</host>
+			<username>gelezkan_gelezka</username>
+			<password>ZaWZ5E9Aily3</password>
+			<dbname>gelezkan_gelezka</dbname>
+		</params>
+	</database>
+</configdata>

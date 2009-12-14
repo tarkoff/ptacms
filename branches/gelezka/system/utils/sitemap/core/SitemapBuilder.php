@@ -9,7 +9,10 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-class SitemapBuilder 
+require_once 'Zend/Config/Xml.php';
+require_once 'Zend/Db.php';
+
+class SitemapBuilder
 {
 	private $_xml;
 	private $_localUrls = array();
@@ -17,10 +20,22 @@ class SitemapBuilder
 	private $_allowedExt = array();
 	private $_host;
 	private $_savePath = '.';
+	private $_workMode;
+	private $_config;
+	
+	protected $_configFile = 'config.xml';
+
+	/**
+	 * @var Zend_Db_Adapter_Abstract
+	 */
+	private $_db;
+
+	const WORK_MODE_URL = 0;
+	const WORK_MODE_DB = 1;
 
 	/**
 	 * Return url passed for sitemap creation
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getRootUrl()
@@ -30,7 +45,7 @@ class SitemapBuilder
 
 	/**
 	 * Set url for sitemap creation
-	 * 
+	 *
 	 * @param string $url
 	 */
 	public function setRootUrl($url)
@@ -43,7 +58,7 @@ class SitemapBuilder
 
 	/**
 	 * Return site host
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getHost()
@@ -53,7 +68,7 @@ class SitemapBuilder
 
 	/**
 	 * Set site host
-	 * 
+	 *
 	 * @param string $host
 	 */
 	public function setHost($host)
@@ -63,7 +78,7 @@ class SitemapBuilder
 
 	/**
 	 * Return save path for sitemap
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getSavePath()
@@ -73,7 +88,7 @@ class SitemapBuilder
 
 	/**
 	 * Set save path for sitemap
-	 * 
+	 *
 	 * @param string $host
 	 */
 	public function setSavePath($path)
@@ -83,7 +98,7 @@ class SitemapBuilder
 
 	/**
 	 * Return allowed extentions for sitemap
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getAllowedExt()
@@ -93,7 +108,7 @@ class SitemapBuilder
 
 	/**
 	 * Add allowed extentons for sitemap
-	 * 
+	 *
 	 * @param array|string $ext
 	 */
 	public function addAllowedExt($ext = array())
@@ -109,6 +124,54 @@ class SitemapBuilder
 	}
 
 	/**
+	 * Parse config xml file
+	 *
+	 * @return boolean
+	 */
+	protected function _initConfig()
+	{
+		$this->_config = new Zend_Config_Xml($this->_configFile);
+		!empty($this->_config) || trigger_error('Config file not found.', E_USER_ERROR);
+		return $this->_config;
+	}
+
+	/**
+	 * Set config file
+	 *
+	 * @param string $file
+	 * @return void
+	 */
+	public function setConfigFile($file = '')
+	{
+		if (file_exists($file)) {
+			$this->_configFile = $file;
+		}
+	}
+
+	/**
+	 * Connect to dtabase
+	 *
+	 * @return boolean
+	 */
+	protected function _initDb()
+	{
+		$this->_db = Zend_Db::factory($this->_config->database);
+		is_object($this->_db) || trigger_error('Database connection error.', E_USER_ERROR);
+		$this->_db->query('SET NAMES UTF8');
+		return $this->_db;
+	}
+
+	public function getWorkMode()
+	{
+		return $this->_workMode;
+	}
+	
+	public function setWorkMode($mode = self::WORK_MODE_DB)
+	{
+		$this->_workMode = $mode;
+	}
+
+	/**
 	 * Build and save sitemap for setted root url
 	 */
 	public function build()
@@ -117,20 +180,35 @@ class SitemapBuilder
 
 		$urls = $subUrls = $this->_localUrls[0] = array($this->getHost());
 
-		$i = 0;
-		while (!empty($subUrls)) {
-			$subUrls = array();
+		if ($this->_workMode == self::WORK_MODE_URL) {
+			$i = 0;
+			while (!empty($subUrls)) {
+				$subUrls = array();
+				foreach ($urls as $url) {
+					$subUrls = array_merge($subUrls, $this->getPageUrls($url));
+				}
+
+				$subUrls = array_unique($subUrls);
+				foreach ($this->_localUrls as $levelUrls) {
+					$subUrls = array_diff($subUrls, $levelUrls);
+				}
+
+				if (!empty($subUrls)) {
+					$urls = $this->_localUrls[++$i] = $subUrls;
+				}
+			}
+		} else {
+			$this->_initConfig();
+			$this->_initDb();
+			
+			$baseUrl = current($this->_localUrls[0]);
+			$urls = $this->_db->fetchCol('select PRODUCTS_ALIAS from CATALOG_PRODUCTS order by PRODUCTS_ID desc');
+			$i = 0;
+			$pos = 1;
 			foreach ($urls as $url) {
-				$subUrls = array_merge($subUrls, $this->getPageUrls($url));
-			}
-
-			$subUrls = array_unique($subUrls);
-			foreach ($this->_localUrls as $levelUrls) {
-				$subUrls = array_diff($subUrls, $levelUrls);
-			}
-
-			if (!empty($subUrls)) {
-				$urls = $this->_localUrls[++$i] = $subUrls;
+				$this->_localUrls[$pos][] = $baseUrl . '/Products/View/Product/' . $url;
+				if ($i % 500 == 0) { $pos++; }
+				$i++;
 			}
 		}
 
@@ -141,7 +219,7 @@ class SitemapBuilder
 
 	/**
 	 * Parse setted url and return all loacal links from this page
-	 * 
+	 *
 	 * @param string $url
 	 * @return array
 	 */
@@ -173,7 +251,7 @@ class SitemapBuilder
 
 	/**
 	 * Return page content by url
-	 * 
+	 *
 	 * @param string $url
 	 * @return string
 	 */
@@ -198,7 +276,7 @@ class SitemapBuilder
 
 	/**
 	 * Return true if setted url correct
-	 * 
+	 *
 	 * @param string $url
 	 * @return boolean
 	 */
