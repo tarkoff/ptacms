@@ -1,1 +1,0 @@
-{include file="Categories/FieldsSortOrderForm.tpl" form=$form}

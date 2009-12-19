@@ -1,1 +1,0 @@
-{include file="generic/view.tpl" view=$view filterForm = $Sites->Common_FilterForm}
