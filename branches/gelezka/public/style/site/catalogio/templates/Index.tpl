@@ -64,10 +64,20 @@
 {literal}
 <script type="text/javascript">
 	$("#search-tabs").tabs();
-	//$("#search-tabs > div").addClass('ui-helper-clearfix');
 </script>
 {/literal}
 
+	<div style="margin:15px 0 0 0;">
+		<script type="text/javascript"><!--
+			google_ad_client = "pub-1610147099732550";
+			/* gelezka_links_block_728x15 */
+			google_ad_slot = "2235711311";
+			google_ad_width = 728;
+			google_ad_height = 15;
+			//-->
+		</script>
+		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+	</div>
 	<!-- Content -->
 	<div id="page" class="box">
 		{include file=$activeModule->tpl data=$activeModule}
