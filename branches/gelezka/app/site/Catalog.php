@@ -124,7 +124,7 @@ class Catalog extends PTA_WebModule
 	{
 		$this->setVar('tplAction', 'search');
 		if (!($filterData = $this->getSearchData())) {
-			return false;
+			$this->redirect('/');
 		}
 
 		$this->getApp()->setActiveModule($this->getPrefix());
