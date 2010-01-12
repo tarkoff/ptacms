@@ -33,7 +33,7 @@
 				{$data->searchRequest.fieldTitle} &raquo; {$data->searchRequest.fieldValue}
 				{assign var="pagerUrl" value="`$smarty.const.PTA_BASE_URL`/Catalog/Filter/Value/`$data->searchRequest.valueId`"}
 			{elseif $data->tplAction == 'search'}
-				{assign var="pagerUrl" value="`$Categories->url`/`$Categories->category.CATEGORIES_ALIAS`"}
+				{assign var="pagerUrl" value="`$smarty.const.PTA_BASE_URL`/Catalog/Search"}
 				<strong>{$data->searchRequest}</strong>
 			{/if}
 		</p>
