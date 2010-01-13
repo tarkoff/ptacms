@@ -323,7 +323,7 @@
 			</p>
 		</div>
 		<div id="secondHandPrices">
-		{if !empty($data->secondHandPrice)}
+		{if !empty($data->secondHandPrices)}
 			<table class="width100">
 			<tr>
 				<th>Описание</th>
