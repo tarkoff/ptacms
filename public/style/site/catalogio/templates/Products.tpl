@@ -166,16 +166,7 @@
 				</table>
 			</td>
 			<td>
-				<script type="text/javascript">
-					<!--
-						google_ad_client = "pub-1610147099732550";
-						/* 336x280, gelezka_products_square */
-						google_ad_slot = "9277947482";
-						google_ad_width = 336;
-						google_ad_height = 280;
-					//-->
-				</script>
-				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+				{literal}<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=698&search={/literal}{$Products->product.PRODUCTS_ALIAS|replace:'_':'+'}{literal}&encoding=&limit=5"></script>{/literal}
 			</td>
 		</tr>
 	</table>
@@ -194,6 +185,7 @@
 		{if !empty($data->mixPrices)}
 			<div id="prices">
 				{assign var="noImg" value="`$smarty.const.PTA_DESIGN_IMAGES_URL`/noImg90.jpg"}
+					<div>{literal}<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=700&search={/literal}{$Products->product.PRODUCTS_ALIAS|replace:'_':'+'}{literal}&encoding=&limit="></script>{/literal}</div>
 				{foreach from=$data->mixPrices item=offer}
 					<div class="bb" style="margin:5px 0;font-size:0.9em;">
 						<table>
