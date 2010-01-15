@@ -90,11 +90,11 @@
 				<img src="{$smarty.const.PTA_DESIGN_IMAGES_URL}/noImg180.jpg" alt="{$data->product.PRODUCTS_TITLE}" width="180" height="135"/>
 			{/foreach}
 			</td>
-			<td>
+			<td style="min-width:200px;">
 				<table>
 					<tr class="bb">
 						<td colspan="2">
-							<a id="newPriceFormScroller" class="bigger strong add" style="cursor:pointer;">Добавить обьявление о продаже</a>
+							<a id="newPriceFormScroller" class="bigger strong add" style="cursor:pointer;">Продать Б/У</a>
 							{if $priceForm->submited}
 								{pta_const name="PTA_Control_Form::FORM_ERROR_SAVE" to="saveError"}
 								{pta_const name="PTA_Control_Form::FORM_ERROR_VALIDATE" to="validateError"}
@@ -177,15 +177,15 @@
 
 	<div class="descr-panes" id="tabs"> 
 		<ul class="descr-tabs"> 
-			{if !empty($data->mixPrices)}<li><a href="#prices">Цены</a></li>{/if}
+			<li><a href="#prices">Цены</a></li>
 			<li><a href="#prodCustomDescr">Технические характеристики</a></li>
 			<li><a href="#prodComments">Комментарии</a></li>
 			<li><a href="#secondHandPrices">Продам Б/У</a></li>
 		</ul> 
-		{if !empty($data->mixPrices)}
+		{* if !empty($data->mixPrices) *}
 			<div id="prices">
 				{assign var="noImg" value="`$smarty.const.PTA_DESIGN_IMAGES_URL`/noImg90.jpg"}
-					<div>{literal}<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=700&search={/literal}{$Products->product.PRODUCTS_ALIAS|replace:'_':'+'}{literal}&encoding=&limit="></script>{/literal}</div>
+					<div class="bb" style="margin:5px 0;">{literal}<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=700&search={/literal}{$Products->product.PRODUCTS_ALIAS|replace:'_':'+'}{literal}&encoding=&limit="></script>{/literal}</div>
 				{foreach from=$data->mixPrices item=offer}
 					<div class="bb" style="margin:5px 0;font-size:0.9em;">
 						<table>
@@ -219,7 +219,7 @@
 					</div>
 				{/foreach}
 			</div>
-		{/if}
+		{* /if *}
 		<div id="prodCustomDescr" class="box">
 		{if !empty($data->customFields)}
 			<table cols="2" class="width100">
