@@ -2,7 +2,7 @@
 <div id="footer">
 	<hr class="noscreen" />
 	<p class="t-center">
-		Copyrighted &copy;&nbsp;2009 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
+		Copyrighted &copy;&nbsp;2009 - 2010 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
 		Поддержка сайта {mailto address="support@gelezka.net" encode="javascript"}<br />
 		<!-- Do you want to remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
 		<span id="copy">
