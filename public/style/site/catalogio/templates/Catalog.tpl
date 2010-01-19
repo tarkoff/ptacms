@@ -48,5 +48,6 @@
 	</ul>
 {/if}
 
+<div style="text-align:center;">{include file="ads/adsense_links_728x15.tpl"}</div>
 {include file="Catalog/Pager.tpl" view = $data->view data = $data pagerUrl = $pagerUrl}
 {* include file="ads/MixMarket_ForOffice_Banner.tpl" mode = 'js' *}
