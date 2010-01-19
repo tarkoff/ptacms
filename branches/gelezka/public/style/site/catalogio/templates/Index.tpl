@@ -70,10 +70,10 @@
 	<div style="margin:15px 0 0 0;">
 		<script type="text/javascript"><!--
 			google_ad_client = "pub-1610147099732550";
-			/* gelezka_links_block_728x15 */
-			google_ad_slot = "2235711311";
+			/* 728x90, gelezka_horizontal_bottom */
+			google_ad_slot = "6736390713";
 			google_ad_width = 728;
-			google_ad_height = 15;
+			google_ad_height = 90;
 			//-->
 		</script>
 		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
