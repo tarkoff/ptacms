@@ -137,7 +137,7 @@ class Products extends PTA_WebModule
 		$this->setVar('comments', PTA_DB_Table::get('Post')->getProductPosts($productId));
 		$this->setVar(
 			'secondHandPrices',
-			PTA_DB_Table::get('Catalog_Price')->getSecondHandPrices()
+			PTA_DB_Table::get('Catalog_Price')->getSecondHandPrices($productId)
 		);
 		$this->setVar('mixPrices', PTA_DB_Table::get('MixMarket_Offer')->getOffers($productId));
 		$this->getApp()->setVar(
