@@ -1,0 +1,87 @@
+<?php echo $this->doctype() ?> <!-- This Line will output the doctype we set inside the bootstrap file -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <link href="/css/blueprint/screen.css" media="screen" rel="stylesheet" type="text/css" />
+  <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+  <link href="/js/jquery/superfish/css/superfish.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="/js/jquery/superfish/css/superfish-navbar.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="/css/ui/131/redmond/jquery-ui-1.7.2.custom.css" media="screen" rel="stylesheet" type="text/css" />
+<!--  <link href="/css/ui/141/ui-lightness/jquery-ui-1.8rc1.custom.css" media="screen" rel="stylesheet" type="text/css" /> -->
+  <link href="/js/jquery/jqGrid/css/ui.jqgrid.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="/css/global.css" media="screen" rel="stylesheet" type="text/css" />
+
+  <script type="text/javascript" src="/js/jquery/jquery-1.3.2.min.js"></script>
+<!--  <script type="text/javascript" src="/js/jquery/jquery-1.4.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/jquery/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/superfish/js/hoverIntent.js"></script>
+  <script type="text/javascript" src="/js/jquery/superfish/js/superfish.js"></script>
+  <script type="text/javascript" src="/js/jquery/ui/131/jquery-ui-1.7.2.custom.min.js"></script>
+<!--  <script type="text/javascript" src="/js/jquery/ui/141/jquery-ui-1.8rc1.custom.min.js"></script> -->
+  <script type="text/javascript" src="/js/jquery/jqGrid/js/i18n/grid.locale-ru.js"></script>
+  <script type="text/javascript" src="/js/jquery/jqGrid/js/jquery.jqGrid.min.js"></script>
+  <script type="text/javascript" src="/js/custom.js"></script>
+
+  <title>KiT CMS Admin Panel</title>
+</head>
+<body>
+
+<div id="header" class="container">
+	<div id="topUserNav" class="blackMenuStrip">
+		<div class="first column">
+		<ul class="sf-menu sf-navbar sf-js-enabled sf-shadow" id="topMenu">
+			<li class="">
+				<a href="#" class="sf-with-ul">System</a>
+				<ul style="display: none; visibility: hidden;">
+					<li><a href="<?php echo $this->url(array('controller'=>'users'), 'default', true) ?>">Users</a></li>
+					<li><a href="<?php echo $this->url(array('controller'=>'usergroups'), 'default', true) ?>">User Groups</a></li>
+					<li><a href="<?php echo $this->url(array('controller'=>'menus'), 'default', true) ?>">Menus</a></li>
+					<li><a href="<?php echo $this->url(array('controller'=>'settings'), 'default', true) ?>">Settings</a></li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="sf-with-ul">Blog</a>
+				<ul style="display: none; visibility: hidden;">
+					<li><a href="#">subitem 4a</a></li>
+					<li><a href="#">subitem 4b</a></li>
+					<li><a href="#">subitem 4c</a></li>
+					<li><a href="#">subitem 4d</a></li>
+				</ul>
+			</li>
+			<li class="">
+				<a href="#" class="sf-with-ul">Catalog</a>
+				<ul style="display: none; visibility: hidden;">
+					<li><a href="<?php echo $this->url(array('controller'=>'products', 'module' => 'catalog'), null, true) ?>">Products</a></li>
+				</ul>
+			</li>
+		</ul>
+		</div>
+		<div class="last">
+			<span class="append-1">Logged in as <span style="color:#fff">Guest</span></span>
+			<a title="My account" href="#">My account</a>&nbsp;|&nbsp;
+			<a title="Logout" href="/Authorizer/Logout">Logout</a>
+		</div>
+	</div>
+</div>
+
+<div id="content" class="container">
+	<?php echo $this->layout()->content ?>
+</div>
+
+<div id="footer" class="container">
+	<div id="topMenu" class="blackMenuStrip">
+		<a>Queries:</a> <span style="color:#fff">5</span>&nbsp;|&nbsp;
+		<a>Queries Time:</a><span style="color:#fff">5</span>&nbsp;|&nbsp;
+	</div>
+</div>
+
+<div id="removeWarning" title="Remove this item?">
+	<p>
+		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+		This item will be permanently deleted and cannot be recovered. Are you sure?
+	</p>
+</div>
+
+</body>
+</html>

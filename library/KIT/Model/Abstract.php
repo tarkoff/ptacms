@@ -1,0 +1,154 @@
+<?php
+abstract class KIT_Model_Abstract
+{
+	/**
+	 * @var Zend_Db_Table_Abstract
+	 */
+	protected $_dbTable;
+
+	/**
+	 * @var int
+	 */
+	protected $_id;
+
+	/**
+	 * Constructor
+	 *
+	 * @param  array|null $options
+	 * @return void
+	 */
+	public function __construct(array $options = null)
+	{
+		if (is_array($options)) {
+			$this->setOptions($options);
+		}
+		
+	}
+
+	public function init()
+	{
+		
+	}
+
+	/**
+	 * Overloading: allow property access
+	 *
+	 * @param  string $name
+	 * @param  mixed $value
+	 * @return void
+	 */
+	public function __set($name, $value)
+	{
+		$method = 'set' . $name;
+		if (!method_exists($this, $method)) {
+			throw Exception('Invalid property specified');
+		}
+		$this->$method($value);
+	}
+
+	/**
+	 * Overloading: allow property access
+	 *
+	 * @param  string $name
+	 * @return mixed
+	 */
+	public function __get($name)
+	{
+		$method = 'get' . $name;
+		if (!method_exists($this, $method)) {
+			throw Zend_Exception('Invalid property specified');
+		}
+		return $this->$method();
+	}
+
+	/**
+	 * Specify Zend_Db_Table instance to use for data operations
+	 *
+	 * @param  Zend_Db_Table_Abstract $dbTable
+	 * @return Default_Model_GuestbookMapper
+	 */
+	public function setDbTable($dbTable)
+	{
+		if ( is_string($dbTable) && class_exists($dbTable) ) {
+			$dbTable = KIT_Db_Table_Abstract::get($dbTable);
+		}
+		if ( !$dbTable instanceof Zend_Db_Table_Abstract ) {
+			throw new Zend_Exception('Invalid table data gateway provided');
+		}
+		$this->_dbTable = $dbTable;
+		return $this;
+	}
+
+	/**
+	 * Get registered Zend_Db_Table instance
+	 *
+	 * Lazy loads KIT_Model if no instance registered
+	 *
+	 * @return KIT_Table
+	 */
+	public function getDbTable()
+	{
+		if (empty($this->_dbTable)) {
+			$dbTableClass = str_replace('_Model_', '_Model_DbTable_', get_class($this));
+			if ( class_exists($dbTableClass) ) {
+				$this->_dbTable = KIT_Db_Table_Abstract::get($dbTableClass);
+			}
+		}
+		return $this->_dbTable;
+	}
+
+	/**
+	 * Set entry id
+	 *
+	 * @param  int $id
+	 * @return KIT_Model
+	 */
+	public function setId($id)
+	{
+		$this->_id = (int) $id;
+		return $this;
+	}
+
+	/**
+	 * Retrieve entry id
+	 *
+	 * @return null|int
+	 */
+	public function getId()
+	{
+		return $this->_id;
+	}
+
+	/**
+	 * Set object state
+	 *
+	 * @param  array $options
+	 * @return Default_Model_Guestbook
+	 */
+	public function setOptions(array $options)
+	{
+		$methods = get_class_methods($this);
+		foreach ($options as $key => $value) {
+			$method = 'set' . ucfirst($key);
+			if (in_array($method, $methods)) {
+				$this->$method($value);
+			}
+		}
+		return $this;
+	}
+	
+	public function save($data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+
+		$table = $this->getDbTable();
+		if (null === ($id = $this->getId())) {
+			return $table->insert($data);
+		} else {
+			return $table->update($data, array($table->getPrimary() . ' = ?' => $id));
+		}
+	}
+
+}
