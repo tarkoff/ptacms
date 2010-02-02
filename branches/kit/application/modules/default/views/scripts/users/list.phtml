@@ -1,0 +1,24 @@
+<table id="list" class="scroll"></table>
+<div id="pager" class="scroll" style="text-align:center;"></div>
+
+<script type="text/javascript">
+jQuery('#list').jqGrid({
+	url:'/users/list/format/json',
+	datatype: 'json',
+	mtype: 'GET',
+	colNames:['Id','Group', 'Login','Register Date'],
+	colModel :[
+	  {name:'USERS_ID', index:'USERS_ID'},
+	  {name:'USERS_GROUPID', index:'USERS_GROUPID'},
+	  {name:'USERS_LOGIN', index:'USERS_LOGIN'},
+	  {name:'USERS_REGISTERDATE', index:'USERS_REGISTERDATE', align:'right'} ],
+	pager: jQuery('#pager'),
+	rowNum:20,
+	rowList:[20, 40, 60, 80, 100, 150, 200],
+	sortname: 'USERS_ID',
+	sortorder: 'asc',
+	viewrecords: true,
+	imgpath: 'css/ui/141/ui-lightness/images',
+	caption: 'Users View'
+});
+</script>
