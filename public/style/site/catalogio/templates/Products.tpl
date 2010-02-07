@@ -316,14 +316,14 @@
 		</div>
 		<div id="secondHandPrices">
 		{if !empty($data->secondHandPrices)}
-			<table class="width100">
+			<table class="width100" cellpadding="5px" style="font-size:0.9em;">
 			<tr>
 				<th>Описание</th>
 				<th width="100px">Цена</th>
 				<th width="100px">Актуально до</th>
 			</tr>
 			{foreach from=$data->secondHandPrices item=price}
-				<tr bgcolor="{cycle values="#eeeeee,#ffffff"}">
+				<tr class="bb">
 					<td>{$price.PRICES_DESCR}</td>
 					<td align="center">{$price.PRICES_PRICE} {$price.CURRENCY}</td>
 					<td align="center">{$price.PRICES_DATETO|date_format:"%d.%m.%Y"}</td>
