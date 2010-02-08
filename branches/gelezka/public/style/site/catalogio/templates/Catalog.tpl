@@ -10,7 +10,7 @@
 				{elseif $data->tplAction == 'filter'}
 					{$data->searchRequest.fieldTitle} &raquo; {$data->searchRequest.fieldValue}
 				{elseif $data->tplAction == 'search'}
-					Резултаты поиска: '{$data->searchRequest}'
+					Результаты поиска: '{$data->searchRequest}'
 				{/if}
 				</h3>
 			</div>
