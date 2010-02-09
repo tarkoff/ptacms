@@ -20,7 +20,13 @@ if (defined('PTA_APP_DEBUG') && constant('PTA_APP_DEBUG')) {
 	ini_set('dipslay_errors', 0);
 }
 
-class SiteApp extends PTA_App 
+if (!defined('_SAPE_USER')){
+	define('_SAPE_USER', '21b99478bb701693f0193b8c156df761');
+}
+require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php');
+$sape = new SAPE_client();
+
+class SiteApp extends PTA_App
 {
 	function __construct ()
 	{
@@ -100,6 +106,7 @@ $app = new SiteApp();
 
 $app->init();
 $app->run();
+$app->setVar('sape', $sape);
 $app->shutdown();
 
 ob_end_flush();
