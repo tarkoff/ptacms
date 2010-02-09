@@ -24,7 +24,12 @@ if (!defined('_SAPE_USER')){
 	define('_SAPE_USER', '21b99478bb701693f0193b8c156df761');
 }
 require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php');
-$sape = new SAPE_client();
+//$o[ 'force_show_code' ] = true;
+$o['charset'] = 'UTF-8';
+/* $o['verbose'] = true; */
+$o['request_uri'] = $_SERVER['REQUEST_URI'];
+$sape = new SAPE_client($o);
+
 
 class SiteApp extends PTA_App
 {
