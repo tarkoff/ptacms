@@ -237,7 +237,7 @@ class Catalog_editForm extends PTA_Control_Form
 	
 	private function _sortOptions($a, $b)
 	{
-		if (is_numeric($a[1])) {
+		if (is_numeric($a[1]) && is_numeric($b[1])) {
 			$a[1] = floatval($a[1]);
 			$b[1] = floatval($b[1]);
 		}

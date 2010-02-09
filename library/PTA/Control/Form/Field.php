@@ -9,7 +9,7 @@
  * @author Taras Pavuk <tpavuk@gmail.com>
 */
 
-abstract class PTA_Control_Form_Field extends PTA_Object 
+abstract class PTA_Control_Form_Field extends PTA_Object
 {
 	const TYPE_TEXT = 1;
 	const TYPE_TEXTAREA = 2;
@@ -119,7 +119,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 			$method = "set{$option}";
 			if (method_exists($field, $method)) {
 				//call_user_func_array(array($field, $method), $value);
-				$field->$method($value); 
+				$field->$method($value);
 			}
 		}
 
@@ -139,7 +139,7 @@ abstract class PTA_Control_Form_Field extends PTA_Object
 
 	public function setValue($value)
 	{
-		$this->setVar('value', (is_string($value) ? $this->quote($value) : $value));
+		$this->setVar('value', $value);
 	}
 
 	public function getLabel()
