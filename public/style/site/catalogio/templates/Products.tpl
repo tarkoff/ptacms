@@ -191,20 +191,20 @@
 						<table>
 							<tr>
 								<td rowspan="5" width="100px">
-									<a href="{$offer.OFFERS_URL}" target="_blank"><img src="{$offer.OFFERS_IMG|default:$noImg}" width="{if empty($offer.OFFERS_IMGW)}90{else}{$offer.OFFERS_IMGW}{/if}" height="{if empty($offer.OFFERS_IMGH)}67{else}{$offer.OFFERS_IMGH}{/if}" /></a>
+									<a href="{$offer.OFFERS_URL}" rel=”nofollow” target="_blank"><img src="{$offer.OFFERS_IMG|default:$noImg}" width="{if empty($offer.OFFERS_IMGW)}90{else}{$offer.OFFERS_IMGW}{/if}" height="{if empty($offer.OFFERS_IMGH)}67{else}{$offer.OFFERS_IMGH}{/if}" /></a>
 								</td>
 								<th style="text-align:left;">
-									<a href="{$offer.OFFERS_URL}" target="_blank" class="bigger strong high">{$offer.OFFERS_NAME}</a>
+									<a href="{$offer.OFFERS_URL}" rel=”nofollow” target="_blank" class="bigger strong high">{$offer.OFFERS_NAME}</a>
 								</th>
 							</tr>
 							<tr>
 								<td>
-									<em>Цена</em>: <a href="{$offer.OFFERS_URL}" target="_blank" class="bigger strong">{$offer.OFFERS_PRICE} {if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}</a>
+									<em>Цена</em>: <a href="{$offer.OFFERS_URL}" rel=”nofollow” target="_blank" class="bigger strong">{$offer.OFFERS_PRICE} {if $offer.OFFERS_CURRENCYID == 'RUB'}руб.{else}${/if}</a>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<em>Магазин</em>: <a href="{$offer.OFFERS_URL}" target="_blank">{$offer.ADVERTIZERS_TITLE}</a>
+									<em>Магазин</em>: <a href="{$offer.OFFERS_URL}" rel=”nofollow” target="_blank">{$offer.ADVERTIZERS_TITLE}</a>
 								</td>
 							</tr>
 							<tr>
@@ -213,7 +213,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><a href="{$offer.OFFERS_URL}" target="_blank">Купить в магазине <b>{$offer.ADVERTIZERS_TITLE}</b> >></a></td>
+								<td><a href="{$offer.OFFERS_URL}" rel=”nofollow” target="_blank">Купить в магазине <b>{$offer.ADVERTIZERS_TITLE}</b> >></a></td>
 							</tr>
 						</table>
 					</div>
