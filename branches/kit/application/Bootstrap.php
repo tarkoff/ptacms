@@ -11,7 +11,7 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Action.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
@@ -26,6 +26,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		return $modulLoader;
 	}
-	
+/*
+	protected function _initPlugins()
+	{
+		//$aclPlugin = new Default_Plugin_Acl();
+		//$front = $this->getResource('front');
+		//$front->registerPlugin($aclPlugin);
+	}
+*/
+	protected function _initViewHelpers()
+	{
+		$this->bootstrap('layout');
+		$layout = $this->getResource('layout');
+		$view = $layout->getView();
+
+		$view->doctype('XHTML1_STRICT');
+		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+		$view->headTitle()->setSeparator(' - ');
+		$view->headTitle('KiT CMS Admin Panel');
+	}
 }
 

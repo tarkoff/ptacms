@@ -1,7 +1,8 @@
-<?php echo $this->doctype() ?> <!-- This Line will output the doctype we set inside the bootstrap file -->
+<?php echo $this->doctype() ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <?php echo $this->headMeta(); ?>
+  <?php echo $this->headTitle(); ?>
 
   <link href="/css/blueprint/screen.css" media="screen" rel="stylesheet" type="text/css" />
   <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
@@ -22,11 +23,9 @@
   <script type="text/javascript" src="/js/jquery/jqGrid/js/i18n/grid.locale-ru.js"></script>
   <script type="text/javascript" src="/js/jquery/jqGrid/js/jquery.jqGrid.min.js"></script>
   <script type="text/javascript" src="/js/custom.js"></script>
-
-  <title>KiT CMS Admin Panel</title>
 </head>
 <body>
-
+<?php if (Zend_Auth::getInstance()->hasIdentity()): ?>
 <div id="header" class="container">
 	<div id="topUserNav" class="blackMenuStrip">
 		<div class="first column">
@@ -36,6 +35,7 @@
 				<ul style="display: none; visibility: hidden;">
 					<li><a href="<?php echo $this->url(array('controller'=>'users'), 'default', true) ?>">Users</a></li>
 					<li><a href="<?php echo $this->url(array('controller'=>'usergroups'), 'default', true) ?>">User Groups</a></li>
+					<li><a href="<?php echo $this->url(array('controller'=>'resources'), 'default', true) ?>">Resources</a></li>
 					<li><a href="<?php echo $this->url(array('controller'=>'menus'), 'default', true) ?>">Menus</a></li>
 					<li><a href="<?php echo $this->url(array('controller'=>'settings'), 'default', true) ?>">Settings</a></li>
 				</ul>
@@ -60,28 +60,16 @@
 		<div class="last">
 			<span class="append-1">Logged in as <span style="color:#fff">Guest</span></span>
 			<a title="My account" href="#">My account</a>&nbsp;|&nbsp;
-			<a title="Logout" href="/Authorizer/Logout">Logout</a>
+			<a title="Logout" href="<?php echo $this->url(array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>">Logout</a>
 		</div>
 	</div>
 </div>
-
+<?php endif; ?>
 <div id="content" class="container">
 	<?php echo $this->layout()->content ?>
 </div>
 
-<div id="footer" class="container">
-	<div id="topMenu" class="blackMenuStrip">
-		<a>Queries:</a> <span style="color:#fff">5</span>&nbsp;|&nbsp;
-		<a>Queries Time:</a><span style="color:#fff">5</span>&nbsp;|&nbsp;
-	</div>
-</div>
-
-<div id="removeWarning" title="Remove this item?">
-	<p>
-		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-		This item will be permanently deleted and cannot be recovered. Are you sure?
-	</p>
-</div>
+<div id="footer" class="container"></div>
 
 </body>
 </html>

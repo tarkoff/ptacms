@@ -1,6 +1,6 @@
 <?php
 /**
- * Users Controller
+ * User Controller
  *
  * LICENSE
  *
@@ -11,16 +11,19 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Action.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
-class Default_UsersController extends KIT_Controller_Action
+class Default_UsersController extends KIT_Controller_Action_Backend_Abstract
 {
 	public function init()
 	{
 		$this->_helper->contextSwitch()
-			->addActionContext('list', 'json')
-			->initContext();
+			 ->addActionContext('list', 'json')
+			 ->addActionContext('add', 'json')
+			 ->addActionContext('edit', 'json')
+			 ->addActionContext('delete', 'json')
+			 ->initContext();
 	}
 
 	public function indexAction()
@@ -33,23 +36,42 @@ class Default_UsersController extends KIT_Controller_Action
 		$usersTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
-			$page = $this->_getParam('page');
-			$rows = $this->_getParam('rows');
-			$sortField = $this->_getParam('sidx');
-			$sortDirection = $this->_getParam('sord');
-			$users = $usersTable->getView($page, $rows, $sortField, $sortDirection);
-			$jsonUsersList = array();
-			foreach ($users->rows as $user) {
-				$jsonUsersList[] = array(
-					'id' => $user['USERS_ID'],
-					'cell' => array_values($user)
-				);
-			}
-			$users->rows = $jsonUsersList;
-			$this->_helper->json($users);
+			$this->_helper->json($this->_getAjaxView($usersTable));
 		} else {
-			//$this->view->assign('view',$users);
+			$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
+			$this->view->userGroups = $userGroupsTable->getSelectedFields();
+			$this->view->userStatuses = Default_Model_User::getUserStatuses();
 		}
 	}
-}
 
+	public function addAction()
+	{
+		$this->view->title = 'User Add Form';
+		$this->_editForm();
+	}
+
+	public function editAction()
+	{
+		$isAjax = $this->getRequest()->isXmlHttpRequest();
+		if ($isAjax && ('del' == $this->_getParam('oper', 'edit'))) {
+			$this->deleteAction();
+		}
+
+		$id = (int)$this->_getParam('id', 0);
+		if (empty($id) && !$isAjax) {
+			$this->_redirect('users/add');
+		}
+
+		$this->view->title = 'User Edit Form';
+		$this->_editForm($id);
+	}
+
+	public function deleteAction()
+	{
+		$this->_delete(
+			(int)$this->_getParam('id', 0),
+			KIT_Db_Table_Abstract::get('Default_Model_DbTable_User')
+		);
+	}
+
+}

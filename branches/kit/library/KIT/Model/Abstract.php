@@ -1,4 +1,18 @@
 <?php
+/**
+ * Model
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ *
+ * @category   KIT
+ * @package    KIT_Core
+ * @copyright  Copyright (c) 2009-2010 KIT Studio
+ * @license    New BSD License
+ * @version    $Id$
+ */
 abstract class KIT_Model_Abstract
 {
 	/**
@@ -22,7 +36,7 @@ abstract class KIT_Model_Abstract
 		if (is_array($options)) {
 			$this->setOptions($options);
 		}
-		
+		$this->init();
 	}
 
 	public function init()
@@ -84,7 +98,7 @@ abstract class KIT_Model_Abstract
 	 *
 	 * Lazy loads KIT_Model if no instance registered
 	 *
-	 * @return KIT_Table
+	 * @return KIT_Db_Table_Abstract
 	 */
 	public function getDbTable()
 	{
@@ -122,33 +136,74 @@ abstract class KIT_Model_Abstract
 	/**
 	 * Set object state
 	 *
-	 * @param  array $options
-	 * @return Default_Model_Guestbook
+	 * @param mixed $options
+	 * @param boolean $isDbFields
+	 * @return KIT_Model_Abstract
 	 */
-	public function setOptions(array $options)
+	public function setOptions($options, $isDbFields = false)
 	{
-		$methods = get_class_methods($this);
+		if ($isDbFields) {
+			$options = KIT_Db_Table_Abstract::dbFieldsToAlias($options);
+		}
+
 		foreach ($options as $key => $value) {
 			$method = 'set' . ucfirst($key);
-			if (in_array($method, $methods)) {
+			if (method_exists($this, $method)) {
 				$this->$method($value);
 			}
 		}
 		return $this;
 	}
-	
+
+	/**
+	 * Load object properties from database
+	 *
+	 * @param int $id
+	 * @return KIT_Model_Abstract
+	 */
+	public function loadById($id)
+	{
+		$id = (int)$id;
+		if (!empty($id)) {
+			$data = $this->getDbTable()->find($id)->toArray();
+			$data = KIT_Db_Table_Abstract::dbFieldsToAlias(current($data));
+			$this->setOptions($data);
+		}
+		return $this;
+	}
+
+	/**
+	 * Save data to database
+	 *
+	 * @param array $data
+	 * @return boolean
+	 */
 	public function save($data)
 	{
+		$data = (array)$data;
 		if (empty($data)) {
 			return false;
 		}
 
 		$table = $this->getDbTable();
-		if (null === ($id = $this->getId())) {
-			return $table->insert($data);
+		$id = $this->getId();
+		if (empty($id)) {
+			$saved = $table->insert($data);
+			$this->setId($table->getAdapter()->lastInsertId($table->getTableName(),
+															$table->getPrimary()));
+			return $saved;
 		} else {
+			//$data[$table->getPrimary()] = $id;
 			return $table->update($data, array($table->getPrimary() . ' = ?' => $id));
 		}
 	}
 
+	public function remove()
+	{
+		$id = $this->getId();
+		if (empty($id)) {
+			return false;
+		}
+		return $this->getDbTable()->removeById(intval($id));
+	}
 }
