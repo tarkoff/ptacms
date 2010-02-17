@@ -11,14 +11,14 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Action.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
 class Default_Model_DbTable_User extends KIT_Db_Table_Abstract
 {
 	protected $_name = 'USERS';
 	protected $_primary = 'USERS_ID';
-	
+
     /**
      * Initialize object
      *
@@ -28,11 +28,23 @@ class Default_Model_DbTable_User extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$this->setViewSelect(
-			$this->getAdapter()->select()->from(
-				$this->_name,
-				array('USERS_ID', 'USERS_GROUPID', 'USERS_LOGIN', 'USERS_REGISTERDATE')
-			)
-		);
+		$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
+		$select = $this->getAdapter()->select();
+
+		$select->from(array('u' => $this->_name),
+					  array('USERS_ID',
+							'USERS_LOGIN',
+							'USERS_PASSWORD',
+							'USERS_FIRSTNAME',
+							'USERS_LASTNAME',
+							'USERS_EMAIL',
+							'USERS_STATUS',
+							'USERS_REGISTERED'));
+
+		$select->join(array('ug' => $userGroupsTable->getTableName()),
+					  'u.USERS_GROUPID = ug.USERGROUPS_ID',
+					  array('USERGROUPS_TITLE'));
+
+		$this->setViewSelect($select);
 	}
 }

@@ -1,0 +1,27 @@
+<table id="list" class="scroll"></table>
+<div id="pager" class="scroll" style="text-align:center;"></div>
+
+<script type="text/javascript">
+jQuery('#list').jqGrid({
+	url:'/resources/list/format/json',
+	datatype: 'json',
+	mtype: 'GET',
+	colNames:['Id', 'Module', 'Controller', 'Action'],
+	colModel :[
+	  {name:'RESOURCES_ID', index:'RESOURCES_ID', sorttype:'int', width:50},
+	  {name:'RESOURCES_MODULE', index:'RESOURCES_MODULE', editable:true, editrules:{required:true}},
+	  {name:'RESOURCES_CONTROLLER', index:'RESOURCES_CONTROLLER', editable:true, editrules:{required:true}},
+	  {name:'RESOURCES_ACTION', index:'RESOURCES_ACTION', editable:true, editrules:{required:true}} ],
+	pager: jQuery('#pager'),
+	rowNum:20,
+	rowList:[20, 40, 60, 80, 100, 150, 200],
+	sortname: 'RESOURCES_ID',
+	sortorder: 'asc',
+	viewrecords: true,
+	caption: 'Resources View',
+	editurl: "/resources/edit"
+}).navGrid('#pager',{
+	edit:true, add:true, del:true, search:true
+});
+
+</script>

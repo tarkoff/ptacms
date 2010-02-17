@@ -1,38 +1,86 @@
 <?php
+/**
+ * Database table
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ *
+ * @category   KIT
+ * @package    KIT_Core
+ * @copyright  Copyright (c) 2009-2010 KIT Studio
+ * @license    New BSD License
+ * @version    $Id$
+ */
+
 abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 {
 	protected $_viewSelect;
 	protected static $_cachedTables = array();
+	protected static $_cachedFields;
+	protected static $_filterOperations = array('eq' => ' = ?',
+												'ne' => ' <> ?',
+												'lt' => ' < ?',
+												'le' => ' <= ?',
+												'gt' => ' > ?',
+												'ge' => ' >= ?',
+												'in' => ' IN (?)',
+												'ni' => ' NOT IN (?)',
+												'bw' => ' LIKE "?%"',
+												'bn' => ' NOT LIKE "?%"',
+												'ew' => ' LIKE "%?"',
+												'en' => ' NOT LIKE "%?"',
+												'cn' => ' LIKE "%?%"' ,
+												'nc' => ' NOT LIKE "%?%"');
 	
 	/**
 	 * Get data for view
+	 * $viewParams = array('page' 	=> 1,
+	 * 					   'limit' 	=> 20,
+	 * 					 'sortField => 'id',
+	 * 				 'sortDirection => 'asc');
 	 *
-	 * @param int $page
-	 * @param int $limit
-	 * @param string $sortField
-	 * @param string $sortDirection
-	 * @return array|null
+	 * $filterParams = array('searchField' => 'id',
+	 * 						'searchString' => '2'
+	 *						'searchOper' => 'gt');
+	 *
+	 * @param mixed $viewParamse
+	 * @param mixed $filterParams
+	 * @return mixed|null
 	 */
-	public function getView($page, $limit = 20, $sortField = null, $sortDirection = 'asc')
+	public function getView($viewParams, $filterParams = null)
 	{
-		$page = intval($page);
-		$limit = intval($limit);
+		$viewParams = (array)$viewParams;
+		$filterParams = (array)$filterParams;
+
+		extract($viewParams);
+		extract($filterParams);
 
 		!empty($page) || $page = 1;
 		!empty($limit) || $limit = 20;
-		!empty($sortField) || $sortField = $this->_primary;
+		!empty($sortField) || $sortField = $this->getPrimary();
 		!empty($sortDirection) || $sortDirection = 'asc';
 
-		if (empty($this->_viewSelect)) {
-			$select = $this->select();
-		} else {
-			$select = $this->_viewSelect;
-		}
-
-		//$select->setIntegrityCheck(false);
-		$select->limitPage($page, $limit)->order(array($sortField . ' ' . $sortDirection));
+		$page = intval($page);
+		$limit = intval($limit);
 
 		$db = $this->getAdapter();
+		$select = $this->getViewSelect();
+		!empty($select) || $select = $this->select();
+
+		//$select->setIntegrityCheck(false);
+		$select->limitPage($page, $limit)
+			   ->order(array($sortField . ' ' . $sortDirection));
+
+		if (!empty($searchField) && !empty($searchString)) {
+			if (isset($searchOper) && isset(self::$_filterOperations[$searchOper])) {
+				$select->where($searchField
+							   . str_replace('?',
+											 $searchString,
+											 self::$_filterOperations[$searchOper]));
+			}
+		}
 		$sql = str_replace('SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $select->assemble());
 
 		$response = new stdClass();
@@ -80,12 +128,149 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 			return self::$_cachedTables[$tableName];
 		}
 
-		if ( Zend_Loader_Autoloader::autoload($tableName) ) {
+		if ( class_exists($tableName, true) ) {
 			self::$_cachedTables[$tableName] = new $tableName();
 			return self::$_cachedTables[$tableName];
 		}
 
 		throw new Zend_Exception('Table not found: ' . $tableName);
 		return false;
+	}
+
+	/**
+	 * Get table name
+	 *
+	 * @return string
+	 */
+	public function getTableName()
+	{
+		return $this->_name;
+	}
+	
+	/**
+	 * Get table primary key
+	 *
+	 * @return string
+	 */
+	public function getPrimary()
+	{
+		if (is_array($this->_primary)) {
+			return current($this->_primary);
+		} else {
+			return $this->_primary;
+		}
+	}
+
+	/**
+	 * Get table fields
+	 *
+	 * @param boolean $withAliases
+	 * @return mixed
+	 */
+	public function getFields($withAliases = true)
+	{
+		$this->_setupMetadata();
+		if (empty(self::$_cachedFields)) {
+			foreach (array_keys($this->_metadata) as $field) {
+				self::$_cachedFields[self::fieldToAlias($field)] = $field;
+			}
+		}
+
+		if ($withAliases) {
+			return self::$_cachedFields;
+		} else {
+			return array_values(self::$_cachedFields);
+		}
+	}
+
+	/**
+	 * Convert database fields to aliases
+	 *
+	 * @param mixed $fields
+	 * @return mixed
+	 */
+	public static function dbFieldsToAlias($fields)
+	{
+		$fields = (array)$fields;
+
+		$result = array();
+		foreach($fields as $fieldName => $fieldValue) {
+			$result[self::fieldToAlias($fieldName)] = $fieldValue;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Convert database field to alias
+	 *
+	 * @param string $field
+	 * @return string
+	 */
+	public static function fieldToAlias($field)
+	{
+		if (empty($field)) {
+			return false;
+		}
+
+		list($table, $alias) = @explode('_', $field);
+		!empty($alias) || $alias = $table;
+
+		return strtolower($alias);
+	}
+
+	/**
+	 * Remove record from database by primary key
+	 *
+	 * @param int $id
+	 * @return boolean
+	 */
+	public function removeById($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+
+		$where = $this->getAdapter()->quoteInto($this->getPrimary() . ' = ?', intval($id));
+		return $this->delete($where);
+	}
+
+	public function getSelectedFields($fields = null, $where = array())
+	{
+		if (empty($fields)) {
+			$fields = null;
+		} else {
+			$fields = (array)$fields;
+		}
+		$where = (array)$where;
+
+		$select = $this->select();
+		if (!empty($fields)) {
+			$select->from($this->getTableName(), $fields);
+		}
+
+		@list($whereCond, $params) = $where;
+		if (!empty($whereCond)) {
+			$select->where($whereCond, $params);
+		}
+
+		return $this->fetchAll($select)->toArray();
+	}
+
+	public function findByFields($fields)
+	{
+		$firelds = (array)$fields;
+		
+		$select = $this->select()->setIntegrityCheck(false);
+		$tableFields = $this->getFields(true);
+		foreach ($fields as $fieldName => $condition) {
+			if (isset($tableFields[$fieldName])) {
+				$select->where($tableFields[$fieldName] . ' ' . trim($condition));
+			} else if (($index = array_search($fieldName, $tableFields))) {
+				$select->where($tableFields[$index] . ' ' . trim($condition));
+			}
+		}
+//var_dump($select->assemble());
+		return $this->fetchAll($select)->toArray();
 	}
 }

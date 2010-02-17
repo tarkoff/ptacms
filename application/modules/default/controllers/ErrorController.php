@@ -11,7 +11,7 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Action.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
 class Default_ErrorController extends Zend_Controller_Action
