@@ -315,6 +315,13 @@
 			</p>
 		</div>
 		<div id="secondHandPrices">
+			<table class="width100" cellpadding="5px" style="font-size:0.9em;">
+				<tr>
+					<td>
+						{literal}<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=944&search={/literal}{$Products->product.PRODUCTS_ALIAS|replace:'_':'+'}{literal}&encoding=utf8&limit=5"></script>{/literal}
+					</td>
+				</tr>
+			</table>
 		{if !empty($data->secondHandPrices)}
 			<table class="width100" cellpadding="5px" style="font-size:0.9em;">
 			<tr>
