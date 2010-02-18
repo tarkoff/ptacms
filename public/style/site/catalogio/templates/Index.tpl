@@ -84,7 +84,7 @@
 	</div> <!-- /page -->
 {literal}
 	<div id="adsense_bottomh" class="big_hor">
-		<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=701&encoding=&limit="></script>
+		<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=701&encoding=utf8&limit=5"></script>
 	</div>
 {/literal}
 	{include file="Footer.tpl"}

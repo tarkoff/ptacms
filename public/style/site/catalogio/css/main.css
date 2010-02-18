@@ -1,6 +1,6 @@
 * {margin:0; padding:0;}
 body, div, span, p, a, img, ul, ol, li, table, caption, tbody, tfoot, tr, th, td, form, fieldset, legend, label, dl, dt, dd, blockquote, applet, object, h1, h2, h3, h4, h5 {border:0;}
-body {padding:35px 0; background:#FFF; font:0.8em/1.5 "arial",sans-serif; color:#2F2F2F; text-align:center;}
+body {padding:10px 0; background:#FFF; font:0.8em/1.5 "arial",sans-serif; color:#2F2F2F; text-align:center;}
 
 a {color:#0067E6;}
 a:hover {color:#F60;}
@@ -269,7 +269,7 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 /* --------------- Adds ------------------------------------------------------*/
 /* -- Adsense -- */
 .big_hor { margin:5px 0; }
-.big_hor table { width:100% !Important; }
+.big_hor table { margin:0; width:100% !Important; }
 
 /* -- MixMarket -- */
 .img1px, .img1px img{margin:0;padding:0;font-size:0;line-height:0;}
