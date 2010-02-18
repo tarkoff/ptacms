@@ -6,7 +6,7 @@
 	<!-- Date -->
 	<div class="f-right">
 	{if !empty($Gelezka->keywords)}
-		{literal}<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=944&search={/literal}{$Gelezka->keywords|replace:',':'+'}{literal}&encoding=utf8&limit=4"></script>{/literal}
+		{literal}<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=944&search={/literal}{$Gelezka->keywords|replace:',':'+'}{literal}&encoding=utf8&limit=2"></script>{/literal}
 	{/if}
 	</div>
 	<!-- /date -->
