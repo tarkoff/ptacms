@@ -83,7 +83,7 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
 			if ($isAjax) {
 				$this->_helper->json(1);
 			} else {
-				$this->_redirect("{$module}/{$controller}/list");
+				//$this->_redirect("{$module}/{$controller}/list");
 			}
 		} else {
 			if ($isAjax) {

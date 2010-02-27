@@ -10,7 +10,8 @@ $(document).ready(function() {
 
 	//Main Menu
 	$("ul.sf-menu").superfish({ 
-		pathClass: 'current',
+		pathClass: 'ui-state-active',
+		hoverClass: 'ui-state-hover',
 		autoArrows: false
 	});
 

@@ -31,11 +31,6 @@ class Default_Model_UserGroup extends KIT_Model_Abstract
 		$this->_title = $title;
 	}
 
-	public function save()
-	{
-		return parent::save(array('USERGROUPS_TITLE' => $this->getTitle()));
-	}
-	
 	public function getAcl()
 	{
 		if (empty($this->_id)) {

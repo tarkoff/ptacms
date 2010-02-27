@@ -58,8 +58,7 @@ class Default_Form_Auth_Login extends KIT_Form_Abstract
 			$this->_user->setPassword(
 				Default_Model_User::getEncodedPassword($data->password)
 			);
-			$this->_user->authenticate();
-			return true;
+			return $this->_user->authenticate();
 		} else {
 			$this->populate($formData);
 		}

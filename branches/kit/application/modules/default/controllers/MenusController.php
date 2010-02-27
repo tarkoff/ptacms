@@ -1,6 +1,6 @@
 <?php
 /**
- * User Controller
+ * Menus Controller
  *
  * LICENSE
  *
@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-class Default_UsersController extends KIT_Controller_Action_Backend_Abstract
+class Default_MenusController extends KIT_Controller_Action_Backend_Abstract
 {
 	public function init()
 	{
@@ -33,20 +33,20 @@ class Default_UsersController extends KIT_Controller_Action_Backend_Abstract
 
 	public function listAction()
 	{
-		$usersTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User');
+		$menusTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Menu');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
-			$this->_helper->json($this->_getAjaxView($usersTable));
+			$this->_helper->json($this->_getAjaxView($menusTable));
 		} else {
-			$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
-			$this->view->userGroups = $userGroupsTable->getSelectedFields();
-			$this->view->userStatuses = Default_Model_User::getUserStatuses();
+			$resourcesTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
+			$this->view->menus = $menusTable->getMenusOptions();
+			$this->view->resources = $resourcesTable->getResourcesOptions();
 		}
 	}
 
 	public function addAction()
 	{
-		$this->view->title = 'User Add Form';
+		$this->view->title = 'Menu Item Add Form';
 		$this->_editForm();
 	}
 
@@ -59,33 +59,18 @@ class Default_UsersController extends KIT_Controller_Action_Backend_Abstract
 
 		$id = (int)$this->_getParam('id', 0);
 		if (empty($id) && !$isAjax) {
-			$this->_redirect('users/add');
+			$this->_redirect('menus/add');
 		}
 
-		$this->view->title = 'User Edit Form';
+		$this->view->title = 'Menu Item Edit Form';
 		$this->_editForm($id);
-	}
-
-	public function rightsAction()
-	{
-		$id = (int)$this->_getParam('id', 0);
-		if (empty($id)) {
-			$this->_redirect('users/list');
-		}
-		$form = new Default_Form_Users_Acl($id);
-		$this->view->title = 'User Rights';
-		$this->view->form = $form;
-
-		if ($form->submit()) {
-			$this->_redirect('users/list');
-		}
 	}
 
 	public function deleteAction()
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),
-			KIT_Db_Table_Abstract::get('Default_Model_DbTable_User')
+			KIT_Db_Table_Abstract::get('Default_Model_DbTable_Menu')
 		);
 	}
 

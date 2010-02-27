@@ -56,7 +56,6 @@ class Default_Model_DbTable_UserGroup_Acl extends KIT_Db_Table_Abstract
 	{
 		$groupId = (int)$groupId;
 		$resourceId = (int)$resourceId;
-//var_dump(array('gr'=>$groupId, 'usr'=>$resourceId));
 		if (empty($groupId)) {
 			return array();
 		}

@@ -178,19 +178,29 @@ abstract class KIT_Model_Abstract
 	 * @param array $data
 	 * @return boolean
 	 */
-	public function save($data)
+	public function save($data = null)
 	{
 		$data = (array)$data;
-		if (empty($data)) {
-			return false;
-		}
-
 		$table = $this->getDbTable();
 		$id = $this->getId();
+
+		if (empty($data)) {
+			foreach ($table->getFields() as $fieldAlias => $fieldDbName) {
+				$method = 'get' . ucfirst($fieldAlias);
+				if (method_exists($this, $method)) {
+					$data[$fieldDbName] = $this->$method();
+				}
+			}
+		}
+
 		if (empty($id)) {
 			$saved = $table->insert($data);
-			$this->setId($table->getAdapter()->lastInsertId($table->getTableName(),
-															$table->getPrimary()));
+			$this->setId(
+				$table->getAdapter()->lastInsertId(
+					$table->getTableName(),
+					$table->getPrimary()
+				)
+			);
 			return $saved;
 		} else {
 			//$data[$table->getPrimary()] = $id;

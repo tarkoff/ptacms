@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-class Default_Model_User extends KIT_Model_Abstract
+class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Interface
 {
 	protected $_login;
 	protected $_password;
@@ -24,28 +24,13 @@ class Default_Model_User extends KIT_Model_Abstract
 	protected $_registered;
 	protected $_email;
 	protected $_status;
+	protected $_aclRoleId;
 
 	const STATUS_SUSPENDED = 0;
 	const STATUS_ACTIVE = 1;
 
 	const ADMINISTRATOR_ID = 1;
 	const GUeST_ID = 2;
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Model/KIT_Model_Abstract#save($data)
-	 */
-	public function save()
-	{
-		return parent::save(array('USERS_LOGIN' => $this->getLogin(),
-							   'USERS_PASSWORD' => $this->getPassword(),
-								'USERS_GROUPID' => $this->getGroupId(),
-							  'USERS_FIRSTNAME' => $this->getFirstName(),
-							   'USERS_LASTNAME' => $this->getLastName(),
-								  'USERS_EMAIL' => $this->getEmail(),
-								 'USERS_STATUS' => $this->getStatus(),
-							 'USERS_REGISTERED' => $this->getRegistered()));
-	}
 
 	public static function getUserStatuses()
 	{
@@ -64,6 +49,15 @@ class Default_Model_User extends KIT_Model_Abstract
 	public static function getEncodedPassword($passwd)
 	{
 		return md5(sha1($passwd));
+	}
+
+	public function getRoleId()
+	{
+		if (empty($this->_aclRoleId)) {
+			return $this->getLogin();
+		}
+
+		return $this->_aclRoleId;
 	}
 
 	/**
@@ -102,8 +96,8 @@ class Default_Model_User extends KIT_Model_Abstract
 		if (!$result->isValid()) {
 			return false;
 		}
-
-		$auth->getStorage()->write($authAdapter->getResultRowObject(null, 'USERS_PASSWORD'));
+		$this->setOptions($authAdapter->getResultRowObject(), true);
+		$auth->getStorage()->write($this);
 		return true;
 	}
 
@@ -141,26 +135,27 @@ class Default_Model_User extends KIT_Model_Abstract
 		}
 
 		$groupAclAlias = 'Group_' . $groupId;
-		$userAclAlias = 'User_' . $userId;
+		$userAclAlias = $this->getRoleId();
 
 		$acl = new Zend_Acl();
 		$acl->addRole(new Zend_Acl_Role($groupAclAlias));
 		$acl->addRole(new Zend_Acl_Role($userAclAlias), $groupAclAlias);
 		
-		//$acl->addResource(new Zend_Acl_Resource($module));
-		//$acl->addResource(new Zend_Acl_Resource($controller), $module);
-		//$acl->addResource(new Zend_Acl_Resource($action), $controller);
-		//$acl->addResource(new Zend_Acl_Resource('index'));
-		$acl->addResource(new Zend_Acl_Resource('auth'));
 		$acl->addResource(new Zend_Acl_Resource($controller));
 
 		$acl->deny();
-		$acl->allow(null, 'auth', array('login', 'logout'));
+		//$acl->allow(null, null, array('index', 'login', 'logout'));
 
 		$groupAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup_Acl');
-		$resourceAcl = $groupAclTable->getGroupRights($groupId, $resourceId);
-		if (!empty($resourceAcl)) {
-			$acl->allow($groupAclAlias, $controller, array($action, 'index'));
+		$groupResourceAcl = $groupAclTable->getGroupRights($groupId, $resourceId);
+		if (!empty($groupResourceAcl)) {
+			$acl->allow($groupAclAlias, $controller, $action);
+		}
+
+		$userAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User_Acl');
+		$userResourceAcl = $groupAclTable->getGroupRights($userId, $resourceId);
+		if (!empty($userResourceAcl)) {
+			$acl->allow($userAclAlias, $controller, $action);
 		}
 
 		return $acl->isAllowed($userAclAlias, $controller, $action);;
