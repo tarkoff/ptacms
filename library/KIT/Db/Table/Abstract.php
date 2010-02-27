@@ -170,19 +170,40 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 	public function getFields($withAliases = true)
 	{
 		$this->_setupMetadata();
-		if (empty(self::$_cachedFields)) {
-			foreach (array_keys($this->_metadata) as $field) {
-				self::$_cachedFields[self::fieldToAlias($field)] = $field;
-			}
-		}
+		$this->_setupCachedFields();
 
 		if ($withAliases) {
-			return self::$_cachedFields;
+			return self::$_cachedFields[$this->_name];
 		} else {
-			return array_values(self::$_cachedFields);
+			return array_values(self::$_cachedFields[$this->_name]);
 		}
 	}
 
+	protected function _setupCachedFields()
+	{
+		if (empty(self::$_cachedFields[$this->_name])) {
+			foreach (array_keys($this->_metadata) as $field) {
+				self::$_cachedFields[$this->_name][self::fieldToAlias($field)] = $field;
+			}
+		}
+		return $this;
+	}
+	/**
+	 * Get table field by alias
+	 *
+	 * @param string $alias
+	 * @return string|null
+	 */
+	public function getFieldByAlias($alias)
+	{
+		$alias = strtolower($alias);
+		$this->_setupCachedFields();
+		if (isset(self::$_cachedFields[$this->_name][$alias])) {
+			return self::$_cachedFields[$this->_name][$alias];
+		}
+		return null;
+	}
+	
 	/**
 	 * Convert database fields to aliases
 	 *
@@ -264,13 +285,13 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		$select = $this->select()->setIntegrityCheck(false);
 		$tableFields = $this->getFields(true);
 		foreach ($fields as $fieldName => $condition) {
+			$fieldName = strtolower($fieldName);
 			if (isset($tableFields[$fieldName])) {
 				$select->where($tableFields[$fieldName] . ' ' . trim($condition));
 			} else if (($index = array_search($fieldName, $tableFields))) {
 				$select->where($tableFields[$index] . ' ' . trim($condition));
 			}
 		}
-//var_dump($select->assemble());
 		return $this->fetchAll($select)->toArray();
 	}
 }

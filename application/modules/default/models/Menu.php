@@ -1,6 +1,6 @@
 <?php
 /**
- * Menus Model
+ * Menu Item Model
  *
  * LICENSE
  *
@@ -14,7 +14,39 @@
  * @version    $Id$
  */
 
-class Default_Model_Menus extends KIT_Model_Abstract
+class Default_Model_Menu extends KIT_Model_Tree_Abstract
 {
+	protected $_title;
+	protected $_alias;
+	protected $_resourceId;
+
+	public function getTitle()
+	{
+		return $this->_title;
+	}
 	
+	public function setTitle($title)
+	{
+		$this->_title = $title;
+	}
+	
+	public function getAlias()
+	{
+		return $this->_alias;
+	}
+	
+	public function setAlias($alias)
+	{
+		$this->_alias = $alias;
+	}
+
+	public function getResourceId()
+	{
+		return $this->_resourceId;
+	}
+	
+	public function setResourceId($id)
+	{
+		$this->_resourceId = $id;
+	}
 }

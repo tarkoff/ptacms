@@ -39,4 +39,20 @@ class Default_Model_DbTable_Resource extends KIT_Db_Table_Abstract
 		);
 	}
 
+	public function getResourcesOptions()
+	{
+		static $resorcesOptions;
+
+		if (!empty($resorcesOptions)) {
+			return $resorcesOptions;
+		}
+
+		$resorcesOptions[0] = 'No Resource';
+		foreach ($this->fetchAll() as $resource) {
+			$resorcesOptions[$resource->RESOURCES_ID] =
+			 "{$resource->RESOURCES_MODULE}/{$resource->RESOURCES_CONTROLLER}/{$resource->RESOURCES_ACTION}";
+		}
+
+		return $resorcesOptions;
+	}
 }

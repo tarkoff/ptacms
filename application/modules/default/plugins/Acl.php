@@ -30,27 +30,45 @@ class Default_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 			$action = $request->getActionName();
 			//$front = Zend_Controller_Front::getInstance();
 
-			$user = new Default_Model_User();
-			$user->setOptions($auth->getIdentity(), true);
-			if (Default_Model_User::ADMINISTRATOR_ID != $user->getId()) {
-				$resourceTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
-				$db = $resourceTable->getAdapter();
-				$resourceData = $resourceTable->findByFields(
-					array(
-						'module'	 => $db->quoteInto('= ?', $module),
-						'controller' => $db->quoteInto('= ?', $controller),
-						'action'	 => $db->quoteInto('= ?', $action)
-					)
-				);
+			$user = $auth->getIdentity();
+			$resourceTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
+			$menuTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Menu');
+			$db = $resourceTable->getAdapter();
 
-				$resource = new Default_Model_Resource();
-				$resource->setOptions(current($resourceData), true);
-				if (!$user->hasRight($resource)) {
-					//var_dump(array($module, $controller, $action));
-					$request->setModuleName('default')
-							->setControllerName('auth')
-							->setActionName('login');
-				}
+			$resource = new Default_Model_Resource();
+			$resource->setOptions(
+				current(
+					$resourceTable->findByFields(
+						array(
+							'module'	 => $db->quoteInto('= ?', $module),
+							'controller' => $db->quoteInto('= ?', $controller),
+							'action'	 => $db->quoteInto('= ?', $action)
+						)
+					)
+				),
+				true
+			);
+
+			$activeMenuItems = $menuTable->findByFields(
+				array('resourceId' => '=' . $resource->getId())
+			);
+			$menuIdField = $menuTable->getPrimary();
+			$activeItems = array();
+			foreach ($activeMenuItems as $menuItem) {
+				$activeItems[$menuItem[$menuIdField]] = $menuItem[$menuIdField];
+			}
+			Zend_Registry::set('activeMenuItems', $activeItems);
+			//Zend_Registry::set('activeMenuItems', $menuTable->getSubTreeWith());
+
+			Zend_Registry::set(
+				'userMenu',
+				$menuTable->getAllowedMenu($user->getId(), $user->getGroupId())
+			);
+
+			if (!$user->hasRight($resource)) {
+				$request->setModuleName('default')
+						->setControllerName('auth')
+						->setActionName('login');
 			}
 		}
 

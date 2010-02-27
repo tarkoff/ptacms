@@ -83,7 +83,6 @@ class Default_Form_Resources_Edit extends KIT_Form_Abstract
 				}
 				$formData = $newData;
 			}
-var_dump($formData);
 			if ($this->isValid($formData)) {
 				$data = (object)$this->getValues();
 				$this->_resource->setOptions($data);

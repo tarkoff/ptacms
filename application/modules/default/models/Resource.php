@@ -20,15 +20,6 @@ class Default_Model_Resource extends KIT_Model_Abstract
 	protected $_controller;
 	protected $_action;
 
-	public function save()
-	{
-		return parent::save(array(
-			'RESOURCES_MODULE'	   => $this->getModule(),
-			'RESOURCES_CONTROLLER' => $this->getController(),
-			'RESOURCES_ACTION'	   => $this->getAction()
-		));
-	}
-
 	public function getModule()
 	{
 		return $this->_module;
