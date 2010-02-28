@@ -27,17 +27,7 @@ class PTA_MixMarket_Offer_Table extends PTA_DB_Table
 
 		$select = $this->select()->from(
 			array('ofs' => $this->getTableName()),
-			array(
-				$this->getPrimary(),
-				$this->getFieldByAlias('img'),
-				$this->getFieldByAlias('imgW'),
-				$this->getFieldByAlias('imgH'),
-				$this->getFieldByAlias('name'),
-				$this->getFieldByAlias('url'),
-				$this->getFieldByAlias('currencyId'),
-				$this->getFieldByAlias('desc'),
-				$this->getFieldByAlias('price')
-			)
+			array_values($this->getFields())
 		);
 
 		$select->setIntegrityCheck(false);
@@ -54,7 +44,20 @@ class PTA_MixMarket_Offer_Table extends PTA_DB_Table
 			array($advTable->getFieldByAlias('title'))
 		);
 
-		$select->where('lofs.LINKOFFERS_CATALOGID = ? ', intval($productId));
+		$select->joinLeft(
+			array('advgt' => 'MIXMARKET_ADVREGIONGEOTARGET'),
+			'advgt.ADVREGIONGEOTARGET_ADVID = adv.' . $advTable->getPrimary(),
+			array()
+		);
+
+		$select->joinLeft(
+			array('rgt' => 'MIXMARKET_REGIONSGEOTAGRET'),
+			'advgt.ADVREGIONGEOTARGET_RGTID=rgt.REGIONSGEOTAGRET_ID',
+			array('rgt.REGIONSGEOTAGRET_TITLE')
+		);
+
+		$select->where('lofs.LINKOFFERS_CATALOGID = ?', intval($productId));
+		$select->order(array('ofs.OFFERS_PRICE', 'rgt.REGIONSGEOTAGRET_TITLE'));
 
 		return $this->fetchAll($select)->toArray();
 	}
