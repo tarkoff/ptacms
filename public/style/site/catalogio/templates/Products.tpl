@@ -190,7 +190,7 @@
 					<div class="bb" style="margin:5px 0;font-size:0.9em;">
 						<table>
 							<tr>
-								<td rowspan="5" width="100px">
+								<td rowspan="6" width="100px">
 									<a href="{$offer.OFFERS_URL}" rel=”nofollow” target="_blank"><img src="{$offer.OFFERS_IMG|default:$noImg}" width="{if empty($offer.OFFERS_IMGW)}90{else}{$offer.OFFERS_IMGW}{/if}" height="{if empty($offer.OFFERS_IMGH)}67{else}{$offer.OFFERS_IMGH}{/if}" /></a>
 								</td>
 								<th style="text-align:left;">
@@ -207,6 +207,9 @@
 									<em>Магазин</em>: <a href="{$offer.OFFERS_URL}" rel=”nofollow” target="_blank">{$offer.ADVERTIZERS_TITLE}</a>
 								</td>
 							</tr>
+							{if !empty($offer.REGIONSGEOTAGRET_TITLE)}
+								<tr><td><em>Регион</em>: <b>{$offer.REGIONSGEOTAGRET_TITLE}</b></td></tr>
+							{/if}
 							<tr>
 								<td>
 									<em>Описание</em>: {if empty($offer.OFFERS_DESC)}{$offer.OFFERS_NAME}{else}{$offer.OFFERS_DESC|truncate:400}{/if}
