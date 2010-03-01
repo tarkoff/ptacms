@@ -22,7 +22,7 @@ $(document).ready(function() {
 	$(function() {
 		var sidBarWidth = $('#sidebar').width();
 		var contentWidth = $('#content').width();
-		$('body').css('min-width', sidBarWidth + contentWidth + 20 + 'px');
+		$('body').css('min-width', sidBarWidth + contentWidth + 30 + 'px');
 	});
 
 	//Hover states on the static widgets
