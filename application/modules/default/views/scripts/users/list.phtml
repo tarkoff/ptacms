@@ -32,7 +32,9 @@ jQuery('#list').jqGrid({
 	sortorder: 'asc',
 	viewrecords: true,
 	caption: 'Users View',
-	editurl: "/users/edit"
+	editurl: '/users/edit',
+	height:'auto',
+	width:'auto'
 }).navGrid('#pager',{
 	edit:true, add:true, del:true, search:true
 }).navButtonAdd('#pager',{

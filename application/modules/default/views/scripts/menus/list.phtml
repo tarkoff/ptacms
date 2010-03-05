@@ -12,7 +12,7 @@ jQuery('#list').jqGrid({
 	  {name:'MENUS_TITLE', index:'MENUS_TITLE', editable:true, editrules:{required:true}},
 	  {name:'MENUS_ALIAS', index:'MENUS_ALIAS', editable:true, editrules:{required:true}},
 	  {name:'MENUS_PARENTID', index:'MENUS_PARENTID', editable:true, edittype:'select', editoptions:{value:{<?php foreach ($this->menus as $id => $title) echo "{$id}:'{$title}',"; ?>}}},
-	  {name:'MENUS_RESOURCEID', index:'MENUS_RESOURCEID', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->resources as $id => $title) echo "{$id}:'{$title}',"; ?>}}} ],
+	  {name:'MENUS_RESOURCEID', index:'MENUS_RESOURCEID', sortable:false, editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->resources as $id => $title) echo "{$id}:'{$title}',"; ?>}}} ],
 	pager: jQuery('#pager'),
 	rowNum:20,
 	rowList:[20, 40, 60, 80, 100, 150, 200],
@@ -24,5 +24,4 @@ jQuery('#list').jqGrid({
 }).navGrid('#pager',{
 	edit:true, add:true, del:true, search:true
 });
-
 </script>

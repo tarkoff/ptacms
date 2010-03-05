@@ -25,6 +25,8 @@ abstract class KIT_Model_Abstract
 	 */
 	protected $_id;
 
+	protected static $_cachedModels = array();
+
 	/**
 	 * Constructor
 	 *
@@ -42,6 +44,29 @@ abstract class KIT_Model_Abstract
 	public function init()
 	{
 		
+	}
+
+	/**
+	 * Get cached model object
+	 *
+	 * @param string $className
+	 * @param iny $id
+	 * @return KIT_Model_Abstract
+	 */
+	public static function get($className, $id = null)
+	{
+		$id = (int)$id;
+		if (isset(self::$_cachedModels[$className][$id])) {
+			return clone self::$_cachedModels[$className][$id];
+		}
+
+		if (class_exists($className, true)) {
+			self::$_cachedModels[$className][$id] = new $className();
+			self::$_cachedModels[$className][$id]->loadById($id);
+			return clone self::$_cachedModels[$className][$id];
+		}
+
+		throw new Zend_Exception('Wrong model class provided: ' . $className);
 	}
 
 	/**

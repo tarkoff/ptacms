@@ -54,4 +54,21 @@ abstract class KIT_Form_Abstract extends Zend_Form
 	{
 		return Zend_Controller_Front::getInstance()->getRequest()->isXmlHttpRequest();
 	}
+
+	/**
+	 * Set Form Elements Values From Model Object
+	 *
+	 * @param KIT_Model_Abstract $model
+	 * @return KIT_Form_Abstract
+	 */
+	public function loadFromModel(KIT_Model_Abstract $model)
+	{
+		foreach ($this->getElements() as $element) {
+			$method = 'get' . ucfirst($element->getName());
+			if (method_exists($model, $method)) {
+				$element->setValue($model->$method());
+			}
+		}
+		return $this;
+	}
 }

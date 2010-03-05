@@ -30,8 +30,7 @@ input.ui-pg-input { width: 4em !Important; padding: 3px !Important; white-space:
 .blackMenuStrip a, .blackMenuStrip span{ color:#E6E6E6; text-decoration:none; }
 .blackMenuStrip a:hover{ color:#fff; }
 
-#header { background:#555; }
-
+.menuItem { margin:auto .5em; }
 
 .actions{
 	height:50px;

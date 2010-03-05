@@ -1,0 +1,93 @@
+<?php if ($this->category->getId()):?>
+<?php
+	$freeFields = $this->form->getElement('freeFields')->getMultiOptions();
+	$categoryFields = $this->form->getElement('categoryFields')->getMultiOptions();
+?>
+<style type="text/css">
+	#dnr, #alrs { list-style-type: none; float: left; background: #eee; padding: 5px; min-width:95%; width: 95%;}
+	#dnr li, #alrs li { margin: 5px auto; padding: 5px; font-size: 0.9em; }
+</style>
+
+<form name="<?php echo $this->form->getName(); ?>" id="fieldsForm" action="<?php $this->form->getAction(); ?>" method="<?php echo $this->form->getMethod(); ?>">
+<div class="ui-widget ui-widget-content">
+	<div class="ui-widget-header"><?php echo $this->category->getTitle();?> - category fields</div>
+	<div class="ui-widget-content">
+		<table>
+			<tr>
+				<td width="50%">
+					<label for="dnr">Free fields</label>
+					<ul id="dnr">
+					<?php foreach ($freeFields as $id => $title): ?>
+						<li class="ui-state-default"><?php echo $title; ?><input type="hidden" name="res[<?php echo $id; ?>]" value="<?php echo $id; ?>" /></li>
+					<?php endforeach; ?>
+					</ul>
+				</td>
+				<td width="50%">
+					<label for="alrs">Category fields</label>
+					<ul id="alrs">
+					<?php foreach ($categoryFields as $id => $title): ?>
+						<li class="ui-state-default"><?php echo $title; ?><input type="hidden" name="res[<?php echo $id; ?>]" value="<?php echo $id; ?>" /></li>
+					<?php endforeach; ?>
+					</ul>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="text-align:center;"><?php echo $this->form->getElement('submit')->render(); ?></td></tr>
+		</table>
+		
+	</div>
+</div>
+<?php foreach ($categoryFields as $id => $title): ?>
+	<input type="hidden" name="categoryFields[<?php echo $id; ?>]" id="categoryFields[<?php echo $id; ?>]" value="<?php echo $id; ?>" />
+<?php endforeach; ?>
+</form>
+<script type="text/javascript">
+$("#dnr").sortable({
+	connectWith: 'ul',
+	receive: function(event, ui) {
+		$("#dnr input:hidden").each(function(index) {
+			$("#fieldsForm input[name='categoryFields\\[" + $(this).val() + "\\]']").remove();
+		});
+	}
+});
+$("#alrs").sortable({
+	connectWith: 'ul',
+	receive: function(event, ui) { addFields(); },
+	stop: function(event, ui) { addFields(); }
+});
+$("#dnr, #alrs").disableSelection();
+
+function addFields()
+{
+	$("#fieldsForm input[name^='categoryFields']").remove();
+	var order = 1;
+	$("#alrs input:hidden").each(function(index) {
+		var resId = $(this).val();
+		$("#fieldsForm").append('<input type="hidden" id="categoryFields[' + resId + ']" name="categoryFields[' + resId + ']" value="' + order++ + '" />');
+	});
+}
+
+</script>
+<?php else:?>
+<div id="dialog-message" title="Error!">
+	<p>
+		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+		Category not selected!
+	</p>
+	<p>
+		Please, provide correct category.
+	</p>
+</div>
+<script type="text/javascript">
+$(function() {
+	$("#dialog-message").dialog({
+		modal: true,
+		buttons: {
+			Ok: function() {
+				$(this).dialog('close');
+				document.location.href = '<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true);?>';
+			}
+		}
+	});
+});
+</script>
+<?php endif;?>

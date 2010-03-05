@@ -1,6 +1,6 @@
 <?php
 /**
- * User Controller
+ * Resources Controller
  *
  * LICENSE
  *

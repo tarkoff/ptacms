@@ -115,15 +115,6 @@ class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Int
 			$resource->loadById($resourceId);
 		}
 
-		$resourceId = (int)$resource->getId();
-		if (empty($resourceId)) {
-			return false;
-		}
-
-		$module = $resource->getModule();
-		$controller = $resource->getController();
-		$action = $resource->getAction();
-		
 		$groupId = $this->getGroupId();
 		$userId = $this->getId();
 
@@ -133,6 +124,15 @@ class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Int
 		if (self::ADMINISTRATOR_ID == $userId) {
 			return true;
 		}
+
+		$resourceId = (int)$resource->getId();
+		if (empty($resourceId)) {
+			return false;
+		}
+
+		$module = $resource->getModule();
+		$controller = $resource->getController();
+		$action = $resource->getAction();
 
 		$groupAclAlias = 'Group_' . $groupId;
 		$userAclAlias = $this->getRoleId();
@@ -146,14 +146,8 @@ class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Int
 		$acl->deny();
 		//$acl->allow(null, null, array('index', 'login', 'logout'));
 
-		$groupAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup_Acl');
-		$groupResourceAcl = $groupAclTable->getGroupRights($groupId, $resourceId);
-		if (!empty($groupResourceAcl)) {
-			$acl->allow($groupAclAlias, $controller, $action);
-		}
-
 		$userAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User_Acl');
-		$userResourceAcl = $groupAclTable->getGroupRights($userId, $resourceId);
+		$userResourceAcl = $userAclTable->getUserResources($userId, $groupId, $resourceId);
 		if (!empty($userResourceAcl)) {
 			$acl->allow($userAclAlias, $controller, $action);
 		}

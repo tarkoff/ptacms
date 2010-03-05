@@ -56,7 +56,7 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
 	 * @param mixed $resourceId
 	 * @return mixed
 	 */
-	public function getUserRights($groupId, $resourceId = null)
+	public function getUserRights($userId, $resourceId = null)
 	{
 		$userId = (int)$userId;
 		$resourceId = (int)$resourceId;
@@ -116,10 +116,12 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
 	 * @param int $groupId
 	 * @return mixed
 	 */
-	public function getUserResources($userId, $groupId = null)
+	public function getUserResources($userId, $groupId = null, $resourceId = null)
 	{
-		$userId = (int)$userId;
-		$groupId = (int)$groupId;
+		$userId     = (int)$userId;
+		$groupId    = (int)$groupId;
+		$resourceId = (int)$resourceId;
+
 		if (empty($userId)) {
 			return array();
 		}
@@ -127,18 +129,20 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
 		$resourcesTable = self::get('Default_Model_DbTable_Resource');
 		$groupAclTable = self::get('Default_Model_DbTable_UserGroup_Acl');
 
+		$resourcePrimaryField = $resourcesTable->getPrimary();
+
 		$select = $resourcesTable->select()->setIntegrityCheck(false);
 		$select->from(
 			array('src' => $resourcesTable->getTableName()),
 			array(
-				$resourcesTable->getPrimary(),
+				$resourcePrimaryField,
 				'RESOURCES_TITLE' => "CONCAT_WS('/', src.RESOURCES_MODULE, src.RESOURCES_CONTROLLER, src.RESOURCES_ACTION)"
 			)
 		);
 
 		$select->joinLeft(
 			array('usr' => $this->getTableName()),
-			'src.' . $resourcesTable->getPrimary() . ' = usr.USERSACL_RESOURCEID',
+			'src.' . $resourcePrimaryField . ' = usr.USERSACL_RESOURCEID',
 			array()
 		);
 		$select->where('usr.USERSACL_USERID = ' . $userId);
@@ -146,12 +150,15 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
 		if (!empty($groupId)) {
 			$select->joinLeft(
 				array('ug' => $groupAclTable->getTableName()),
-				'src.' . $resourcesTable->getPrimary() . ' = ug.GROUPSACL_RESOURCEID',
+				'src.' . $resourcePrimaryField . ' = ug.GROUPSACL_RESOURCEID',
 				array()
 			);
 			$select->orWhere('ug.GROUPSACL_GROUPID = ' . $groupId);
 		}
 
+		if (!empty($resourceId)) {
+			$select->where('src.' . $resourcePrimaryField . ' = ' . $resourceId);
+		}
 		return $this->fetchAll($select)->toArray();
 	}
 
