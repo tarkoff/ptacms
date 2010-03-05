@@ -1,6 +1,6 @@
 <?php
 /**
- * Products Controller
+ * Catalog Fields Controller
  *
  * LICENSE
  *
@@ -11,10 +11,10 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: ProductsController.php 273 2010-02-17 12:42:59Z TPavuk $
  */
 
-class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
+class Catalog_FieldsController extends KIT_Controller_Action_Backend_Abstract
 {
 	public function init()
 	{
@@ -33,17 +33,18 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 
 	public function listAction()
 	{
-		$usersTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Product');
+		$fieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
-			$this->_helper->json($this->_getAjaxView($usersTable));
+			$this->_helper->json($this->_getAjaxView($fieldsTable));
 		} else {
+			$this->view->fieldTypes = Catalog_Model_Field::getFieldTypes();
 		}
 	}
 
 	public function addAction()
 	{
-		$this->view->title = 'User Add Form';
+		$this->view->title = 'Field Add Form';
 		$this->_editForm();
 	}
 
@@ -56,33 +57,18 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 
 		$id = (int)$this->_getParam('id', 0);
 		if (empty($id) && !$isAjax) {
-			$this->_redirect('users/add');
+			$this->_redirect('catalog/fields/add');
 		}
 
-		$this->view->title = 'User Edit Form';
+		$this->view->title = 'Field Edit Form';
 		$this->_editForm($id);
-	}
-
-	public function rightsAction()
-	{
-		$id = (int)$this->_getParam('id', 0);
-		if (empty($id)) {
-			$this->_redirect('users/list');
-		}
-		$form = new Default_Form_Users_Acl($id);
-		$this->view->title = 'User Rights';
-		$this->view->form = $form;
-
-		if ($form->submit()) {
-			$this->_redirect('users/list');
-		}
 	}
 
 	public function deleteAction()
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),
-			KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Product')
+			KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field')
 		);
 	}
 }

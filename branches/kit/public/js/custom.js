@@ -8,13 +8,6 @@ $(document).ready(function() {
 		$(this).parents(".ui-widget:first").find(".ui-widget-content").slideToggle();
 	});
 
-	//Main Menu
-	$("ul.sf-menu").superfish({ 
-		pathClass: 'ui-state-active',
-		hoverClass: 'ui-state-hover',
-		autoArrows: false
-	});
-
 	//Hover states on the static widgets
 	$('.ui-state-default:not(div[class!=ui-jqgrid-pager])').hover(
 		function() { $(this).addClass('ui-state-hover'); }, 

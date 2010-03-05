@@ -49,17 +49,20 @@ class Default_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 				true
 			);
 
-			$activeMenuItems = $menuTable->findByFields(
-				array('resourceId' => '=' . $resource->getId())
-			);
-			$menuIdField = $menuTable->getPrimary();
-			$activeItems = array();
-			foreach ($activeMenuItems as $menuItem) {
-				$activeItems[$menuItem[$menuIdField]] = $menuItem[$menuIdField];
+			if ($resource->getId()) {
+				$activeMenuItems = $menuTable->findByFields(
+					array('resourceId' => '=' . $resource->getId())
+				);
+				$menuIdField = $menuTable->getPrimary();
+				$activeItems = array();
+				foreach ($activeMenuItems as $menuItem) {
+					$activeItems[$menuItem[$menuIdField]] = $menuItem[$menuIdField];
+				}
+			} else {
+				$activeMenuItems = array();
 			}
-			Zend_Registry::set('activeMenuItems', $activeItems);
-			//Zend_Registry::set('activeMenuItems', $menuTable->getSubTreeWith());
 
+			Zend_Registry::set('activeMenuItems', $activeItems);
 			Zend_Registry::set(
 				'userMenu',
 				$menuTable->getAllowedMenu($user->getId(), $user->getGroupId())

@@ -75,10 +75,10 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 
 		if (!empty($searchField) && !empty($searchString)) {
 			if (isset($searchOper) && isset(self::$_filterOperations[$searchOper])) {
-				$select->where($searchField
-							   . str_replace('?',
-											 $searchString,
-											 self::$_filterOperations[$searchOper]));
+				$select->where(
+					$searchField
+					. self::$_filterOperations[$searchOper], $searchString
+				);
 			}
 		}
 		$sql = str_replace('SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $select->assemble());
@@ -169,25 +169,24 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 	 */
 	public function getFields($withAliases = true)
 	{
-		$this->_setupMetadata();
 		$this->_setupCachedFields();
-
 		if ($withAliases) {
 			return self::$_cachedFields[$this->_name];
-		} else {
-			return array_values(self::$_cachedFields[$this->_name]);
 		}
+		return array_values(self::$_cachedFields[$this->_name]);
 	}
 
 	protected function _setupCachedFields()
 	{
 		if (empty(self::$_cachedFields[$this->_name])) {
+			$this->_setupMetadata();
 			foreach (array_keys($this->_metadata) as $field) {
 				self::$_cachedFields[$this->_name][self::fieldToAlias($field)] = $field;
 			}
 		}
 		return $this;
 	}
+
 	/**
 	 * Get table field by alias
 	 *

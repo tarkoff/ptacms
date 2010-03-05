@@ -226,4 +226,32 @@ abstract class KIT_Db_Table_Tree_Abstract extends KIT_Db_Table_Abstract
 		
 		return $this->fetchAll($select);
 	}
+
+	/**
+	 * Get select field options for form
+	 *
+	 * @param string $idField
+	 * @param string $valueField
+	 * @return mixed
+	 */
+	public function getParentSelectOptions($idField, $valueField)
+	{
+		static $options;
+
+		if (empty($idField) || empty($valueField)) {
+			return false;
+		}
+
+		$cacheAlias = $idField . '_' . $valueField;
+		if (!empty($options[$cacheAlias])) {
+			return $options[$cacheAlias];
+		}
+
+		$options[$cacheAlias] = array(0 => 'No Parent');
+		foreach ($this->fetchAll() as $menu) {
+			$options[$cacheAlias][$menu->$idField] = $menu->$valueField;
+		}
+
+		return $options[$cacheAlias];
+	}
 }
