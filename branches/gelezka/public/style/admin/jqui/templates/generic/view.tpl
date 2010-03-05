@@ -84,8 +84,24 @@
 			{else}
 				<li class="ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$view->prevPage}?{$smarty.server.QUERY_STRING}">« Prev.</a></li>
 			{/if}
+			{assign var="groupStep" value="10"}
 			{math equation="x + y" x=$view->lastPage y=1 assign="lastPage"}
-			{section name=page start=1 loop=$lastPage step=1}
+			{math equation="x - y" x=$view->page y=$groupStep assign="firstGroupPage"}
+			{math equation="x + y + 1" x=$view->page y=$groupStep assign="lastGroupPage"}
+			{if $firstGroupPage <= $groupStep}
+				{assign var="firstGroupPage" value="1"}
+				{math equation="x + y * 2" x=1 y=$groupStep assign="lastGroupPage"}
+			{/if}
+			{if $lastGroupPage > $lastPage}
+				{if ($lastPage - $groupStep * 2) > 0}
+					{ math equation="x - y * 2" x=$lastPage y=$groupStep assign="firstGroupPage" }
+				{/if}
+				{assign var="lastGroupPage" value="$lastPage"}
+			{/if}
+			{if $firstGroupPage > 1}
+				<li class="ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$firstGroupPage}?{$smarty.server.QUERY_STRING}">...</a></li>
+			{/if}
+			{section name=page start=$firstGroupPage loop=$lastGroupPage step=1}
 				{if $smarty.section.page.index == $view->page}
 					<li class="unactive ui-state-default ui-corner-all ui-state-disabled">{$view->page}</li>
 				{else}
@@ -94,6 +110,9 @@
 			{sectionelse}
 				<li class="unactive ui-state-default ui-corner-all ui-state-disabled">1</li>
 			{/section}
+			{if $lastGroupPage < $view->lastPage}
+				<li class="ui-state-default ui-corner-all"><a href="{$activeModule->url}view/page/{$lastGroupPage}?{$smarty.server.QUERY_STRING}">...</a></li>
+			{/if}
 			{if $view->page >= $view->lastPage}
 				<li class="unactive ui-state-default ui-corner-all ui-state-disabled">Next »</li>
 			{else}
