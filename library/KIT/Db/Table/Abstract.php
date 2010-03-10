@@ -255,7 +255,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		return $this->delete($where);
 	}
 
-	public function getSelectedFields($fields = null, $where = array())
+	public function getSelectedFields($fields = null, $where = array(), $pairs = false)
 	{
 		if (empty($fields)) {
 			$fields = null;
@@ -274,7 +274,11 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 			$select->where($whereCond, $params);
 		}
 
-		return $this->fetchAll($select)->toArray();
+		if ($pairs) {
+			return $this->getAdapter()->fetchPairs($select);
+		} else {
+			return $this->fetchAll($select);
+		}
 	}
 
 	public function findByFields($fields)

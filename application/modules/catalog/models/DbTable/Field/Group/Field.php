@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Category Field Database Table
+ * Catalog Field Group Field Database Table
  *
  * LICENSE
  *
@@ -11,13 +11,13 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Menu.php 278 2010-02-27 18:36:32Z TPavuk $
+ * @version    $Id$
  */
 
-class Catalog_Model_DbTable_Category_Field extends KIT_Db_Table_Tree_Abstract
+class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Tree_Abstract
 {
-	protected $_name = 'CATALOG_CATEGORYFIELDS';
-	protected $_primary = 'CATEGORYFIELDS_ID';
+	protected $_name = 'CATALOG_GROUPFIELDS';
+	protected $_primary = 'GROUPFIELDS_ID';
 
     /**
      * Initialize object
@@ -30,22 +30,22 @@ class Catalog_Model_DbTable_Category_Field extends KIT_Db_Table_Tree_Abstract
 	{
 		$this->setViewSelect(
 			$this->getAdapter()->select()->from(
-				array('cf' => $this->_name),
+				array('gf' => $this->_name),
 				$this->getFields(false)
 			)
 		);
 	}
 
 	/**
-	 * Get fields allowed for adding to category
+	 * Get fields allowed for adding to group
 	 *
-	 * @param int $categoryId
+	 * @param int $groupId
 	 * @return Zend_Db_Table_Rowset_Abstract
 	 */
-	public function getFreeFields($categoryId)
+	public function getFreeFields($groupId)
 	{
-		$categoryId = (int)$categoryId;
-		if (empty($categoryId)) {
+		$groupId = (int)$groupId;
+		if (empty($groupId)) {
 			return array();
 		}
 		$fieldsTable = self::get('Catalog_Model_DbTable_Field');
@@ -58,28 +58,28 @@ class Catalog_Model_DbTable_Category_Field extends KIT_Db_Table_Tree_Abstract
 		$select->setIntegrityCheck(false);
 
 		$select->joinLeft(
-			array('cf' => $this->getTableName()),
-			'fields.' . $fieldsTable->getPrimary() . ' = cf.CATEGORYFIELDS_FIELDID',
-			array('CATEGORYFIELDS_ID', 'CATEGORYFIELDS_SORTORDER')
+			array('gf' => $this->getTableName()),
+			'fields.' . $fieldsTable->getPrimary() . ' = gf.GROUPFIELDS_FIELDID',
+			array('GROUPFIELDS_ID', 'GROUPFIELDS_SORTORDER')
 		);
 
-		$select->where('cf.CATEGORYFIELDS_ID IS NULL');
-		$select->orWhere('cf.CATEGORYFIELDS_CATEGORYID <> ' . $categoryId);
-		$select->order('cf.CATEGORYFIELDS_SORTORDER');
+		$select->where('gf.GROUPFIELDS_ID IS NULL');
+		$select->orWhere('gf.GROUPFIELDS_CATEGORYGROUPID <> ' . $groupId);
+		$select->order('gf.GROUPFIELDS_SORTORDER');
 		
 		return $this->fetchAll($select);
 	}
 
 	/**
-	 * Get category fields
+	 * Get group fields
 	 *
-	 * @param int $categoryId
+	 * @param int $groupId
 	 * @return Zend_Db_Table_Rowset_Abstract
 	 */
-	public function getCategoryFields($categoryId)
+	public function getGroupFields($groupId)
 	{
-		$categoryId = (int)$categoryId;
-		if (empty($categoryId)) {
+		$groupId = (int)$groupId;
+		if (empty($groupId)) {
 			return array();
 		}
 		$fieldsTable = self::get('Catalog_Model_DbTable_Field');
@@ -92,46 +92,46 @@ class Catalog_Model_DbTable_Category_Field extends KIT_Db_Table_Tree_Abstract
 		$select->setIntegrityCheck(false);
 
 		$select->join(
-			array('cf' => $this->getTableName()),
-			'fields.' . $fieldsTable->getPrimary() . ' = cf.CATEGORYFIELDS_FIELDID',
-			array('CATEGORYFIELDS_ID', 'CATEGORYFIELDS_SORTORDER')
+			array('gf' => $this->getTableName()),
+			'fields.' . $fieldsTable->getPrimary() . ' = gf.GROUPFIELDS_FIELDID',
+			array('GROUPFIELDS_ID', 'GROUPFIELDS_SORTORDER')
 		);
 
-		$select->where('cf.CATEGORYFIELDS_CATEGORYID = ' . $categoryId);
-		$select->order('cf.CATEGORYFIELDS_SORTORDER');
+		$select->where('gf.GROUPFIELDS_CATEGORYGROUPID = ' . $groupId);
+		$select->order('gf.GROUPFIELDS_SORTORDER');
 
 		return $this->fetchAll($select);
 	}
 
 	/**
-	 * Save category fields
+	 * Save group fields
 	 *
-	 * @param int $categoryId
+	 * @param int $groupId
 	 * @param mixed $fields
 	 * @return boolean
 	 */
-	public function setCategoryFields($categoryId, $fields)
+	public function setGroupFields($groupId, $fields)
 	{
-		$categoryId = (int)$categoryId;
+		$groupId = (int)$groupId;
 		$fields = (array)$fields;
 
-		if (empty($categoryId)) {
+		if (empty($groupId)) {
 			return false;
 		}
 
 		$sql = 'INSERT IGNORE INTO '
 				. $this->getTableName()
-				. ' (CATEGORYFIELDS_CATEGORYID, CATEGORYFIELDS_FIELDID, CATEGORYFIELDS_SORTORDER) VALUES ';
+				. ' (GROUPFIELDS_CATEGORYGROUPID, GROUPFIELDS_FIELDID, GROUPFIELDS_SORTORDER) VALUES ';
 
 		$sqlParts = array();
 		foreach ($fields as $fieldId => $fieldOrder) {
-			$sqlParts[] = '('. intval($categoryId) . ', ' . $fieldId . ', ' . intval($fieldOrder) . ')';
+			$sqlParts[] = '('. intval($groupId) . ', ' . $fieldId . ', ' . intval($fieldOrder) . ')';
 		}
 
-		$this->delete('CATEGORYFIELDS_CATEGORYID = ' . $categoryId);
+		$this->delete('GROUPFIELDS_CATEGORYGROUPID = ' . $groupId);
 		if (!empty($sqlParts)) {
 			return $this->getAdapter()->query($sql . implode(', ', $sqlParts));
 		}
-		return false;
+		return true;
 	}
 }

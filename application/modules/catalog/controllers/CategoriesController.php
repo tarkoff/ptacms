@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: ProductsController.php 273 2010-02-17 12:42:59Z TPavuk $
+ * @version    $Id$
  */
 
 class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstract
@@ -23,6 +23,8 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 			 ->addActionContext('add', 'json')
 			 ->addActionContext('edit', 'json')
 			 ->addActionContext('delete', 'json')
+			 ->addActionContext('fieldgroups', 'json')
+			 ->addActionContext('fieldgroupsedit', 'json')
 			 ->initContext();
 	}
 
@@ -67,16 +69,66 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 		$this->_editForm($id);
 	}
 
-	public function fieldsAction()
+	public function fieldgroupsAction()
 	{
+		$catsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category');
+		$groupsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group');
+		$catGroupsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category_Group');
+
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$this->_helper->json($this->_getAjaxView($catGroupsTable));
+		} else {
+			$this->view->cats = $catsTable->getSelectedFields(
+				array(
+					$catsTable->getPrimary(),
+					$catsTable->getFieldByAlias('title')
+				),
+				null,
+				true
+			);
+			$this->view->groups = $groupsTable->getSelectedFields(
+				array(
+					$groupsTable->getPrimary(),
+					$groupsTable->getFieldByAlias('title')
+				),
+				null,
+				true
+			);
+		}
+	}
+
+	public function fieldgroupseditAction()
+	{
+		$isAjax = $this->getRequest()->isXmlHttpRequest();
+		if ($isAjax && ('del' == $this->_getParam('oper', 'edit'))) {
+			$this->deleteCategoryGroupAction();
+		}
+
 		$id = (int)$this->_getParam('id', 0);
-		$this->view->category = KIT_Model_Abstract::get('Catalog_Model_Category', $id);
-		$this->view->form = new Catalog_Form_Categories_Fields($id);
+		$this->view->form = new Catalog_Form_Categories_FieldGroups($id);
 		if ($this->view->form->submit()) {
-			$this->_redirect('catalog/categories/list');
+			if ($isAjax) {
+				$this->_helper->json(1);
+			} else {
+				$this->_redirect('catalog/categories/fieldgroups');
+			}
+		} else {
+			if ($isAjax) {
+				$this->_helper->json(0);
+			} else {
+				//$this->_redirect('catalog/categories/fieldgroups');
+			}
 		}
 	}
 	
+	public function deleteCategoryGroupAction()
+	{
+		$this->_delete(
+			(int)$this->_getParam('id', 0),
+			KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category_Group')
+		);
+	}
+
 	public function deleteAction()
 	{
 		$this->_delete(

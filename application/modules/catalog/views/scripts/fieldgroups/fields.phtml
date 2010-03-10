@@ -1,7 +1,7 @@
-<?php if ($this->category->getId()):?>
+<?php if ($this->group->getId()):?>
 <?php
 	$freeFields = $this->form->getElement('freeFields')->getMultiOptions();
-	$categoryFields = $this->form->getElement('categoryFields')->getMultiOptions();
+	$groupFields = $this->form->getElement('groupFields')->getMultiOptions();
 ?>
 <style type="text/css">
 	#dnr, #alrs { list-style-type: none; float: left; background: #eee; padding: 5px; min-width:95%; width: 95%;}
@@ -10,7 +10,7 @@
 
 <form name="<?php echo $this->form->getName(); ?>" id="fieldsForm" action="<?php $this->form->getAction(); ?>" method="<?php echo $this->form->getMethod(); ?>">
 <div class="ui-widget ui-widget-content">
-	<div class="ui-widget-header"><?php echo $this->category->getTitle();?> - category fields</div>
+	<div class="ui-widget-header"><?php echo $this->group->getTitle();?> - group fields</div>
 	<div class="ui-widget-content">
 		<table>
 			<tr>
@@ -25,7 +25,7 @@
 				<td width="50%">
 					<label for="alrs">Category fields</label>
 					<ul id="alrs">
-					<?php foreach ($categoryFields as $id => $title): ?>
+					<?php foreach ($groupFields as $id => $title): ?>
 						<li class="ui-state-default"><?php echo $title; ?><input type="hidden" name="res[<?php echo $id; ?>]" value="<?php echo $id; ?>" /></li>
 					<?php endforeach; ?>
 					</ul>
@@ -36,8 +36,8 @@
 		
 	</div>
 </div>
-<?php foreach ($categoryFields as $id => $title): ?>
-	<input type="hidden" name="categoryFields[<?php echo $id; ?>]" id="categoryFields[<?php echo $id; ?>]" value="<?php echo $id; ?>" />
+<?php foreach ($groupFields as $id => $title): ?>
+	<input type="hidden" name="groupFields[<?php echo $id; ?>]" id="groupFields[<?php echo $id; ?>]" value="<?php echo $id; ?>" />
 <?php endforeach; ?>
 </form>
 <script type="text/javascript">
@@ -45,7 +45,7 @@ $("#dnr").sortable({
 	connectWith: 'ul',
 	receive: function(event, ui) {
 		$("#dnr input:hidden").each(function(index) {
-			$("#fieldsForm input[name='categoryFields\\[" + $(this).val() + "\\]']").remove();
+			$("#fieldsForm input[name='groupFields\\[" + $(this).val() + "\\]']").remove();
 		});
 	}
 });
@@ -58,11 +58,11 @@ $("#dnr, #alrs").disableSelection();
 
 function addFields()
 {
-	$("#fieldsForm input[name^='categoryFields']").remove();
+	$("#fieldsForm input[name^='groupFields']").remove();
 	var order = 1;
 	$("#alrs input:hidden").each(function(index) {
 		var resId = $(this).val();
-		$("#fieldsForm").append('<input type="hidden" id="categoryFields[' + resId + ']" name="categoryFields[' + resId + ']" value="' + order++ + '" />');
+		$("#fieldsForm").append('<input type="hidden" id="groupFields[' + resId + ']" name="groupFields[' + resId + ']" value="' + order++ + '" />');
 	});
 }
 
