@@ -20,7 +20,9 @@ jQuery('#list').jqGrid({
 	sortorder: 'asc',
 	viewrecords: true,
 	caption: 'Menus View',
-	editurl: "/menus/edit"
+	editurl: "/menus/edit",
+	height: 'auto',
+	width: 'auto'
 }).navGrid('#pager',{
 	edit:true, add:true, del:true, search:true
 });

@@ -11,32 +11,35 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Acl.php 273 2010-02-17 12:42:59Z TPavuk $
+ * @version    $Id$
  */
 
-class Catalog_Form_Categories_Fields extends KIT_Form_Abstract
+class Catalog_Form_FieldGroups_Fields extends KIT_Form_Abstract
 {
 	/**
-	 * @var Catalog_Model_Category
+	 * @var Catalog_Model_Field_Group
 	 */
 	private $_model;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_model = KIT_Model_Abstract::get('Catalog_Model_Category', $id);
+		$this->_model = KIT_Model_Abstract::get('Catalog_Model_Field_Group', $id);
 
-		$catFieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category_Field');
-
+		$catFieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group_Field');
+		$fieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field');
+		$fieldIdField = $fieldsTable->getPrimary();
+		$fieldTitleField = $fieldsTable->getFieldByAlias('title');
+		
 		parent::__construct($options);
 		$this->setName('fieldsForm');
 
 		$deniedOptions = array();
 		foreach ($catFieldsTable->getFreeFields($id) as $field) {
-			$deniedOptions[$field['FIELDS_ID']] = $field['FIELDS_TITLE'];
+			$deniedOptions[$field[$fieldIdField]] = $field[$fieldTitleField];
 		}
 		$deniedRes = new Zend_Form_Element_Select('freeFields');
-		$deniedRes->setLabel('Free Fields')
+		$deniedRes->setLabel('Free Group Fields')
 				  ->setRequired(false)
 				  ->addFilter('StripTags')
 				  ->addFilter('StringTrim');
@@ -45,14 +48,13 @@ class Catalog_Form_Categories_Fields extends KIT_Form_Abstract
 		$this->addElement($deniedRes);
 
 		$allowedOptions = array();
-		foreach ($catFieldsTable->getCategoryFields($id) as $field) {
-			$allowedOptions[$field['FIELDS_ID']] = $field['FIELDS_TITLE'];
+		foreach ($catFieldsTable->getGroupFields($id) as $field) {
+			$allowedOptions[$field[$fieldIdField]] = $field[$fieldTitleField];
 		}
-		$allowedRes = new Zend_Form_Element_Select('categoryFields');
-		$allowedRes->setLabel('Category Fields')->setRequired(false);
+		$allowedRes = new Zend_Form_Element_Select('groupFields');
+		$allowedRes->setLabel('Field Group Fields')->setRequired(false);
 		$allowedRes->addMultiOptions($allowedOptions);
 		$this->addElement($allowedRes);
-
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
 		$this->addElement($submit);
@@ -62,10 +64,10 @@ class Catalog_Form_Categories_Fields extends KIT_Form_Abstract
 	{
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
-				$catFieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category_Field');
-				if ($catFieldsTable->setCategoryFields(
+				$catFieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group_Field');
+				if ($catFieldsTable->setGroupFields(
 					$this->_model->getId(),
-					$formData['categoryFields']
+					$formData['groupFields']
 				)
 			) {
 				return true;

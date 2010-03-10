@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Edit.php 278 2010-02-27 18:36:32Z TPavuk $
+ * @version    $Id$
  */
 
 class Catalog_Form_Brands_Edit extends KIT_Form_Abstract

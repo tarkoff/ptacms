@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Category Model
+ * Catalog Field Group Model
  *
  * LICENSE
  *
@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-class Catalog_Model_Category extends KIT_Model_Tree_Abstract
+class Catalog_Model_Field_Group extends KIT_Model_Abstract
 {
 	private $_alias;
 	private $_title;

@@ -3,22 +3,22 @@
 <div id="fieldsDialog" title="Category Error">
 	<p>
 		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-		Category not selected!<br />
-		<b>Please select category for action!</b>
+		Category group not selected!<br />
+		<b>Please select category group for action!</b>
 	</p>
 </div>
 
 <script type="text/javascript">
 jQuery('#list').jqGrid({
-	url:'/catalog/categories/list/format/json',
+	url:'/catalog/categories/fieldgroups/format/json',
 	datatype: 'json',
 	mtype: 'GET',
-	colNames:['Id', 'Title', 'Alias', 'Parent'],
+	colNames:['Id', 'Order', 'Category', 'Group'],
 	colModel :[
-	  {name:'CATEGORIES_ID', index:'CATEGORIES_ID', sorttype:'int', width:50},
-	  {name:'CATEGORIES_TITLE', index:'CATEGORIES_TITLE', editable:true, editrules:{required:true}},
-	  {name:'CATEGORIES_ALIAS', index:'CATEGORIES_ALIAS', editable:true, editrules:{required:true}},
-	  {name:'CATEGORIES_PARENTID', index:'CATEGORIES_PARENTID', editable:true, edittype:'select', editoptions:{value:{<?php foreach ($this->cats as $id => $title) echo "{$id}:'{$title}',"; ?>}}}],
+	  {name:'CATEGORYGROUPS_ID', index:'CATEGORYGROUPS_ID', sorttype:'int', width:50},
+	  {name:'CATEGORYGROUPS_SORTORDER', index:'CATEGORYGROUPS_SORTORDER', editable:true, sorttype:'int'},
+	  {name:'CATEGORYGROUPS_CATEGORY', index:'CATEGORYGROUPS_CATEGORY', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->cats as $id => $title) echo "{$id}:'{$title}',"; ?>}}},
+	  {name:'CATEGORYGROUPS_GROUP', index:'CATEGORYGROUPS_GROUP', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->groups as $id => $title) echo "{$id}:'{$title}',"; ?>}}}],
 	pager: jQuery('#pager'),
 	rowNum:20,
 	rowList:[20, 40, 60, 80, 100, 150, 200],
@@ -26,17 +26,17 @@ jQuery('#list').jqGrid({
 	sortorder: 'asc',
 	viewrecords: true,
 	caption: 'Categoies View',
-	editurl: "/catalog/categories/edit",
+	editurl: "/catalog/categories/fieldgroupsedit",
 	height:'auto',
 	width:'700'
 }).navGrid('#pager',{
 	edit:true, add:true, del:true, search:true
 }).navButtonAdd('#pager',{
-	caption:"Field Groups",
+	caption:"Fields",
 	onClickButton: function(id) {
 		var gr = jQuery("#list").getGridParam("selrow");
 		if( gr != null ) {
-			document.location.href = '/catalog/categories/fieldgroups/id/' + gr;
+			document.location.href = '/catalog/fieldgroups/fields/id/' + gr;
 		} else {
 			$("#fieldsDialog").dialog('open');
 		}

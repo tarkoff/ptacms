@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Category Edit Form
+ * Catalog Field Edit Form
  *
  * LICENSE
  *
@@ -14,17 +14,17 @@
  * @version    $Id$
  */
 
-class Catalog_Form_Categories_Edit extends KIT_Form_Abstract
+class Catalog_Form_FieldGroups_Edit extends KIT_Form_Abstract
 {
 	/**
-	 * @var Catalog_Model_Category
+	 * @var Catalog_Model_Field_Group
 	 */
-	private $_category;
+	private $_model;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_category = new Catalog_Model_Category();
+		$this->_model = KIT_Model_Abstract::get('Catalog_Model_Field_Group', $id);
 
 		parent::__construct($options);
 		$this->setName('editForm');
@@ -43,26 +43,12 @@ class Catalog_Form_Categories_Edit extends KIT_Form_Abstract
 			  ->addFilter('StringTrim');
 		$this->addElement($alias);
 
-		$catsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category');
-		$parentId = new Zend_Form_Element_Select('parentid');
-		$parentId->setLabel('Parent')
-				 ->setRequired(true)
-				 ->addFilter('StripTags')
-				 ->addFilter('StringTrim');
-		$parentId->addMultiOptions(
-			$catsTable->getParentSelectOptions(
-				$catsTable->getPrimary(),
-				$catsTable->getFieldByAlias('title')
-			)
-		);
-		$this->addElement($title);
-		
 		$submit = new Zend_Form_Element_Submit('submit');
 		$this->addElement($submit);
-		
+
 		if (!empty($id)) {
-			$this->_category->loadById($id);
-			$this->loadFromModel($this->_category);
+			$this->_model->loadById($id);
+			$this->loadFromModel($this->_model);
 			$submit->setLabel('Save');
 		} else {
 			$submit->setLabel('Add');
@@ -80,7 +66,7 @@ class Catalog_Form_Categories_Edit extends KIT_Form_Abstract
 				} else {
 					$newData['id'] = null;
 				}
-				foreach ($this->_category->getDbTable()->getFields() as $fieldAlias => $fieldName) {
+				foreach ($this->_model->getDbTable()->getFields() as $fieldAlias => $fieldName) {
 					if (isset($formData[$fieldName])) {
 						$newData[$fieldAlias] = $formData[$fieldName];
 					}
@@ -88,9 +74,9 @@ class Catalog_Form_Categories_Edit extends KIT_Form_Abstract
 				$formData = $newData;
 			}
 			if ($this->isValid($formData)) {
-				$data = (object)$this->getValues();
-				$this->_category->setOptions($data);
-				return $this->_category->save();
+				$data = (array)$this->getValues();
+				$this->_model->setOptions($data);
+				return $this->_model->save();
 			} else {
 				$this->populate($formData);
 			}

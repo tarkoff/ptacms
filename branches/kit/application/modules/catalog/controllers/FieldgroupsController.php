@@ -1,6 +1,6 @@
 <?php
 /**
- * Products Controller
+ * Catalog Field Groups Controller
  *
  * LICENSE
  *
@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-class Catalog_BrandsController extends KIT_Controller_Action_Backend_Abstract
+class Catalog_FieldGroupsController extends KIT_Controller_Action_Backend_Abstract
 {
 	public function init()
 	{
@@ -33,15 +33,16 @@ class Catalog_BrandsController extends KIT_Controller_Action_Backend_Abstract
 
 	public function listAction()
 	{
-		$brandTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Brand');
+		$fieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group');
+
 		if ($this->getRequest()->isXmlHttpRequest()) {
-			$this->_helper->json($this->_getAjaxView($brandTable));
+			$this->_helper->json($this->_getAjaxView($fieldsTable));
 		}
 	}
 
 	public function addAction()
 	{
-		$this->view->title = 'Brand Add Form';
+		$this->view->title = 'Field Group Add Form';
 		$this->_editForm();
 	}
 
@@ -54,18 +55,28 @@ class Catalog_BrandsController extends KIT_Controller_Action_Backend_Abstract
 
 		$id = (int)$this->_getParam('id', 0);
 		if (empty($id) && !$isAjax) {
-			$this->_redirect('catalog/brands/add');
+			$this->_redirect('catalog/fieldgroups/add');
 		}
 
-		$this->view->title = 'Brand Edit Form';
+		$this->view->title = 'Field Group Edit Form';
 		$this->_editForm($id);
+	}
+
+	public function fieldsAction()
+	{
+		$id = (int)$this->_getParam('id', 0);
+		$this->view->group = KIT_Model_Abstract::get('Catalog_Model_Field_Group', $id);
+		$this->view->form = new Catalog_Form_FieldGroups_Fields($id);
+		if ($this->view->form->submit()) {
+			$this->_redirect('catalog/fieldgroups/list');
+		}
 	}
 
 	public function deleteAction()
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),
-			KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Brand')
+			KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group')
 		);
 	}
 }

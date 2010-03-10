@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Field Database Table
+ * Catalog Field Group Database Table
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * @version    $Id$
  */
 
-class Catalog_Model_DbTable_Field extends KIT_Db_Table_Tree_Abstract
+class Catalog_Model_DbTable_Field_Group extends KIT_Db_Table_Abstract
 {
-	protected $_name = 'CATALOG_FIELDS';
-	protected $_primary = 'FIELDS_ID';
+	protected $_name = 'CATALOG_FIELDGROUPS';
+	protected $_primary = 'FIELDGROUPS_ID';
 
     /**
      * Initialize object
@@ -30,7 +30,7 @@ class Catalog_Model_DbTable_Field extends KIT_Db_Table_Tree_Abstract
 	{
 		$this->setViewSelect(
 			$this->getAdapter()->select()->from(
-				array('fields' => $this->_name),
+				array('fg' => $this->_name),
 				$this->getFields(false)
 			)
 		);
