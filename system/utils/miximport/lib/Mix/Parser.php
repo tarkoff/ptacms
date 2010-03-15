@@ -575,7 +575,8 @@ class Mix_Parser extends Mix_Abstract
 			break;
 
 			case 'desc':
-				$offer[] = trim($this->_currentText);
+				$this->_currentText = trim($this->_currentText);
+				$offer[] = (strlen($this->_currentText) > 400 ? substr($this->_currentText, 0, 400) : $this->_currentText);
 			break;
 
 			case 'price':
