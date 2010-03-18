@@ -189,9 +189,10 @@ abstract class KIT_Model_Abstract
 	public function loadById($id)
 	{
 		$id = (int)$id;
-		if (!empty($id)) {
-			$data = $this->getDbTable()->find($id)->toArray();
-			$data = KIT_Db_Table_Abstract::dbFieldsToAlias(current($data));
+		if (!empty($id) && ($this->_id != $id)) {
+			$table = $this->getDbTable();
+			$data = $table->fetchRow($table->getPrimary() . ' = ' . $id);
+			$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
 			$this->setOptions($data);
 		}
 		return $this;
@@ -229,7 +230,8 @@ abstract class KIT_Model_Abstract
 			return $saved;
 		} else {
 			//$data[$table->getPrimary()] = $id;
-			return $table->update($data, array($table->getPrimary() . ' = ?' => $id));
+			$table->update($data, array($table->getPrimary() . ' = ?' => $id));
+			return true;
 		}
 	}
 

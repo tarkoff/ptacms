@@ -103,14 +103,14 @@ class Catalog_Model_DbTable_Category_Group extends KIT_Db_Table_Tree_Abstract
 
 		$select = $groupsTable->select()
 							  ->from(
-							  		array('fields' => $groupsTable->getTableName()),
+							  		array('groups' => $groupsTable->getTableName()),
 							  		$groupsTable->getFields(false)
 							  );
 		$select->setIntegrityCheck(false);
 
 		$select->join(
 			array('cg' => $this->getTableName()),
-			'fields.' . $groupsTable->getPrimary() . ' = cg.CATEGORYGROUPS_GROUPID',
+			'groups.' . $groupsTable->getPrimary() . ' = cg.CATEGORYGROUPS_GROUPID',
 			array('CATEGORYGROUPS_ID', 'CATEGORYGROUPS_SORTORDER')
 		);
 

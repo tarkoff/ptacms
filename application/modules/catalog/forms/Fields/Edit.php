@@ -58,8 +58,10 @@ class Catalog_Form_Fields_Edit extends KIT_Form_Abstract
 			$this->_field->loadById($id);
 			$this->loadFromModel($this->_field);
 			$submit->setLabel('Save');
+			$this->setLegend($this->_field->getTitle() . ' - Field Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('Field Add Form');
 		}
 	}
 

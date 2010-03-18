@@ -49,7 +49,6 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 
 	public function addAction()
 	{
-		$this->view->title = 'Category Add Form';
 		$this->_editForm();
 	}
 
@@ -65,7 +64,6 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 			$this->_redirect('catalog/categories/add');
 		}
 
-		$this->view->title = 'Cstegory Edit Form';
 		$this->_editForm($id);
 	}
 

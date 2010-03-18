@@ -34,16 +34,29 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		//$front->registerPlugin($aclPlugin);
 	}
 */
+
+	protected function _initLogger()
+	{
+		if ($this->getEnvironment() == 'development') {
+			$logger = new Zend_Log(new Zend_Log_Writer_Firebug());
+		} else {
+			$logger = new Zend_Log(new Zend_Log_Writer_Stream(APPLICATION_PATH . '/../data//logs/app.log'));
+		}
+		Zend_Registry::set('logger', $logger);
+	}
+
 	protected function _initViewHelpers()
 	{
 		$this->bootstrap('layout');
 		$layout = $this->getResource('layout');
 		$view = $layout->getView();
-
+		$view->addScriptPath(APPLICATION_PATH . '/layouts/scripts/generic/');
+		
 		$view->doctype('XHTML1_STRICT');
 		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
 		$view->headTitle()->setSeparator(' - ');
 		$view->headTitle('KiT CMS Admin Panel');
+		
 	}
 }
 

@@ -30,17 +30,6 @@ jQuery('#list').jqGrid({
 	width:'auto'
 }).navGrid('#pager',{
 	edit:true, add:true, del:true, search:true
-}).navButtonAdd('#pager',{
-	caption:"Fields",
-	onClickButton: function(id) {
-		var gr = jQuery("#list").getGridParam("selrow");
-		if( gr != null ) {
-			document.location.href = '/catalog/fieldgroups/fields/id/' + gr;
-		} else {
-			$("#fieldsDialog").dialog('open');
-		}
-	},
-	position:"last"
 });
 
 $("#fieldsDialog").dialog({

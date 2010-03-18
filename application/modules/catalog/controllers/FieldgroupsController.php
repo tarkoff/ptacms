@@ -66,7 +66,7 @@ class Catalog_FieldGroupsController extends KIT_Controller_Action_Backend_Abstra
 	{
 		$id = (int)$this->_getParam('id', 0);
 		$this->view->group = KIT_Model_Abstract::get('Catalog_Model_Field_Group', $id);
-		$this->view->form = new Catalog_Form_FieldGroups_Fields($id);
+		$this->view->form = new Catalog_Form_Fieldgroups_Fields($id);
 		if ($this->view->form->submit()) {
 			$this->_redirect('catalog/fieldgroups/list');
 		}

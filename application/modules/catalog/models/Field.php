@@ -23,9 +23,9 @@ class Catalog_Model_Field extends KIT_Model_Abstract
 	public static function getFieldTypes()
 	{
 		return array(
-			1 => 'Text',
-			6 => 'Select',
-			7 => 'Checkbox'
+			KIT_Form_Element_Abstract::TYPE_TEXT     => 'Text',
+			KIT_Form_Element_Abstract::TYPE_SELECT   => 'Select',
+			KIT_Form_Element_Abstract::TYPE_CHECKBOX => 'Checkbox'
 		);
 	}
 

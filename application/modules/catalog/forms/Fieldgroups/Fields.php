@@ -33,6 +33,7 @@ class Catalog_Form_FieldGroups_Fields extends KIT_Form_Abstract
 		
 		parent::__construct($options);
 		$this->setName('fieldsForm');
+		$this->setLegend('Field Group Fields');
 
 		$deniedOptions = array();
 		foreach ($catFieldsTable->getFreeFields($id) as $field) {
@@ -55,6 +56,7 @@ class Catalog_Form_FieldGroups_Fields extends KIT_Form_Abstract
 		$allowedRes->setLabel('Field Group Fields')->setRequired(false);
 		$allowedRes->addMultiOptions($allowedOptions);
 		$this->addElement($allowedRes);
+
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
 		$this->addElement($submit);

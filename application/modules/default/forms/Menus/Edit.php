@@ -67,8 +67,10 @@ class Default_Form_Menus_Edit extends KIT_Form_Abstract
 			$parentId->setValue($this->_menu->getParentId());
 			$resourceId->setValue($this->_menu->getResourceId());
 			$submit->setLabel('Save');
+			$this->setLegend($this->_menu->getTitle() . ' - Menu Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('Menu Add Form');
 		}
 
 		$this->addElements(array($title, $alias, $parentId, $resourceId, $submit));

@@ -32,6 +32,7 @@ class Default_Form_Usergroups_Acl extends KIT_Form_Abstract
 
 		parent::__construct($options);
 		$this->setName('userGroup_aclForm');
+		$this->setLegend('User Group Acl Form');
 
 		$groupId = new Zend_Form_Element_Hidden('id');
 

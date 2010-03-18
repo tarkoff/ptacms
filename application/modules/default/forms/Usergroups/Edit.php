@@ -44,8 +44,10 @@ class Default_Form_Usergroups_Edit extends KIT_Form_Abstract
 			$groupId->setValue($this->_userGroup->getId());
 			$title->setValue($this->_userGroup->getTitle());
 			$submit->setLabel('Save');
+			$this->setLegend($this->_userGroup->getTitle() . ' - User Group Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('User Group Add Form');
 		}
 
 		$this->addElements(array($groupId, $title, $submit));
