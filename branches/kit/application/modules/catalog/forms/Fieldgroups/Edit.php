@@ -47,11 +47,12 @@ class Catalog_Form_FieldGroups_Edit extends KIT_Form_Abstract
 		$this->addElement($submit);
 
 		if (!empty($id)) {
-			$this->_model->loadById($id);
 			$this->loadFromModel($this->_model);
 			$submit->setLabel('Save');
+			$this->setLegend($this->_model->getTitle() . ' - Field Group Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('Field Group Edit Form');
 		}
 	}
 

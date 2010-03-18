@@ -58,8 +58,10 @@ class Default_Form_Resources_Edit extends KIT_Form_Abstract
 			$controller->setValue($this->_resource->getController());
 			$action->setValue($this->_resource->getAction());
 			$submit->setLabel('Save');
+			$this->setLegend($this->_resource->getAction() . ' - Resource Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('Resource Add Form');
 		}
 
 		$this->addElements(array($module, $controller, $action, $submit));

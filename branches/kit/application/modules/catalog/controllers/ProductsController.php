@@ -43,8 +43,38 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 
 	public function addAction()
 	{
-		$this->view->title = 'User Add Form';
-		$this->_editForm();
+		$id = (int)$this->_getParam('id', 0);
+		$catId = (int)$this->_getParam('catId', 0);
+		$isAjax = $this->getRequest()->isXmlHttpRequest();
+		$this->view->catId = $catId;
+
+		if (empty($catId)) {
+			$catsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category');
+			$this->view->cats = $catsTable->getSelectedFields(
+				array(
+					$catsTable->getPrimary(),
+					$catsTable->getFieldByAlias('title')
+				),
+				null,
+				true
+			);
+		} else {
+			$form = new Catalog_Form_Products_Edit($id, $catId);
+			$this->view->form = $form;
+			$this->view->headTitle($form->getLegend(), 'APPEND');
+
+			if ($form->submit()) {
+				if ($isAjax) {
+					$this->_helper->json(1);
+				} else {
+					$this->_redirect('catalog/products/list');
+				}
+			} else {
+				if ($isAjax) {
+					$this->_helper->json(0);
+				}
+			}
+		}
 	}
 
 	public function editAction()
@@ -56,26 +86,15 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 
 		$id = (int)$this->_getParam('id', 0);
 		if (empty($id) && !$isAjax) {
-			$this->_redirect('users/add');
+			if ($isAjax) {
+				$this->_helper->json(0);
+			} else {
+				$this->_redirect('catalog/products/add');
+			}
 		}
-
-		$this->view->title = 'User Edit Form';
+		$this->view->addScriptPath(APPLICATION_PATH . '/layouts/scripts/generic/');
+var_dump($this->view->getScriptPaths());
 		$this->_editForm($id);
-	}
-
-	public function rightsAction()
-	{
-		$id = (int)$this->_getParam('id', 0);
-		if (empty($id)) {
-			$this->_redirect('users/list');
-		}
-		$form = new Default_Form_Users_Acl($id);
-		$this->view->title = 'User Rights';
-		$this->view->form = $form;
-
-		if ($form->submit()) {
-			$this->_redirect('users/list');
-		}
 	}
 
 	public function deleteAction()

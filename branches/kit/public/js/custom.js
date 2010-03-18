@@ -19,6 +19,10 @@ $(document).ready(function() {
 		$('#gbox_list').css('margin', '0 auto');
 	});
 
+	// Align forms by center
+	$(function() {
+		$('.kit-form input:text, .kit-form textarea').addClass('kit-text');
+	});
 });
 
 /*

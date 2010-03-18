@@ -95,16 +95,12 @@ class Default_Form_Users_Edit extends KIT_Form_Abstract
 
 		if (!empty($id)) {
 			$this->_user->loadById($id);
-			foreach ($this->getElements() as $element) {
-				$alias = $element->getName();
-				$method = 'get' . $alias;
-				if (method_exists($this->_user, $method)) {
-					$element->setValue($this->_user->$method());
-				}
-			}
+			$this->loadFromModel($this->_user);
 			$submit->setLabel('Save');
+			$this->setLegend($this->_user->getLogin() . 'User Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('User Add Form');
 		}
 
 		$this->addElement($submit);

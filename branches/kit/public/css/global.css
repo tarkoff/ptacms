@@ -58,3 +58,7 @@ input.ui-pg-input { width: 4em !Important; padding: 3px !Important; white-space:
 	padding:4px;
 	position:relative;
 }
+
+.kit-form { width:800px; margin:0 auto; }
+.kit-form .ui-widget-content { padding:.5em; }
+.kit-text { width:95% !Important; }

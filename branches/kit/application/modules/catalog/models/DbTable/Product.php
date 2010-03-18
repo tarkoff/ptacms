@@ -16,7 +16,7 @@
 
 class Catalog_Model_DbTable_Product extends KIT_Db_Table_Abstract
 {
-	protected $_name = 'PRODUCTS';
+	protected $_name = 'CATALOG_PRODUCTS';
 	protected $_primary = 'PRODUCTS_ID';
 
     /**
@@ -28,23 +28,20 @@ class Catalog_Model_DbTable_Product extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
+		$usersTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User');
 		$select = $this->getAdapter()->select();
 
-		$select->from(array('u' => $this->_name),
-					  array('USERS_ID',
-							'USERS_LOGIN',
-							'USERS_PASSWORD',
-							'USERS_FIRSTNAME',
-							'USERS_LASTNAME',
-							'USERS_EMAIL',
-							'USERS_STATUS',
-							'USERS_REGISTERED'));
+		$select->from(array('prods' => $this->_name),
+					  array('PRODUCTS_ID',
+							'PRODUCTS_ALIAS',
+							'PRODUCTS_TITLE',
+							'PRODUCTS_DATE'));
 
-		$select->join(array('ug' => $userGroupsTable->getTableName()),
-					  'u.USERS_GROUPID = ug.USERGROUPS_ID',
-					  array('USERGROUPS_TITLE'));
-
+		$select->join(array('usr' => $usersTable->getTableName()),
+					  'prods.PRODUCTS_AUTHORID = usr.' . $usersTable->getPrimary(),
+					  array('PRODUCTS_AUTHORID' => $usersTable->getFieldByAlias('login')));
+//var_dump($select->assemble());
+//exit(0);
 		$this->setViewSelect($select);
 	}
 }

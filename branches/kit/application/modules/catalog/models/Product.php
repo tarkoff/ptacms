@@ -24,6 +24,14 @@ class Catalog_Model_Product extends KIT_Model_Abstract
 	private $_url;
 	private $_driversUrl;
 	private $_authorId;
+	/**
+	 * @var Catalog_Model_Product_Category
+	 */
+	private $_category;
+	/**
+	 * @var Catalog_Model_Product_Castom_Fields
+	 */
+	private $_customFields;
 
 	public function getUrl()
 	{
@@ -103,5 +111,115 @@ class Catalog_Model_Product extends KIT_Model_Abstract
 	public function setAuthorId($id)
 	{
 		$this->_authorId = (int)$id;
+	}
+
+	/**
+	 * Get Default Product Category
+	 *
+	 * @return Catalog_Model_Product_Category
+	 */
+	public function getCategory()
+	{
+		if (empty($this->_category)) {
+			$productCategoryTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Product_Category');
+			$defaultCategory = $productCategoryTable->getDefaultCategory($this->_id, true);
+
+			$this->_category = self::get('Catalog_Model_Product_Category');
+			if (empty($defaultCategory)) {
+				$this->_category->setProductId($this->getId());
+				$this->_category->setCategoryId(0);
+				$this->_category->setIsDefault(1);
+			} else {
+				$this->_category->setOptions(
+					KIT_Db_Table_Abstract::dbFieldsToAlias($defaultCategory->toArray())
+				);
+			}
+		}
+		return $this->_category;
+	}
+
+	public function getCategoryId()
+	{
+		return $this->getCategory()->getCategoryId();
+	}
+
+	public function setCategoryId($id)
+	{
+		$this->getCategory()->setCategoryId($id);
+	}
+
+	/**
+	 * Get Prodct Custom Fields
+	 *
+	 * @return Catalog_Model_Product_Custom_Fields
+	 */
+	public function getCustomFields()
+	{
+		if (empty($this->_customFields)) {
+			$this->_customFields = new Catalog_Model_Product_Custom_Fields();
+			$this->_customFields->setProductId($this->getId());
+			$this->_customFields->setCategoryId($this->getCategoryId());
+		}
+		return $this->_customFields;
+	}
+
+	/**
+	 * Set object options
+	 *
+	 * @param mixed $options
+	 * @param boolean $isDbFields
+	 * @return KIT_Model_Abstract
+	 */
+	public function setOptions($options, $isDbFields = false)
+	{
+		if ($isDbFields) {
+			$options = KIT_Db_Table_Abstract::dbFieldsToAlias($options);
+		}
+
+		foreach ($options as $key => $value) {
+			$method = 'set' . ucfirst($key);
+			if (method_exists($this, $method)) {
+				$this->$method($value);
+			} else {
+				$this->getCustomFields()->$method($value);
+			}
+		}
+		return $this;
+	}
+
+	public function __call($method, $args)
+	{
+		$customFields = $this->getCustomFields();
+		$alias = str_replace(array('set', 'get', '', $method));
+		if ($customFields->has($alias)) {
+			return call_user_func_array(array($customFields, $method), $args);
+		}
+
+		throw new Zend_Exception('Exception: ' . get_class($this) . "::{$method} unknown method called");
+	}
+
+	public function loadById($id)
+	{
+		parent::loadById($id);
+		$this->getCustomFields()->build();
+		return $this;
+	}
+
+	/**
+	 * Save data to database
+	 *
+	 * @param array $data
+	 * @return boolean
+	 */
+	public function save($data = null)
+	{
+		if (parent::save($data)) {
+			$category = $this->getCategory();
+			$category->setProductId($this->getId());
+			$category->save();
+			$this->getCustomFields()->save();
+			return true;
+		}
+		return false;
 	}
 }

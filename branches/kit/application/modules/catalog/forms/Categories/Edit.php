@@ -64,8 +64,10 @@ class Catalog_Form_Categories_Edit extends KIT_Form_Abstract
 			$this->_category->loadById($id);
 			$this->loadFromModel($this->_category);
 			$submit->setLabel('Save');
+			$this->setLegend($this->_category->getTitle() . ' - Category Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('Category Add Form');
 		}
 	}
 

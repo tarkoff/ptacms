@@ -69,7 +69,6 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
      */
 	protected function _editForm($id = 0)
 	{
-		$this->view->headTitle($this->view->title, 'APPEND');
 		$isAjax = $this->getRequest()->isXmlHttpRequest();
 
 		$module = $this->getRequest()->getModuleName();
@@ -78,6 +77,7 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
 
 		$form = new $formName($id);
 		$this->view->form = $form;
+		$this->view->headTitle($form->getLegend(), 'APPEND');
 
 		if ($form->submit()) {
 			if ($isAjax) {

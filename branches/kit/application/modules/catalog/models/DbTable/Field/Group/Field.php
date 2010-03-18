@@ -73,15 +73,16 @@ class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Tree_Abstract
 	/**
 	 * Get group fields
 	 *
-	 * @param int $groupId
+	 * @param int|array $groupId
 	 * @return Zend_Db_Table_Rowset_Abstract
 	 */
 	public function getGroupFields($groupId)
 	{
-		$groupId = (int)$groupId;
 		if (empty($groupId)) {
 			return array();
 		}
+
+		$groupId     = array_map('intval', (array)$groupId);
 		$fieldsTable = self::get('Catalog_Model_DbTable_Field');
 
 		$select = $fieldsTable->select()
@@ -94,10 +95,10 @@ class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Tree_Abstract
 		$select->join(
 			array('gf' => $this->getTableName()),
 			'fields.' . $fieldsTable->getPrimary() . ' = gf.GROUPFIELDS_FIELDID',
-			array('GROUPFIELDS_ID', 'GROUPFIELDS_SORTORDER')
+			array('GROUPFIELDS_ID', 'GROUPFIELDS_CATEGORYGROUPID', 'GROUPFIELDS_SORTORDER')
 		);
 
-		$select->where('gf.GROUPFIELDS_CATEGORYGROUPID = ' . $groupId);
+		$select->where('gf.GROUPFIELDS_CATEGORYGROUPID in (?)', $groupId);
 		$select->order('gf.GROUPFIELDS_SORTORDER');
 
 		return $this->fetchAll($select);

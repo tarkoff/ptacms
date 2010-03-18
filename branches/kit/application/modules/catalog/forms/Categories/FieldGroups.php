@@ -79,8 +79,10 @@ class Catalog_Form_Categories_FieldGroups extends KIT_Form_Abstract
 			$this->_model->loadById($id);
 			$this->loadFromModel($this->_model);
 			$submit->setLabel('Save');
+			$this->setLegend('Field Group Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('Field Group Add Form');
 		}
 	}
 

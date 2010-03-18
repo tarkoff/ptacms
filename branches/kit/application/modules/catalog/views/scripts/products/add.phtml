@@ -1,0 +1,38 @@
+<?php if (!empty($this->cats)):?>
+<div class="ui-widget">
+	<div class="ui-widget-header">Please, Select Product Category</div>
+	<div class="ui-widget-content">
+		<select id="catId">
+			<?php foreach ($this->cats as $catId => $catTitle):?>
+				<option value="<?php echo $catId;?>"><?php echo $catTitle;?></option>
+			<?php endforeach;?>
+		</select>
+		<script type="text/javascript">
+			$('#catId').change(function() {
+				document.location.href = '<?php echo  $this->url(array('module' => 'catalog', 'controller'=>'products', 'action'=>'add'), null, true)?>/catId/' + $(this).val();
+			});
+		</script>
+	</div>
+</div>
+<?php else:?>
+<div class="ui-widget kit-form">
+	<div class="ui-widget-header ui-corner-all"><?php echo $this->form->getLegend();?></div>
+	<div class="ui-widget-content">
+		<form name="<?php echo $this->form->getName();?>" action="<?php echo $this->form->getAction();?>" method="<?php echo $this->form->getMethod();?>">
+		<?php foreach ($this->form->getDisplayGroups() as $group):?>
+			<div class="ui-widget">
+				<div class="ui-widget-header ui-corner-all">
+					<span class="ui-icon ui-icon-circle-arrow-s"></span><?php echo $group->getLegend(); ?>
+				</div>
+				<div class="ui-widget-content">
+				<?php foreach ($group->getElements() as $element):?>
+					<dl><?php echo $element->render();?></dl>
+				<?php endforeach;?>
+				</div>
+			</div>
+		<?php endforeach;?>
+			<center><dl><?php echo $this->form->getElement('submit')->render();?></dl></center>
+		</form>
+	</div>
+</div>
+<?php endif;?>
