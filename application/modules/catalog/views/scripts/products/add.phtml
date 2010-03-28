@@ -1,7 +1,8 @@
 <?php if (!empty($this->cats)):?>
-<div class="ui-widget">
+<div class="ui-widget kit-form">
 	<div class="ui-widget-header">Please, Select Product Category</div>
 	<div class="ui-widget-content">
+		Please, Select Product Category:
 		<select id="catId">
 			<?php foreach ($this->cats as $catId => $catTitle):?>
 				<option value="<?php echo $catId;?>"><?php echo $catTitle;?></option>

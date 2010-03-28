@@ -151,9 +151,15 @@ class Catalog_Model_Product_Custom_Fields
 		$productId = $this->getProductId();
 		$productValuesTable->clearProductValues($this->getProductId());
 		foreach ($this->_fieldsValues as $fieldsAlias => $fieldValue) {
-			$data[] = '(' .  $productId . ', '
-					  . $this->_groupFieldsIds[$fieldsAlias] . ', '
-					  . intval($fieldValue) . ')';
+			if (!empty($fieldValue)) {
+				$data[] = '(' .  $productId . ', '
+						  . $this->_groupFieldsIds[$fieldsAlias] . ', '
+						  . intval($fieldValue) . ')';
+			}
+		}
+
+		if (empty($data)) {
+			return true;
 		}
 
 		return $productValuesTable->getAdapter()->query($sql . implode(', ', $data));

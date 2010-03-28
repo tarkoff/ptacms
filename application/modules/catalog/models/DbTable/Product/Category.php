@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-class Catalog_Model_DbTable_Product_Category extends KIT_Db_Table_Tree_Abstract
+class Catalog_Model_DbTable_Product_Category extends KIT_Db_Table_Abstract
 {
 	protected $_name = 'CATALOG_PRODUCTCATEGORIES';
 	protected $_primary = 'PRODUCTCATEGORIES_ID';
@@ -81,6 +81,28 @@ class Catalog_Model_DbTable_Product_Category extends KIT_Db_Table_Tree_Abstract
 		}
 		return $this->update(
 			array('PRODUCTCATEGORIES_CATEGORYID' => $categoryId),
+			array(
+				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId,
+				'PRODUCTCATEGORIES_ISDEFAULT = 1'
+			)
+		);
+	}
+	
+	/**
+	 * Unset Default Product Category
+	 *
+	 * @param int $productId
+	 * @return boolean
+	 */
+	public function unsetDefaultCategory($productId)
+	{
+		$productId  = (int)$productId;
+		if (empty($productId)) {
+			return false;
+		}
+		
+		return $this->update(
+			array('PRODUCTCATEGORIES_CATEGORYID' => 0),
 			array(
 				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId,
 				'PRODUCTCATEGORIES_ISDEFAULT = 1'

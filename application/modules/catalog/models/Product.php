@@ -222,4 +222,22 @@ class Catalog_Model_Product extends KIT_Model_Abstract
 		}
 		return false;
 	}
+
+	public function getProductPath($path = '.')
+	{
+		if (!empty($this->_alias)) {
+			if (!empty($this->_brandId)) {
+				$brand = self::get('Catalog_Model_Brand', $this->_brandId);
+				$path .= '/' . $brand->getAlias();
+			}
+			$path .= '/' . $this->getAlias();
+		}
+		
+
+		if (!file_exists($path) && !mkdir($path, 0777, true)) {
+			throw new Zend_Exception('Cannot create directory:' . $path);
+		}
+		return $path;
+	}
+	
 }

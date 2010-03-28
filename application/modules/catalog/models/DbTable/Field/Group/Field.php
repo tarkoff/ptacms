@@ -125,12 +125,17 @@ class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Tree_Abstract
 				. ' (GROUPFIELDS_CATEGORYGROUPID, GROUPFIELDS_FIELDID, GROUPFIELDS_SORTORDER) VALUES ';
 
 		$sqlParts = array();
+		$fieldsIds = array();
 		foreach ($fields as $fieldId => $fieldOrder) {
+			$fieldId = intval($fieldId);
 			$sqlParts[] = '('. intval($groupId) . ', ' . $fieldId . ', ' . intval($fieldOrder) . ')';
+			$fieldsIds[] = $fieldId;
 		}
 
-		$this->delete('GROUPFIELDS_CATEGORYGROUPID = ' . $groupId);
 		if (!empty($sqlParts)) {
+			$this->delete(
+				'GROUPFIELDS_CATEGORYGROUPID = ' . $groupId
+				. ' AND GROUPFIELDS_FIELDID NOT IN (' . implode(',', $fieldsIds) . ')');
 			return $this->getAdapter()->query($sql . implode(', ', $sqlParts));
 		}
 		return true;

@@ -10,7 +10,7 @@
 
 <form name="<?php echo $this->form->getName(); ?>" id="fieldsForm" action="<?php $this->form->getAction(); ?>" method="<?php echo $this->form->getMethod(); ?>">
 <div class="ui-widget ui-widget-content">
-	<div class="ui-widget-header"><?php echo $this->group->getTitle();?> - group fields</div>
+	<div class="ui-widget-header">Group fields</div>
 	<div class="ui-widget-content">
 		<table>
 			<tr>
@@ -23,7 +23,7 @@
 					</ul>
 				</td>
 				<td width="50%">
-					<label for="alrs">Category fields</label>
+					<label for="alrs">Group fields</label>
 					<ul id="alrs">
 					<?php foreach ($groupFields as $id => $title): ?>
 						<li class="ui-state-default"><?php echo $title; ?><input type="hidden" name="res[<?php echo $id; ?>]" value="<?php echo $id; ?>" /></li>
@@ -71,10 +71,10 @@ function addFields()
 <div id="dialog-message" title="Error!">
 	<p>
 		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-		Category not selected!
+		Category Group not selected!
 	</p>
 	<p>
-		Please, provide correct category.
+		Please, provide correct category group.
 	</p>
 </div>
 <script type="text/javascript">
@@ -84,7 +84,7 @@ $(function() {
 		buttons: {
 			Ok: function() {
 				$(this).dialog('close');
-				document.location.href = '<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true);?>';
+				document.location.href = '<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'fieldgroups'), null, true);?>';
 			}
 		}
 	});

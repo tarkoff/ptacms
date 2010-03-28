@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Product Category Model
+ * Catalog Product Photo Model
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * @version    $Id$
  */
 
-class Catalog_Model_Product_Category extends KIT_Model_Abstract
+class Catalog_Model_Product_Photo extends KIT_Model_Abstract
 {
 	private $_productId;
-	private $_categoryId;
+	private $_file;
 	private $_isDefault;
 
 	public function getProductId()
@@ -30,14 +30,14 @@ class Catalog_Model_Product_Category extends KIT_Model_Abstract
 		$this->_productId = $id;
 	}
 
-	public function getCategoryId()
+	public function getFile()
 	{
-		return $this->_categoryId;
+		return $this->_file;
 	}
 
-	public function setCategoryId($id)
+	public function setFile($file)
 	{
-		$this->_categoryId = $id;
+		$this->_file = $file;
 	}
 
 	public function getIsDefault()
@@ -47,7 +47,7 @@ class Catalog_Model_Product_Category extends KIT_Model_Abstract
 
 	public function setIsDefault($isDefault)
 	{
-		$this->_isDefault = $isDefault;
+		$this->_isDefault = (int)$isDefault;
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Catalog_Model_Product_Category extends KIT_Model_Abstract
 	public function save($data = null)
 	{
 		if ($this->getIsDefault()) {
-			$this->getDbTable()->unsetDefaultCategory($this->getProductId());
+			$this->getDbTable()->unsetDefaultPhoto($this->getProductId());
 		}
 		return parent::save($data);
 	}
