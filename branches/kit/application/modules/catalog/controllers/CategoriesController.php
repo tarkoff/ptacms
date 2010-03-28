@@ -25,6 +25,7 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 			 ->addActionContext('delete', 'json')
 			 ->addActionContext('fieldgroups', 'json')
 			 ->addActionContext('fieldgroupsedit', 'json')
+			 ->addActionContext('deletecategorygroup', 'json')
 			 ->initContext();
 	}
 
@@ -99,7 +100,7 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 	{
 		$isAjax = $this->getRequest()->isXmlHttpRequest();
 		if ($isAjax && ('del' == $this->_getParam('oper', 'edit'))) {
-			$this->deleteCategoryGroupAction();
+			$this->deletecategorygroupAction();
 		}
 
 		$id = (int)$this->_getParam('id', 0);
@@ -119,7 +120,7 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 		}
 	}
 	
-	public function deleteCategoryGroupAction()
+	public function deletecategorygroupAction()
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),

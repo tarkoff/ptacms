@@ -1,7 +1,8 @@
 $(document).ready(function() { 
 	//Apply theme style for form inputes
-	$('input[type="text"], input[type="password"], textarea').addClass('text ui-corner-all');
-	$('input[type="submit"]').addClass('btn ui-state-default ui-corner-all');
+	$('.kit-form input:text, .kit-form textarea').addClass('text kit-text ui-corner-all');
+	$(".kit-form input:submit").parent().css('text-align', 'center');
+	$(".kit-form input:submit").button();
 
 	$(".ui-widget-header .ui-icon.ui-icon-circle-arrow-s").click(function() {
 		$(this).toggleClass("ui-icon-circle-arrow-n");
@@ -19,10 +20,6 @@ $(document).ready(function() {
 		$('#gbox_list').css('margin', '0 auto');
 	});
 
-	// Align forms by center
-	$(function() {
-		$('.kit-form input:text, .kit-form textarea').addClass('kit-text');
-	});
 });
 
 /*

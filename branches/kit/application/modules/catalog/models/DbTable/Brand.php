@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-class Catalog_Model_DbTable_Brand extends KIT_Db_Table_Tree_Abstract
+class Catalog_Model_DbTable_Brand extends KIT_Db_Table_Abstract
 {
 	protected $_name = 'CATALOG_BRANDS';
 	protected $_primary = 'BRANDS_ID';

@@ -33,17 +33,34 @@ jQuery('#list').jqGrid({
 }).navGrid('#pager',{
 	edit:false, add:false, del:true, search:true
 }).navButtonAdd('#pager',{
-	caption:"New Product",
-	onClickButton: function(id) {
-		document.location.href = '/catalog/products/add';
-	},
-	position:"last"
-}).navButtonAdd('#pager',{
-	caption:"Edit Product",
+	caption:"",
+	title:"Edit Product",
+	buttonicon:"ui-icon-pencil",
 	onClickButton: function(id) {
 		var gr = jQuery("#list").getGridParam("selrow");
 		if( gr != null ) {
 			document.location.href = '/catalog/products/edit/id/' + gr;
+		} else {
+			$("#fieldsDialog").dialog('open');
+		}
+	},
+	position:"first"
+}).navButtonAdd('#pager',{
+	caption:"",
+	title:"New Product",
+	buttonicon:"ui-icon-plus",
+	onClickButton: function(id) {
+		document.location.href = '/catalog/products/add';
+	},
+	position:"first"
+}).navButtonAdd('#pager',{
+	caption:"",
+	title:"Product Photos",
+	buttonicon:"ui-icon-image",
+	onClickButton: function(id) {
+		var gr = jQuery("#list").getGridParam("selrow");
+		if( gr != null ) {
+			document.location.href = '/catalog/photos/list/pid/' + gr;
 		} else {
 			$("#fieldsDialog").dialog('open');
 		}

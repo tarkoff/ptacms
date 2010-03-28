@@ -42,7 +42,6 @@ class Catalog_FieldGroupsController extends KIT_Controller_Action_Backend_Abstra
 
 	public function addAction()
 	{
-		$this->view->title = 'Field Group Add Form';
 		$this->_editForm();
 	}
 
@@ -58,17 +57,16 @@ class Catalog_FieldGroupsController extends KIT_Controller_Action_Backend_Abstra
 			$this->_redirect('catalog/fieldgroups/add');
 		}
 
-		$this->view->title = 'Field Group Edit Form';
 		$this->_editForm($id);
 	}
 
 	public function fieldsAction()
 	{
 		$id = (int)$this->_getParam('id', 0);
-		$this->view->group = KIT_Model_Abstract::get('Catalog_Model_Field_Group', $id);
+		$this->view->group = KIT_Model_Abstract::get('Catalog_Model_Category_Group', $id);
 		$this->view->form = new Catalog_Form_Fieldgroups_Fields($id);
 		if ($this->view->form->submit()) {
-			$this->_redirect('catalog/fieldgroups/list');
+			$this->_redirect('catalog/categories/fieldgroups');
 		}
 	}
 

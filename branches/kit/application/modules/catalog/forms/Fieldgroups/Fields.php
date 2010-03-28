@@ -17,14 +17,14 @@
 class Catalog_Form_FieldGroups_Fields extends KIT_Form_Abstract
 {
 	/**
-	 * @var Catalog_Model_Field_Group
+	 * @var Catalog_Model_Category_Group
 	 */
 	private $_model;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_model = KIT_Model_Abstract::get('Catalog_Model_Field_Group', $id);
+		$this->_model = KIT_Model_Abstract::get('Catalog_Model_Category_Group', $id);
 
 		$catFieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group_Field');
 		$fieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field');
@@ -68,7 +68,7 @@ class Catalog_Form_FieldGroups_Fields extends KIT_Form_Abstract
 			$formData = (array)$this->getPost();
 				$catFieldsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group_Field');
 				if ($catFieldsTable->setGroupFields(
-					$this->_model->getId(),
+					$this->_model->getGroupId(),
 					$formData['groupFields']
 				)
 			) {

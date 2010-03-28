@@ -56,8 +56,10 @@ class Catalog_Form_Brands_Edit extends KIT_Form_Abstract
 		if (!empty($id)) {
 			$this->loadFromModel($this->_brand);
 			$submit->setLabel('Save');
+			$this->setLegend($this->_brand->getTitle() . 'Brand Edit Form');
 		} else {
 			$submit->setLabel('Add');
+			$this->setLegend('Brand Add Form');
 		}
 	}
 

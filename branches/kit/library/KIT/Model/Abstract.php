@@ -192,8 +192,10 @@ abstract class KIT_Model_Abstract
 		if (!empty($id) && ($this->_id != $id)) {
 			$table = $this->getDbTable();
 			$data = $table->fetchRow($table->getPrimary() . ' = ' . $id);
-			$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
-			$this->setOptions($data);
+			if ($data instanceof Zend_Db_Table_Row_Abstract) {
+				$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
+				$this->setOptions($data);
+			}
 		}
 		return $this;
 	}

@@ -92,8 +92,6 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 				$this->_redirect('catalog/products/add');
 			}
 		}
-		$this->view->addScriptPath(APPLICATION_PATH . '/layouts/scripts/generic/');
-var_dump($this->view->getScriptPaths());
 		$this->_editForm($id);
 	}
 
