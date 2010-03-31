@@ -21,7 +21,7 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 		</div>
 		</li>
 		 <li>
-			<span class="t-center">
+			<span>
 				Copyrighted &copy;&nbsp;2009 - 2010 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
 				Поддержка сайта {mailto address="support@gelezka.net" encode="javascript"}<br />
 				<span id="plinks">{$Gelezka->sape->return_links()}</span><br />
