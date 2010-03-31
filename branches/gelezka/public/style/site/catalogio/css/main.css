@@ -87,9 +87,9 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
 #col-l {float:left; width:610px;}
 #col-r {float:right; width:280px; overflow:hidden;}
 #footer {clear:both; border-top:3px solid #EFEFEF;}
-#footer p {margin-top:7px;}
-#copy, #copy a {color:#777;}
-#copy a:hover {color:#333;}
+#footer ul {list-style:none; margin:7px 0 0 0; }
+#footer ul li {float:left; margin-right:1em;}
+#copy, #copy a {color:#ccc;}
 
 /* ---------------- Page: Homepage ------------------------------------------ */
 
@@ -204,6 +204,10 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 .imgBox { width:200px; }
 .formInput { border:1px solid #ccc; }
 .commentText { width:700px; height:200px;}
+.prpiceInput{ border:1px solid #CCCCCC; width:90%; padding:5px 5px; line-height:130%; font-size:160%; }
+.priceDescr{ height:60px; }
+.prodValue a { text-decoration:none; color:#2E6E9E; font-weight:bold;}
+.prodValue a:hover { text-decoration:underline;}
 /* ----------- Others ------------------------------------------------------- */
 
 .title01-top {width:900px; height:6px; background:#FFF5C7 url("../img/title01-top.gif") 0 100% no-repeat; font-size:0;}
@@ -279,11 +283,3 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 #mixkt_4294945452 table { margin:0; font-size:1em;}
 #mixkt_4294944591 table { margin:0; font-size:0.9em;}
 .mix_inter { border:none !Important; }
-/* -------------- Products ---------------------------------------------------*/
-.prpiceInput{ border:1px solid #CCCCCC; width:90%; padding:5px 5px; line-height:130%; font-size:160%; }
-.priceDescr{ height:60px; }
-.prodValue a { text-decoration:none; color:#2E6E9E; font-weight:bold;}
-.prodValue a:hover { text-decoration:underline;}
-/* ------------ Copyrights ---------------------------------------------------*/
-span#plinks, span#plinks * { color:#ccc; }
-span#copy, span#copy *,  span#copy a:hover { color:#eee; }
