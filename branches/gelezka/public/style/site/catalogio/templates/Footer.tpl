@@ -2,7 +2,7 @@
 <div id="footer">
 	<hr class="noscreen" />
 	<p class="t-center">
-		{$Gelezka->sape->return_links()}<br />
+		<span id="plinks">{$Gelezka->sape->return_links()}</span><br />
 		Copyrighted &copy;&nbsp;2009 - 2010 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
 		Поддержка сайта {mailto address="support@gelezka.net" encode="javascript"}<br />
 		<!-- Do you want to remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
@@ -17,7 +17,7 @@
 		<div class="col120 noprint ">
 			{literal}
 			<!--LiveInternet counter--><script type="text/javascript"><!--
-				document.write("<a href='http://www.liveinternet.ru/click' "+
+				document.write("<noindex><a rel='nofollow' href='http://www.liveinternet.ru/click' "+
 				"target=_blank><img src='http://counter.yadro.ru/hit?t27.6;r"+
 				escape(document.referrer)+((typeof(screen)=="undefined")?"":
 				";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
@@ -25,7 +25,7 @@
 				";"+Math.random()+
 				"' alt='' title='LiveInternet: показано количество просмотров и"+
 				" посетителей' "+
-				"border='0' width='88' height='120'><\/a>")
+				"border='0' width='88' height='120'><\/a><\/noindex>")
 			//--></script><!--/LiveInternet-->
 			{/literal}
 		</div>
@@ -34,7 +34,7 @@
 				<!--bigmir)net TOP 100-->
 				<script type="text/javascript" language="javascript"><!--
 					function BM_Draw(oBM_STAT){
-						document.write('<table cellpadding="0" cellspacing="0" border="0" style="display:inline;margin-right:4px;"><tr><td><div style="margin:0;padding:0;font-size:1px;width:88px;"><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_top.gif\') no-repeat top;height:1px;line-height:1px;">&nbsp;</div><div style="font:10px Tahoma;text-align:center;background-color:#EFEFEF;height:15px;"><a href="http://www.bigmir.net/" target="_blank" style="color:#0000ab;text-decoration:none;">bigmir<span style="color:#ff0000;">)</span>net</a></div><div style="height:1px;background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_top.gif\') no-repeat bottom;"></div><div style="font:10px Tahoma;padding-left:7px;background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_center.gif\');"><div style="padding:4px 6px 0 0;"><div style="float:left;color:#969696;">хиты</div><div style="float:right;color:#003596;font:10px Tahoma;">'+oBM_STAT.hits+'</div></div><br clear="all" /><div style="padding-right:6px;"><div style="float:left;color:#969696;">хосты</div><div style="float:right;color:#003596;font:10px Tahoma;">'+oBM_STAT.hosts+'</div></div><br clear="all" /><div style="padding-right:6px;"><div style="float:left;color:#969696;">всего</div><div style="float:right;color:#003596;font:10px Tahoma;">'+oBM_STAT.total+'</div></div><br clear="all" /><div style="height:3px;"></div></div><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_bottom.gif\') no-repeat top;height:2px;line-height:1px;">&nbsp;</div></div></td></tr></table>');
+						document.write('<table cellpadding="0" cellspacing="0" border="0" style="display:inline;margin-right:4px;"><tr><td><div style="margin:0;padding:0;font-size:1px;width:88px;"><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_top.gif\') no-repeat top;height:1px;line-height:1px;">&nbsp;</div><div style="font:10px Tahoma;text-align:center;background-color:#EFEFEF;height:15px;"><noindex><a rel=”nofollow” href="http://www.bigmir.net/" target="_blank" style="color:#0000ab;text-decoration:none;">bigmir<span style="color:#ff0000;">)</span>net</a></noindex></div><div style="height:1px;background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_top.gif\') no-repeat bottom;"></div><div style="font:10px Tahoma;padding-left:7px;background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_center.gif\');"><div style="padding:4px 6px 0 0;"><div style="float:left;color:#969696;">хиты</div><div style="float:right;color:#003596;font:10px Tahoma;">'+oBM_STAT.hits+'</div></div><br clear="all" /><div style="padding-right:6px;"><div style="float:left;color:#969696;">хосты</div><div style="float:right;color:#003596;font:10px Tahoma;">'+oBM_STAT.hosts+'</div></div><br clear="all" /><div style="padding-right:6px;"><div style="float:left;color:#969696;">всего</div><div style="float:right;color:#003596;font:10px Tahoma;">'+oBM_STAT.total+'</div></div><br clear="all" /><div style="height:3px;"></div></div><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_bottom.gif\') no-repeat top;height:2px;line-height:1px;">&nbsp;</div></div></td></tr></table>');
 					}
 				//-->
 				</script>
@@ -50,7 +50,7 @@
 						bmD.write('<sc'+'ript type="text/javascript" language="javascript" src="http://c.bigmir.net/?'+bs.join('&')+'"></sc'+'ript>');
 				//-->
 				</script>
-				<noscript><a href="http://www.bigmir.net/" target="_blank"><img src="http://c.bigmir.net/?v16828507&s16828507&t2" width="88" height="31" alt="bigmir)net TOP 100" title="bigmir)net TOP 100" border="0" /></a></noscript>
+				<noscript><noindex><a rel=”nofollow” href="http://www.bigmir.net/" target="_blank"><img src="http://c.bigmir.net/?v16828507&s16828507&t2" width="88" height="31" alt="bigmir)net TOP 100" title="bigmir)net TOP 100" border="0" /></a></noindex></noscript>
 				<!--bigmir)net TOP 100-->
 			{/literal}
 		</div>

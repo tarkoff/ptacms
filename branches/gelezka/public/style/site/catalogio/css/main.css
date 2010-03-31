@@ -284,3 +284,6 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 .priceDescr{ height:60px; }
 .prodValue a { text-decoration:none; color:#2E6E9E; font-weight:bold;}
 .prodValue a:hover { text-decoration:underline;}
+/* ------------ Copyrights ---------------------------------------------------*/
+span#plinks, span#plinks * { color:#ccc; }
+span#copy, span#copy *,  span#copy a:hover { color:#eee; }
