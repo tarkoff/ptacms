@@ -2,6 +2,7 @@
 <div id="footer">
 	<ul>
 		<li>
+		<div id="counters" class="ui-widget-shadow" style="background:#fff">
 		{literal}
 		<noindex>
 			<!--LiveInternet counter--><script type="text/javascript"><!--
@@ -17,6 +18,7 @@
 			//--></script><!--/LiveInternet-->
 		</noindex>
 		{/literal}
+		</div>
 		</li>
 		 <li>
 			<span class="t-center">
