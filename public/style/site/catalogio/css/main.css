@@ -89,7 +89,7 @@ hr {display:block; height:1px; margin:10px 0; border:0 solid #CCC; background:#C
 #footer {clear:both; border-top:3px solid #EFEFEF;}
 #footer ul {list-style:none; margin:7px 0 0 0; }
 #footer ul li {float:left; margin-right:1em;}
-#copy, #copy a, #plinks a {color:#ccc;}
+#copy, #copy a {color:#ccc;}
 
 /* ---------------- Page: Homepage ------------------------------------------ */
 
