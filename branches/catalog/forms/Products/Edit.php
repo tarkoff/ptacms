@@ -244,9 +244,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
 				$data = (array)$this->getValues();
-Zend_Registry::get('logger')->err($formData);
 				$this->_protuct->setOptions($formData);
-	Zend_Registry::get('logger')->err($this->_protuct);
 				if (!$this->_protuct->getCategoryId()) {
 					$this->_protuct->setCategoryId($this->_category->getId());
 				}

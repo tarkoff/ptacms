@@ -74,8 +74,7 @@ class Catalog_Form_Fields_Value extends KIT_Form_Abstract
 			}
 
 			if ($this->isValid($formData)) {
-				$data = (object)$this->getValues();
-				$this->_value->setOptions($data);
+				$this->_value->setOptions($this->getValues());
 				$this->_value->setFieldId($this->_fieldId);
 				return $this->_value->save();
 			} else {

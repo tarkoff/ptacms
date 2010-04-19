@@ -75,8 +75,7 @@ class Catalog_Form_FieldGroups_Edit extends KIT_Form_Abstract
 				$formData = $newData;
 			}
 			if ($this->isValid($formData)) {
-				$data = (array)$this->getValues();
-				$this->_model->setOptions($data);
+				$this->_model->setOptions($this->getValues());
 				return $this->_model->save();
 			} else {
 				$this->populate($formData);

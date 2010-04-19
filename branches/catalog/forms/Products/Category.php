@@ -76,8 +76,7 @@ class Catalog_Form_Products_Category extends KIT_Form_Abstract
 				$formData = $newData;
 			}
 			if ($this->isValid($formData)) {
-				$data = (array)$this->getValues();
-				$this->_model->setOptions($data);
+				$this->_model->setOptions($this->getValues());
 				return $this->_model->save();
 			} else {
 				$this->populate($formData);

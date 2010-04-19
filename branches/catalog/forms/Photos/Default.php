@@ -58,8 +58,7 @@ class Catalog_Form_Photos_Default extends KIT_Form_Abstract
 			if ($this->isXmlHttpRequest()) {
 			}
 			if ($this->isValid($formData)) {
-				$data = (object)$this->getValues();
-				$this->_brand->setOptions($data);
+				$this->_brand->setOptions($this->getValues());
 				return $this->_brand->save();
 			} else {
 				$this->populate($formData);
