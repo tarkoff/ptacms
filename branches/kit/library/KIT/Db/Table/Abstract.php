@@ -58,20 +58,19 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		extract($filterParams);
 
 		!empty($page) || $page = 1;
-		!empty($limit) || $limit = 20;
+		!empty($rows) || $rows = 20;
 		!empty($sortField) || $sortField = $this->getPrimary();
-		!empty($sortDirection) || $sortDirection = 'asc';
+		!empty($sortDirection) || $sortDirection = 'ASC';
 
 		$page = intval($page);
-		$limit = intval($limit);
+		$rows = intval($rows);
 
 		$db = $this->getAdapter();
 		$select = $this->getViewSelect();
 		!empty($select) || $select = $this->select();
 
 		//$select->setIntegrityCheck(false);
-		$select->limitPage($page, $limit)
-			   ->order(array($sortField . ' ' . $sortDirection));
+		$select->limitPage($page, $rows)->order(array($sortField . ' ' . $sortDirection));
 
 		if (!empty($searchField) && !empty($searchString)) {
 			if (isset($searchOper) && isset(self::$_filterOperations[$searchOper])) {
@@ -87,16 +86,15 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		$response->page = $page;
 		$response->rows = $db->fetchAll($sql);
 		$response->records = (int)$db->fetchOne('SELECT FOUND_ROWS()');
-		$response->total = ($response->records > 0 ? ceil($response->records/$limit) : 0);
+		$response->total = ($response->records > 0 ? ceil($response->records/$rows) : 0);
 
 		return $response;
 	}
 
 	/**
-	 * Select sql for view
+	 * Set Select sql for view
 	 *
 	 * @param string $select
-	 * @return unknown_type
 	 */
 	public function setViewSelect($select)
 	{
@@ -105,7 +103,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 	
 	/**
 	 * Return Select for view
-	 * @return unknown_type
+	 * @return Zend_Db_Select
 	 */
 	public function getViewSelect()
 	{
@@ -255,6 +253,14 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		return $this->delete($where);
 	}
 
+	/**
+	 * Get custom table fields by contitions
+	 *
+	 * @param array $fields
+	 * @param array $where
+	 * @param boolean $pairs
+	 * @return Zend_Db_Table_Rowset_Abstract|array
+	 */
 	public function getSelectedFields($fields = null, $where = array(), $pairs = false)
 	{
 		if (empty($fields)) {
@@ -269,9 +275,8 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 			$select->from($this->getTableName(), $fields);
 		}
 
-		@list($whereCond, $params) = $where;
-		if (!empty($whereCond)) {
-			$select->where($whereCond, $params);
+		if (!empty($where)) {
+			$this->_where($select, $where);
 		}
 
 		if ($pairs) {

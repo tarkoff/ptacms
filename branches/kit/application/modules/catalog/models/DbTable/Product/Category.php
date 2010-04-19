@@ -102,10 +102,9 @@ class Catalog_Model_DbTable_Product_Category extends KIT_Db_Table_Abstract
 		}
 		
 		return $this->update(
-			array('PRODUCTCATEGORIES_CATEGORYID' => 0),
+			array('PRODUCTCATEGORIES_ISDEFAULT' => 0),
 			array(
-				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId,
-				'PRODUCTCATEGORIES_ISDEFAULT = 1'
+				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId
 			)
 		);
 	}
@@ -159,5 +158,37 @@ class Catalog_Model_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			)
 		);
 		return $this->fetchAll($select);
+	}
+	
+	public function setProductCategories($productId, $categories)
+	{
+		$productId = (int)$productId;
+		$categories = (array)$categories;
+		if (empty($productId) || empty($categories)) {
+			return false;
+		}
+
+		$productIdField  = $this->getFieldByAlias('productId');
+		$categoryIdField = $this->getFieldByAlias('categoryId');
+		$isDefaultField  = $this->getFieldByAlias('isDefault');
+
+		$sql = 'INSERT INTO ' . $this->getTableName() . ' ('
+				. $productIdField . ', '
+				. $categoryIdField . ') VALUES ';
+
+		$data = array();
+		foreach ($categories as $categoryId) {
+			if (!empty($categoryId)) {
+				$data[] = '(' . $productId . ', ' . intval($categoryId) . ')';
+			}
+		}
+		
+		if (!empty($data)) {
+			$this->delete(
+				array($productIdField . ' = ' . $productId, $isDefaultField . ' <> 1')
+			);
+			return $this->getAdapter()->query($sql . implode(', ', $data));
+		}
+		return false;
 	}
 }

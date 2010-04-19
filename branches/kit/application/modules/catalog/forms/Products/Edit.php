@@ -56,21 +56,63 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$brandsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Brand');
 		$brandId = new Zend_Form_Element_Select('brandId');
 		$brandId->setLabel('Brand')
-			  ->setRequired(true)
-			  ->addFilter('StripTags')
-			  ->addFilter('StringTrim');
+				->setRequired(true)
+				->addFilter('StripTags')
+				->addFilter('StringTrim');
 		$brandId->addMultiOptions(
 			$brandsTable->getSelectedFields(
-				array(
-					$brandsTable->getPrimary(),
-					$brandsTable->getFieldByAlias('title')
-				),
+				array($brandsTable->getPrimary(), $brandsTable->getFieldByAlias('title')),
 				null,
 				true
 			)
 		);
-		//$brandId->addMultiOption()
 		$this->addElement($brandId);
+
+		$catsTable = $this->_category->getDbTable();
+		$categoryId = new Zend_Form_Element_Select('categoryId');
+		$categoryId->setLabel('Category')
+				   ->setRequired(true)
+				   ->addFilter('StripTags')
+			 	  ->addFilter('StringTrim');
+		$categoryId->addMultiOptions(
+			$catsTable->getSelectedFields(
+				array($catsTable->getPrimary(), $catsTable->getFieldByAlias('title')),
+				null,
+				true
+			)
+		);
+		$categoryId->setValue($this->_category->getId());
+		$this->addElement($categoryId);
+
+		$prodCatsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Product_Category');
+		$categories = new Zend_Form_Element_Multiselect('categories');
+		$categories->setLabel('Show in categories')
+				   ->setRequired(false)
+				   ->addFilter('StripTags')
+			 	  ->addFilter('StringTrim');
+		$categories->addMultiOptions(
+			$catsTable->getSelectedFields(
+				array($catsTable->getPrimary(), $catsTable->getFieldByAlias('title')),
+				array($catsTable->getPrimary() . '<>' . $this->_category->getId()),
+				true
+			)
+		);
+		if ($this->_protuct->getId()) {
+			$categories->setValue(
+				$prodCatsTable->getSelectedFields(
+					array(
+						$prodCatsTable->getPrimary(),
+						$prodCatsTable->getFieldByAlias('categoryId')
+					),
+					array(
+						$prodCatsTable->getFieldByAlias('productId') . '=' . $this->_protuct->getId(),
+						$prodCatsTable->getFieldByAlias('isDefault') . ' <> 1'
+					),
+					true
+				)
+			);
+		}
+		$this->addElement($categories);
 
 		$url = new Zend_Form_Element_Text('url');
 		$url->setLabel('URL')
@@ -92,7 +134,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$this->addElement($shortDescr);
 
 		$this->addDisplayGroup(
-			array('title', 'alias', 'brandId', 'url', 'driversUrl', 'shortDescr'),
+			array('title', 'alias', 'brandId', 'categoryId', 'categories', 'url', 'driversUrl', 'shortDescr'),
 			'standard'
 		);
 		$group = $this->getDisplayGroup('standard');
@@ -104,6 +146,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$groupsTable 		 = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group');
 		$groupFieldsTable    = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group_Field');
 		$fieldsTable         = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field');
+		$productValuesTable  = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Product_Field_Value');
 		$fieldValuesTable    = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Value');
 		
 		$categoryGroupIdField = $categoryGroupsTable->getPrimary();
@@ -117,12 +160,12 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$valueIdField         = $fieldValuesTable->getPrimary();
 		$fieldValueField	  = $fieldValuesTable->getFieldByAlias('value');
 		$valueFieldIdField	  = $fieldValuesTable->getFieldByAlias('fieldId');
-		
+
 		$catGroups = array();
-		foreach ($categoryGroupsTable->getCategoryGroups($categoryId) as $group) {
+		foreach ($categoryGroupsTable->getCategoryGroups($this->_category->getId()) as $group) {
 			$catGroups[$group[$categoryGroupIdField]] = $group;
 		}
-//Zend_Registry::get('logger')->err($catGroups);
+//Zend_Registry::get('logger')->err($groupFieldsTable->getGroupFields(array_keys($catGroups))->toArray());
 
 		$selectElementsIds = array();
 		foreach ($groupFieldsTable->getGroupFields(array_keys($catGroups)) as $field) {
@@ -133,9 +176,11 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 					'label' => $field->$fieldTitleField
 				)
 			);
+
 			empty($field->$fieldValueField) || $element->setValue($field->$fieldValueField);
 			if (KIT_Form_Element_Abstract::TYPE_SELECT == $field->$fieldTypeField) {
 				$selectElementsIds[$field->$fieldIdField] = $field->$fieldAliasField;
+				$element->getView()->{$field->$fieldAliasField} = $field->$fieldIdField;
 			}
 			$this->addElement($element);
 			
@@ -157,11 +202,27 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 				$element->addMultiOption($value->$valueIdField, $value->$fieldValueField);
 			}
 		}
-		
+
 		foreach ($this->_protuct->getCustomFields()->getFieldsValuesIds() as $alias => $value) {
 			if (($element = $this->getElement($alias))) {
 				$element->setValue($value);
 			}
+		}
+		
+		//Set selected values for nultiselect
+		$view = $this->getView();
+		$view->selectValues = array();
+		foreach ($productValuesTable->getProductValues($this->_protuct->getId()) as $fieldValue) {
+			$view->selectValues[$fieldValue->$valueFieldIdField][$fieldValue->$valueIdField]
+				= $fieldValue->$fieldValueField;
+		}
+		
+		//Sort select options
+		foreach ($selectElementsIds as $elementName) {
+			$element = $this->getElement($elementName);
+			$options = $element->getMultiOptions();
+			asort($options);
+			$element->setMultiOptions($options);
 		}
 
 		$submit = new Zend_Form_Element_Submit('submit');
@@ -182,35 +243,32 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 	{
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
-			if ($this->isXmlHttpRequest()) {
-				$newData = array();
-				if (is_numeric($formData['id'])) {
-					$newData['id'] = $formData['id'];
-				} else {
-					$newData['id'] = null;
-				}
-				foreach ($this->_protuct->getDbTable()->getFields() as $fieldAlias => $fieldName) {
-					if (isset($formData[$fieldName])) {
-						$newData[$fieldAlias] = $formData[$fieldName];
-					}
-				}
-				$formData = $newData;
-			}
-			if ($this->isValid($formData)) {
 				$data = (array)$this->getValues();
-Zend_Registry::get('logger')->err(array('data'=>$data));
-				$this->_protuct->setOptions($data);
+Zend_Registry::get('logger')->err($formData);
+				$this->_protuct->setOptions($formData);
+	Zend_Registry::get('logger')->err($this->_protuct);
 				if (!$this->_protuct->getCategoryId()) {
 					$this->_protuct->setCategoryId($this->_category->getId());
 				}
+
 				$auth = Zend_Auth::getInstance();
 				if ($auth->hasIdentity()) {
 					$this->_protuct->setAuthorId($auth->getIdentity()->getId());
-					return $this->_protuct->save();
+					if ($this->_protuct->save()) {
+						if (($cats = $this->categories->getValue())) {
+							$prodCatsTable = KIT_Db_Table_Abstract::get(
+								'Catalog_Model_DbTable_Product_Category'
+							);
+							$prodCatsTable->setProductCategories(
+								$this->_protuct->getId(),
+								$cats
+							);
+						}
+						return true;
+					}
+				} else {
+					$this->populate($formData);
 				}
-			} else {
-				$this->populate($formData);
-			}
 		}
 		return false;
 	}

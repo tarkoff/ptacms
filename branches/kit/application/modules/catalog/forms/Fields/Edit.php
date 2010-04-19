@@ -84,8 +84,7 @@ class Catalog_Form_Fields_Edit extends KIT_Form_Abstract
 				$formData = $newData;
 			}
 			if ($this->isValid($formData)) {
-				$data = (object)$this->getValues();
-				$this->_field->setOptions($data);
+				$this->_field->setOptions($this->getValues());
 				return $this->_field->save();
 			} else {
 				$this->populate($formData);

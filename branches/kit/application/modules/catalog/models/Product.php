@@ -216,6 +216,7 @@ class Catalog_Model_Product extends KIT_Model_Abstract
 		if (parent::save($data)) {
 			$category = $this->getCategory();
 			$category->setProductId($this->getId());
+Zend_Registry::get('logger')->err(array('prodcat'=>$category->getId(), 'cat'=>$category->getCategoryId(), 'prod'=>$category->getProductId()));
 			$category->save();
 			$this->getCustomFields()->save();
 			return true;

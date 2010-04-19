@@ -79,8 +79,20 @@ class Catalog_Model_Product_Custom_Fields
 			$this->_groupFieldsIds[$field->$fieldAliasField] = $field->$groupFieldPrimary;
 			foreach ($productValues as $value) {
 				if ($value->$groupFieldIdField == $field->$groupFieldPrimary) {
-					$this->_fieldsValues[$field->$fieldAliasField] = $value->$fieldValueField;
-					$this->_fieldsValuesIds[$field->$fieldAliasField] = $value->$fieldValueIdField;
+					if (empty($this->_fieldsValues[$field->$fieldAliasField])) {
+						$this->_fieldsValues[$field->$fieldAliasField] = $value->$fieldValueField;
+						$this->_fieldsValuesIds[$field->$fieldAliasField] = $value->$fieldValueIdField;
+					} else {
+						if (!is_array($this->_fieldsValues[$field->$fieldAliasField])) {
+							$this->_fieldsValues[$field->$fieldAliasField]
+								= (array)$this->_fieldsValues[$field->$fieldAliasField];
+							$this->_fieldsValuesIds[$field->$fieldAliasField]
+								= (array)$this->_fieldsValuesIds[$field->$fieldAliasField];
+						}
+						$this->_fieldsValues[$field->$fieldAliasField][] = $value->$fieldValueField;
+						$this->_fieldsValuesIds[$field->$fieldAliasField][] = $value->$fieldValueIdField;
+						
+					}
 				}
 			}
 		}
@@ -128,6 +140,7 @@ class Catalog_Model_Product_Custom_Fields
 			}
 		}
 
+		return false;
 		throw new Zend_Exception('Exception: ' . get_class($this) . "::{$method} unknown method called");
 	}
 
@@ -151,10 +164,12 @@ class Catalog_Model_Product_Custom_Fields
 		$productId = $this->getProductId();
 		$productValuesTable->clearProductValues($this->getProductId());
 		foreach ($this->_fieldsValues as $fieldsAlias => $fieldValue) {
-			if (!empty($fieldValue)) {
-				$data[] = '(' .  $productId . ', '
-						  . $this->_groupFieldsIds[$fieldsAlias] . ', '
-						  . intval($fieldValue) . ')';
+			foreach ((array)$fieldValue as $value) {
+				if (!empty($value)) {
+					$data[] = '(' .  $productId . ', '
+							  . $this->_groupFieldsIds[$fieldsAlias] . ', '
+							  . intval($value) . ')';
+				}
 			}
 		}
 

@@ -59,7 +59,7 @@ class Catalog_FieldGroupsController extends KIT_Controller_Action_Backend_Abstra
 
 		$this->_editForm($id);
 	}
-
+/*
 	public function fieldsAction()
 	{
 		$id = (int)$this->_getParam('id', 0);
@@ -69,7 +69,7 @@ class Catalog_FieldGroupsController extends KIT_Controller_Action_Backend_Abstra
 			$this->_redirect('catalog/categories/fieldgroups');
 		}
 	}
-
+*/
 	public function deleteAction()
 	{
 		$this->_delete(

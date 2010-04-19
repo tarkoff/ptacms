@@ -25,6 +25,7 @@ class Catalog_Model_Field extends KIT_Model_Abstract
 		return array(
 			KIT_Form_Element_Abstract::TYPE_TEXT     => 'Text',
 			KIT_Form_Element_Abstract::TYPE_SELECT   => 'Select',
+			KIT_Form_Element_Abstract::TYPE_MULTISELECT => 'Multi Select',
 			KIT_Form_Element_Abstract::TYPE_CHECKBOX => 'Checkbox'
 		);
 	}
