@@ -11,10 +11,10 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: Acl.php 282 2010-03-05 18:03:44Z TPavuk $
  */
 
-class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
+class KIT_Default_DbTable_User_Acl extends KIT_Db_Table_Abstract
 {
 	protected $_name = 'USERS_ACL';
 	protected $_primary = 'USERSACL_ID';
@@ -28,7 +28,7 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$resourcesTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
+		$resourcesTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Resource');
 		$select = $this->getAdapter()->select();
 
 		$select->from(
@@ -87,7 +87,7 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
 			return array();
 		}
 
-		$resourcesTable = self::get('Default_Model_DbTable_Resource');
+		$resourcesTable = self::get('KIT_Default_DbTable_Resource');
 		$select = $resourcesTable->select();
 		$select->setIntegrityCheck(false);
 		$select->from(
@@ -126,8 +126,8 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
 			return array();
 		}
 
-		$resourcesTable = self::get('Default_Model_DbTable_Resource');
-		$groupAclTable = self::get('Default_Model_DbTable_UserGroup_Acl');
+		$resourcesTable = self::get('KIT_Default_DbTable_Resource');
+		$groupAclTable = self::get('KIT_Default_DbTable_UserGroup_Acl');
 
 		$resourcePrimaryField = $resourcesTable->getPrimary();
 
@@ -183,7 +183,7 @@ class Default_Model_DbTable_User_Acl extends KIT_Db_Table_Abstract
 		if (empty($groupId)) {
 			$groupResources = array();
 		} else {
-			$groupAclTable = self::get('Default_Model_DbTable_UserGroup_Acl');
+			$groupAclTable = self::get('KIT_Default_DbTable_UserGroup_Acl');
 			foreach ($groupAclTable->getGroupResources($groupId) as $resource) {
 				$groupResources[$resource['RESOURCES_ID']] = $resource['RESOURCES_TITLE'];
 			}

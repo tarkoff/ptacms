@@ -17,17 +17,17 @@
 class Default_Form_Usergroups_Acl extends KIT_Form_Abstract
 {
 	/**
-	 * @var Default_Model_UserGroup
+	 * @var KIT_Default_UserGroup
 	 */
 	private $_userGroup;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_userGroup = new Default_Model_UserGroup();
+		$this->_userGroup = new KIT_Default_UserGroup();
 		$this->_userGroup->loadById($id);
 
-		$groupAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup_Acl');
+		$groupAclTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_UserGroup_Acl');
 		$userGroupTable = $this->_userGroup->getDbTable();
 
 		parent::__construct($options);
@@ -68,7 +68,7 @@ class Default_Form_Usergroups_Acl extends KIT_Form_Abstract
 	{
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
-			$groupAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup_Acl');
+			$groupAclTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_UserGroup_Acl');
 			if ($groupAclTable->setGroupRights(
 					$this->_userGroup->getId(),
 					$formData['allowedRes']

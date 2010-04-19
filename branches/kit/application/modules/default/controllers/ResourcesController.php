@@ -33,7 +33,7 @@ class Default_ResourcesController extends KIT_Controller_Action_Backend_Abstract
 
 	public function listAction()
 	{
-		$resourceTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
+		$resourceTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Resource');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$this->_helper->json($this->_getAjaxView($resourceTable));
@@ -43,7 +43,7 @@ class Default_ResourcesController extends KIT_Controller_Action_Backend_Abstract
 /*
 	private function _getAjaxView()
 	{
-		$resourceTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
+		$resourceTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Resource');
 
 		$viewParams = array(
 			'page'		=> $this->_getParam('page', 1),
@@ -98,7 +98,7 @@ class Default_ResourcesController extends KIT_Controller_Action_Backend_Abstract
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),
-			KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource')
+			KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Resource')
 		);
 	}
 

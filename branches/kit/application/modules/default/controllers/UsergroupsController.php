@@ -33,7 +33,7 @@ class Default_UserGroupsController extends KIT_Controller_Action_Backend_Abstrac
 
 	public function listAction()
 	{
-		$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
+		$userGroupsTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_UserGroup');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$this->_helper->json($this->_getAjaxView($userGroupsTable));
@@ -83,7 +83,7 @@ class Default_UserGroupsController extends KIT_Controller_Action_Backend_Abstrac
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),
-			KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup')
+			KIT_Db_Table_Abstract::get('KIT_Default_DbTable_UserGroup')
 		);
 	}
 }

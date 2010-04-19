@@ -11,10 +11,10 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: Menu.php 278 2010-02-27 18:36:32Z TPavuk $
  */
 
-class Default_Model_DbTable_Menu extends KIT_Db_Table_Tree_Abstract
+class KIT_Default_DbTable_Menu extends KIT_Db_Table_Tree_Abstract
 {
 	protected $_name = 'MENUS';
 	protected $_primary = 'MENUS_ID';
@@ -28,7 +28,7 @@ class Default_Model_DbTable_Menu extends KIT_Db_Table_Tree_Abstract
      */
 	public function init()
 	{
-		$resourceTable = self::get('Default_Model_DbTable_Resource');
+		$resourceTable = self::get('KIT_Default_DbTable_Resource');
 
 		$select = $this->getAdapter()->select()->from(
 			array('menu' => $this->_name),
@@ -87,16 +87,16 @@ class Default_Model_DbTable_Menu extends KIT_Db_Table_Tree_Abstract
 					   ->order(array('MENUS_LEVEL', 'MENUS_LEFT'))
 					   ->setIntegrityCheck(false);
 
-		$resourceTable = self::get('Default_Model_DbTable_Resource');
+		$resourceTable = self::get('KIT_Default_DbTable_Resource');
 		$select->join(
 			array('rsc' => $resourceTable->getTableName()),
 			'menu.MENUS_RESOURCEID = rsc.' . $resourceTable->getPrimary(),
 			array('RESOURCES_MODULE', 'RESOURCES_CONTROLLER', 'RESOURCES_ACTION')
 		);
 		
-		if (!empty($userId) && Default_Model_User::ADMINISTRATOR_ID != $userId) {
+		if (!empty($userId) && KIT_Default_User::ADMINISTRATOR_ID != $userId) {
 			$select->setIntegrityCheck(false);
-			$userAclTable = self::get('Default_Model_DbTable_User_Acl');
+			$userAclTable = self::get('KIT_Default_DbTable_User_Acl');
 			$select->joinLeft(
 				array('uacl' => $userAclTable->getTableName()),
 				'menu.MENUS_RESOURCEID = uacl.USERSACL_RESOURCEID',
@@ -105,8 +105,8 @@ class Default_Model_DbTable_Menu extends KIT_Db_Table_Tree_Abstract
 			$select->where('uacl.USERSACL_USERID = ' . $userId);
 		}
 
-		if (!empty($groupId) && Default_Model_UserGroup::ADMINISTRATORS_ID != $groupId) {
-			$userGroupAclTable = self::get('Default_Model_DbTable_UserGroup_Acl');
+		if (!empty($groupId) && KIT_Default_UserGroup::ADMINISTRATORS_ID != $groupId) {
+			$userGroupAclTable = self::get('KIT_Default_DbTable_UserGroup_Acl');
 			$select->joinLeft(
 				array('ugacl' => $userGroupAclTable->getTableName()),
 				'menu.MENUS_RESOURCEID = ugacl.GROUPSACL_RESOURCEID',

@@ -128,7 +128,8 @@ abstract class KIT_Model_Abstract
 	public function getDbTable()
 	{
 		if (empty($this->_dbTable)) {
-			$dbTableClass = str_replace('_Model_', '_Model_DbTable_', get_class($this));
+			$modelClass = array_shift(explode('_', get_class($this)));
+			$dbTableClass  = 'KIT_' . array_shift($modelClass) . '_DbTable_' . implode('_', $modelClass);
 			if ( class_exists($dbTableClass) ) {
 				$this->_dbTable = KIT_Db_Table_Abstract::get($dbTableClass);
 			}

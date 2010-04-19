@@ -17,14 +17,14 @@
 class Default_Form_Auth_Login extends KIT_Form_Abstract
 {
 	/**
-	 * @var Default_Model_User
+	 * @var KIT_Default_User
 	 */
 	private $_user;
 
 	public function __construct($options = null)
 	{
 		parent::__construct($options);
-		$this->_user = new Default_Model_User();
+		$this->_user = new KIT_Default_User();
 
 		$login = new Zend_Form_Element_Text('login');
 		$login->setLabel('Login')
@@ -56,7 +56,7 @@ class Default_Form_Auth_Login extends KIT_Form_Abstract
 			$data = (object)$this->getValues();
 			$this->_user->setLogin($data->login);
 			$this->_user->setPassword(
-				Default_Model_User::getEncodedPassword($data->password)
+				KIT_Default_User::getEncodedPassword($data->password)
 			);
 			return $this->_user->authenticate();
 		} else {

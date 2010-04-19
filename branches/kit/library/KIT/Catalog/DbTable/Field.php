@@ -1,6 +1,6 @@
 <?php
 /**
- * User Groups Database Table
+ * Catalog Field Database Table
  *
  * LICENSE
  *
@@ -8,17 +8,17 @@
  * with this package in the file LICENSE.txt.
  *
  * @category   KIT
- * @package    KIT_Core
+ * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: Field.php 288 2010-03-28 16:10:01Z TPavuk $
  */
 
-class Default_Model_DbTable_UserGroup extends KIT_Db_Table_Abstract
+class KIT_Catalog_DbTable_Field extends KIT_Db_Table_Abstract
 {
-	protected $_name = 'USERGROUPS';
-	protected $_primary = 'USERGROUPS_ID';
-	
+	protected $_name = 'CATALOG_FIELDS';
+	protected $_primary = 'FIELDS_ID';
+
     /**
      * Initialize object
      *
@@ -30,8 +30,8 @@ class Default_Model_DbTable_UserGroup extends KIT_Db_Table_Abstract
 	{
 		$this->setViewSelect(
 			$this->getAdapter()->select()->from(
-				$this->_name,
-				array('USERGROUPS_ID', 'USERGROUPS_TITLE')
+				array('fields' => $this->_name),
+				$this->getFields(false)
 			)
 		);
 	}

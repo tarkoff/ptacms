@@ -17,14 +17,14 @@
 class Default_Form_Menus_Edit extends KIT_Form_Abstract
 {
 	/**
-	 * @var Default_Model_Menu
+	 * @var KIT_Default_Menu
 	 */
 	private $_menu;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_menu = new Default_Model_Menu();
+		$this->_menu = new KIT_Default_Menu();
 
 		parent::__construct($options);
 		$this->setName('editForm');
@@ -41,7 +41,7 @@ class Default_Form_Menus_Edit extends KIT_Form_Abstract
 			  ->addFilter('StripTags')
 			  ->addFilter('StringTrim');
 
-		$menusTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Menu');
+		$menusTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Menu');
 		$parentId = new Zend_Form_Element_Select('parentid');
 		$parentId->setLabel('Parent')
 				 ->setRequired(true)
@@ -49,7 +49,7 @@ class Default_Form_Menus_Edit extends KIT_Form_Abstract
 				 ->addFilter('StringTrim');
 		$parentId->addMultiOptions($menusTable->getMenusOptions());
 
-		$resourcesTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
+		$resourcesTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Resource');
 		$resourceId = new Zend_Form_Element_Select('resourceid');
 		$resourceId->setLabel('Resource')
 				   ->setRequired(true)
