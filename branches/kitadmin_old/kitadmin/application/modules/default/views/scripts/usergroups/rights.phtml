@@ -1,0 +1,60 @@
+<?php
+	$deniedResources = $this->form->getElement('deniedRes')->getMultiOptions();
+	$allowedResources = $this->form->getElement('allowedRes')->getMultiOptions();
+?>
+<style type="text/css">
+	#dnr, #alrs { list-style-type: none; float: left; background: #eee; padding: 5px; min-width:95%; width: 95%;}
+	#dnr li, #alrs li { margin: 5px auto; padding: 5px; font-size: 0.9em; }
+</style>
+<form name="<?php echo $this->form->getName(); ?>" id="aclForm" action="<?php $this->form->getAction(); ?>" method="<?php echo $this->form->getMethod(); ?>">
+<div class="ui-widget">
+	<div class="ui-widget-header"><?php echo $this->title;?></div>
+	<div class="ui-widget-content">
+		<table>
+			<tr>
+				<td width="50%">
+					<label for="dnr">Denied Resources</label>
+					<ul id="dnr">
+					<?php foreach ($deniedResources as $resId => $resTitle): ?>
+						<li class="ui-state-default"><?php echo $resTitle; ?><input type="hidden" name="res[<?php echo $resId; ?>]" value="<?php echo $resId; ?>" /></li>
+					<?php endforeach; ?>
+					</ul>
+				</td>
+				<td width="50%">
+					<label for="alrs">Allowed Resources</label>
+					<ul id="alrs">
+					<?php foreach ($allowedResources as $resId => $resTitle): ?>
+						<li class="ui-state-default"><?php echo $resTitle; ?><input type="hidden" name="res[<?php echo $resId; ?>]" value="<?php echo $resId; ?>" /></li>
+					<?php endforeach; ?>
+					</ul>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="text-align:center;"><?php echo $this->form->getElement('submit')->render(); ?></td></tr>
+		</table>
+	</div>
+</div>
+<?php foreach ($allowedResources as $resId => $resTitle): ?>
+	<input type="hidden" name="allowedRes[<?php echo $resId; ?>]" id="allowedRes[<?php echo $resId; ?>]" value="<?php echo $resId; ?>" />
+<?php endforeach; ?>
+</form>
+<script type="text/javascript">
+$("#dnr").sortable({
+	connectWith: 'ul',
+	receive: function(event, ui) {
+		$("#dnr input:hidden").each(function(index) {
+			$("#aclForm input[name='allowedRes\\[" + $(this).val() + "\\]']").remove();
+		});
+	}
+});
+$("#alrs").sortable({
+	connectWith: 'ul',
+	receive: function(event, ui) {
+		$("#aclForm input[name^='allowedRes']").remove();
+		$("#alrs input:hidden").each(function(index) {
+			var resId = $(this).val();
+			$("#aclForm").append('<input type="hidden" id="allowedRes[' + resId + ']" name="allowedRes[' + resId + ']" value="' + resId + '" />');
+		});
+	}
+});
+$("#dnr, #alrs").disableSelection();
+</script>
