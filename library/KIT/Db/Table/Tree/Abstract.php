@@ -247,7 +247,7 @@ abstract class KIT_Db_Table_Tree_Abstract extends KIT_Db_Table_Abstract
 			return $options[$cacheAlias];
 		}
 
-		$options[$cacheAlias] = array(0 => 'No Parent');
+		$options[$cacheAlias] = array(0 => 'None');
 		foreach ($this->fetchAll() as $menu) {
 			$options[$cacheAlias][$menu->$idField] = $menu->$valueField;
 		}

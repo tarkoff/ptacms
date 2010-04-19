@@ -26,6 +26,7 @@ class Catalog_FieldsController extends KIT_Controller_Action_Backend_Abstract
 			 ->addActionContext('valuesedit', 'json')
 			 ->addActionContext('valuesdelete', 'json')
 			 ->addActionContext('delete', 'json')
+			 ->addActionContext('fieldvalues', 'json')
 			 ->initContext();
 	}
 
@@ -92,6 +93,7 @@ class Catalog_FieldsController extends KIT_Controller_Action_Backend_Abstract
 		$fid = (int)$this->_getParam('fid', 0);
 		$id = (int)$this->_getParam('id', 0);
 		$isAjax = $this->getRequest()->isXmlHttpRequest();
+
 		if (empty($fid) && empty($id)) {
 			if ($isAjax) {
 				$this->_helper->json(0);
@@ -99,7 +101,7 @@ class Catalog_FieldsController extends KIT_Controller_Action_Backend_Abstract
 				$this->_redirect('catalog/fields/list');
 			}
 		}
-		
+
 		$form = new Catalog_Form_Fields_Value($id, $fid);
 		$this->view->form = $form;
 		$this->view->headTitle($form->getLegend(), 'APPEND');
@@ -134,6 +136,28 @@ class Catalog_FieldsController extends KIT_Controller_Action_Backend_Abstract
 			(int)$this->_getParam('id', 0),
 			KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field')
 		);
+	}
+
+	public function fieldvaluesAction()
+	{
+		$fid = (int)$this->_getParam('fid', 0);
+		
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$fieldValuesTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Value');
+			
+			$values = $fieldValuesTable->getSelectedFields(
+				array(
+					$fieldValuesTable->getPrimary(),
+					$fieldValuesTable->getFieldByAlias('value')
+				),
+				array($fieldValuesTable->getFieldByAlias('fieldId') . ' = ' . $fid),
+				true
+			);
+			asort($values);
+			$this->_helper->json($values);
+		} else {
+			$this->render('list');
+		}
 	}
 }
 

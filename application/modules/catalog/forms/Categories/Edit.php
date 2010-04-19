@@ -55,7 +55,7 @@ class Catalog_Form_Categories_Edit extends KIT_Form_Abstract
 				$catsTable->getFieldByAlias('title')
 			)
 		);
-		$this->addElement($title);
+		$this->addElement($parentId);
 		
 		$submit = new Zend_Form_Element_Submit('submit');
 		$this->addElement($submit);
@@ -90,8 +90,7 @@ class Catalog_Form_Categories_Edit extends KIT_Form_Abstract
 				$formData = $newData;
 			}
 			if ($this->isValid($formData)) {
-				$data = (object)$this->getValues();
-				$this->_category->setOptions($data);
+				$this->_category->setOptions($this->getValues());
 				return $this->_category->save();
 			} else {
 				$this->populate($formData);

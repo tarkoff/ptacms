@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Tree_Abstract
+class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Abstract
 {
 	protected $_name = 'CATALOG_GROUPFIELDS';
 	protected $_primary = 'GROUPFIELDS_ID';
@@ -28,12 +28,45 @@ class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Tree_Abstract
      */
 	public function init()
 	{
-		$this->setViewSelect(
-			$this->getAdapter()->select()->from(
-				array('gf' => $this->_name),
-				$this->getFields(false)
-			)
+		$categoryTable = self::get('Catalog_Model_DbTable_Category');
+		$categoryGroupTable = self::get('Catalog_Model_DbTable_Category_Group');
+		$fieldsTable = self::get('Catalog_Model_DbTable_Field');
+		$fieldGroupsTable = self::get('Catalog_Model_DbTable_Field_Group');
+		
+		$select = $this->getAdapter()
+					   ->select()
+					   ->from(
+							array('fields' => $fieldsTable->getTableName()),
+							array(
+								'gf.GROUPFIELDS_ID',
+								'FIELD_TITLE' => $fieldsTable->getFieldByAlias('title')
+							)
+						);
+
+		$select->join(
+			array('gf' => $this->getTableName()),
+			'fields.' . $fieldsTable->getPrimary() . ' = gf.GROUPFIELDS_FIELDID',
+			array()
 		);
+
+		$select->join(
+			array('cg' => $categoryGroupTable->getTableName()),
+			'cg.' . $categoryGroupTable->getPrimary() . ' = gf.GROUPFIELDS_CATEGORYGROUPID',
+			array()
+		);
+
+		$select->join(
+			array('fg' => $fieldGroupsTable->getTableName()),
+			'fg.' . $fieldGroupsTable->getPrimary() . ' = cg.' . $categoryGroupTable->getFieldByAlias('groupId'),
+			array('GROUP_TITLE' => $fieldGroupsTable->getFieldByAlias('title'))
+		);
+
+		$select->join(
+			array('cat' => $categoryTable->getTableName()),
+			'cat.' . $categoryTable->getPrimary() . ' = cg.' . $categoryGroupTable->getFieldByAlias('categoryId'),
+			array('CATEGORY_TITLE' => $categoryTable->getFieldByAlias('title'), 'gf.GROUPFIELDS_SORTORDER')
+		);
+		$this->setViewSelect($select);
 	}
 
 	/**
@@ -66,7 +99,7 @@ class Catalog_Model_DbTable_Field_Group_Field extends KIT_Db_Table_Tree_Abstract
 		$select->where('gf.GROUPFIELDS_ID IS NULL');
 		$select->orWhere('gf.GROUPFIELDS_CATEGORYGROUPID <> ' . $groupId);
 		$select->order('gf.GROUPFIELDS_SORTORDER');
-		
+
 		return $this->fetchAll($select);
 	}
 

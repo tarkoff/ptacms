@@ -39,7 +39,7 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 		$catsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
-			$this->_helper->json($this->_getAjaxView($catsTable));
+			$this->_helper->json($this->_getAjaxTreeView($catsTable));
 		} else {
 			$this->view->cats = (array)$catsTable->getParentSelectOptions(
 				$catsTable->getPrimary(),
@@ -67,11 +67,11 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 
 		$this->_editForm($id);
 	}
-
+/*
 	public function fieldgroupsAction()
 	{
-		$catsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category');
-		$groupsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group');
+		$catsTable      = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category');
+		$groupsTable    = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Field_Group');
 		$catGroupsTable = KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category_Group');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -127,7 +127,7 @@ class Catalog_CategoriesController extends KIT_Controller_Action_Backend_Abstrac
 			KIT_Db_Table_Abstract::get('Catalog_Model_DbTable_Category_Group')
 		);
 	}
-
+*/
 	public function deleteAction()
 	{
 		$this->_delete(

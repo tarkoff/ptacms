@@ -26,6 +26,7 @@ abstract class KIT_Form_Element_Abstract
 	const TYPE_PASSWORD = 9;
 	const TYPE_FILE = 10;
 	const TYPE_HIDDEN = 11;
+	const TYPE_MULTISELECT = 12;
 
 	
 	/**
@@ -71,6 +72,11 @@ abstract class KIT_Form_Element_Abstract
 			case self::TYPE_SELECT:
 				$field = new Zend_Form_Element_Select($alias);
 			break;
+			
+			case self::TYPE_MULTISELECT:
+				$field = new Zend_Form_Element_Multiselect($alias);
+			break;
+			
 		}
 		return self::_setOptions($field, $options);
 	}

@@ -29,20 +29,24 @@ class Catalog_Model_DbTable_Category extends KIT_Db_Table_Tree_Abstract
 	public function init()
 	{
 		$select = $this->getAdapter()->select()->from(
-			array('cat1' => $this->_name),
+			array('cat' => $this->_name),
 			array(
 				'CATEGORIES_ID',
 				'CATEGORIES_TITLE',
-				'CATEGORIES_ALIAS'
+				'CATEGORIES_ALIAS',
+				'CATEGORIES_PARENTID',
+				'CATEGORIES_LEVEL',
+				'CATEGORIES_LEFT',
+				'CATEGORIES_RIGHT'
 			)
 		);
-
+/*
 		$select->joinLeft(
 			array('cat2' => $this->_name),
 			'cat1.CATEGORIES_PARENTID = cat2.' . $this->_primary,
-			array('CATEGORIES_PARENT' => 'IFNULL(cat2.CATEGORIES_TITLE,"No Parent")')
+			array('CATEGORIES_PARENT' => 'IFNULL(cat2.CATEGORIES_TITLE,"None")')
 		);
-
+*/
 		$this->setViewSelect($select);
 	}
 

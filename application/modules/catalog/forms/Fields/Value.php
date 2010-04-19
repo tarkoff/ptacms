@@ -30,7 +30,7 @@ class Catalog_Form_Fields_Value extends KIT_Form_Abstract
 		!empty($this->_fieldId) || $this->_fieldId = $this->_value->getFieldId();
 
 		parent::__construct($options);
-		$this->setName('editForm');
+		$this->setName('fieldsValuesEditForm');
 
 		$fieldIdField = new Zend_Form_Element_Hidden('fieldId');
 		$fieldIdField->setValue($this->_fieldId);
@@ -61,18 +61,16 @@ class Catalog_Form_Fields_Value extends KIT_Form_Abstract
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
 			if ($this->isXmlHttpRequest()) {
-				$newData = array();
 				if (is_numeric($formData['id'])) {
-					$newData['id'] = $formData['id'];
+					$formData['id'] = $formData['id'];
 				} else {
-					$newData['id'] = null;
+					$formData['id'] = null;
 				}
 				foreach ($this->_value->getDbTable()->getFields() as $fieldAlias => $fieldName) {
 					if (isset($formData[$fieldName])) {
-						$newData[$fieldAlias] = $formData[$fieldName];
+						$formData[$fieldAlias] = $formData[$fieldName];
 					}
 				}
-				$formData = $newData;
 			}
 
 			if ($this->isValid($formData)) {

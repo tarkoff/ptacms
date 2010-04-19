@@ -30,7 +30,8 @@
 	</div>
 <?php if (Zend_Registry::isRegistered('userMenu')):?>
 	<?php $userMenu = Zend_Registry::get('userMenu')->toArray();?>
-	<?php $activeMenuItems = Zend_Registry::get('activeMenuItems');?>
+	<?php /*$activeMenuItems = Zend_Registry::get('activeMenuItems');*/?>
+	<?php $resource = Zend_Registry::get('resource');?>
 	<?php $selectedTab = 0;?>
 	<div id="topMenu">
 		<ul>
@@ -44,10 +45,11 @@
 		</ul>
 		<?php foreach ($userMenu as $rootKey => $rootItem):?>
 			<?php if (empty($rootItem['MENUS_PARENTID'])):?>
+				<?php if ($resource->getModule() == $rootItem['RESOURCES_MODULE']) $selectedTab = $rootKey; ?>
 				<div id="<?php echo $rootItem['MENUS_ALIAS'];?>">
 				<?php foreach ($userMenu as $childKey => $childItem):?>
 					<?php if ($childItem['MENUS_PARENTID'] == $rootItem['MENUS_ID']):?>
-						<a href="<?php echo $this->url(array('module' => $childItem['RESOURCES_MODULE'], 'controller' => $childItem['RESOURCES_CONTROLLER'], 'action' => ('index' == strtolower($childItem['RESOURCES_ACTION']) ? '' : $childItem['RESOURCES_ACTION'])), null, true) ?>" class="menuItem <?php if (isset($activeMenuItems[$childItem['MENUS_ID']])) { echo 'ui-state-disabled'; $selectedTab = $rootKey; } else echo 'default';?>" style="font-weight:bold;"><?php echo $childItem['MENUS_TITLE'];?></a>
+						<a href="<?php echo $this->url(array('module' => $childItem['RESOURCES_MODULE'], 'controller' => $childItem['RESOURCES_CONTROLLER'], 'action' => ('index' == strtolower($childItem['RESOURCES_ACTION']) ? '' : $childItem['RESOURCES_ACTION'])), null, true) ?>" class="menuItem <?php if ($resource->getController() == $childItem['RESOURCES_CONTROLLER']) echo 'ui-state-disabled'; else echo 'default';?>" style="font-weight:bold;"><?php echo $childItem['MENUS_TITLE'];?></a>
 						<?php unset($userMenu[$childKey]);?>
 					<?php endif;?>
 				<?php endforeach;?>

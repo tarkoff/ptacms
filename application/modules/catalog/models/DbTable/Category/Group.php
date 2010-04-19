@@ -48,7 +48,7 @@ class Catalog_Model_DbTable_Category_Group extends KIT_Db_Table_Tree_Abstract
 			array('CATEGORYGROUPS_GROUP' => $groupsTable->getFieldByAlias('title'))
 		);
 		
-		$select->order('cg.CATEGORYGROUPS_SORTORDER');
+		//$select->order('cg.CATEGORYGROUPS_SORTORDER');
 
 		$this->setViewSelect($select);
 	}
