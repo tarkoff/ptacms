@@ -17,17 +17,17 @@
 class Default_Form_Users_Acl extends KIT_Form_Abstract
 {
 	/**
-	 * @var Default_Model_User
+	 * @var KIT_Default_User
 	 */
 	private $_user;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_user = new Default_Model_User();
+		$this->_user = new KIT_Default_User();
 		$this->_user->loadById($id);
 
-		$userAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User_Acl');
+		$userAclTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_User_Acl');
 		$userGroupTable = $this->_user->getDbTable();
 
 		parent::__construct($options);
@@ -68,7 +68,7 @@ class Default_Form_Users_Acl extends KIT_Form_Abstract
 	{
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
-			$userAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User_Acl');
+			$userAclTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_User_Acl');
 			if ($userAclTable->setUserRights(
 					$this->_user->getId(),
 					$formData['allowedRes'],

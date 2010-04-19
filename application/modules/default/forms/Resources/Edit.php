@@ -17,14 +17,14 @@
 class Default_Form_Resources_Edit extends KIT_Form_Abstract
 {
 	/**
-	 * @var Default_Model_Resource
+	 * @var KIT_Default_Resource
 	 */
 	private $_resource;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_resource = new Default_Model_Resource();
+		$this->_resource = new KIT_Default_Resource();
 
 		parent::__construct($options);
 		$this->setName('resources_editForm');

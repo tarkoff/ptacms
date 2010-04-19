@@ -11,10 +11,10 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: Resource.php 278 2010-02-27 18:36:32Z TPavuk $
  */
 
-class Default_Model_Resource extends KIT_Model_Abstract
+class KIT_Default_Resource extends KIT_Model_Abstract
 {
 	protected $_module;
 	protected $_controller;

@@ -17,15 +17,15 @@
 class Default_Form_Users_Edit extends KIT_Form_Abstract
 {
 	/**
-	 * @var Default_Model_User
+	 * @var KIT_Default_User
 	 */
 	private $_user;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_user = new Default_Model_User();
-		$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
+		$this->_user = new KIT_Default_User();
+		$userGroupsTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_UserGroup');
 
 		parent::__construct($options);
 		$this->setName('user_editForm');
@@ -87,7 +87,7 @@ class Default_Form_Users_Edit extends KIT_Form_Abstract
 			   ->setRequired(true)
 			   ->addFilter('StripTags')
 			   ->addFilter('StringTrim');
-		$status->addMultiOptions(Default_Model_User::getUserStatuses());
+		$status->addMultiOptions(KIT_Default_User::getUserStatuses());
 		$this->addElement($status);
 
 		$submit = new Zend_Form_Element_Submit('submit');
@@ -127,7 +127,7 @@ class Default_Form_Users_Edit extends KIT_Form_Abstract
 			if ($this->isValid($formData)) {
 				$data = (object)$this->getValues();
 				$oldPassword = $this->_user->getPassword();
-				$newPassword = Default_Model_User::getEncodedPassword($data->password);
+				$newPassword = KIT_Default_User::getEncodedPassword($data->password);
 				$this->_user->setOptions($data);
 				if ($oldPassword != $newPassword) {
 					$this->_user->setPassword($newPassword);

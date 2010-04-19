@@ -11,10 +11,10 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: UserGroup.php 278 2010-02-27 18:36:32Z TPavuk $
  */
 
-class Default_Model_UserGroup extends KIT_Model_Abstract
+class KIT_Default_UserGroup extends KIT_Model_Abstract
 {
 	protected $_title;
 

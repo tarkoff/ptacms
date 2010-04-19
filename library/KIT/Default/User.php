@@ -11,10 +11,10 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: User.php 282 2010-03-05 18:03:44Z TPavuk $
  */
 
-class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Interface
+class KIT_Default_User extends KIT_Model_Abstract implements Zend_Acl_Role_Interface
 {
 	protected $_login;
 	protected $_password;
@@ -104,21 +104,21 @@ class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Int
 	/**
 	 * Check if user has rights for this resource
 	 *
-	 * @param int|Default_Model_Resource $resource
+	 * @param int|KIT_Default_Resource $resource
 	 * @return boolean
 	 */
 	public function hasRight($resource)
 	{
-		if (!($resource instanceof Default_Model_Resource)) {
+		if (!($resource instanceof KIT_Default_Resource)) {
 			$resourceId = intval($resource);
-			$resource = new Default_Model_Resource();
+			$resource = new KIT_Default_Resource();
 			$resource->loadById($resourceId);
 		}
 
 		$groupId = $this->getGroupId();
 		$userId = $this->getId();
 
-		!empty($groupId) || $groupId = Default_Model_UserGroup::GUESTS_ID;
+		!empty($groupId) || $groupId = KIT_Default_UserGroup::GUESTS_ID;
 		!empty($userId) || $userId = self::GUEST_ID;
 
 		if (self::ADMINISTRATOR_ID == $userId) {
@@ -146,7 +146,7 @@ class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Int
 		$acl->deny();
 		//$acl->allow(null, null, array('index', 'login', 'logout'));
 
-		$userAclTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User_Acl');
+		$userAclTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_User_Acl');
 		$userResourceAcl = $userAclTable->getUserResources($userId, $groupId, $resourceId);
 		if (!empty($userResourceAcl)) {
 			$acl->allow($userAclAlias, $controller, $action);
@@ -171,7 +171,7 @@ class Default_Model_User extends KIT_Model_Abstract implements Zend_Acl_Role_Int
 
 	public function getUserGroup()
 	{
-		$group = new Default_Model_UserGroup();
+		$group = new KIT_Default_UserGroup();
 		return $group->loadById($this->getGroupId());
 	}
 

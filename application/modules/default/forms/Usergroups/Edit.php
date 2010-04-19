@@ -17,14 +17,14 @@
 class Default_Form_Usergroups_Edit extends KIT_Form_Abstract
 {
 	/**
-	 * @var Default_Model_UserGroup
+	 * @var KIT_Default_UserGroup
 	 */
 	private $_userGroup;
 
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_userGroup = new Default_Model_UserGroup();
+		$this->_userGroup = new KIT_Default_UserGroup();
 
 		parent::__construct($options);
 		$this->setName('userGroup_editForm');

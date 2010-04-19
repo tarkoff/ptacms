@@ -33,12 +33,12 @@ class Default_MenusController extends KIT_Controller_Action_Backend_Abstract
 
 	public function listAction()
 	{
-		$menusTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Menu');
+		$menusTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Menu');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$this->_helper->json($this->_getAjaxView($menusTable));
 		} else {
-			$resourcesTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
+			$resourcesTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Resource');
 			$this->view->menus = $menusTable->getMenusOptions();
 			$this->view->resources = $resourcesTable->getResourcesOptions();
 		}
@@ -70,7 +70,7 @@ class Default_MenusController extends KIT_Controller_Action_Backend_Abstract
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),
-			KIT_Db_Table_Abstract::get('Default_Model_DbTable_Menu')
+			KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Menu')
 		);
 	}
 

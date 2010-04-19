@@ -33,14 +33,14 @@ class Default_UsersController extends KIT_Controller_Action_Backend_Abstract
 
 	public function listAction()
 	{
-		$usersTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_User');
+		$usersTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_User');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$this->_helper->json($this->_getAjaxView($usersTable));
 		} else {
-			$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
+			$userGroupsTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_UserGroup');
 			$this->view->userGroups = $userGroupsTable->getSelectedFields();
-			$this->view->userStatuses = Default_Model_User::getUserStatuses();
+			$this->view->userStatuses = KIT_Default_User::getUserStatuses();
 		}
 	}
 
@@ -85,7 +85,7 @@ class Default_UsersController extends KIT_Controller_Action_Backend_Abstract
 	{
 		$this->_delete(
 			(int)$this->_getParam('id', 0),
-			KIT_Db_Table_Abstract::get('Default_Model_DbTable_User')
+			KIT_Db_Table_Abstract::get('KIT_Default_DbTable_User')
 		);
 	}
 

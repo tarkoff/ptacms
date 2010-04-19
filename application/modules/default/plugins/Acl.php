@@ -31,11 +31,11 @@ class Default_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 			//$front = Zend_Controller_Front::getInstance();
 
 			$user = $auth->getIdentity();
-			$resourceTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Resource');
-			$menuTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_Menu');
+			$resourceTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Resource');
+			$menuTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_Menu');
 			$db = $resourceTable->getAdapter();
 
-			$resource = new Default_Model_Resource();
+			$resource = new KIT_Default_Resource();
 			$resource->setOptions(
 				current(
 					$resourceTable->findByFields(

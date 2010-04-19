@@ -11,10 +11,10 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id$
+ * @version    $Id: User.php 273 2010-02-17 12:42:59Z TPavuk $
  */
 
-class Default_Model_DbTable_User extends KIT_Db_Table_Abstract
+class KIT_Default_DbTable_User extends KIT_Db_Table_Abstract
 {
 	protected $_name = 'USERS';
 	protected $_primary = 'USERS_ID';
@@ -28,7 +28,7 @@ class Default_Model_DbTable_User extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$userGroupsTable = KIT_Db_Table_Abstract::get('Default_Model_DbTable_UserGroup');
+		$userGroupsTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_UserGroup');
 		$select = $this->getAdapter()->select();
 
 		$select->from(array('u' => $this->_name),
