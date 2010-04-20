@@ -16,20 +16,12 @@
 
 class Default_IndexController extends Zend_Controller_Action
 {
+	public function indexAction()
+	{
+		$prodsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
 
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
-
-    public function indexAction()
-    {
-        // action body
-    }
-
-    public function listAction()
-    {
-        $this->_forward('index');
-    }
+		$this->view->popular = $prodsTable->getPopular(6);
+		$this->view->newest = $prodsTable->getNewest(6);
+	}
 }
 
