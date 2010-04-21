@@ -28,7 +28,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$usersTable = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_User');
+		$usersTable = self::get('KIT_Default_DbTable_User');
 		$select = $this->getAdapter()->select();
 
 		$select->from(array('prods' => $this->_name),
@@ -40,8 +40,89 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 		$select->join(array('usr' => $usersTable->getTableName()),
 					  'prods.PRODUCTS_AUTHORID = usr.' . $usersTable->getPrimary(),
 					  array('PRODUCTS_AUTHORID' => $usersTable->getFieldByAlias('login')));
-//var_dump($select->assemble());
-//exit(0);
+
 		$this->setViewSelect($select);
 	}
+	
+	/**
+	 * Get common catalog select object
+	 *
+	 * @return Zend_Db_Select
+	 */
+	public function getCatalogSelect()
+	{
+		$catsTable     = self::get('KIT_Catalog_DbTable_Category');
+		$brandsTable   = self::get('KIT_Catalog_DbTable_Brand');
+		$photosTable   = self::get('KIT_Catalog_DbTable_Product_Photo');
+		$prodCatsTable = self::get('KIT_Catalog_DbTable_Product_Category');
+
+		$select = $this->select()
+					   ->from(
+							array('prods' => $this->getTableName()),
+							array('PRODUCTS_ID',
+								  'PRODUCTS_ALIAS',
+								  'PRODUCTS_TITLE',
+								  'PRODUCTS_SHORTDESCR',
+								  'PRODUCTS_DATE'))
+					   ->setIntegrityCheck(false);
+		
+		$select->join(
+			array('brands' => $brandsTable->getTableName()),
+			'prods.PRODUCTS_BRANDID = brands.' . $brandsTable->getPrimary(),
+			array($brandsTable->getFieldByAlias('title'))
+		);
+
+		$select->joinLeft(
+			array('photos' => $photosTable->getTableName()),
+			'(prods.PRODUCTS_ID = photos.' . $photosTable->getFieldByAlias('productId')
+			. ' AND photos.' . $photosTable->getFieldByAlias('isDefault') . ' = 1)',
+			array($photosTable->getFieldByAlias('file'))
+		);
+
+		$select->join(
+			array('pc' => $prodCatsTable->getTableName()),
+			'prods.PRODUCTS_ID = pc.' . $prodCatsTable->getFieldByAlias('productId'),
+			array()
+		);
+
+		$select->join(
+			array('cats' => $catsTable->getTableName()),
+			'pc.' . $prodCatsTable->getFieldByAlias('categoryId') . ' = cats.' . $catsTable->getPrimary(),
+			array($catsTable->getFieldByAlias('alias'), $catsTable->getFieldByAlias('title'))
+		);
+
+		$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
+
+		return $select;
+	}
+
+	/**
+	 * Get most popular products in this month
+	 *
+	 * @param int $limit
+	 * @return Zend_Db_Table_Rowset_Abstract
+	 */
+	public function getPopular($limit = 10)
+	{
+		$limit = (int)$limit;
+		!empty($limit) || $limit = 10;
+
+		return $this->fetchAll($this->getCatalogSelect()->limit($limit));
+	}
+	
+	/**
+	 * Get newest products
+	 *
+	 * @param int $limit
+	 * @return Zend_Db_Table_Rowset_Abstract
+	 */
+	public function getNewest($limit = 10)
+	{
+		$limit = (int)$limit;
+		!empty($limit) || $limit = 10;
+
+		$select = $this->getCatalogSelect()->order(array('prods.PRODUCTS_DATE DESC'));
+		return $this->fetchAll($select->limit($limit));
+	}
 }
+

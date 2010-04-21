@@ -254,4 +254,19 @@ abstract class KIT_Db_Table_Tree_Abstract extends KIT_Db_Table_Abstract
 
 		return $options[$cacheAlias];
 	}
+	
+	/**
+	 * Get items by level
+	 *
+	 * @param int $level
+	 * @return Zend_Db_Table_Rowset_Abstract
+	 */
+	public function getLevelItems($level)
+	{
+		$select = $this->select()
+					   ->from($this->getTableName(), $this->getFields(false))
+					   ->order(array($leftField));
+		$select->where($this->getFieldByAlias('level') . ' = ' . intval($level));
+		return $this->fetchAll($select);
+	}
 }

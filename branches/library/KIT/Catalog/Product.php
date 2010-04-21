@@ -33,6 +33,13 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 	 */
 	private $_customFields;
 
+	public function setId($id)
+	{
+		$this->_id           = (int)$id;
+		$this->_category     = null;
+		$this->_customFields = null;
+	}
+	
 	public function getUrl()
 	{
 		return $this->_url;
@@ -120,10 +127,9 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 	 */
 	public function getCategory()
 	{
-		if (empty($this->_category)) {
+		if (empty($this->_category) || ($this->getId() != $this->_category->getProductId())) {
 			$productCategoryTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Category');
-			$defaultCategory = $productCategoryTable->getDefaultCategory($this->_id, true);
-
+			$defaultCategory = $productCategoryTable->getDefaultCategory($this->getId(), true);
 			$this->_category = self::get('KIT_Catalog_Product_Category');
 			if (empty($defaultCategory)) {
 				$this->_category->setProductId($this->getId());
@@ -216,7 +222,6 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 		if (parent::save($data)) {
 			$category = $this->getCategory();
 			$category->setProductId($this->getId());
-Zend_Registry::get('logger')->err(array('prodcat'=>$category->getId(), 'cat'=>$category->getCategoryId(), 'prod'=>$category->getProductId()));
 			$category->save();
 			$this->getCustomFields()->save();
 			return true;

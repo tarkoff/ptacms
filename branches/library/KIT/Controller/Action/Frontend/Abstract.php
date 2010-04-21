@@ -14,7 +14,7 @@
  * @version    $Id$
  */
 
-abstract class KIT_Controller_Frontend_Action_Abstract extends Zend_Controller_Action
+abstract class KIT_Controller_Action_Frontend_Abstract extends Zend_Controller_Action
 {
     /**
      * Initialize object
