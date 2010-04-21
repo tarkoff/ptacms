@@ -21,7 +21,7 @@ class Default_IndexController extends Zend_Controller_Action
 		$prodsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
 
 		$this->view->popular = $prodsTable->getPopular(6);
-		$this->view->newest = $prodsTable->getNewest(6);
+		$this->view->newest  = $prodsTable->getNewest(6);
 	}
 }
 
