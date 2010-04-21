@@ -8,10 +8,10 @@
   <meta name="author" lang="en" content="All: SatDevice [www.satdevice.com]; e-mail: support@satdevice.com" />
   <meta name="copyright" lang="en" content="KiT Studio" />
 
-  <meta name="description" content="..." />
-  <meta name="keywords" content="..." />
+  <meta name="description" content="<?php echo implode(', ', (array)$this->description);?>" />
+  <meta name="keywords" content="SatDevice<?php if (!empty($this->keywords)) echo ',' . implode(',', array_unique($this->keywords));?>" />
 
-  <link href="/js/jquery/ui/18/css/ui-lightness/jquery-ui-1.8.custom.css" media="screen" rel="stylesheet" type="text/css" />
+  <?php echo $this->headLink();?>
   <link rel="stylesheet" media="screen,projection" type="text/css" href="/css/main.css" />
   <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/css/main-msie.css" /><![endif]-->
   <link rel="stylesheet" media="screen,projection" type="text/css" href="/css/scheme.css" />
@@ -19,9 +19,9 @@
 
   <script type="text/javascript" src="/js/jquery/jquery-1.4.2.min.js"></script>
   <script type="text/javascript" src="/js/jquery/jquery.cookie.min.js"></script>
-  <script type="text/javascript" src="/js/jquery/ui/18/jquery-ui-1.8.custom.min.js"></script>
+  <?php echo $this->headScript();?>
   <script type="text/javascript" src="/js/custom.js"></script>
-  <?php echo $this->headTitle(); ?>
+  <?php echo $this->headTitle();?>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
   <!-- Header -->
   <div id="header" class="box">
       <!-- Your logo -->
-      <h1 id="logo"><a href="#" title="[Go to homepage]">SatDevice</a></h1>
+      <h1 id="logo"><a href="/" title="На главную">SatDevice</a></h1>
       <!-- Your slogan -->
       <p id="slogan">Все для спутниквого телевидения</p>
       <hr class="noscreen" />
@@ -53,13 +53,25 @@
   <div id="nav" class="box">
       <h3 class="noscreen">Разделы</h3>
       <ul>
-          <li <?php if (!$this->layout()->activeCategory):?>id="nav-active"<?php endif;?>><a href="/">Главная</a></li>
-      <?php foreach ($this->layout()->categories as $categoryAlias => $categoryTitle):?>
-          <li <?php if ($this->layout()->activeCategory == $categoryAlias):?>id="nav-active"<?php endif;?>><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true); ?>/category/<?php echo $categoryAlias;?>"><?php echo $categoryTitle; ?></a></li>
+          <li <?php if (!$this->activeCategory):?>id="nav-active"<?php endif;?>><a href="/">Главная</a></li>
+      <?php foreach ($this->categories as $categoryAlias => $categoryTitle):?>
+          <li <?php if ($this->activeCategory == $categoryAlias):?>id="nav-active"<?php endif;?>><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true); ?>/category/<?php echo $categoryAlias;?>"><?php echo $categoryTitle; ?></a></li>
       <?php endforeach;?>
           <li><a href="/contacts">Контакты</a></li>
       </ul>
   </div> <!-- /nav -->
+
+  <hr class="noscreen" />
+
+        <h4 class="hx-style01"><span>Предложения партнеров</span></h4>
+        <div id="photos" class="box">
+            <a href="#"><img src="/images/image-02.gif" alt="" class="nom" /></a>
+            <a href="#"><img src="/images/image-02.gif" alt="" /></a>
+            <a href="#"><img src="/images/image-02.gif" alt="" /></a>
+            <a href="#"><img src="/images/image-02.gif" alt="" /></a>
+            <a href="#"><img src="/images/image-02.gif" alt="" /></a>
+            <a href="#"><img src="/images/image-02.gif" alt="" /></a>
+        </div> <!-- /photos -->
 
   <hr class="noscreen" />
 

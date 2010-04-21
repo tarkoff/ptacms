@@ -1,0 +1,52 @@
+<?php $productFullName = $this->brand->getTitle() . ' ' . $this->product->getTitle();?>
+<?php $categoryTitle = $this->category->getTitle();?>
+
+<?php $this->headTitle()->append($categoryTitle); ?>
+<?php $this->headTitle()->append($productFullName); ?>
+<?php $this->description[] = $productFullName;?>
+<?php array_push($this->keywords, $productFullName, $categoryTitle);?>
+<?php $this->activeCategory = $this->category->getAlias();?>
+
+<?php $this->headLink()->appendStylesheet('/js/jquery/ui/18/css/ui-lightness/jquery-ui-1.8.custom.css') ?>
+<?php $this->headLink()->appendStylesheet('/js/jquery/lightbox/css/jquery.lightbox-0.5.css') ?>
+<?php $this->headScript()->appendFile('/js/jquery/ui/18/jquery-ui-1.8.custom.min.js') ?>
+<?php $this->headScript()->appendFile('/js/jquery/lightbox/js/jquery.lightbox-0.5.min.js') ?>
+<h4 class="hx-style01"><span><?php echo $categoryTitle . ' :: ' . $productFullName;?></span></h4>
+<div class="box">
+	<div id="standard">
+		<div class="col30" id="gallery" style="width:250px">
+		<?php if (count($this->photos)):?>
+			<?php foreach ($this->photos as $photo):?>
+			<a href="<?php echo $photo->PHOTOS_FILE;?>" <?php if (empty($photo->PHOTOS_ISDEFAULT)):?>class="noscreen"<?php endif;?> title="<?php echo $productFullName;?>">
+				<img src="/timthumb/timthumb.php?src=<?php echo $photo->PHOTOS_FILE;?>&h=220&w=220&zc=0" width="220" height="220" alt="" />
+			</a>
+			<?php endforeach;?>
+		<?php else:?>
+			<img class="nom" alt="Изображение временно отсутствует" src="/images/image-02.gif" title="Изображение временно отсутствует">
+		<?php endif;?>
+		</div>
+		<div class="col30" id="gallery">
+			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
+			<ul class="ul-list box">
+				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more">Прошивки</a></li><?php endif;?>
+				<?php if ($this->brand->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->brand->getUrl();?>" class="ico-more">Сайт производителя</a></li><?php endif;?>
+				<?php if ($this->product->getUrl()):?><li><a href="<?php echo $this->product->getUrl();?>" class="ico-more">Описание производителя</a></li><?php endif;?>
+			</ul>
+		</div>
+	</div>
+</div>
+<?php Zend_Registry::get('logger')->err($this->product->getCustomFields());?>
+<script type="text/javascript">
+    $(function() {
+        $('#gallery a').lightBox({
+        	imageLoading: '/js/jquery/lightbox/images/lightbox-ico-loading.gif',
+        	imageBtnClose: '/js/jquery/lightbox/images/lightbox-btn-close.gif',
+        	imageBtnPrev: '/js/jquery/lightbox/images/lightbox-btn-prev.gif',
+        	imageBtnNext: '/js/jquery/lightbox/images/lightbox-btn-next.gif',
+        	imageBlank: '/js/jquery/lightbox/images/lightbox-blank.gif',
+        	containerResizeSpeed: 350
+           });
+    });
+</script>
+
+<hr class="noscreen" />

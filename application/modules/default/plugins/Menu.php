@@ -21,8 +21,8 @@ class Default_Plugin_Menu extends Zend_Controller_Plugin_Abstract
 	{
 		$categoriesTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
 
-		$layout = Zend_Layout::getMvcInstance();
-		$layout->categories = $categoriesTable->getSelectedFields(
+		$view = Zend_Layout::getMvcInstance()->getView();
+		$view->categories = $categoriesTable->getSelectedFields(
 			array(
 				$categoriesTable->getFieldByAlias('alias'),
 				$categoriesTable->getFieldByAlias('title')
@@ -30,14 +30,14 @@ class Default_Plugin_Menu extends Zend_Controller_Plugin_Abstract
 			array($categoriesTable->getFieldByAlias('level') . ' = 0'),
 			true
 		);
-		
-		$layout->activeCategory = '';
-		$activeCategory = $request->getParam('category');
-		if (isset($layout->categories[$activeCategory])) {
-			$layout->activeCategory = $activeCategory;
-		}
-		Zend_Registry::get('logger')->err($layout->activeCategory);
- 
 
+		$view->activeCategory = '';
+		$activeCategory = $request->getParam('category');
+		if (isset($view->categories[$activeCategory])) {
+			$view->activeCategory = $activeCategory;
+			$view->headTitle()->append($view->categories[$activeCategory]);
+			$view->keywords[] = $view->categories[$activeCategory];
+			$view->description[] = $view->categories[$activeCategory];
+		}
 	}
 }

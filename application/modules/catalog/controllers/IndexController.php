@@ -24,7 +24,7 @@ class Catalog_IndexController extends KIT_Controller_Action_Backend_Abstract
 
     public function indexAction()
     {
-        $this->_forward('list', 'products', 'catalog');
+        $this->_redirect('/');
     }
 
 
