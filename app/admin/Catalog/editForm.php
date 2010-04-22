@@ -291,8 +291,9 @@ class Catalog_editForm extends PTA_Control_Form
 		}
 
 		$productTable = PTA_DB_Table::get('Catalog_Product');
-		
+
 		$this->_product->loadFrom($data);
+/*
 		$savedProduct = $productTable->findByFields(
 			array('categoryId', 'title'),
 			array(
@@ -307,7 +308,7 @@ class Catalog_editForm extends PTA_Control_Form
 				$savedProduct[$productTable->getPrimary()]
 			);
 		}
-
+*/
 		if ($this->_copy) {
 			$this->_product->setId(null);
 			$this->_product->setDate(date("Y-m-d H:i:s"));
