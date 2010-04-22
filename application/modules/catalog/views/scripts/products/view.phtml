@@ -11,21 +11,40 @@
 <?php $this->headLink()->appendStylesheet('/js/jquery/lightbox/css/jquery.lightbox-0.5.css') ?>
 <?php $this->headScript()->appendFile('/js/jquery/ui/18/jquery-ui-1.8.custom.min.js') ?>
 <?php $this->headScript()->appendFile('/js/jquery/lightbox/js/jquery.lightbox-0.5.min.js') ?>
+
+<script type="text/javascript">
+    $(function() {
+        $('#gallery a').lightBox({
+        	imageLoading: '/js/jquery/lightbox/images/lightbox-ico-loading.gif',
+        	imageBtnClose: '/js/jquery/lightbox/images/lightbox-btn-close.gif',
+        	imageBtnPrev: '/js/jquery/lightbox/images/lightbox-btn-prev.gif',
+        	imageBtnNext: '/js/jquery/lightbox/images/lightbox-btn-next.gif',
+        	imageBlank: '/js/jquery/lightbox/images/lightbox-blank.gif',
+        	containerResizeSpeed: 350,
+        	txtImage: 'Фото',
+        	txtOf: 'из'
+           });
+    });
+</script>
 <h4 class="hx-style01"><span><?php echo $categoryTitle . ' :: ' . $productFullName;?></span></h4>
 <div class="box">
 	<div id="standard">
 		<div class="col30" id="gallery" style="width:250px">
 		<?php if (count($this->photos)):?>
 			<?php foreach ($this->photos as $photo):?>
-			<a href="<?php echo $photo->PHOTOS_FILE;?>" <?php if (empty($photo->PHOTOS_ISDEFAULT)):?>class="noscreen"<?php endif;?> title="<?php echo $productFullName;?>">
-				<img src="/timthumb/timthumb.php?src=<?php echo $photo->PHOTOS_FILE;?>&h=220&w=220&zc=0" width="220" height="220" alt="" />
-			</a>
+				<?php if (empty($photo->PHOTOS_ISDEFAULT)):?>
+					<a href="<?php echo $photo->PHOTOS_FILE;?>" class="noscreen" title="<?php echo $productFullName;?>"></a>
+				<?php else:?>
+					<a href="<?php echo $photo->PHOTOS_FILE;?>" title="<?php echo $productFullName;?>">
+						<img src="/timthumb/timthumb.php?src=<?php echo $photo->PHOTOS_FILE;?>&h=220&w=220&zc=0" width="220" height="220" alt="" />
+					</a>
+				<?php endif;?>
 			<?php endforeach;?>
 		<?php else:?>
-			<img class="nom" alt="Изображение временно отсутствует" src="/images/image-02.gif" title="Изображение временно отсутствует">
+			<img class="nom" alt="Изображение временно отсутствует" src="/images/image-02.gif" title="Изображение временно отсутствует" width="150" height="110" />
 		<?php endif;?>
 		</div>
-		<div class="col30" id="gallery">
+		<div class="col30">
 			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
 			<ul class="ul-list box">
 				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more">Прошивки</a></li><?php endif;?>
@@ -35,18 +54,26 @@
 		</div>
 	</div>
 </div>
-<?php Zend_Registry::get('logger')->err($this->product->getCustomFields());?>
-<script type="text/javascript">
-    $(function() {
-        $('#gallery a').lightBox({
-        	imageLoading: '/js/jquery/lightbox/images/lightbox-ico-loading.gif',
-        	imageBtnClose: '/js/jquery/lightbox/images/lightbox-btn-close.gif',
-        	imageBtnPrev: '/js/jquery/lightbox/images/lightbox-btn-prev.gif',
-        	imageBtnNext: '/js/jquery/lightbox/images/lightbox-btn-next.gif',
-        	imageBlank: '/js/jquery/lightbox/images/lightbox-blank.gif',
-        	containerResizeSpeed: 350
-           });
-    });
-</script>
+<?php //Zend_Registry::get('logger')->err($this->product->getCustomFields()->getProductGroups());?>
+
+<?php if ($this->product->getShortDescr()):?>
+<hr class="noscreen" />
+<h4 class="hx-style01"><span>Описание</span></h4>
+<div class="box"><?php echo $this->product->getShortDescr();?></div>
+<?php endif;?>
 
 <hr class="noscreen" />
+
+<div id="descr">
+<?php foreach ($this->product->getCustomFields()->getProductGroups() as $index => $group):?>
+	<h4 class="hx-style01"><span><?php echo $group['title'];?></span></h4>
+	<ul class="ul-list box">
+	<?php foreach ($group['fields'] as $field):?>
+		<li style="margin-left:15px;">
+		<div class="ftitle t-left"><?php echo $field['title'];?></div>
+		<div class="fvalue"><?php foreach ($field['values'] as $value) { echo $value; if (end($field['values']) != $value) echo ' | '; }?></div>
+		</li>
+	<?php endforeach;?>
+	</ul>
+	<?php endforeach;?>
+</div>
