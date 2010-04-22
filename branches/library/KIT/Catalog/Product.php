@@ -165,6 +165,7 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 			$this->_customFields = new KIT_Catalog_Product_Custom_Fields();
 			$this->_customFields->setProductId($this->getId());
 			$this->_customFields->setCategoryId($this->getCategoryId());
+			$this->_customFields->build();
 		}
 		return $this->_customFields;
 	}

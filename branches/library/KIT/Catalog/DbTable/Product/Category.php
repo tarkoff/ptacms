@@ -143,7 +143,7 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			array('cg' => $categoryGroupsTable->getTableName()),
 			'gf.' . $groupFieldsTable->getFieldByAlias('categoryGroupId')
 			. ' = cg.' . $categoryGroupsTable->getPrimary(),
-			array()
+			array($categoryGroupsTable->getPrimary())
 		);
 
 		$select->where(

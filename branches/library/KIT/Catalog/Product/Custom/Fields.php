@@ -18,8 +18,8 @@ class KIT_Catalog_Product_Custom_Fields
 {
 	protected static $_fieldsMeta;
 	protected $_fieldsValues = array();
-	protected $_fieldsValuesIds = array();
-	protected $_groupFieldsIds;
+	protected $_groupFields = array();
+	protected $_groupFieldsIds = array();
 	protected $_categoryId;
 	protected $_productId;
 
@@ -48,11 +48,6 @@ class KIT_Catalog_Product_Custom_Fields
 		return $this->_fieldsValues;
 	}
 
-	public function getFieldsValuesIds()
-	{
-		return $this->_fieldsValuesIds;
-	}
-
 	public function build()
 	{
 		$categoryId = $this->getCategoryId();
@@ -60,44 +55,45 @@ class KIT_Catalog_Product_Custom_Fields
 		if (empty($categoryId)) {
 			return false;
 		}
-		
 
-		$fieldsTable        = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field');
-		$groupFieldsTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Group_Field');
-		$fieldValuesTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Value');
-		$productValuesTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Field_Value');
+		$groupsTable         = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Group');
+		$fieldsTable         = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field');
+		$groupFieldsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Group_Field');
+		$fieldValuesTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Value');
+		$productValuesTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Field_Value');
+		$categoryGroupsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category_Group');
 
+		$groupTitleField   = $groupsTable->getFieldByAlias('title');
+		$groupAliasField   = $groupsTable->getFieldByAlias('alias');
+		$fieldIdField      = $fieldsTable->getPrimary();
 		$fieldAliasField   = $fieldsTable->getFieldByAlias('alias');
+		$fieldTitleField   = $fieldsTable->getFieldByAlias('title');
 		$groupFieldPrimary = $groupFieldsTable->getPrimary();
 		$groupFieldIdField = $productValuesTable->getFieldByAlias('fieldId');
 		$fieldValueIdField = $productValuesTable->getFieldByAlias('valueId');
 		$fieldValueField   = $fieldValuesTable->getFieldByAlias('value');
-		
+		$catGroupIdField   = $categoryGroupsTable->getPrimary();
+
+		foreach ($categoryGroupsTable->getCategoryGroups($this->getCategoryId()) as $group) {
+			$this->_groupFields[$group->$catGroupIdField]['alias'] = $group->$groupAliasField;
+			$this->_groupFields[$group->$catGroupIdField]['title'] = $group->$groupTitleField;
+			$this->_groupFields[$group->$catGroupIdField]['fields'] = array();
+		}
 		$productValues = $this->_getProductValues();
 		foreach ($this->_getCategoryFields() as $field) {
-			$this->_fieldsValues[$field->$fieldAliasField] = 0;
+			$this->_fieldsValues[$field->$fieldAliasField] = array();
 			$this->_groupFieldsIds[$field->$fieldAliasField] = $field->$groupFieldPrimary;
+			$feieldData = array();
+			$feieldData['title'] = $field->$fieldTitleField;
+			
 			foreach ($productValues as $value) {
 				if ($value->$groupFieldIdField == $field->$groupFieldPrimary) {
-					if (empty($this->_fieldsValues[$field->$fieldAliasField])) {
-						$this->_fieldsValues[$field->$fieldAliasField] = $value->$fieldValueField;
-						$this->_fieldsValuesIds[$field->$fieldAliasField] = $value->$fieldValueIdField;
-					} else {
-						if (!is_array($this->_fieldsValues[$field->$fieldAliasField])) {
-							$this->_fieldsValues[$field->$fieldAliasField]
-								= (array)$this->_fieldsValues[$field->$fieldAliasField];
-							$this->_fieldsValuesIds[$field->$fieldAliasField]
-								= (array)$this->_fieldsValuesIds[$field->$fieldAliasField];
-						}
-						$this->_fieldsValues[$field->$fieldAliasField][] = $value->$fieldValueField;
-						$this->_fieldsValuesIds[$field->$fieldAliasField][] = $value->$fieldValueIdField;
-						
-					}
+					$this->_fieldsValues[$field->$fieldAliasField][$value->$fieldValueIdField] = $value->$fieldValueField;
 				}
 			}
+			$feieldData['values'] = $this->_fieldsValues[$field->$fieldAliasField];
+			$this->_groupFields[$field->$catGroupIdField]['fields'][$field->$fieldIdField] = $feieldData;
 		}
-		
-		//Zend_Registry::get('logger')->err(array('yyy'=>$productValues->toArray(), $this->_getCategoryFields()->toArray()));
 	}
 	
 	protected function _getCategoryFields()
@@ -124,6 +120,11 @@ class KIT_Catalog_Product_Custom_Fields
 	public function has($fieldAlias)
 	{
 		return isset($this->_fieldsValues[strtolower($fieldAlias)]);
+	}
+
+	public function getProductGroups()
+	{
+		return $this->_groupFields;
 	}
 
 	public function __call($method, $args)
