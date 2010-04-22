@@ -34,6 +34,17 @@ jQuery('#list').jqGrid({
 	width:'700'
 }).navGrid('#pager',{
 	edit:true, add:true, del:true, search:true
+}).navButtonAdd('#pager',{
+	caption:"Groups",
+	onClickButton: function(id) {
+		var gr = jQuery("#list").getGridParam("selrow");
+		if( gr != null ) {
+			document.location.href = '/catalog/categorygroups/list/catid/' + gr;
+		} else {
+			$("#fieldsDialog").dialog('open');
+		}
+	},
+	position:"last"
 });
 
 $("#fieldsDialog").dialog({
