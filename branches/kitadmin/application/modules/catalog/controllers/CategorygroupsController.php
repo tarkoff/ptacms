@@ -33,11 +33,17 @@ class Catalog_CategoryGroupsController extends KIT_Controller_Action_Backend_Abs
 
 	public function listAction()
 	{
+		$this->view->catid = $this->_getParam('catid');
 		$catsTable      = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
 		$groupsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Group');
 		$catGroupsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category_Group');
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
+			if (!empty($this->view->catid)) {
+				$select = $catGroupsTable->getViewSelect();
+				$select->where($catGroupsTable->getFieldByAlias('categoryId') . '=?', $this->view->catid);
+				$catGroupsTable->setViewSelect($select);
+			}
 			$this->_helper->json($this->_getAjaxView($catGroupsTable));
 		} else {
 			$this->view->cats = $catsTable->getSelectedFields(

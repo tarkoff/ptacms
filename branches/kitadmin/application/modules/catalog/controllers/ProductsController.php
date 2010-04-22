@@ -64,15 +64,9 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 			$this->view->headTitle($form->getLegend(), 'APPEND');
 
 			if ($form->submit()) {
-				if ($isAjax) {
-					$this->_helper->json(1);
-				} else {
-					$this->_redirect('catalog/products/list');
-				}
+				$this->_redirect('catalog/products/list');
 			} else {
-				if ($isAjax) {
-					$this->_helper->json(0);
-				}
+				$form->populate($form->getPost());
 			}
 		}
 	}

@@ -3,13 +3,6 @@
 </style>
 <table id="list" class="scroll"></table>
 <div id="pager" class="scroll" style="text-align:center;"></div>
-<div id="fieldsDialog" title="Category Error">
-	<p>
-		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-		Category group not selected!<br />
-		<b>Please select category group for action!</b>
-	</p>
-</div>
 
 <script type="text/javascript">
 jQuery('#list').jqGrid({
@@ -36,27 +29,5 @@ jQuery('#list').jqGrid({
 	width:'auto'
 }).navGrid('#pager',{
 	edit:true, add:true, del:true, search:true
-}).navButtonAdd('#pager',{
-	caption:"Fields",
-	onClickButton: function(id) {
-		var gr = jQuery("#list").getGridParam("selrow");
-		if( gr != null ) {
-			document.location.href = '/catalog/categorygroups/fields/id/' + gr;
-		} else {
-			$("#fieldsDialog").dialog('open');
-		}
-	},
-	position:"last"
-});
-
-$("#fieldsDialog").dialog({
-	bgiframe: true,
-	modal: true,
-	autoOpen: false,
-	buttons: {
-		Ok: function() {
-			$(this).dialog('close');
-		}
-	}
 });
 </script>

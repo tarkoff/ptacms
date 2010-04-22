@@ -41,3 +41,5 @@ input.ui-pg-input { width: 4em !Important; padding: 3px !Important; white-space:
 .kit-form { width:800px; margin:0 auto; }
 .kit-form .ui-widget-content { padding:.5em; }
 .kit-text { width:95% !Important; }
+
+.customFields { margin:1.5em 0 0 0; }

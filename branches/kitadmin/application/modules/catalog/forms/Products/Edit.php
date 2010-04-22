@@ -165,7 +165,6 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		foreach ($categoryGroupsTable->getCategoryGroups($this->_category->getId()) as $group) {
 			$catGroups[$group[$categoryGroupIdField]] = $group;
 		}
-//Zend_Registry::get('logger')->err($groupFieldsTable->getGroupFields(array_keys($catGroups))->toArray());
 
 		$selectElementsIds = array();
 		foreach ($groupFieldsTable->getGroupFields(array_keys($catGroups)) as $field) {
@@ -182,8 +181,9 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 				$selectElementsIds[$field->$fieldIdField] = $field->$fieldAliasField;
 				$element->getView()->{$field->$fieldAliasField} = $field->$fieldIdField;
 			}
+
 			$this->addElement($element);
-			
+
 			if (isset($catGroups[$field[$catGroupIdField]])) {
 				$groupRow = $catGroups[$field[$catGroupIdField]];
 				if (($group = $this->getDisplayGroup($groupRow[$groupAliasField]))) {
@@ -243,31 +243,30 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 	{
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
-				$data = (array)$this->getValues();
-				$this->_protuct->setOptions($formData);
-				if (!$this->_protuct->getCategoryId()) {
-					$this->_protuct->setCategoryId($this->_category->getId());
-				}
+			$this->_protuct->setOptions($formData);
+			if (!$this->_protuct->getCategoryId()) {
+				$this->_protuct->setCategoryId($this->_category->getId());
+			}
 
-				$auth = Zend_Auth::getInstance();
-				if ($auth->hasIdentity()) {
-					$this->_protuct->setAuthorId($auth->getIdentity()->getId());
-					if ($this->_protuct->save()) {
-						if (($cats = $this->categories->getValue())) {
-							$prodCatsTable = KIT_Db_Table_Abstract::get(
-								'KIT_Catalog_DbTable_Product_Category'
-							);
-							$prodCatsTable->setProductCategories(
-								$this->_protuct->getId(),
-								$cats
-							);
-						}
-						return true;
+			$auth = Zend_Auth::getInstance();
+			if ($auth->hasIdentity()) {
+				$this->_protuct->setAuthorId($auth->getIdentity()->getId());
+				if ($this->_protuct->save()) {
+					if (($cats = $this->categories->getValue())) {
+						$prodCatsTable = KIT_Db_Table_Abstract::get(
+							'KIT_Catalog_DbTable_Product_Category'
+						);
+						$prodCatsTable->setProductCategories(
+							$this->_protuct->getId(),
+							$cats
+						);
 					}
-				} else {
-					$this->populate($formData);
+					return true;
 				}
+			} else {
+				$this->populate($formData);
+			}
 		}
-		return false;
+		return true;
 	}
 }

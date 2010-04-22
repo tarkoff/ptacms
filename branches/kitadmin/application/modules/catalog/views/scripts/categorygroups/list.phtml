@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
 jQuery('#list').jqGrid({
-	url:'/catalog/categorygroups/list/format/json',
+	url:'/catalog/categorygroups/list/format/json/catid/<?php echo $this->catid;?>',
 	datatype: 'json',
 	mtype: 'GET',
 	colNames:['Id', 'Order', 'Category', 'Group'],
