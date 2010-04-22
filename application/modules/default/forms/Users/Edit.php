@@ -47,18 +47,21 @@ class Default_Form_Users_Edit extends KIT_Form_Abstract
 				 ->addFilter('StringTrim');
 		$this->addElement($password);
 
-		$userGroups = array();
-		foreach ($userGroupsTable->getSelectedFields() as $field) {
-			$field = array_values($field);
-			$userGroups[$field[0]] = $field[1];
-		}
-
 		$group = new Zend_Form_Element_Select('groupid');
 		$group->setLabel('Group')
 			   ->setRequired(true)
 			   ->addFilter('StripTags')
 			   ->addFilter('StringTrim');
-		$group->addMultiOptions($userGroups);
+		$group->addMultiOptions(
+			$userGroupsTable->getSelectedFields(
+				array(
+					$userGroupsTable->getPrimary(),
+					$userGroupsTable->getFieldByAlias('title')
+				),
+				null,
+				true
+			)
+		);
 		$this->addElement($group);
 
 		$firstName = new Zend_Form_Element_Text('firstname');
