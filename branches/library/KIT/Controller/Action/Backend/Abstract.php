@@ -193,8 +193,12 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
 	 */
 	protected function _delete($id, KIT_Db_Table_Abstract $table)
 	{
+		$isAjax = $this->getRequest()->isXmlHttpRequest();
 		if (empty($id) || empty($table)) {
 			return false;
+			if ($isAjax) {
+				$this->_helper->json(0);
+			}
 		}
 
 		$deleted = false;
@@ -202,7 +206,7 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
 			$deleted = $table->removeById($id);
 		}
 
-		if ($this->getRequest()->isXmlHttpRequest()) {
+		if ($isAjax) {
 			$this->_helper->json($deleted);
 		}
 		return $deleted;

@@ -19,7 +19,8 @@ class KIT_Catalog_Field_Group_Field extends KIT_Model_Abstract
 	private $_categoryGroupId;
 	private $_fieldId;
 	private $_sortOrder;
-
+	private $_inFilter = 0;
+	
 	public function getFieldId()
 	{
 		return $this->_fieldId;
@@ -48,5 +49,15 @@ class KIT_Catalog_Field_Group_Field extends KIT_Model_Abstract
 	public function setSortOrder($order)
 	{
 		$this->_sortOrder = intval($order);
+	}
+
+	public function getInFilter()
+	{
+		return $this->_inFilter;
+	}
+
+	public function setInFilter($inFilter)
+	{
+		$this->_inFilter = intval($inFilter);
 	}
 }

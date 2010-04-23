@@ -9,13 +9,14 @@ jQuery('#list').jqGrid({
 	url:'/catalog/categorygroups/fields/format/json/cgid/<?php echo $this->cgid;?>',
 	datatype: 'json',
 	mtype: 'GET',
-	colNames:['Id', 'Field', 'Group', 'Category', 'Sort Order'],
+	colNames:['Id', 'Field', 'Group', 'Category', 'Sort Order', 'Filter Field'],
 	colModel :[
 	  {name:'GROUPFIELDS_ID', index:'GROUPFIELDS_ID', sorttype:'int', width:50},
-	  {name:'GROUPFIELDS_FIELDID', index:'GROUPFIELDS_FIELDID', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->fields as $id => $title) echo "{$id}:'{$title}',"; ?>}}},
+	  {name:'GROUPFIELDS_FIELDID', index:'GROUPFIELDS_FIELDID', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->fields as $id => $title) { echo "{$id}:'{$title}'"; if (end($this->fields) != $title) echo ',';}?>}}},
 	  {name:'GROUP_TITLE', index:'GROUP_TITLE', editable:false},
 	  {name:'CATEGORY_TITLE', index:'CATEGORY_TITLE', editable:false},
 	  {name:'GROUPFIELDS_SORTORDER', index:'GROUPFIELDS_SORTORDER', editable:true},
+	  {name:'GROUPFIELDS_INFILTER', index:'GROUPFIELDS_INFILTER', editable:true, edittype:'checkbox', editoptions: {value:"1:0"}}
 	],
 	pager: jQuery('#pager'),
 	rowNum:20,

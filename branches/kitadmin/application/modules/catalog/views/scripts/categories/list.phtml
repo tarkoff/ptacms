@@ -20,7 +20,7 @@ jQuery('#list').jqGrid({
 	  {name:'CATEGORIES_ID', index:'CATEGORIES_ID', sorttype:'int', key:true, width:50},
 	  {name:'CATEGORIES_TITLE', index:'CATEGORIES_TITLE', editable:true, editrules:{required:true}},
 	  {name:'CATEGORIES_ALIAS', index:'CATEGORIES_ALIAS', editable:true, editrules:{required:true}},
-	  {name:'CATEGORIES_PARENTID', index:'CATEGORIES_PARENTID', hidden:true, editable:true, edittype:'select', editoptions:{value:{<?php foreach ($this->cats as $id => $title) echo "{$id}:'{$title}',"; ?>}}}
+	  {name:'CATEGORIES_PARENTID', index:'CATEGORIES_PARENTID', hidden:true, editrules:{edithidden:true}, editable:true, edittype:'select', editoptions:{value:{<?php foreach ($this->cats as $id => $title) echo "{$id}:'{$title}',"; ?>}}}
 	],
 	pager: jQuery('#pager'),
 	rowNum:20,

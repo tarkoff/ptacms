@@ -31,23 +31,25 @@ class Catalog_Form_CategoryGroups_Fields extends KIT_Form_Abstract
 		$catFieldsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Group_Field');
 		$fieldsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field');
 
-		$fieldIdField    = $fieldsTable->getPrimary();
-		$fieldTitleField = $fieldsTable->getFieldByAlias('title');
-
 		parent::__construct($options);
 		$this->setName('fieldsForm');
 		$this->setLegend('Group Fields');
 
-		$deniedOptions = array();
-		foreach ($catFieldsTable->getFreeFields($cgid) as $field) {
-			$deniedOptions[$field[$fieldIdField]] = $field[$fieldTitleField];
-		}
 		$deniedRes = new Zend_Form_Element_Select('fieldId');
 		$deniedRes->setLabel('Field')
 				  ->setRequired(false)
 				  ->addFilter('StripTags')
 				  ->addFilter('StringTrim');
-		$deniedRes->addMultiOptions($deniedOptions);
+		$deniedRes->addMultiOptions(
+			$fieldsTable->getSelectedFields(
+				array(
+					$fieldsTable->getPrimary(),
+					$fieldsTable->getFieldByAlias('title')
+				),
+				null,
+				true
+			)
+		);
 		$this->addElement($deniedRes);
 
 		$sortOrder = new Zend_Form_Element_Text('sortOrder');
@@ -56,6 +58,12 @@ class Catalog_Form_CategoryGroups_Fields extends KIT_Form_Abstract
 				  ->addFilter('StripTags')
 				  ->addFilter('StringTrim');
 		$this->addElement($sortOrder);
+
+		$inFilter = new Zend_Form_Element_Text('inFilter');
+		$inFilter->setLabel('Use in filter')
+				  ->addFilter('StripTags')
+				  ->addFilter('StringTrim');
+		$this->addElement($inFilter);
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
@@ -80,9 +88,9 @@ class Catalog_Form_CategoryGroups_Fields extends KIT_Form_Abstract
 				}
 				$formData = $newData;
 			}
+
 			if ($this->isValidPartial($formData)) {
-				$this->_model->setFieldId($formData['fieldid']);
-				$this->_model->setSortOrder($formData['sortorder']);
+				$this->_model->setOptions($formData);
 				return $this->_model->save();
 			} else {
 				$this->populate($formData);

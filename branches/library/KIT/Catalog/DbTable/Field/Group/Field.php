@@ -64,7 +64,7 @@ class KIT_Catalog_DbTable_Field_Group_Field extends KIT_Db_Table_Abstract
 		$select->join(
 			array('cat' => $categoryTable->getTableName()),
 			'cat.' . $categoryTable->getPrimary() . ' = cg.' . $categoryGroupTable->getFieldByAlias('categoryId'),
-			array('CATEGORY_TITLE' => $categoryTable->getFieldByAlias('title'), 'gf.GROUPFIELDS_SORTORDER')
+			array('CATEGORY_TITLE' => $categoryTable->getFieldByAlias('title'), 'gf.GROUPFIELDS_SORTORDER', 'gf.GROUPFIELDS_INFILTER')
 		);
 		$this->setViewSelect($select);
 	}
