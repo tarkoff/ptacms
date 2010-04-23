@@ -95,9 +95,6 @@ class Catalog_CategoryGroupsController extends KIT_Controller_Action_Backend_Abs
 
 		$fieldsTable      = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field');
 		$groupFieldsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Group_Field');
-		
-		$fieldIdField    = $fieldsTable->getPrimary();
-		$fieldTitleField = $fieldsTable->getFieldByAlias('title');
 
 		if (!empty($this->view->cgid)) {
 			$select = $groupFieldsTable->getViewSelect();
@@ -108,10 +105,11 @@ class Catalog_CategoryGroupsController extends KIT_Controller_Action_Backend_Abs
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$this->_helper->json($this->_getAjaxView($groupFieldsTable));
 		} else {
-			$this->view->fields = array();
-			foreach ($groupFieldsTable->getFreeFields($this->view->cgid) as $field) {
-				$this->view->fields[$field[$fieldIdField]] = $field[$fieldTitleField];
-			}
+			$this->view->fields = $fieldsTable->getSelectedFields(
+				array($fieldsTable->getPrimary(), $fieldsTable->getFieldByAlias('title')),
+				null,
+				true
+			);
 		}
 	}
 
@@ -120,6 +118,7 @@ class Catalog_CategoryGroupsController extends KIT_Controller_Action_Backend_Abs
 		$isAjax = $this->getRequest()->isXmlHttpRequest();
 		if ($isAjax && ('del' == $this->_getParam('oper', 'edit'))) {
 			$this->deletefieldAction();
+			$this->_helper->json(1);
 		}
 
 		$cgid = (int)$this->_getParam('cgid', 0);
@@ -141,7 +140,10 @@ class Catalog_CategoryGroupsController extends KIT_Controller_Action_Backend_Abs
 
 	public function deletefieldAction()
 	{
-		
+		$this->_delete(
+			(int)$this->_getParam('id', 0),
+			KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Group_Field')
+		);
 	}
 	
 	public function deleteAction()
