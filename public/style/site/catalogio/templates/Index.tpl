@@ -67,7 +67,15 @@
 </script>
 {/literal}
 
-	<div style="margin:15px 0 0 0;">
+	<div>
+		<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=701&encoding=utf8&limit=5"></script>
+	</div>
+	<!-- Content -->
+	<div id="page" class="box">
+		{include file=$activeModule->tpl data=$activeModule}
+	</div> <!-- /page -->
+{literal}
+	<div id="adsense_bottomh" class="big_hor">
 		<script type="text/javascript"><!--
 			google_ad_client = "pub-1610147099732550";
 			/* 728x90, gelezka_horizontal_bottom */
@@ -77,14 +85,6 @@
 			//-->
 		</script>
 		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	</div>
-	<!-- Content -->
-	<div id="page" class="box">
-		{include file=$activeModule->tpl data=$activeModule}
-	</div> <!-- /page -->
-{literal}
-	<div id="adsense_bottomh" class="big_hor">
-		<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=701&encoding=utf8&limit=5"></script>
 	</div>
 {/literal}
 	{include file="Footer.tpl"}
