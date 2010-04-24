@@ -103,7 +103,7 @@ legend {position:absolute; top:-1em; margin:0; padding:5px 10px; font-size:100%;
         #nav ul li a {display:block; float:left; padding:7px 15px; border:0; background:url("../images/dot-03.gif") 100% 0 repeat-y;}
         #nav ul li#nav-active a {border:0; font-weight:bold;}
 
-	#content {position:relative; padding:10px 0 30px 0; overflow:hidden;}
+	#content {position:relative; padding:10px 0; overflow:hidden;}
 
 	#footer {clear:both; font-size:85%;}
 
@@ -123,9 +123,9 @@ legend {position:absolute; top:-1em; margin:0; padding:5px 10px; font-size:100%;
     #topstory-perex p {margin:0;}
 
 
-#photos {margin:0; font-size:0; line-height:0;}
-#photos a {border:0;}
-#photos img {display:block; float:left; width:150px; height:110px; margin-left:12px; border:0;}
+.h-ads {margin:10px 0; }
+.h-ads a {border:0;}
+.h-ads img {display:block; float:left; width:150px; height:110px; margin-left:12px; border:0;}
 
 .col30 {float:left; width:310px;}
 .col30.margin {margin:0 15px;}

@@ -76,7 +76,7 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 		foreach ($productCategoryTable->getCategoryFields($this->_category->getId(), true) as $field) {
 			$this->_fields[$field->$fieldIdField]['alias'] = $field->$fieldAliasField;
 			$this->_fields[$field->$fieldIdField]['title'] = $field->$fieldTitleField;
-			$this->_fields[$field->$fieldIdField]['values'] = array(0 => 'Any');
+			$this->_fields[$field->$fieldIdField]['values'] = array(0 => ' ');
 		}
 		
 		foreach ($fieldValuesTable->getFieldValues(array_keys($this->_fields)) as $value) {
