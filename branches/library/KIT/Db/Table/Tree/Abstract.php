@@ -221,8 +221,8 @@ abstract class KIT_Db_Table_Tree_Abstract extends KIT_Db_Table_Abstract
 					   ->order(array($leftField))
 					   ->setIntegrityCheck(false);
 
-		$select->where($leftField . '<' . $menuItem->$leftField);
-		$select->where($rightField . '>' . $menuItem->$rightField);
+		$select->where($leftField . '>' . $menuItem->$leftField);
+		$select->where($rightField . '<' . $menuItem->$rightField);
 		
 		return $this->fetchAll($select);
 	}
@@ -267,6 +267,24 @@ abstract class KIT_Db_Table_Tree_Abstract extends KIT_Db_Table_Abstract
 					   ->from($this->getTableName(), $this->getFields(false))
 					   ->order(array($leftField));
 		$select->where($this->getFieldByAlias('level') . ' = ' . intval($level));
+		return $this->fetchAll($select);
+	}
+
+	/**
+	 * Get full ordered tree
+	 *
+	 * @param array $fields
+	 * @return Zend_Db_Table_Rowset_Abstract
+	 */
+	public function getFullTree($fields = array())
+	{
+		if (empty($fields)) {
+			$select = $this->select()->from($this->getTableName(), $fields);
+		} else {
+			$select = $this->select();
+		}
+
+		$select->order(array($this->getFieldByAlias('left') . ' ASC'));
 		return $this->fetchAll($select);
 	}
 }

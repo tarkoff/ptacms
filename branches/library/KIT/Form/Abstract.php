@@ -44,7 +44,17 @@ abstract class KIT_Form_Abstract extends Zend_Form
 		}
 		return Zend_Controller_Front::getInstance()->getRequest()->getPost();
 	}
-	
+
+	/**
+	 * Get request params
+	 *
+	 * @return mixed
+	 */
+	public function getParams()
+	{
+		return Zend_Controller_Front::getInstance()->getRequest()->getParams();
+	}
+
 	/**
 	 * Detect ajax request
 	 *

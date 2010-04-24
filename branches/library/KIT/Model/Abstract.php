@@ -147,6 +147,7 @@ abstract class KIT_Model_Abstract
 	public function setId($id)
 	{
 		$this->_id = (int) $id;
+		self::$_cachedModels[get_class($this)][$id] = $this;
 		return $this;
 	}
 
@@ -170,7 +171,7 @@ abstract class KIT_Model_Abstract
 	public function setOptions($options, $isDbFields = false)
 	{
 		if ($isDbFields) {
-			$options = KIT_Db_Table_Abstract::dbFieldsToAlias($options);
+			$options = KIT_Db_Table_Abstract::dbFieldsToAlias((array)$options);
 		}
 
 		foreach ($options as $key => $value) {

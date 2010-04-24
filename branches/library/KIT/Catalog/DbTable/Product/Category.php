@@ -113,9 +113,10 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 	 * Get Category Fields
 	 *
 	 * @param int $categoryId
+	 * @param boolean $onlyFilterFields
 	 * @return Zend_Db_Table_Rowset_Abstract
 	 */
-	public function getCategoryFields($categoryId)
+	public function getCategoryFields($categoryId, $onlyFilterFields = false)
 	{
 		$categoryId = intval($categoryId);
 		if (empty($categoryId)) {
@@ -150,7 +151,11 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			'cg.' . $categoryGroupsTable->getFieldByAlias('categoryId')
 			. ' = ' . $categoryId
 		);
-		
+
+		if ($onlyFilterFields) {
+			$select->where($groupFieldsTable->getFieldByAlias('inFilter') . ' = 1');
+		}
+
 		$select->order(
 			array(
 				'cg.' . $categoryGroupsTable->getFieldByAlias('sortOrder'),
