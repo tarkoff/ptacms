@@ -202,13 +202,15 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 				$element->addMultiOption($value->$valueIdField, $value->$fieldValueField);
 			}
 		}
-
-		foreach ($this->_protuct->getCustomFields()->getFieldsValuesIds() as $alias => $value) {
+/*
+		foreach ($this->_protuct->getCustomFields()->getFieldsValues() as $alias => $values) {
 			if (($element = $this->getElement($alias))) {
-				$element->setValue($value);
+				foreach ($values as $valueId => $value) {
+						$element->setValue($valueId);
+				}
 			}
 		}
-		
+*/
 		//Set selected values for nultiselect
 		$view = $this->getView();
 		$view->selectValues = array();
@@ -267,6 +269,6 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 				$this->populate($formData);
 			}
 		}
-		return true;
+		return false;
 	}
 }

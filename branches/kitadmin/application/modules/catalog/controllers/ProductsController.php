@@ -80,11 +80,7 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 
 		$id = (int)$this->_getParam('id', 0);
 		if (empty($id) && !$isAjax) {
-			if ($isAjax) {
-				$this->_helper->json(0);
-			} else {
-				$this->_redirect('catalog/products/add');
-			}
+			$this->_redirect('catalog/products/add');
 		}
 		$this->_editForm($id);
 	}
