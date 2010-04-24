@@ -1,12 +1,32 @@
-<!--
+<?php $this->headLink()->appendStylesheet('/js/jquery/ui/18/css/ui-lightness/jquery-ui-1.8.custom.css') ?>
+<?php $this->headScript()->appendFile('/js/jquery/ui/18/jquery-ui-1.8.custom.min.js') ?>
 <h4 class="hx-style01"><span>Фильтр</span></h4>
-<div class="box">
-	<div id="sort"></div>
+<div class="box" id="filterbox">
+	<form action="<?php echo $this->form->getAction();?>" method="<?php $this->form->getMethod();?>" enctype="<?php $this->form->getEncType();?>">
+		<div class="box">
+		<?php foreach ($this->form->getElements() as $element):?>
+			<?php $pos++;?>
+			<?php if ($element->getName() != 'submit'):?>
+				<div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif ($pos % 3 == 0):?> fix<?php endif;?>"><?php echo $element->render();?></div>
+				<?php if ($pos % 3 != 0):?><hr class="noscreen" /><?php endif;?>
+			<?php endif;?>
+	<?php echo Zend_Registry::get('logger')->err($pos);?>
+		<?php endforeach;?>
+		</div>
+		<div class="box t-center"><?php echo $this->form->getElement('submit')->setLabel('Фильтровать')->render();?></div>
+	</form>
 </div>
- -->
+<script type="text/javascript">
+	$(function() {
+		$("#subcats").buttonset();
+	});
+</script>
+<style type="text/css">
+#subcats { font-size:9px; text-align:center;}
+</style>
 <hr class="noscreen" />
 
-<?php Zend_Registry::get('logger')->err($this->paginator->getCurrentItems());?>
+<?php //Zend_Registry::get('logger')->err($this->paginator->getCurrentItems());?>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
 <div class="box">
 <?php $products = $this->paginator->getCurrentItems();?>
@@ -15,7 +35,7 @@
     <?php for ($pos = 1; $pos <= $prodsCount; $pos++):?>
     <?php $product = $products[$pos - 1];?>
     <?php array_push($this->keywords, $product['BRANDS_TITLE'] . ' ' . $product['PRODUCTS_TITLE'], $product['CATEGORIES_TITLE']);?>
-    <div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif (($pos + 1) % 3 == 0):?> fix<?php endif;?>">
+    <div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif ($pos % 3 == 0):?> fix<?php endif;?>">
         <h4><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'products', 'action' => 'view'), null, true); ?>/product/<?php echo $product['PRODUCTS_ALIAS'];?>"><?php echo $product['BRANDS_TITLE'] . ' ' . $product['PRODUCTS_TITLE'];?></a></h4>
         <p class="date">
             <?php echo date("d-m-Y", strtotime($product['PRODUCTS_DATE']));?> &nbsp;&ndash;&nbsp;

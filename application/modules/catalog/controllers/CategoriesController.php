@@ -23,17 +23,32 @@ class Catalog_CategoriesController extends Zend_Controller_Action
 
 	public function listAction()
 	{
-		$category = $this->_getParam('category');
+		$category    = $this->_getParam('category');
+		$subCategory = $this->_getParam('scat');
 		if (empty($category)) {
 			$this->_redirect('/');
 		}
 
-		$prodsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
-		$catsTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
+		$prodsTable          = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
+		$catsTable           = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
+		
+		$this->view->category = KIT_Model_Abstract::get('KIT_Catalog_Category');
 
+		$data = $catsTable->fetchRow(
+			$catsTable->getAdapter()->quoteInto(
+				$catsTable->getFieldByAlias('alias') . ' = ?',
+				$category
+			)
+		);
+		$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
+		$this->view->category->setOptions($data);
+		
 		$select = $prodsTable->getCatalogSelect();
-		$select->where('cats.' . $catsTable->getFieldByAlias('alias') . ' = ?', $category);
+		$select->where('cats.' . $catsTable->getPrimary() . ' = ?', $this->view->category->getId());
 		$select->order(array('prods.' . $prodsTable->getFieldByAlias('alias') . ' ASC'));
+
+		$this->view->form = new Catalog_Form_Categories_Filter($this->view->category, $select);
+		$this->view->form->submit();
 
 		$adapter   = new Zend_Paginator_Adapter_DbSelect($select);
 		$paginator = new Zend_Paginator($adapter);
