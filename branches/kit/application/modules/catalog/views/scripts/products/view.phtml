@@ -69,10 +69,12 @@
 	<h4 class="hx-style01"><span><?php echo $group['title'];?></span></h4>
 	<ul class="ul-list box">
 	<?php foreach ($group['fields'] as $field):?>
-		<li style="margin-left:15px;">
-		<div class="ftitle t-left"><?php echo $field['title'];?></div>
-		<div class="fvalue"><?php foreach ($field['values'] as $value) { echo $value; if (end($field['values']) != $value) echo ' | '; }?></div>
-		</li>
+		<?php if (!empty($field['values'])):?>
+			<li style="margin-left:15px;">
+				<div class="ftitle t-left"><?php echo $field['title'];?></div>
+				<div class="fvalue"><?php foreach ($field['values'] as $value) { echo $value; if (end($field['values']) != $value) echo ' | '; }?></div>
+			</li>
+		<?php endif;?>
 	<?php endforeach;?>
 	</ul>
 	<?php endforeach;?>
