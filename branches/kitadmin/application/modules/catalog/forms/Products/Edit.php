@@ -31,9 +31,12 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$id = intval($id);
 		$categoryId = intval($categoryId);
 
-		$this->_protuct  = KIT_Model_Abstract::get('KIT_Catalog_Product', $id);
+		$this->_protuct = KIT_Model_Abstract::get('KIT_Catalog_Product', $id);
 		!empty($categoryId) || $categoryId = $this->_protuct->getCategoryId();
 		$this->_category = KIT_Model_Abstract::get('KIT_Catalog_Category', $categoryId);
+		if (empty($id) && !empty($categoryId)) {
+			$this->_protuct->setCategoryId($categoryId);
+		}
 
 		parent::__construct($options);
 		$this->setName('editForm');
@@ -93,7 +96,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$categories->addMultiOptions(
 			$catsTable->getSelectedFields(
 				array($catsTable->getPrimary(), $catsTable->getFieldByAlias('title')),
-				array($catsTable->getPrimary() . '<>' . $this->_category->getId()),
+				array($catsTable->getPrimary() . '<>' . (int)$this->_category->getId()),
 				true
 			)
 		);
@@ -246,15 +249,12 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
 			$this->_protuct->setOptions($formData);
-			if (!$this->_protuct->getCategoryId()) {
-				$this->_protuct->setCategoryId($this->_category->getId());
-			}
 
 			$auth = Zend_Auth::getInstance();
 			if ($auth->hasIdentity()) {
 				$this->_protuct->setAuthorId($auth->getIdentity()->getId());
 				if ($this->_protuct->save()) {
-					if (($cats = $this->categories->getValue())) {
+					if (($cats = $this->getElement('categories')->getValue())) {
 						$prodCatsTable = KIT_Db_Table_Abstract::get(
 							'KIT_Catalog_DbTable_Product_Category'
 						);

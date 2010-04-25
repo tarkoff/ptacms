@@ -28,22 +28,81 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$usersTable = self::get('KIT_Default_DbTable_User');
+		$usersTable    = self::get('KIT_Default_DbTable_User');
+		$catsTable     = self::get('KIT_Catalog_DbTable_Category');
+		$brandsTable   = self::get('KIT_Catalog_DbTable_Brand');
+		$prodCatsTable = self::get('KIT_Catalog_DbTable_Product_Category');
+
 		$select = $this->getAdapter()->select();
 
-		$select->from(array('prods' => $this->_name),
-					  array('PRODUCTS_ID',
-							'PRODUCTS_ALIAS',
-							'PRODUCTS_TITLE',
-							'PRODUCTS_DATE'));
+		$select->from(
+			array('prods' => $this->_name),
+			array(
+				'PRODUCTS_ID',
+				'PRODUCTS_ALIAS',
+				'PRODUCTS_BRANDID' => 'brands.' . $brandsTable->getFieldByAlias('title'),
+				'PRODUCTS_TITLE',
+				'PRODUCTS_CATEGORYID' => 'cats.' . $catsTable->getFieldByAlias('title'),
+				'PRODUCTS_AUTHORID' => 'usr.' . $usersTable->getFieldByAlias('login'),
+				'PRODUCTS_DATE'
+			)
+		);
 
-		$select->join(array('usr' => $usersTable->getTableName()),
-					  'prods.PRODUCTS_AUTHORID = usr.' . $usersTable->getPrimary(),
-					  array('PRODUCTS_AUTHORID' => $usersTable->getFieldByAlias('login')));
+		$select->join(
+			array('brands' => $brandsTable->getTableName()),
+			'prods.PRODUCTS_BRANDID = brands.' . $brandsTable->getPrimary(),
+			array()
+		);
+
+		$select->join(
+			array('pc' => $prodCatsTable->getTableName()),
+			'prods.PRODUCTS_ID = pc.' . $prodCatsTable->getFieldByAlias('productId'),
+			array()
+		);
+
+		$select->join(
+			array('cats' => $catsTable->getTableName()),
+			'pc.' . $prodCatsTable->getFieldByAlias('categoryId') . ' = cats.' . $catsTable->getPrimary(),
+			array()
+		);
+
+		$select->join(
+			array('usr' => $usersTable->getTableName()),
+			'prods.PRODUCTS_AUTHORID = usr.' . $usersTable->getPrimary(),
+			array()
+		);
 
 		$this->setViewSelect($select);
 	}
-	
+
+	/**
+	 * Remove record from database by primary key
+	 *
+	 * @param int $id
+	 * @return boolean
+	 */
+	public function removeById($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+
+		$photosTable = self::get('KIT_Catalog_DbTable_Product_Photo');
+
+		$fileField = $photosTable->getFieldByAlias('file');
+
+		$rootDir = realpath(APPLICATION_PATH . '/../public');
+		foreach ($photosTable->getProductPhotos($id) as $photo) {
+			$fileName = $rootDir . '/' . ltrim($photo->$fileField, '/');
+			Zend_Registry::get('logger')->err($fileName);
+			if (!unlink($fileName)) {
+				throw new Zend_Exception('Cannot delete photo: ' . $fileName);
+			}
+		}
+
+		return parent::removeById($id);
+	}
+
 	/**
 	 * Get common catalog select object
 	 *

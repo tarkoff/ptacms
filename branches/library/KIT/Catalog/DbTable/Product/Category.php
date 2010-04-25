@@ -101,11 +101,15 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			return false;
 		}
 		
+		return $this->delete(
+			array(
+				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId,
+				'PRODUCTCATEGORIES_ISDEFAULT = 0'
+			)
+		);
 		return $this->update(
 			array('PRODUCTCATEGORIES_ISDEFAULT' => 0),
-			array(
-				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId
-			)
+			array('PRODUCTCATEGORIES_PRODUCTID = ' . $productId)
 		);
 	}
 	
