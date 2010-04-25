@@ -30,8 +30,8 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 	public function __construct($pid = 0, $options = null)
 	{
 		$pid = intval($pid);
-		$this->_photosPath = realpath(APPLICATION_PATH . '/../public/images/catalog');
-		
+		$this->_photosPath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/images/catalog';
+
 		$this->_protuct = KIT_Model_Abstract::get('KIT_Catalog_Product', $pid);
 		$this->_photo   = KIT_Model_Abstract::get('KIT_Catalog_Product_Photo');
 		
@@ -39,7 +39,7 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 		$this->setName('uploadForm');
 		$this->setEnctype('multipart/form-data');
 		$this->setLegend('Product Photos');
-//Zend_Registry::get('logger')->err($this->_protuct->getProductPath($this->_photosPath));
+
 		$photo = new Zend_Form_Element_File('photo');
 		$photo->setLabel('Upload an image:')
               ->setDestination($this->_protuct->getProductPath($this->_photosPath))

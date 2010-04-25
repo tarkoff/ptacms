@@ -143,17 +143,23 @@
 			$('#' + fieldName + '_ option:selected').each(function () {
 				$("#" + fieldName + "-values").append('<em class="fieldValue"><input type="hidden" name="' + fieldName + '[]" id="' + fieldName + '[]" value="' + $(this).val() + '" />' + $(this).text() + ';</em>');
 			});
+			valuesRemove();
 			return false;
 		});
 
-		$('em.fieldValue').dblclick(function(e) {
-			$(this).fadeOut(
-				"slow",
-				function () {
-					$(this).remove();
-				}
-			);
-		});
+		valuesRemove();
+
+		function valuesRemove()
+		{
+			$('em.fieldValue').dblclick(function(e) {
+				$(this).fadeOut(
+					"slow",
+					function () {
+						$(this).remove();
+					}
+				);
+			});
+		}
 	});
 </script>
 <?php endif;?>
