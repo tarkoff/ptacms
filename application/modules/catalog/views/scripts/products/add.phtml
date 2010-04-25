@@ -8,9 +8,13 @@
 				<option value="<?php echo $catId;?>"><?php echo $catTitle;?></option>
 			<?php endforeach;?>
 		</select>
+		&nbsp;
+		<button id="catSelect">Select</button>
 		<script type="text/javascript">
-			$('#catId').change(function() {
-				document.location.href = '<?php echo  $this->url(array('module' => 'catalog', 'controller'=>'products', 'action'=>'add'), null, true)?>/catId/' + $(this).val();
+			$('#catSelect').button();
+			$('#catSelect').click(function() {
+				document.location.href = '<?php echo  $this->url(array('module' => 'catalog', 'controller'=>'products', 'action'=>'add'), null, true)?>/catId/' + $('#catId').val();
+				return false;
 			});
 		</script>
 	</div>
