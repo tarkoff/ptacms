@@ -127,7 +127,6 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 	public function getCategory()
 	{
 		if (empty($this->_category)) {
-Zend_Registry::get('logger')->err($this->getId());
 			$productCategoryTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Category');
 			$defaultCategory = $productCategoryTable->getDefaultCategory($this->getId(), true);
 			$this->_category = self::get('KIT_Catalog_Product_Category');
@@ -248,7 +247,6 @@ Zend_Registry::get('logger')->err($this->getId());
 			}
 			$path .= '/' . $this->getAlias();
 		}
-		
 
 		if (!file_exists($path) && !mkdir($path, 0777, true)) {
 			throw new Zend_Exception('Cannot create directory:' . $path);
