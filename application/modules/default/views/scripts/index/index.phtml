@@ -1,6 +1,7 @@
     <h4 class="hx-style01"><span>Самые популярные</span></h4>
     <div class="box">
-        <?php for ($pos = 1; $pos <= count($this->popular); $pos++):?>
+        <?php $cnt = count($this->popular);?>
+        <?php for ($pos = 1; $pos <= $cnt; $pos++):?>
         <?php $product = $this->popular[$pos - 1];?>
         <div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif (($pos + 1) % 3 == 0):?> fix<?php endif;?>">
             <h4><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'products', 'action' => 'view'), null, true); ?>/product/<?php echo $product->PRODUCTS_ALIAS;?>"><?php echo $product->BRANDS_TITLE . ' ' . $product->PRODUCTS_TITLE;?></a></h4>
@@ -31,8 +32,9 @@
 
     <h4 class="hx-style01"><span>Последние добавления</span></h4>
     <div class="box">
-        <?php for ($pos = 1; $pos <= count($this->newest); $pos++):?>
-        <?php $product = $this->popular[$pos - 1];?>
+        <?php $cnt = count($this->newest);?>
+        <?php for ($pos = 1; $pos <= $cnt; $pos++):?>
+        <?php $product = $this->newest[$pos - 1];?>
         <div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif (($pos + 1) % 3 == 0):?> fix<?php endif;?>">
             <h4><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'products', 'action' => 'view'), null, true); ?>/product/<?php echo $product->PRODUCTS_ALIAS;?>"><?php echo $product->BRANDS_TITLE . ' ' . $product->PRODUCTS_TITLE;?></a></h4>
             <p class="date">
