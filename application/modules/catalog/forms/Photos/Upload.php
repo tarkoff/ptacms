@@ -30,7 +30,7 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 	public function __construct($pid = 0, $options = null)
 	{
 		$pid = intval($pid);
-		$this->_photosPath = realpath(rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/images/catalog');
+		$this->_photosPath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/images/catalog';
 
 		$this->_protuct = KIT_Model_Abstract::get('KIT_Catalog_Product', $pid);
 		$this->_photo   = KIT_Model_Abstract::get('KIT_Catalog_Product_Photo');
@@ -49,7 +49,7 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 		// limit to 200K
 		$photo->addValidator('Size', false, 204800);
 		// only JPEG, PNG, and GIFs
-		$photo->addValidator('Extension', false, 'jpg,png,gif');
+		$photo->addValidator('Extension', false, 'jpg,jpeg,png,gif');
 		$this->addElement($photo);
 
 		$this->addElement(new Zend_Form_Element_Submit('Upload'));
@@ -69,9 +69,9 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 							   . '.' . $fileProperties['extension'];
 				
 				if (rename($oldFileName, $newFileName)) {
-					$fileName = str_replace(realpath(rtrim($_SERVER['DOCUMENT_ROOT'], '/')), '', $newFileName);
+					$fileName = str_replace($_SERVER['DOCUMENT_ROOT'], '', $newFileName);
 				} else {
-					$fileName = str_replace(realpath(rtrim($_SERVER['DOCUMENT_ROOT'], '/')), '', $oldFileName);
+					$fileName = str_replace($_SERVER['DOCUMENT_ROOT'], '', $oldFileName);
 				}
 				$this->_photo->setFile($fileName);
 				return $this->_photo->save();
