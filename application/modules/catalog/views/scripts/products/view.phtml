@@ -44,14 +44,16 @@
 			<img class="nom" alt="Изображение временно отсутствует" src="/images/image-02.gif" title="Изображение временно отсутствует" width="150" height="110" />
 		<?php endif;?>
 		</div>
-		<div class="col30">
+		<noindex>
+		<div class="col30 robots-nocontent">
 			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
 			<ul class="ul-list box">
-				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more">Прошивки</a></li><?php endif;?>
-				<?php if ($this->brand->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->brand->getUrl();?>" class="ico-more">Сайт производителя</a></li><?php endif;?>
-				<?php if ($this->product->getUrl()):?><li><a href="<?php echo $this->product->getUrl();?>" class="ico-more">Описание производителя</a></li><?php endif;?>
+				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more" rel="nofollow">Прошивки</a></li><?php endif;?>
+				<?php if ($this->brand->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->brand->getUrl();?>" class="ico-more" rel="nofollow">Сайт производителя</a></li><?php endif;?>
+				<?php if ($this->product->getUrl()):?><li><a href="<?php echo $this->product->getUrl();?>" class="ico-more" rel="nofollow">Описание производителя</a></li><?php endif;?>
 			</ul>
 		</div>
+		</noindex>
 	</div>
 </div>
 <?php //Zend_Registry::get('logger')->err($this->product->getCustomFields()->getProductGroups());?>
