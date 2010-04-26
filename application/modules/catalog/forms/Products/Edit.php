@@ -249,11 +249,11 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
 			$auth = Zend_Auth::getInstance();
-			if ($auth->hasIdentity() && $this->isValid($formData)) {
+			if ($auth->hasIdentity()) {
 				$this->_protuct->setOptions($formData);
 				$this->_protuct->setAuthorId($auth->getIdentity()->getId());
 				if ($this->_protuct->save()) {
-					if (($cats = $this->getElement('categories')->getValue())) {
+					if (($cats = $formData['categories'])) {
 						$prodCatsTable = KIT_Db_Table_Abstract::get(
 							'KIT_Catalog_DbTable_Product_Category'
 						);
