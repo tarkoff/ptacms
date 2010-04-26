@@ -37,6 +37,7 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 	{
 		$this->_id = (int)$id;
 		$this->getCategory()->setProductId($this->_id);
+		$this->_customFields = null;
 	}
 	
 	public function getUrl()
@@ -126,7 +127,7 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 	 */
 	public function getCategory()
 	{
-		if (empty($this->_category)) {
+		if (empty($this->_category) || ($this->_category->getProductId() != $this->getId())) {
 			$productCategoryTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Category');
 			$defaultCategory = $productCategoryTable->getDefaultCategory($this->getId(), true);
 			$this->_category = self::get('KIT_Catalog_Product_Category');
@@ -210,7 +211,7 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 	public function loadById($id)
 	{
 		parent::loadById($id);
-		$this->getCustomFields()->build();
+		//$this->getCustomFields()->build();
 		return $this;
 	}
 

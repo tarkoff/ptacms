@@ -60,6 +60,7 @@ class KIT_Catalog_Product_Category extends KIT_Model_Abstract
 	{
 		if ($this->getIsDefault()) {
 			$this->getDbTable()->unsetDefaultCategory($this->getProductId());
+			$this->_id = null;
 		}
 		return parent::save($data);
 	}

@@ -71,6 +71,8 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 			'prods.PRODUCTS_AUTHORID = usr.' . $usersTable->getPrimary(),
 			array()
 		);
+		
+		$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
 
 		$this->setViewSelect($select);
 	}

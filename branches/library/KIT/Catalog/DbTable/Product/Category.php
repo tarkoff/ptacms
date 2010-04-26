@@ -104,7 +104,7 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 		return $this->delete(
 			array(
 				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId,
-				'PRODUCTCATEGORIES_ISDEFAULT = 0'
+				'PRODUCTCATEGORIES_ISDEFAULT = 1'
 			)
 		);
 		return $this->update(
@@ -171,8 +171,9 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 	
 	public function setProductCategories($productId, $categories)
 	{
-		$productId = (int)$productId;
+		$productId  = (int)$productId;
 		$categories = (array)$categories;
+Zend_Registry::get('logger')->err(array($productId, $categories));
 		if (empty($productId) || empty($categories)) {
 			return false;
 		}
@@ -191,7 +192,7 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 				$data[] = '(' . $productId . ', ' . intval($categoryId) . ')';
 			}
 		}
-		
+Zend_Registry::get('logger')->err($data);
 		if (!empty($data)) {
 			$this->delete(
 				array($productIdField . ' = ' . $productId, $isDefaultField . ' <> 1')
