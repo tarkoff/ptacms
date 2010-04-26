@@ -71,7 +71,7 @@ class Catalog_PhotosController extends KIT_Controller_Action_Backend_Abstract
 		$id = (int)$this->_getParam('id', 0);
 		$photo = KIT_Model_Abstract::get('KIT_Catalog_Product_Photo', $id);
 		if ($photo->getId()) {
-			$fileName = realpath(APPLICATION_PATH . '/../public') . $photo->getFile();
+			$fileName = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . ltrim($photo->getFile(), '/');
 			if (unlink($fileName)) {
 				$this->_delete((int)$this->_getParam('id', 0), $photo->getDbTable());
 			} else {
