@@ -13,12 +13,13 @@ jQuery('#list').jqGrid({
 	url:'/catalog/categorygroups/list/format/json/catid/<?php echo $this->catid;?>',
 	datatype: 'json',
 	mtype: 'GET',
-	colNames:['Id', 'Order', 'Category', 'Group'],
+	colNames:['Id', 'Category', 'Group', 'Order'],
 	colModel :[
 	  {name:'CATEGORYGROUPS_ID', index:'CATEGORYGROUPS_ID', sorttype:'int', width:50},
-	  {name:'CATEGORYGROUPS_SORTORDER', index:'CATEGORYGROUPS_SORTORDER', editable:true, sorttype:'int'},
 	  {name:'CATEGORYGROUPS_CATEGORY', index:'CATEGORYGROUPS_CATEGORY', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->cats as $id => $title) echo "{$id}:'{$title}',"; ?>}}},
-	  {name:'CATEGORYGROUPS_GROUP', index:'CATEGORYGROUPS_GROUP', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->groups as $id => $title) echo "{$id}:'{$title}',"; ?>}}}],
+	  {name:'CATEGORYGROUPS_GROUP', index:'CATEGORYGROUPS_GROUP', editable:true, editrules:{required:true}, edittype:'select', editoptions:{value:{<?php foreach ($this->groups as $id => $title) echo "{$id}:'{$title}',"; ?>}}},
+	  {name:'CATEGORYGROUPS_SORTORDER', index:'CATEGORYGROUPS_SORTORDER', editable:true, sorttype:'int'}
+	],
 	pager: jQuery('#pager'),
 	rowNum:20,
 	rowList:[20, 40, 60, 80, 100, 150, 200],

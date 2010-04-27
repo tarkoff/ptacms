@@ -90,10 +90,13 @@ class Catalog_FieldsController extends KIT_Controller_Action_Backend_Abstract
 	
 	public function valuesaddAction()
 	{
+		$isAjax = $this->getRequest()->isXmlHttpRequest();
+		if ($isAjax && ('del' == $this->_getParam('oper', 'edit'))) {
+			$this->valuesdeleteAction();
+		}
+		
 		$fid = (int)$this->_getParam('fid', 0);
 		$id = (int)$this->_getParam('id', 0);
-		$isAjax = $this->getRequest()->isXmlHttpRequest();
-
 		if (empty($fid) && empty($id)) {
 			if ($isAjax) {
 				$this->_helper->json(0);
@@ -126,8 +129,10 @@ class Catalog_FieldsController extends KIT_Controller_Action_Backend_Abstract
 
 	public function valuesdeleteAction()
 	{
-		$vid = (int)$this->_getParam('vid', 0);
-		
+		$this->_delete(
+			(int)$this->_getParam('id', 0),
+			KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Value')
+		);
 	}
 
 	public function deleteAction()
