@@ -57,7 +57,6 @@ class Catalog_BrandsController extends KIT_Controller_Action_Backend_Abstract
 			$this->_redirect('catalog/brands/add');
 		}
 
-		$this->view->title = 'Brand Edit Form';
 		$this->_editForm($id);
 	}
 

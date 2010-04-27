@@ -39,7 +39,11 @@ class KIT_Catalog_DbTable_Field_Group_Field extends KIT_Db_Table_Abstract
 							array('fields' => $fieldsTable->getTableName()),
 							array(
 								'gf.GROUPFIELDS_ID',
-								'FIELD_TITLE' => $fieldsTable->getFieldByAlias('title')
+								'CATEGORY_TITLE' => 'cat.' . $categoryTable->getFieldByAlias('title'),
+								'GROUP_TITLE'    => 'fg.' . $fieldGroupsTable->getFieldByAlias('title'),
+								'FIELD_TITLE'    => 'fields.' . $fieldsTable->getFieldByAlias('title'),
+								'gf.GROUPFIELDS_SORTORDER',
+								'gf.GROUPFIELDS_INFILTER'
 							)
 						);
 
@@ -58,13 +62,13 @@ class KIT_Catalog_DbTable_Field_Group_Field extends KIT_Db_Table_Abstract
 		$select->join(
 			array('fg' => $fieldGroupsTable->getTableName()),
 			'fg.' . $fieldGroupsTable->getPrimary() . ' = cg.' . $categoryGroupTable->getFieldByAlias('groupId'),
-			array('GROUP_TITLE' => $fieldGroupsTable->getFieldByAlias('title'))
+			array()
 		);
 
 		$select->join(
 			array('cat' => $categoryTable->getTableName()),
 			'cat.' . $categoryTable->getPrimary() . ' = cg.' . $categoryGroupTable->getFieldByAlias('categoryId'),
-			array('CATEGORY_TITLE' => $categoryTable->getFieldByAlias('title'), 'gf.GROUPFIELDS_SORTORDER', 'gf.GROUPFIELDS_INFILTER')
+			array()
 		);
 		$this->setViewSelect($select);
 	}

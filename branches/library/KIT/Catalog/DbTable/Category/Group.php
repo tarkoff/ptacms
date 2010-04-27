@@ -14,7 +14,7 @@
  * @version    $Id: Group.php 295 2010-04-19 12:19:24Z TPavuk $
  */
 
-class KIT_Catalog_DbTable_Category_Group extends KIT_Db_Table_Tree_Abstract
+class KIT_Catalog_DbTable_Category_Group extends KIT_Db_Table_Abstract
 {
 	protected $_name = 'CATALOG_CATEGORYGROUPS';
 	protected $_primary = 'CATEGORYGROUPS_ID';
@@ -28,27 +28,30 @@ class KIT_Catalog_DbTable_Category_Group extends KIT_Db_Table_Tree_Abstract
      */
 	public function init()
 	{
-		$select = $this->getAdapter()->select()->from(
-			array('cg' => $this->_name),
-			array('CATEGORYGROUPS_ID', 'CATEGORYGROUPS_SORTORDER')
-		);
-		
 		$categoryTable = self::get('KIT_Catalog_DbTable_Category');
 		$groupsTable = self::get('KIT_Catalog_DbTable_Field_Group');
-		
+
+		$select = $this->getAdapter()->select()->from(
+			array('cg' => $this->_name),
+			array(
+				'CATEGORYGROUPS_ID',
+				'CATEGORYGROUPS_CATEGORY' => 'cats.' . $categoryTable->getFieldByAlias('title'),
+				'CATEGORYGROUPS_GROUP'    => 'groups.' . $groupsTable->getFieldByAlias('title'),
+				'CATEGORYGROUPS_SORTORDER'
+			)
+		);
+
 		$select->join(
 			array('cats' => $categoryTable->getTableName()),
-			'cg.CATEGORYGROUPS_CATEGORYID = ' . $categoryTable->getPrimary(),
-			array('CATEGORYGROUPS_CATEGORY' => $categoryTable->getFieldByAlias('title'))
+			'cg.CATEGORYGROUPS_CATEGORYID = cats.' . $categoryTable->getPrimary(),
+			array()
 		);
-		
+
 		$select->join(
 			array('groups' => $groupsTable->getTableName()),
 			'groups.' . $groupsTable->getPrimary() . ' = cg.CATEGORYGROUPS_GROUPID',
 			array('CATEGORYGROUPS_GROUP' => $groupsTable->getFieldByAlias('title'))
 		);
-		
-		//$select->order('cg.CATEGORYGROUPS_SORTORDER');
 
 		$this->setViewSelect($select);
 	}

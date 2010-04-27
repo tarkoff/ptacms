@@ -24,7 +24,7 @@ class Catalog_Form_Brands_Edit extends KIT_Form_Abstract
 	public function __construct($id = 0, $options = null)
 	{
 		$id = intval($id);
-		$this->_brand = new KIT_Catalog_Brand();
+		$this->_brand = KIT_Model_Abstract::get('KIT_Catalog_Brand', $id);
 
 		parent::__construct($options);
 		$this->setName('editForm');
@@ -56,7 +56,7 @@ class Catalog_Form_Brands_Edit extends KIT_Form_Abstract
 		if (!empty($id)) {
 			$this->loadFromModel($this->_brand);
 			$submit->setLabel('Save');
-			$this->setLegend($this->_brand->getTitle() . 'Brand Edit Form');
+			$this->setLegend($this->_brand->getTitle() . ' - Brand Edit Form');
 		} else {
 			$submit->setLabel('Add');
 			$this->setLegend('Brand Add Form');
