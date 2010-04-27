@@ -159,7 +159,9 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$fieldAliasField	  = $fieldsTable->getFieldByAlias('alias');
 		$fieldTitleField	  = $fieldsTable->getFieldByAlias('title');
 		$fieldTypeField		  = $fieldsTable->getFieldByAlias('fieldType');
+		$fieldOrderField	  = $groupFieldsTable->getFieldByAlias('sortOrder');
 		$catGroupIdField	  = $groupFieldsTable->getFieldByAlias('categoryGroupId');
+		$catGroupOrderField	  = $categoryGroupsTable->getFieldByAlias('sortOrder');
 		$valueIdField         = $fieldValuesTable->getPrimary();
 		$fieldValueField	  = $fieldValuesTable->getFieldByAlias('value');
 		$valueFieldIdField	  = $fieldValuesTable->getFieldByAlias('fieldId');
@@ -175,7 +177,8 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 				$field->$fieldTypeField,
 				$field->$fieldAliasField,
 				array(
-					'label' => $field->$fieldTitleField
+					'label' => $field->$fieldTitleField,
+					'order' => $field->$fieldOrderField
 				)
 			);
 
@@ -194,6 +197,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 				} else {
 					$this->addDisplayGroup(array($element->getName()), $groupRow[$groupAliasField]);
 					$group = $this->getDisplayGroup($groupRow[$groupAliasField]);
+					$group->setOrder($groupRow[$catGroupOrderField]);
 					$group->setLegend($groupRow[$groupTitleField]);
 				}
 			}
@@ -232,7 +236,8 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$this->addElement($submit);
-
+		
+		$this->_sort();
 		if (!empty($id)) {
 			//$this->_protuct->loadById($id);
 			$this->loadFromModel($this->_protuct);
