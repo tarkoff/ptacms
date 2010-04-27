@@ -164,8 +164,8 @@ class KIT_Catalog_Product_Custom_Fields
 		$data = array();
 		$productId = $this->getProductId();
 		$productValuesTable->clearProductValues($this->getProductId());
-		foreach ($this->_fieldsValues as $fieldsAlias => $fieldValue) {
-			foreach ((array)$fieldValue as $value) {
+		foreach ($this->_fieldsValues as $fieldsAlias => $fieldValues) {
+			foreach ((array)$fieldValues as $value) {
 				if (!empty($value)) {
 					$data[] = '(' .  $productId . ', '
 							  . $this->_groupFieldsIds[$fieldsAlias] . ', '

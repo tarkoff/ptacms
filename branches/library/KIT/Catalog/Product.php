@@ -127,7 +127,7 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 	 */
 	public function getCategory()
 	{
-		if (empty($this->_category) || ($this->_category->getProductId() != $this->getId())) {
+		if (empty($this->_category)) {
 			$productCategoryTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Category');
 			$defaultCategory = $productCategoryTable->getDefaultCategory($this->getId(), true);
 			$this->_category = self::get('KIT_Catalog_Product_Category');
