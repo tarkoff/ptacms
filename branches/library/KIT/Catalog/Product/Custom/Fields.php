@@ -81,17 +81,18 @@ class KIT_Catalog_Product_Custom_Fields
 		}
 		$productValues = $this->_getProductValues();
 		foreach ($this->_getCategoryFields() as $field) {
-			$this->_fieldsValues[$field->$fieldAliasField] = array();
-			$this->_groupFieldsIds[$field->$fieldAliasField] = $field->$groupFieldPrimary;
+			$fieldAlias = strtolower($field->$fieldAliasField);
+			$this->_fieldsValues[$fieldAlias] = array();
+			$this->_groupFieldsIds[$fieldAlias] = $field->$groupFieldPrimary;
 			$feieldData = array();
 			$feieldData['title'] = $field->$fieldTitleField;
 			
 			foreach ($productValues as $value) {
 				if ($value->$groupFieldIdField == $field->$groupFieldPrimary) {
-					$this->_fieldsValues[$field->$fieldAliasField][$value->$fieldValueIdField] = $value->$fieldValueField;
+					$this->_fieldsValues[$fieldAlias][$value->$fieldValueIdField] = $value->$fieldValueField;
 				}
 			}
-			$feieldData['values'] = $this->_fieldsValues[$field->$fieldAliasField];
+			$feieldData['values'] = $this->_fieldsValues[$fieldAlias];
 			$this->_groupFields[$field->$catGroupIdField]['fields'][$field->$fieldIdField] = $feieldData;
 		}
 	}
@@ -131,7 +132,7 @@ class KIT_Catalog_Product_Custom_Fields
 	{
 		$method = strtolower($method);
 		$alias  = str_replace(array('set', 'get'), '', $method);
-
+var_dump(array($alias => $this->has($alias)));
 		if ($this->has($alias)) {
 			if (strcmp('get' . $alias, $method) === 0) {
 				return $this->_fieldsValues[$alias];
