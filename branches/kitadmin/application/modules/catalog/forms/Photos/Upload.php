@@ -46,8 +46,8 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
               ->setValueDisabled(true);
 		$photo->addValidator('Count', false, 1);
 
-		// limit to 200K
-		$photo->addValidator('Size', false, 204800);
+		// limit to 400K
+		$photo->addValidator('Size', false, 409600);
 		// only JPEG, PNG, and GIFs
 		$photo->addValidator('Extension', false, 'jpg,jpeg,png,gif');
 		$this->addElement($photo);
