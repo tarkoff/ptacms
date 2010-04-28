@@ -132,7 +132,6 @@ class KIT_Catalog_Product_Custom_Fields
 	{
 		$method = strtolower($method);
 		$alias  = str_replace(array('set', 'get'), '', $method);
-var_dump(array($alias => $this->has($alias)));
 		if ($this->has($alias)) {
 			if (strcmp('get' . $alias, $method) === 0) {
 				return $this->_fieldsValues[$alias];
@@ -153,6 +152,11 @@ var_dump(array($alias => $this->has($alias)));
 	 */
 	public function save()
 	{
+		$productId = $this->getProductId();
+		if (empty($productId)) {
+			return false;
+		}
+
 		$productValuesTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Field_Value');
 
 		$sql = 'INSERT INTO ' . $productValuesTable->getTableName()
@@ -163,8 +167,6 @@ var_dump(array($alias => $this->has($alias)));
 			   . ') VALUES ';
 
 		$data = array();
-		$productId = $this->getProductId();
-		$productValuesTable->clearProductValues($this->getProductId());
 		foreach ($this->_fieldsValues as $fieldsAlias => $fieldValues) {
 			foreach ((array)$fieldValues as $value) {
 				if (!empty($value)) {
@@ -179,6 +181,7 @@ var_dump(array($alias => $this->has($alias)));
 			return true;
 		}
 
+		$productValuesTable->clearProductValues($productId);
 		return $productValuesTable->getAdapter()->query($sql . implode(', ', $data));
 	}
 }
