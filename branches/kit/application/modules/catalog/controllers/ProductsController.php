@@ -32,7 +32,7 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		$catsTable     = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
 		$brandsTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Brand');
 		$photosTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Photo');
-		//$prodCatsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Category');
+		$statsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Stat');
 
 		$this->view->product = KIT_Model_Abstract::get('KIT_Catalog_Product');
 
@@ -62,5 +62,7 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 			'KIT_Catalog_Category',
 			$this->view->product->getCategoryId()
 		);
+		
+		$statsTable->updateStat($this->view->product->getId());
 	}
 }
