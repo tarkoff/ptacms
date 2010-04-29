@@ -171,7 +171,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 		$statsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Stat');
 		
 		$select = $this->getCatalogSelect();
-		$select->join(
+		$select->joinLeft(
 			array('stats' => $statsTable->getTableName()),
 			'prods.PRODUCTS_ID = stats.' . $statsTable->getPrimary(),
 			array()
