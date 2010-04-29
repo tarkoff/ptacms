@@ -10,7 +10,6 @@
 				<div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif ($pos % 3 == 0):?> fix<?php endif;?>"><?php echo $element->render();?></div>
 				<?php if ($pos % 3 != 0):?><hr class="noscreen" /><?php endif;?>
 			<?php endif;?>
-	<?php echo Zend_Registry::get('logger')->err($pos);?>
 		<?php endforeach;?>
 		</div>
 		<div class="box t-center"><?php echo $this->form->getElement('submit')->setLabel('Фильтровать')->render();?></div>
