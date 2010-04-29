@@ -168,7 +168,16 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 		$limit = (int)$limit;
 		!empty($limit) || $limit = 10;
 
-		return $this->fetchAll($this->getCatalogSelect()->limit($limit));
+		$statsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Stat');
+		
+		$select = $this->getCatalogSelect();
+		$select->join(
+			array('stats' => $statsTable->getTableName()),
+			'prods.PRODUCTS_ID = stats.' . $statsTable->getPrimary(),
+			array()
+		);
+		$select->order('stats.' . $statsTable->getFieldByAlias('views') . ' DESC');
+		return $this->fetchAll($select->limit($limit));
 	}
 	
 	/**
