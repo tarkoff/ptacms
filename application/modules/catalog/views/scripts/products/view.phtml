@@ -7,10 +7,10 @@
 <?php array_push($this->keywords, $productFullName, $categoryTitle);?>
 <?php $this->activeCategory = $this->category->getAlias();?>
 
-<?php $this->headLink()->appendStylesheet('/js/jquery/ui/18/css/ui-lightness/jquery-ui-1.8.custom.css') ?>
-<?php $this->headLink()->appendStylesheet('/js/jquery/lightbox/css/jquery.lightbox-0.5.css') ?>
-<?php $this->headScript()->appendFile('/js/jquery/ui/18/jquery-ui-1.8.custom.min.js') ?>
-<?php $this->headScript()->appendFile('/js/jquery/lightbox/js/jquery.lightbox-0.5.min.js') ?>
+<?php //$this->headLink()->appendStylesheet('/js/jquery/ui/18/css/ui-lightness/jquery-ui-1.8.custom.css'); ?>
+<?php $this->headLink()->appendStylesheet('/js/jquery/lightbox/css/jquery.lightbox-0.5.css'); ?>
+<?php //$this->headScript()->appendFile('/js/jquery/ui/18/jquery-ui-1.8.custom.min.js'); ?>
+<?php $this->headScript()->appendFile('/js/jquery/lightbox/js/jquery.lightbox-0.5.min.js'); ?>
 
 <script type="text/javascript">
     $(function() {
@@ -45,7 +45,7 @@
 		<?php endif;?>
 		</div>
 		<noindex>
-		<div class="col30 robots-nocontent">
+		<div class="col30 margin robots-nocontent">
 			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
 			<ul class="ul-list box">
 				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more" rel="nofollow">Прошивки</a></li><?php endif;?>
@@ -54,6 +54,17 @@
 			</ul>
 		</div>
 		</noindex>
+		<div class="col30" style="width:336px;">
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-1610147099732550";
+			/* satdevice_product_square */
+			google_ad_slot = "9277947482";
+			google_ad_width = 336;
+			google_ad_height = 280;
+			//-->
+			</script>
+			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+		</div>
 	</div>
 </div>
 <?php //Zend_Registry::get('logger')->err($this->product->getCustomFields()->getProductGroups());?>
