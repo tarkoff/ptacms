@@ -24,7 +24,7 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 			<span>
 				Copyrighted &copy;&nbsp;2009 - 2010 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
 				Поддержка сайта {mailto address="support@gelezka.net" encode="javascript"}<br />
-				<a href="http://www.satdevice.com" target="_blank">Все для спутникового телевидения</a>
+				<a href="http://www.satdevice.com" target="_blank">Все для спутникового телевидения</a><br />
 				<span id="plinks">{$Gelezka->sape->return_links()}</span><br />
 				<span id="copy">
 					<noindex><a rel=”nofollow” target="_blank" href="http://www.nuviotemplates.com/">Free web templates</a></noindex> by <noindex><a rel=”nofollow” href="http://www.qartin.cz/">Qartin</a></noindex><br />
