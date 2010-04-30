@@ -6,10 +6,10 @@ abstract class KIT_Model_Tree_Abstract extends KIT_Model_Abstract
 	protected $_right;
 	protected $_level;
 
-	public function save()
+	public function save($data = null)
 	{
 		if ($this->getId()) {
-			return parent::save();
+			return parent::save($data);
 		} else {
 			return $this->insert();
 		}
@@ -28,7 +28,7 @@ abstract class KIT_Model_Tree_Abstract extends KIT_Model_Abstract
 		$levelField = $table->getFieldByAlias('level');
 		$leftField = $table->getFieldByAlias('left');
 		$rightField = $table->getFieldByAlias('right');
-		
+
 		$parentId = (int)$this->getParentId();
 
 		if (empty($parentId)) {
@@ -82,7 +82,7 @@ abstract class KIT_Model_Tree_Abstract extends KIT_Model_Abstract
 		$levelField = $table->getFieldByAlias('level');
 		$leftField = $table->getFieldByAlias('left');
 		$rightField = $table->getFieldByAlias('right');
-		
+
 		$id = $this->getId();
 		!empty($parentId) || $parentId = (int)$this->getParentId();
 		$left = $this->getLeft();
@@ -130,7 +130,7 @@ abstract class KIT_Model_Tree_Abstract extends KIT_Model_Abstract
 				)
 			);
 		}
-		
+
 //Hotpoint-Ariston PH 631 MS
 		return true;
 	}
