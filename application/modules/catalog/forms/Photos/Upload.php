@@ -34,7 +34,7 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 
 		$this->_protuct = KIT_Model_Abstract::get('KIT_Catalog_Product', $pid);
 		$this->_photo   = KIT_Model_Abstract::get('KIT_Catalog_Product_Photo');
-		
+
 		parent::__construct($options);
 		$this->setName('uploadForm');
 		$this->setEnctype('multipart/form-data');
@@ -49,7 +49,7 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 		// limit to 400K
 		$photo->addValidator('Size', false, 409600);
 		// only JPEG, PNG, and GIFs
-		$photo->addValidator('Extension', false, 'jpg,jpeg,png,gif');
+		$photo->addValidator('Extension', false, 'jpg,jpeg,gif');
 		$this->addElement($photo);
 
 		$this->addElement(new Zend_Form_Element_Submit('Upload'));
@@ -67,7 +67,7 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 							   . '/' .  $this->_protuct->getAlias()
 							   . '_' . substr(md5(date("r")), 0, 16)
 							   . '.' . $fileProperties['extension'];
-				
+
 				if (rename($oldFileName, $newFileName)) {
 					$fileName = str_replace($_SERVER['DOCUMENT_ROOT'], '', $newFileName);
 				} else {
