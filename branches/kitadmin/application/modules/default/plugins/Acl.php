@@ -59,9 +59,9 @@ class Default_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 					$activeItems[$menuItem[$menuIdField]] = $menuItem[$menuIdField];
 				}
 			}
-*/
-			Zend_Registry::set('activeMenuItems', $activeItems);
 
+			Zend_Registry::set('activeMenuItems', $activeItems);
+*/
 			Zend_Registry::set('resource', $resource);
 			Zend_Registry::set(
 				'userMenu',
