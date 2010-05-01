@@ -42,7 +42,8 @@
 
 	<!-- Sidebar -->
 	<div id="col-r" class="noprint">
-	{include file="ads/adsense_250x250.tpl}
+		<a href="http://www.satdevice.com" title="http://www.satdevice.com"><img src="/public/style/site/catalogio/img/baner_250x250.gif" /></a>
+		{*include file="ads/adsense_250x250.tpl*}
 		{*include file="Users/LoginForm.tpl"*}
 		{*include file="Catalog/Tabs.tpl"*}
 	</div> <!-- /col-r -->
