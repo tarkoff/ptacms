@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: CategoriesController.php 295 2010-04-19 12:19:24Z TPavuk $
+ * @version    $Id$
  */
 
 class Catalog_CategoriesController extends Zend_Controller_Action
@@ -29,9 +29,9 @@ class Catalog_CategoriesController extends Zend_Controller_Action
 			$this->_redirect('/');
 		}
 
-		$prodsTable          = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
-		$catsTable           = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
-		
+		$prodsTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
+		$catsTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
+
 		$this->view->category = KIT_Model_Abstract::get('KIT_Catalog_Category');
 
 		$data = $catsTable->fetchRow(
@@ -42,8 +42,12 @@ class Catalog_CategoriesController extends Zend_Controller_Action
 		);
 		$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
 		$this->view->category->setOptions($data);
-		
-		$select = $prodsTable->getCatalogSelect();
+
+		if (empty($this->view->searchForm)) {
+			$select = $prodsTable->getCatalogSelect();
+		} else {
+			$select = $this->view->searchForm->getSelect();
+		}
 		$select->where('cats.' . $catsTable->getPrimary() . ' = ?', $this->view->category->getId());
 		$select->order(array('prods.' . $prodsTable->getFieldByAlias('alias') . ' ASC'));
 
@@ -58,6 +62,30 @@ class Catalog_CategoriesController extends Zend_Controller_Action
 		$paginator->setCurrentPageNumber((int)$this->_getParam('page', 1));
 
 		$this->view->paginator = $paginator;
+	}
+
+	public function searchAction()
+	{
+		$prodsTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
+		$catsTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
+
+		if (empty($this->view->searchForm)) {
+			$select = $prodsTable->getCatalogSelect();
+		} else {
+			$select = $this->view->searchForm->getSelect();
+		}
+
+		$select->order(array('prods.' . $prodsTable->getFieldByAlias('alias') . ' ASC'));
+
+		$adapter   = new Zend_Paginator_Adapter_DbSelect($select);
+		$paginator = new Zend_Paginator($adapter);
+
+		$paginator->setItemCountPerPage(12);
+		$paginator->setPageRange(20);
+		$paginator->setCurrentPageNumber((int)$this->_getParam('page', 1));
+
+		$this->view->paginator = $paginator;
+
 	}
 
 }

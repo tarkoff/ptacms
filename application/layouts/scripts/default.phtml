@@ -38,16 +38,19 @@
           <p id="slogan">Все для спутникового телевидения</p>
       </div>
       <hr class="noscreen" />
+    <?php if (!empty($this->searchForm)):?>
       <!-- Search -->
       <div id="search">
-          <form action="" method="get">
+          <form name="<?php echo $this->searchForm->getName();?>" action="<?php echo $this->searchForm->getAction();?>" method="<?php echo $this->searchForm->getMethod();?>" enctype="<?php echo $this->searchForm->getEncType();?>">
               <div>
                   <span class="noscreen">Поиск:</span>
-                  <input type="text" size="30" name="query" id="search-input" />
-                  <input type="submit" value="Search" id="search-submit" />
+                  <?php $queryElement = $this->searchForm->getElement('q');?>
+                  <input type="text" size="30" name="<?php echo $queryElement->getName();?>" id="search-input" value="<?php echo $queryElement->getValue();?>" />
+                  <input type="submit" value="Поиск" id="search-submit" name="<?php echo $this->searchForm->getElement('submit')->getName();?>" />
               </div>
           </form>
       </div> <!-- /search -->
+    <?php endif;?>
   </div> <!-- /header -->
 
   <hr class="noscreen" />
@@ -56,11 +59,11 @@
   <div id="nav" class="box">
       <h3 class="noscreen">Разделы</h3>
       <ul>
-          <li <?php if (!$this->activeCategory):?>id="nav-active"<?php endif;?>><a href="/">Главная</a></li>
+          <li <?php if ($this->activeCategory == 'index'):?>id="nav-active"<?php endif;?>><a href="/" title="На главную">Главная</a></li>
       <?php foreach ($this->categories as $categoryAlias => $categoryTitle):?>
-          <li <?php if ($this->activeCategory == $categoryAlias):?>id="nav-active"<?php endif;?>><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true); ?>/category/<?php echo $categoryAlias;?>"><?php echo $categoryTitle; ?></a></li>
+          <li <?php if ($this->activeCategory == $categoryAlias):?>id="nav-active"<?php endif;?>><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true); ?>/category/<?php echo $categoryAlias;?>" title="<?php echo $categoryTitle; ?>"><?php echo $categoryTitle; ?></a></li>
       <?php endforeach;?>
-          <li><a href="/contacts">Контакты</a></li>
+          <li <?php if ($this->activeCategory == 'contacts'):?>id="nav-active"<?php endif;?>><a href="/contacts" title="Контакты">Контакты</a></li>
       </ul>
   </div> <!-- /nav -->
 
@@ -118,9 +121,9 @@
       //--></script><!--/LiveInternet-->
       </div>
       <div>
-          <noindex><p class="robots-nocontent"><a href="http://www.nuviotemplates.com/" rel="nofollow">Free web templates</a> presented by <a href="http://www.qartin.cz/" rel="nofollow">QARTIN</a>, vacation <a href="http://www.puntacana.net/" rel="nofollow">Punta Cana</a></p></noindex>
-          <p>&copy;&nbsp;2010 <a href="/">SatDevice.com</a></p>
-          <p id="support">Поддержка сайта: <a href=""></a></p>
+          <p>Copyrighted &copy;&nbsp;2010 <a href="/">SatDevice.com</a> - Все для спутникового телевидения</p>
+          <p id="support">Напишите нам: <a href=""></a></p>
+           <noindex><p class="robots-nocontent"><a href="http://www.nuviotemplates.com/" rel="nofollow">Free web templates</a> presented by <a href="http://www.qartin.cz/" rel="nofollow">QARTIN</a>, vacation <a href="http://www.puntacana.net/" rel="nofollow">Punta Cana</a></p></noindex>
       </div>
   </div> <!-- /footer -->
 </div> <!-- /main -->

@@ -11,7 +11,7 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: IndexController.php 330 2010-04-21 17:05:14Z TPavuk $
+ * @version    $Id$
  */
 
 class Default_ContactsController extends Zend_Controller_Action

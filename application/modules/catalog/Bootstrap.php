@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Bootstrap.php 273 2010-02-17 12:42:59Z TPavuk $
+ * @version    $Id$
  */
 
 class Catalog_Bootstrap extends Zend_Application_Module_Bootstrap

@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Edit.php 295 2010-04-19 12:19:24Z TPavuk $
+ * @version    $Id$
  */
 
 class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
@@ -25,7 +25,7 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 	 */
 	private $_select;
 	private $_fields = array();
-	
+
 	/**
 	 *
 	 * @param KIT_Catalog_Category $category
@@ -42,14 +42,8 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 		$this->setName('filterForm');
 		$this->setMethod('GET');
 		$this->setLegend('Filter Form');
-/*
-		$title = new Zend_Form_Element_Text('title');
-		$title->setLabel('Title')
-			  ->setRequired(true)
-			  ->addFilter('StripTags')
-			  ->addFilter('StringTrim');
-		$this->addElement($title);
 
+/*
 		$alias = new Zend_Form_Element_Text('alias');
 		$alias->setLabel('Alias')
 			  ->setRequired(true)
@@ -63,22 +57,49 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 		$fieldsTable          = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field');
 		$fieldValuesTable     = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Value');
 		$productCategoryTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Category');
-		
-		$categoryGroupIdField = $categoryGroupsTable->getPrimary();
+		$brandsTable          = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Brand');
+
+		$brand = new Zend_Form_Element_Select('brand');
+        $brand->setLabel('Brand')
+                ->setRequired(false)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim');
+        $values = array(0 => ' ');
+        $values = array_merge(
+        	$values,
+        	$brandsTable->getSelectedFields(
+        		array($brandsTable->getPrimary(), $brandsTable->getFieldByAlias('title')),
+        		null,
+        		true
+        	)
+        );
+        asort($values);
+        $brand->addMultiOptions($values);
+        $brand->setValue(0);
+        $this->addElement($brand);
+
+		$title = new Zend_Form_Element_Text('title');
+		$title->setLabel('Title')
+			  ->setRequired(false)
+			  ->addFilter('StripTags')
+			  ->addFilter('StringTrim');
+		$this->addElement($title);
+
+        $categoryGroupIdField = $categoryGroupsTable->getPrimary();
 		$fieldIdField         = $fieldsTable->getPrimary();
 		$fieldAliasField	  = $fieldsTable->getFieldByAlias('alias');
 		$fieldTitleField	  = $fieldsTable->getFieldByAlias('title');
 		$valueIdField         = $fieldValuesTable->getPrimary();
 		$fieldValueField	  = $fieldValuesTable->getFieldByAlias('value');
 		$valueFieldIdField	  = $fieldValuesTable->getFieldByAlias('fieldId');
-		
+
 
 		foreach ($productCategoryTable->getCategoryFields($this->_category->getId(), true) as $field) {
 			$this->_fields[$field->$fieldIdField]['alias'] = $field->$fieldAliasField;
 			$this->_fields[$field->$fieldIdField]['title'] = $field->$fieldTitleField;
 			$this->_fields[$field->$fieldIdField]['values'] = array(0 => ' ');
 		}
-		
+
 		foreach ($fieldValuesTable->getFieldValues(array_keys($this->_fields)) as $value) {
 			if (isset($this->_fields[$value->$valueFieldIdField])) {
 				$this->_fields[$value->$valueFieldIdField]['values'][$value->$valueIdField]
@@ -115,12 +136,25 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 		$this->populate($formData);
 		return true;
 	}
-	
+
 	public function applyFilter($data = array())
 	{
 		!empty($data) || $data = $this->getValidValues($_GET);
 		if (isset($data['submit'])) {
 			unset($data['submit']);
+		}
+
+		if (!empty($data['brand'])) {
+			$brandsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Brand');
+			$this->_select->where('brands.' . $brandsTable->getPrimary() . ' = ' . intval($data['brand']));
+		}
+
+		if (!empty($data['title'])) {
+			$productsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
+			$this->_select->where(
+				'prods.' . $productsTable->getFieldByAlias('title')
+				. ' LIKE "%' . $data['title'] . '%"'
+		);
 		}
 
 		$valuesIds = array();
@@ -132,7 +166,7 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 
 		if (!empty($valuesIds)) {
 			$productValuesTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Field_Value');
-			$productsTable       = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
+			!empty($productsTable) || $productsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
 
 			$productIdField = $productValuesTable->getFieldByAlias('productId');
 
