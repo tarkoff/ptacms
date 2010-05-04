@@ -48,9 +48,9 @@
 		<div class="col30 margin robots-nocontent">
 			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
 			<ul class="ul-list box">
-				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more" rel="nofollow">Прошивки</a></li><?php endif;?>
-				<?php if ($this->brand->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->brand->getUrl();?>" class="ico-more" rel="nofollow">Сайт производителя</a></li><?php endif;?>
-				<?php if ($this->product->getUrl()):?><li><a href="<?php echo $this->product->getUrl();?>" class="ico-more" rel="nofollow">Описание производителя</a></li><?php endif;?>
+				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more" rel="nofollow" target="_blank">Прошивки</a></li><?php endif;?>
+				<?php if ($this->brand->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->brand->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Сайт производителя</a></li><?php endif;?>
+				<?php if ($this->product->getUrl()):?><li><a href="<?php echo $this->product->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Описание производителя</a></li><?php endif;?>
 			</ul>
 		</div>
 		</noindex>

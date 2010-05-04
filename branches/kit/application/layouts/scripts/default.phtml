@@ -11,6 +11,9 @@
   <meta name="description" content="<?php echo implode(', ', (array)$this->description);?>" />
   <meta name="keywords" content="SatDevice<?php if (!empty($this->keywords)) echo ',' . implode(',', array_unique($this->keywords));?>" />
 
+  <link rel="icon" href="/images/favicon.gif" type="image/gif" />
+  <link rel="shortcut icon" href="/images/favicon.gif" type="image/gif" />
+
   <?php echo $this->headLink();?>
   <link rel="stylesheet" media="screen,projection" type="text/css" href="/css/main.css" />
   <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/css/main-msie.css" /><![endif]-->
