@@ -31,13 +31,21 @@ class Default_Plugin_Menu extends Zend_Controller_Plugin_Abstract
 			true
 		);
 
-		$view->activeCategory = '';
+		$view->activeCategory = $request->getControllerName();
 		$activeCategory = $request->getParam('category');
 		if (isset($view->categories[$activeCategory])) {
 			$view->activeCategory = $activeCategory;
 			$view->headTitle()->append($view->categories[$activeCategory]);
 			$view->keywords[] = $view->categories[$activeCategory];
 			$view->description[] = $view->categories[$activeCategory];
+		}
+
+		$view->searchForm = new Catalog_Form_Categories_Search();
+		if ($view->searchForm->submit()) {
+			$request->setModuleName('catalog')
+					->setControllerName('categories')
+					->setActionName('search');
+
 		}
 	}
 }

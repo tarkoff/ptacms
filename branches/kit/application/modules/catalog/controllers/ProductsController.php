@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: ProductsController.php 288 2010-03-28 16:10:01Z TPavuk $
+ * @version    $Id$
  */
 
 class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
