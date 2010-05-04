@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Brand.php 288 2010-03-28 16:10:01Z TPavuk $
+ * @version    $Id$
  */
 
 class KIT_Catalog_DbTable_Brand extends KIT_Db_Table_Abstract

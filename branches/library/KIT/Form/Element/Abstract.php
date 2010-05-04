@@ -11,7 +11,7 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Abstract.php 282 2010-03-05 18:03:44Z TPavuk $
+ * @version    $Id$
  */
 abstract class KIT_Form_Element_Abstract
 {

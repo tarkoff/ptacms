@@ -11,7 +11,7 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Resource.php 278 2010-02-27 18:36:32Z TPavuk $
+ * @version    $Id$
  */
 
 class KIT_Default_DbTable_Resource extends KIT_Db_Table_Abstract

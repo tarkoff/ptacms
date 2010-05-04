@@ -11,7 +11,7 @@
  * @package    KIT_Catalog
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Product.php 295 2010-04-19 12:19:24Z TPavuk $
+ * @version    $Id$
  */
 
 class KIT_Catalog_Product extends KIT_Model_Abstract

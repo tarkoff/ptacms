@@ -11,7 +11,7 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Product.php 286 2010-03-18 23:22:45Z TPavuk $
+ * @version    $Id$
  */
 
 class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract

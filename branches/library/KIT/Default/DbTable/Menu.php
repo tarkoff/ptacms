@@ -11,7 +11,7 @@
  * @package    KIT_Core
  * @copyright  Copyright (c) 2009-2010 KIT Studio
  * @license    New BSD License
- * @version    $Id: Menu.php 278 2010-02-27 18:36:32Z TPavuk $
+ * @version    $Id$
  */
 
 class KIT_Default_DbTable_Menu extends KIT_Db_Table_Tree_Abstract
