@@ -62,6 +62,10 @@ class Catalog_Form_Categories_Search extends KIT_Form_Abstract
 	public function submit()
 	{
 		$formData = $this->getValidValues($_GET);
+		if (isset($formData['submit'])) {
+			unset($formData['submit']);
+		}
+
 		if (empty($formData)) {
 			return false;
 		} else {
