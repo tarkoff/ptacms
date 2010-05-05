@@ -10,7 +10,7 @@
 		<?php foreach ($elements as $element):?>
 			<?php $pos++;?>
 			<?php if ($element->getName() != 'submit'):?>
-				<div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif ($pos % 3 == 0):?> fix<?php endif;?>"><?php echo $element->render();?></div>
+				<div class="col30<?php if (($pos + 1) % 3 == 0):?> margin<?php elseif ($pos % 3 == 0):?> fix<?php endif;?>"><dl><?php echo $element;?></dl></div>
 				<?php if ($pos % 3 != 0):?><hr class="noscreen" /><?php endif;?>
 			<?php endif;?>
 		<?php endforeach;?>
