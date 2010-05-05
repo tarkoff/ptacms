@@ -128,7 +128,9 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 	public function submit()
 	{
 		$formData = $this->getValidValues($_GET);
-//Zend_Registry::get('logger')->err($formData);
+		if (isset($formData['submit'])) {
+			unset($formData['submit']);
+		}
 		if (!empty($formData)) {
 			$this->applyFilter($formData);
 		}
@@ -164,34 +166,23 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 			}
 		}
 
+		$valuesIds = array_unique($valuesIds);
 		if (!empty($valuesIds)) {
 			$productValuesTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Field_Value');
 			!empty($productsTable) || $productsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
 
+			$valueIdField   = $productValuesTable->getFieldByAlias('valueId');
 			$productIdField = $productValuesTable->getFieldByAlias('productId');
-
-			$select = $productValuesTable->select();
-			$select->from($productValuesTable->getTableName(), array($productIdField));
-			$select->where(
-				$productValuesTable->getFieldByAlias('valueId') . ' IN (?)',
-				array_unique($valuesIds)
-			);
-
-			$productIds = array();
-			foreach ($productValuesTable->fetchAll($select) as $product) {
-			$productIds[] = $product->$productIdField;
-			}
-
-			if (!empty($productIds)) {
-				$this->_select->where(
-					'prods.' . $productsTable->getPrimary() . ' IN (?)',
-					array_unique($productIds)
+			$productValuesTableName = $productValuesTable->getTableName();
+			foreach ($valuesIds as $valueId) {
+				$tableAlias = 'pv' . $valueId;
+				$this->_select->join(
+					array($tableAlias => $productValuesTableName),
+					'prods.' . $productsTable->getPrimary()
+					. ' = ' . $tableAlias . '.' . $productIdField,
+					array()
 				);
-			} else {
-				$this->_select->where(
-					'prods.' . $productsTable->getPrimary() . ' IS NULL',
-					array_unique($productIds)
-				);
+				$this->_select->where( $tableAlias . '.' . $valueIdField . ' = ' . $valueId);
 			}
 		}
 	}
