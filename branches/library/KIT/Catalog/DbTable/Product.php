@@ -168,7 +168,8 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 		$limit = (int)$limit;
 		!empty($limit) || $limit = 10;
 
-		$statsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Stat');
+		$statsTable    = self::get('KIT_Catalog_DbTable_Product_Stat');
+		$prodCatsTable = self::get('KIT_Catalog_DbTable_Product_Category');
 
 		$select = $this->getCatalogSelect();
 		$select->joinLeft(
@@ -176,6 +177,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 			'prods.PRODUCTS_ID = stats.' . $statsTable->getPrimary(),
 			array()
 		);
+		$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
 		$select->order('stats.' . $statsTable->getFieldByAlias('views') . ' DESC');
 		return $this->fetchAll($select->limit($limit));
 	}
@@ -191,7 +193,11 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 		$limit = (int)$limit;
 		!empty($limit) || $limit = 10;
 
+		$prodCatsTable = self::get('KIT_Catalog_DbTable_Product_Category');
+
 		$select = $this->getCatalogSelect()->order(array('prods.PRODUCTS_DATE DESC'));
+		$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
+
 		return $this->fetchAll($select->limit($limit));
 	}
 }
