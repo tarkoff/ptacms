@@ -92,7 +92,8 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$categories->setLabel('Show in categories')
 				   ->setRequired(false)
 				   ->addFilter('StripTags')
-			 	  ->addFilter('StringTrim');
+				  ->addFilter('StringTrim');
+		$categories->addMultiOption(0, 'Unselect All');
 		$categories->addMultiOptions(
 			$catsTable->getSelectedFields(
 				array($catsTable->getPrimary(), $catsTable->getFieldByAlias('title')),
