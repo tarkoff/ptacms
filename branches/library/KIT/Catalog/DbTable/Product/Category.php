@@ -64,7 +64,7 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			return $this->getAdapter()->fetchOne($select->limit(1));
 		}
 	}
-	
+
 	/**
 	 * Set Product Default Category
 	 *
@@ -87,7 +87,7 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			)
 		);
 	}
-	
+
 	/**
 	 * Unset Default Product Category
 	 *
@@ -100,7 +100,7 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 		if (empty($productId)) {
 			return false;
 		}
-		
+
 		return $this->delete(
 			array(
 				'PRODUCTCATEGORIES_PRODUCTID = ' . $productId,
@@ -112,7 +112,7 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			array('PRODUCTCATEGORIES_PRODUCTID = ' . $productId)
 		);
 	}
-	
+
 	/**
 	 * Get Category Fields
 	 *
@@ -168,12 +168,11 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 		);
 		return $this->fetchAll($select);
 	}
-	
+
 	public function setProductCategories($productId, $categories)
 	{
 		$productId  = (int)$productId;
 		$categories = (array)$categories;
-Zend_Registry::get('logger')->err(array($productId, $categories));
 		if (empty($productId) || empty($categories)) {
 			return false;
 		}
@@ -192,11 +191,12 @@ Zend_Registry::get('logger')->err(array($productId, $categories));
 				$data[] = '(' . $productId . ', ' . intval($categoryId) . ')';
 			}
 		}
-Zend_Registry::get('logger')->err($data);
+
+		$this->delete(
+			array($productIdField . ' = ' . $productId, $isDefaultField . ' <> 1')
+		);
+
 		if (!empty($data)) {
-			$this->delete(
-				array($productIdField . ' = ' . $productId, $isDefaultField . ' <> 1')
-			);
 			return $this->getAdapter()->query($sql . implode(', ', $data));
 		}
 		return false;
