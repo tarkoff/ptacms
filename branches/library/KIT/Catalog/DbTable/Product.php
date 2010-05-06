@@ -71,7 +71,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 			'prods.PRODUCTS_AUTHORID = usr.' . $usersTable->getPrimary(),
 			array()
 		);
-		
+
 		$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
 
 		$this->setViewSelect($select);
@@ -126,7 +126,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 								  'PRODUCTS_SHORTDESCR',
 								  'PRODUCTS_DATE'))
 					   ->setIntegrityCheck(false);
-		
+
 		$select->join(
 			array('brands' => $brandsTable->getTableName()),
 			'prods.PRODUCTS_BRANDID = brands.' . $brandsTable->getPrimary(),
@@ -152,7 +152,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 			array($catsTable->getFieldByAlias('alias'), $catsTable->getFieldByAlias('title'))
 		);
 
-		$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
+		//$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
 
 		return $select;
 	}
@@ -169,7 +169,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 		!empty($limit) || $limit = 10;
 
 		$statsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Stat');
-		
+
 		$select = $this->getCatalogSelect();
 		$select->joinLeft(
 			array('stats' => $statsTable->getTableName()),
@@ -179,7 +179,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 		$select->order('stats.' . $statsTable->getFieldByAlias('views') . ' DESC');
 		return $this->fetchAll($select->limit($limit));
 	}
-	
+
 	/**
 	 * Get newest products
 	 *

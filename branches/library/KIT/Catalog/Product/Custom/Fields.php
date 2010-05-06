@@ -42,7 +42,7 @@ class KIT_Catalog_Product_Custom_Fields
 	{
 		$this->_productId = $id;
 	}
-	
+
 	public function getFieldsValues()
 	{
 		return $this->_fieldsValues;
@@ -86,7 +86,7 @@ class KIT_Catalog_Product_Custom_Fields
 			$this->_groupFieldsIds[$fieldAlias] = $field->$groupFieldPrimary;
 			$feieldData = array();
 			$feieldData['title'] = $field->$fieldTitleField;
-			
+
 			foreach ($productValues as $value) {
 				if ($value->$groupFieldIdField == $field->$groupFieldPrimary) {
 					$this->_fieldsValues[$fieldAlias][$value->$fieldValueIdField] = $value->$fieldValueField;
@@ -96,7 +96,7 @@ class KIT_Catalog_Product_Custom_Fields
 			$this->_groupFields[$field->$catGroupIdField]['fields'][$field->$fieldIdField] = $feieldData;
 		}
 	}
-	
+
 	protected function _getCategoryFields()
 	{
 		$categoryId = $this->getCategoryId();
@@ -131,7 +131,7 @@ class KIT_Catalog_Product_Custom_Fields
 	public function __call($method, $args)
 	{
 		$method = strtolower($method);
-		$alias  = str_replace(array('set', 'get'), '', $method);
+		$alias  = preg_replace('/(^set)|(^get).+/', '', $method, 1);
 		if ($this->has($alias)) {
 			if (strcmp('get' . $alias, $method) === 0) {
 				return $this->_fieldsValues[$alias];

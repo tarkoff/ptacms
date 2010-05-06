@@ -27,7 +27,7 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
     {
     	parent::init();
     }
-	
+
     /**
      * Pre-dispatch routines
      *

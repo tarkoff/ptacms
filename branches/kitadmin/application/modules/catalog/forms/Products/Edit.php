@@ -20,7 +20,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 	 * @var KIT_Catalog_Product
 	 */
 	private $_protuct;
-	
+
 	/**
 	 * @var KIT_Catalog_Category
 	 */
@@ -151,7 +151,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 		$fieldsTable         = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field');
 		$productValuesTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Field_Value');
 		$fieldValuesTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Field_Value');
-		
+
 		$categoryGroupIdField = $categoryGroupsTable->getPrimary();
 		$groupTitleField	  = $groupsTable->getFieldByAlias('title');
 		$groupAliasField	  = $groupsTable->getFieldByAlias('alias');
@@ -225,7 +225,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 			$view->selectValues[$fieldValue->$valueFieldIdField][$fieldValue->$valueIdField]
 				= $fieldValue->$fieldValueField;
 		}
-		
+
 		//Sort select options
 		foreach ($selectElementsIds as $elementName) {
 			$element = $this->getElement($elementName);
@@ -236,7 +236,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$this->addElement($submit);
-		
+
 		$this->_sort();
 		if (!empty($id)) {
 			//$this->_protuct->loadById($id);
@@ -258,13 +258,13 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 				$this->_protuct->setOptions($formData);
 				$this->_protuct->setAuthorId($auth->getIdentity()->getId());
 				if ($this->_protuct->save()) {
-					if (($cats = $formData['categories'])) {
+					if (!empty($formData['categories'])) {
 						$prodCatsTable = KIT_Db_Table_Abstract::get(
 							'KIT_Catalog_DbTable_Product_Category'
 						);
 						$prodCatsTable->setProductCategories(
 							$this->_protuct->getId(),
-							$cats
+							$formData['categories']
 						);
 					}
 					return true;
