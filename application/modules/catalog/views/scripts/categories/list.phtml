@@ -40,6 +40,8 @@
     </div>
     <?php if ($pos % 3 != 0):?><hr class="noscreen" /><?php endif;?>
     <?php endfor;?>
+<?php else:?>
+    <p>Этот раздел пока пуст</p>
 <?php endif;?>
 </div>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>

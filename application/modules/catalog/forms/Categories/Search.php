@@ -87,6 +87,7 @@ class Catalog_Form_Categories_Search extends KIT_Form_Abstract
 		$brandTitleField = $brandsTable->getFieldByAlias('title');
 
 		if (!empty($data['q'])) {
+			$this->getView()->headTitle($data['q'], 'APPEND');
 			$select = $this->getSelect();
 			$values = explode(' ', $data['q']);
 			foreach ($values as $value) {

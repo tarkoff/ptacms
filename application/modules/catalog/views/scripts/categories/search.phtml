@@ -17,6 +17,8 @@
     </div>
     <?php if ($pos % 3 != 0):?><hr class="noscreen" /><?php endif;?>
     <?php endfor;?>
+<?php else:?>
+    <p>Ничего не найдено</p>
 <?php endif;?>
 </div>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
