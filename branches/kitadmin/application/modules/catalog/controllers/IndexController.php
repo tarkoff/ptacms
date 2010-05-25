@@ -27,6 +27,9 @@ class Catalog_IndexController extends KIT_Controller_Action_Backend_Abstract
         $this->_forward('list', 'products', 'catalog');
     }
 
-
+    public function listAction()
+    {
+        $this->_forward('list', 'products', 'catalog');
+    }
 }
 
