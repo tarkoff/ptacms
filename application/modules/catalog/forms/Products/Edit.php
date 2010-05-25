@@ -254,6 +254,7 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 	{
 		if ($this->isPost()) {
 			$formData = (array)$this->getPost();
+			empty($formData['alias']) || $formData['alias'] = str_replace(' ', '_', strtolower($formData['alias']));
 			$auth = Zend_Auth::getInstance();
 			if ($auth->hasIdentity()) {
 				$this->_protuct->setOptions($formData);
