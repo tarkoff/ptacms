@@ -85,6 +85,12 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		$this->_editForm($id);
 	}
 
+	public function copyAction()
+	{
+		$this->_setParam('copy', 1);
+		$this->_forward('edit');
+	}
+
 	public function deleteAction()
 	{
 		$this->_delete(
