@@ -22,6 +22,16 @@ abstract class KIT_Form_Abstract extends Zend_Form
 
 	abstract public function submit();
 
+    /**
+     * Singleton instance
+     *
+     * @return Zend_Controller_Front
+     */
+	public function getFront()
+	{
+		return Zend_Controller_Front::getInstance();
+	}
+
 	/**
 	 * Detect post request
 	 *
@@ -53,6 +63,17 @@ abstract class KIT_Form_Abstract extends Zend_Form
 	public function getParams()
 	{
 		return Zend_Controller_Front::getInstance()->getRequest()->getParams();
+	}
+
+	/**
+	 * Get request param
+	 *
+     * @param string $key
+	 * @return mixed
+	 */
+	public function getParam($key)
+	{
+		return Zend_Controller_Front::getInstance()->getRequest()->getParam($key);
 	}
 
 	/**

@@ -35,11 +35,11 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 
 	public function setId($id)
 	{
-		$this->_id = (int)$id;
+		$this->_id = $id;
 		$this->getCategory()->setProductId($this->_id);
 		$this->getCustomFields()->setProductId($this->_id);
 	}
-	
+
 	public function getUrl()
 	{
 		return $this->_url;
@@ -254,5 +254,5 @@ class KIT_Catalog_Product extends KIT_Model_Abstract
 		}
 		return $path;
 	}
-	
+
 }

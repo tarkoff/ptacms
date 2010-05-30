@@ -43,7 +43,7 @@ abstract class KIT_Model_Abstract
 
 	public function init()
 	{
-		
+
 	}
 
 	/**
@@ -211,9 +211,9 @@ abstract class KIT_Model_Abstract
 	 */
 	public function save($data = null)
 	{
-		$data = (array)$data;
+		$data  = (array)$data;
 		$table = $this->getDbTable();
-		$id = $this->getId();
+		$id    = $this->getId();
 
 		if (empty($data)) {
 			foreach ($table->getFields() as $fieldAlias => $fieldDbName) {
