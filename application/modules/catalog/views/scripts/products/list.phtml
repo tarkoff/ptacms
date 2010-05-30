@@ -36,6 +36,19 @@ jQuery('#list').jqGrid({
 	edit:false, add:false, del:true, search:true
 }).navButtonAdd('#pager',{
 	caption:"",
+	title:"Copy Product",
+	buttonicon:"ui-icon-copy",
+	onClickButton: function(id) {
+		var gr = jQuery("#list").getGridParam("selrow");
+		if( gr != null ) {
+			document.location.href = '/catalog/products/copy/id/' + gr;
+		} else {
+			$("#fieldsDialog").dialog('open');
+		}
+	},
+	position:"first"
+}).navButtonAdd('#pager',{
+	caption:"",
 	title:"Edit Product",
 	buttonicon:"ui-icon-pencil",
 	onClickButton: function(id) {
