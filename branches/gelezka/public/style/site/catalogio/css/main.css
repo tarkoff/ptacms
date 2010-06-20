@@ -204,7 +204,7 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 .imgBox { width:200px; }
 .formInput { border:1px solid #ccc; }
 .commentText { width:700px; height:200px;}
-.prpiceInput{ border:1px solid #CCCCCC; width:90%; padding:5px 5px; line-height:130%; font-size:160%; }
+.prpiceInput{ border:1px solid #CCCCCC; width:90%; padding:5px 5px; line-height:1em; font-size:1.1em; }
 .priceDescr{ height:60px; }
 .prodValue a { text-decoration:none; color:#2E6E9E; font-weight:bold;}
 .prodValue a:hover { text-decoration:underline;}
