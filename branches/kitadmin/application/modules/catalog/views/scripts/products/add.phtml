@@ -76,8 +76,8 @@
 			var fieldAlias = $("#" + fieldName + "-label").text().split("-")[0];
 
 			$("#" + fieldName).attr('name', fieldName + '_').attr('id', fieldName + '_');
-			$(this).append('<button class="add" id="' + fieldName +'-add">New "' + fieldAlias + '" Value</button>');
 			$(this).append('<button class="apply" id="' + fieldName +'-apply">Apply "' + fieldAlias + '" Value</button>');
+			$(this).append('<button class="add" id="' + fieldName +'-add">New "' + fieldAlias + '" Value</button>');
 		});
 
 		$("button.add").button({
