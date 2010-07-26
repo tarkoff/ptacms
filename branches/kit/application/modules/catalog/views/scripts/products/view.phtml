@@ -36,7 +36,7 @@
 					<a href="<?php echo $photo->PHOTOS_FILE;?>" class="noscreen" title="<?php echo $productFullName;?>"></a>
 				<?php else:?>
 					<a href="<?php echo $photo->PHOTOS_FILE;?>" title="<?php echo $productFullName;?>">
-						<img src="/timthumb/timthumb.php?src=<?php echo $photo->PHOTOS_FILE;?>&h=220&w=220&zc=0" width="220" height="220" alt="" />
+						<img src="/timthumb/timthumb.php?src=<?php echo $photo->PHOTOS_FILE;?>&w=220&zc=0" width="220" height="220" alt="" />
 					</a>
 				<?php endif;?>
 			<?php endforeach;?>
