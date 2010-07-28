@@ -16,8 +16,8 @@ class PTA_MixMarket_Offer_Table extends PTA_DB_Table
 	 */
 	protected $_name = 'MIXMARKET_OFFERS';
 	protected $_primary = 'OFFERS_ID';
-	
-	public function getOffers($productId)
+
+	public function getOffers($productId, $geoTarget = false)
 	{
 		if (empty($productId)) {
 			return array();

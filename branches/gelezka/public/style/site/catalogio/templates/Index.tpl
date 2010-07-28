@@ -113,6 +113,12 @@
 	<script type="text/javascript">
 		window.google_analytics_uacct = "UA-9266190-2";
 	</script>
+	<!--Openstat--><span id="openstat2099657"></span>
+	<script type="text/javascript">
+		var openstat = { counter: 2099657, part: 'mag',next: openstat }; document.write(unescape("%3Cscript%20src=%22http" +
+		(("https:" == document.location.protocol) ? "s" : "") +
+		"://openstat.net/cnt.js%22%20defer=%22defer%22%3E%3C/script%3E"));
+	</script><!--/Openstat--> 
 {/literal}
 </body>
 </html>
