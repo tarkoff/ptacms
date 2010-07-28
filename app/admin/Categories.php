@@ -57,7 +57,7 @@ class Categories extends PTA_WebModule
 			case 'DelFields':
 					$this->delFieldsAction();
 			break;
-			
+
 			case 'EditFieldsSortOrder':
 				$this->editFieldsSortOrder();
 			break;
@@ -139,7 +139,7 @@ class Categories extends PTA_WebModule
 		$editForm = new Catalog_editForm('addProductForm', $product);
 		$this->addVisual($editForm);
 	}
-	
+
 	public function editFieldsSortOrder()
 	{
 		$this->setVar('tplMode', 'EditFieldsSortOrder');
