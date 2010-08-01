@@ -33,7 +33,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 												'en' => ' NOT LIKE "%?"',
 												'cn' => ' LIKE "%?%"' ,
 												'nc' => ' NOT LIKE "%?%"');
-	
+
 	/**
 	 * Get data for view
 	 * $viewParams = array('page' 	=> 1,
@@ -55,7 +55,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		$filterParams = (array)$filterParams;
 
 		extract($viewParams);
-		extract($filterParams);
+//		extract($filterParams);
 
 		!empty($page) || $page = 1;
 		!empty($rows) || $rows = 20;
@@ -72,14 +72,28 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		//$select->setIntegrityCheck(false);
 		$select->limitPage($page, $rows)->order(array($sortField . ' ' . $sortDirection));
 
-		if (!empty($searchField) && !empty($searchString)) {
-			if (isset($searchOper) && isset(self::$_filterOperations[$searchOper])) {
-				$select->where(
-					$searchField
-					. self::$_filterOperations[$searchOper], $searchString
-				);
+		if (!empty($filterParams)) {
+			$filterData = array();
+			foreach ($filterParams['rules'] as $rule) {
+				if (!empty($rule['field'])
+					&& isset(self::$_filterOperations[$rule['op']])
+				) {
+					$filterData[] = str_replace(
+										'?',
+										htmlspecialchars(strip_tags($rule['data'])),
+										$rule['field']. self::$_filterOperations[$rule['op']]
+									);
+				}
+			}
+			if (!empty($filterData)) {
+				if (strtoupper($filterParams['groupOp']) == 'AND') {
+					$select->where('(' . implode(' AND ', $filterData) . ')');
+				} else {
+					$select->where('(' . implode(' OR ', $filterData) . ')');
+				}
 			}
 		}
+
 		$sql = str_replace('SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $select->assemble());
 
 		$response = new stdClass();
@@ -100,7 +114,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 	{
 		$this->_viewSelect = $select;
 	}
-	
+
 	/**
 	 * Return Select for view
 	 * @return Zend_Db_Select
@@ -109,7 +123,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 	{
 		return $this->_viewSelect;
 	}
-	
+
 	/**
 	 * Get table object instance
 	 *
@@ -144,7 +158,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 	{
 		return $this->_name;
 	}
-	
+
 	/**
 	 * Get table primary key
 	 *
@@ -200,7 +214,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Convert database fields to aliases
 	 *
@@ -289,7 +303,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 	public function findByFields($fields)
 	{
 		$firelds = (array)$fields;
-		
+
 		$select = $this->select()->setIntegrityCheck(false);
 		$tableFields = $this->getFields(true);
 		foreach ($fields as $fieldName => $condition) {

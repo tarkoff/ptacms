@@ -110,11 +110,17 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
 			'sortDirection' => $this->_getParam('sord', 'ASC')
 		);
 
-		$filterParams = array(
-			'searchField'  => $this->_getParam('searchField'),
-			'searchString' => $this->_getParam('searchString'),
-			'searchOper'   => $this->_getParam('searchOper')
-		);
+		$filterParams = json_decode($this->_getParam('filters'), true);
+		if (empty($filterParams)) {
+			$filterParams = array(
+								'groupOp' => 'OR',
+								'rules' => array(
+									'field' => $this->_getParam('searchField'),
+									'data'  => $this->_getParam('searchString'),
+									'op'    => $this->_getParam('searchOper')
+								)
+							);
+		}
 
 		$jsonList = array();
 		$view = $table->getView($viewParams, $filterParams);
