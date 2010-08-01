@@ -18,7 +18,7 @@ jQuery('#list').jqGrid({
 	  {name:'PRODUCTS_ID', index:'PRODUCTS_ID', sorttype:'int', width:50, searchoptions:{sopt:['eq','ne','lt','le','gt','ge']} },
 	  {name:'PRODUCTS_ALIAS', index:'PRODUCTS_ALIAS', searchoptions:{sopt:['bw','bn','ew','en','cn','nc']}},
 	  {name:'PRODUCTS_BRANDID', index:'PRODUCTS_BRANDID', searchoptions:{sopt:['eq','ne']}, stype:'select', editoptions:{value:<?php echo json_encode($this->brands); ?>}},
-	  {name:'PRODUCTS_TITLE', index:'PRODUCTS_TITLE'},
+	  {name:'PRODUCTS_TITLE', index:'PRODUCTS_TITLE', searchoptions:{sopt:['bw','bn','ew','en','cn','nc']}},
 	  {name:'PRODUCTCATEGORIES_CATEGORYID', index:'PRODUCTCATEGORIES_CATEGORYID', searchoptions:{sopt:['eq','ne']}, stype:'select', editoptions:{value:<?php echo json_encode($this->cats); ?>}},
 	  {name:'PRODUCTS_AUTHORID', index:'PRODUCTS_AUTHORID', searchoptions:{sopt:['eq','ne']}, stype:'select', editoptions:{value:<?php echo json_encode($this->users); ?>}},
 	  {name:'PRODUCTS_DATE', index:'PRODUCTS_DATE', searchoptions:{dataInit:function(el){$(el).datepicker({dateFormat:'yyyy-mm-dd'});}, sopt:['eq','ne','lt','le','gt','ge']} }
