@@ -111,14 +111,16 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
 		);
 
 		$filterParams = json_decode($this->_getParam('filters'), true);
-		if (empty($filterParams)) {
+		if ($this->_getParam('_search') && empty($filterParams)) {
 			$filterParams = array(
 								'groupOp' => 'OR',
 								'rules' => array(
-									'field' => $this->_getParam('searchField'),
-									'data'  => $this->_getParam('searchString'),
-									'op'    => $this->_getParam('searchOper')
-								)
+											array(
+												'field' => $this->_getParam('searchField'),
+												'data'  => $this->_getParam('searchString'),
+												'op'    => $this->_getParam('searchOper')
+											)
+										   )
 							);
 		}
 
