@@ -72,7 +72,7 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		//$select->setIntegrityCheck(false);
 		$select->limitPage($page, $rows)->order(array($sortField . ' ' . $sortDirection));
 
-		if (!empty($filterParams)) {
+		if (!empty($filterParams['rules'])) {
 			$filterData = array();
 			foreach ($filterParams['rules'] as $rule) {
 				if (!empty($rule['field'])
