@@ -111,7 +111,7 @@ abstract class KIT_Controller_Action_Backend_Abstract extends Zend_Controller_Ac
 		);
 
 		if ($this->_hasParam('filters')) {
-			$filterParams = json_decode($this->_getParam('filters'), true);
+			$filterParams = json_decode(stripslashes($this->_getParam('filters')), true);
 		} else {
 			$filterParams = array(
 				'groupOp' => 'OR',
