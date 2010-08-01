@@ -38,6 +38,33 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$this->_helper->json($this->_getAjaxView($usersTable));
 		} else {
+			$catsTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
+			$brandsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Brand');
+			$usersTable  = KIT_Db_Table_Abstract::get('KIT_Default_DbTable_User');
+			$this->view->cats = $catsTable->getSelectedFields(
+				array(
+					$catsTable->getPrimary(),
+					$catsTable->getFieldByAlias('title')
+				),
+				null,
+				true
+			);
+			$this->view->brands = $brandsTable->getSelectedFields(
+				array(
+					$brandsTable->getPrimary(),
+					$brandsTable->getFieldByAlias('title')
+				),
+				null,
+				true
+			);
+			$this->view->users = $usersTable->getSelectedFields(
+				array(
+					$usersTable->getPrimary(),
+					$usersTable->getFieldByAlias('login')
+				),
+				null,
+				true
+			);
 		}
 	}
 
