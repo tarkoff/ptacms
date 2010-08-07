@@ -257,11 +257,12 @@ class Catalog_Form_Products_Edit extends KIT_Form_Abstract
 			empty($formData['alias']) || $formData['alias'] = str_replace(' ', '_', strtolower($formData['alias']));
 			$auth = Zend_Auth::getInstance();
 			if ($auth->hasIdentity()) {
-				$this->_protuct->setOptions($formData);
 				if ($this->getParam('copy')) {
+					$this->_protuct->getCustomFields()->dropValues();
 					$this->_protuct->setId(null);
 					$this->_protuct->setDate(null);
 				}
+				$this->_protuct->setOptions($formData);
 				$this->_protuct->setAuthorId($auth->getIdentity()->getId());
 				if ($this->_protuct->save()) {
 					if (!empty($formData['categories'])) {
