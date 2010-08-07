@@ -118,9 +118,28 @@ class KIT_Catalog_Product_Custom_Fields
 		return self::$_fieldsMeta[$categoryId]['values'][$productId];
 	}
 
+	/**
+	 * Check if product has field by alias
+	 *
+	 * @param string $fieldAlias
+	 * @return boolean
+	 */
 	public function has($fieldAlias)
 	{
 		return isset($this->_fieldsValues[strtolower($fieldAlias)]);
+	}
+
+	/**
+	 * Set to null all values
+	 *
+	 * @return void
+	 */
+	public function dropValues()
+	{
+		foreach ($this->_fieldsValues as $fieldsAlias => $fieldValues) {
+			$this->_fieldsValues[$fieldsAlias] = array();
+		}
+
 	}
 
 	public function getProductGroups()
@@ -131,7 +150,7 @@ class KIT_Catalog_Product_Custom_Fields
 	public function __call($method, $args)
 	{
 		$method = strtolower($method);
-		$alias  = preg_replace('/(^set)|(^get).+/', '', $method, 1);
+		$alias  = preg_replace('/(^set)|(^get).+/i', '', $method, 1);
 		if ($this->has($alias)) {
 			if (strcmp('get' . $alias, $method) === 0) {
 				return $this->_fieldsValues[$alias];
@@ -182,6 +201,7 @@ class KIT_Catalog_Product_Custom_Fields
 		}
 
 		$productValuesTable->clearProductValues($productId);
+
 		return $productValuesTable->getAdapter()->query($sql . implode(', ', $data));
 	}
 }
