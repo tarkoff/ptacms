@@ -9,7 +9,13 @@
   <meta name="copyright" lang="en" content="KiT Studio" />
 
   <meta name="description" content="<?php echo implode(', ', (array)$this->description);?>" />
-  <meta name="keywords" content="SatDevice<?php if (!empty($this->keywords)) echo ',' . implode(',', array_unique($this->keywords));?>" />
+  <meta name="keywords" content="
+  								<?php if (!empty($this->keywords)): php?>
+  									<?php foreach (array_unique($this->keywords) as $keyword):?>
+  										описание <?php echo $keyword;?>, купить <?php echo $keyword;?>, цена <?php echo $keyword;?>,
+  									<?php endforeach;?>
+  								<?php endif;?>
+  								" />
 
   <link rel="icon" href="/images/favicon.gif" type="image/gif" />
   <link rel="shortcut icon" href="/images/favicon.gif" type="image/gif" />

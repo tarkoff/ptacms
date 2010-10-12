@@ -50,11 +50,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$this->bootstrap('layout');
 		$view = $this->getResource('layout')->getView();
 		$view->addScriptPath(APPLICATION_PATH . '/layouts/scripts/generic/');
-		
+
 		$view->headTitle()->setSeparator(' :: ');
-		$view->headTitle('SatDevice - Все для спутниквого телевидения');
+		$view->headTitle('SatDevice - Все для спутникового телевидения');
 		$view->keywords = array();
-		$view->description = array('SatDevice - Все для спутниквого телевидения');
+		$view->description = array('SatDevice - Все для спутникового телевидения');
 	}
 
 }
