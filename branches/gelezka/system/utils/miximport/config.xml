@@ -6,7 +6,7 @@
 			<host>127.0.0.1</host>
 			<username>root</username>
 			<password></password>
-			<dbname>GELEZKA</dbname>
+			<dbname>gelezkan_gelezka</dbname>
 		</params>
 	</database>
 	<tables>
