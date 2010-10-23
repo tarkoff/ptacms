@@ -63,11 +63,12 @@ class PTA_MixMarket_Offer_Table extends PTA_DB_Table
 				'advgt.ADVREGIONGEOTARGET_RGTID = geo.GEO_TARGETID',
 				array()
 			);
-			$select->where($ipNum . ' BETWEEN geo.GEO_STARTNUM AND geo.GEO_ENDNUM');
+			$select->where('geo.GEO_STARTNUM <=' . $ipNum);
+			$select->where('geo.GEO_ENDNUM >=' . $ipNum);
 		}
 
 		$select->where('lofs.LINKOFFERS_CATALOGID = ?', intval($productId));
-		$select->order(array('rgt.REGIONSGEOTAGRET_TITLE', 'ofs.OFFERS_PRICE'));
+		$select->order(array('rgt.REGIONSGEOTAGRET_TITLE DESC', 'ofs.OFFERS_PRICE'));
 
 		return $this->fetchAll($select)->toArray();
 	}

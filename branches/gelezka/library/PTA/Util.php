@@ -192,12 +192,14 @@ class PTA_Util
 	 */
 	public static function ipToNum($ip)
 	{
+		return sprintf("%u", ip2long($ip));
+
 		$ipParts = explode('.', $ip);
 		
 		if (empty($ipParts)) {
 			return 0;
 		}
-		
+
 		$num = 16777216 * $ipParts[0] + 65536 * $ipParts[1] + 256 * $ipParts[2] + $ipParts[3];
 		
 		return $num;
