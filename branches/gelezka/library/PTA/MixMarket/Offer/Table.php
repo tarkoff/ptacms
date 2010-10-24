@@ -73,7 +73,7 @@ class PTA_MixMarket_Offer_Table extends PTA_DB_Table
 
 		$select->where('lofs.LINKOFFERS_CATALOGID = ?', intval($productId));
 		$select->order(array('rgt.REGIONSGEOTAGRET_TITLE DESC', 'ofs.OFFERS_PRICE'));
-print_r($select->assemble());
+
 		return $this->fetchAll($select)->toArray();
 	}
 
