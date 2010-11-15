@@ -236,7 +236,8 @@ abstract class PTA_App extends PTA_WebModule
 			$module->shutdown();
 		}
 
-		$this->setVar('keywords', implode(',', array_unique((array)$this->getVar('keywords'))));
+		//$this->setVar('keywords', implode(',', array_unique((array)$this->getVar('keywords'))));
+		$this->setVar('keywords', array_unique((array)$this->getVar('keywords')));
 
 		if (isset($_REQUEST['sql_debug']) && !empty($_REQUEST['sql_debug'])) {
 			$this->_sqlLog();
