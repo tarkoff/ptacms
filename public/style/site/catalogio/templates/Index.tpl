@@ -5,7 +5,11 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="content-language" content="en" />
 	<meta name="description" content="{$Gelezka->descr|default:'Gelezka'} - Описания, Цены, Обзоры, Драйвера" />
-	<meta name="keywords" content="Описание,Цены,Обзор,Драйвера,{$Gelezka->keywords|default:''}" />
+	{if !empty($Gelezka->keywords)}
+		<meta name="keywords" content="{foreach from=$Gelezka->keywords item=kword}Описание {$kword},Цены {$kword},Обзор {$kword},Драйвера {$kword},{/foreach}" />
+	{else}
+		<meta name="keywords" content="Телефоны, смартфоны, ноутбуки, Описание,Цены,Обзор,Драйвера" />
+	{/if}
 	<meta content="index,follow,noodp,noydir" name="robots"/>
 	<meta name="verify-v1" content="9fJg4XE0nrThqvm74P7/ATkDKlFvRledoo8jQ9aTfMs=" />
 
