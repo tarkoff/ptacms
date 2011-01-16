@@ -22,7 +22,7 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 		</li>
 		 <li>
 			<span>
-				Copyrighted &copy;&nbsp;2009 - 2010 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
+				Copyrighted &copy;&nbsp;2009 - 2011 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
 				Поддержка сайта {mailto address="support@gelezka.net" encode="javascript"}<br />
 				<span id="plinks">{$Gelezka->sape->return_links()}</span><br />
 				<span id="copy">
