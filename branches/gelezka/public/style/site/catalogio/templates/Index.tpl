@@ -80,15 +80,10 @@
 	</div> <!-- /page -->
 {literal}
 	<div id="adsense_bottomh" class="big_hor" style="text-align:center;">
-		<script type="text/javascript"><!--
-			google_ad_client = "pub-1610147099732550";
-			/* 728x90, gelezka_horizontal_bottom */
-			google_ad_slot = "6736390713";
-			google_ad_width = 728;
-			google_ad_height = 90;
-			//-->
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+
+<!-- разместите на месте показа блока -->
+<div id="mixgk_4294933423"></div>
+
 	</div>
 {/literal}
 	{include file="Footer.tpl"}
@@ -102,6 +97,7 @@
 		if (document.getElementById('mixkt_4294944591')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/show/4294944591/&div=mixkt_4294944591{/literal}{if !empty($Gelezka->mixCategory)}&cat_id={$Gelezka->mixCategory}{else}&cat_id=91491{/if}{literal}&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
 		//MixMarket partner
 		if (document.getElementById('mix_block_12949300631294932579')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932579/&div=mix_block_12949300631294932579&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+		if (document.getElementById('mixgk_4294933423')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://4294933423.gk.mixmarket.biz/4294933423/?type=hor&pagesize=5&brand=&model=&cat_id=&div=mixgk_4294933423&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
 	</script>
 
 	<script type="text/javascript">
