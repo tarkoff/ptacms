@@ -10,7 +10,7 @@
 
   <meta name="description" content="<?php echo implode(', ', (array)$this->description);?>" />
   <meta name="keywords" content="
-  								<?php if (!empty($this->keywords)): php?>
+  								<?php if (!empty($this->keywords)):?>
   									<?php foreach (array_unique($this->keywords) as $keyword):?>
   										описание <?php echo $keyword;?>, купить <?php echo $keyword;?>, цена <?php echo $keyword;?>,
   									<?php endforeach;?>
@@ -28,7 +28,7 @@
   <link rel="stylesheet" media="screen,projection" type="text/css" href="/css/scheme.css" />
   <link rel="stylesheet" media="print" type="text/css" href="/css/print.css" />
 
-  <script type="text/javascript" src="/js/jquery/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
   <script type="text/javascript" src="/js/jquery/jquery.cookie.min.js"></script>
   <?php echo $this->headScript();?>
   <script type="text/javascript" src="/js/custom.js"></script>
