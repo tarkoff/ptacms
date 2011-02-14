@@ -65,4 +65,16 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		
 		$statsTable->updateStat($this->view->product->getId());
 	}
+	
+	public function postAction()
+	{
+		$productAlias = $this->_getParam('product');
+		if (empty($productAlias)) {
+			$this->_redirect('/');
+		}
+
+		$prodsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
+		$postsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Category');
+		
+	}
 }

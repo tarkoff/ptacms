@@ -7,9 +7,10 @@
 <?php array_push($this->keywords, $productFullName, $categoryTitle);?>
 <?php $this->activeCategory = $this->category->getAlias();?>
 
-<?php //$this->headLink()->appendStylesheet('/js/jquery/ui/18/css/ui-lightness/jquery-ui-1.8.custom.css'); ?>
+<?php //$this->headLink()->appendStylesheet('/js/jquery/stars/jquery.ui.stars.min.css'); ?>
 <?php $this->headLink()->appendStylesheet('/js/jquery/lightbox/css/jquery.lightbox-0.5.css'); ?>
-<?php //$this->headScript()->appendFile('/js/jquery/ui/18/jquery-ui-1.8.custom.min.js'); ?>
+<?php $this->headScript()->appendFile('/js/jquery/ui/jquery-ui.min.js'); ?>
+<?php $this->headScript()->appendFile('/js/jquery/stars/jquery.ui.stars.min.js'); ?>
 <?php $this->headScript()->appendFile('/js/jquery/lightbox/js/jquery.lightbox-0.5.min.js'); ?>
 
 <script type="text/javascript">
@@ -46,11 +47,37 @@
 		</div>
 		<noindex>
 		<div class="col30 margin robots-nocontent">
+			<link type="text/css" rel="stylesheet" media="screen" href="/js/jquery/stars/jquery.ui.stars.min.css">
+<script type="text/javascript">
+		$(function(){
+			//$("#ratings").children().not(":radio").hide();
+			$("#ratings").stars({
+				callback: function(ui, type, value)
+				{
+					$.post("demo1.php", {rate: value}, function(data)
+					{
+						$("#ajax_response").html(data);
+					});
+				}
+			});
+		});
+</script>
 			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
 			<ul class="ul-list box">
 				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more" rel="nofollow" target="_blank">Прошивки</a></li><?php endif;?>
 				<?php if ($this->brand->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->brand->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Сайт производителя</a></li><?php endif;?>
-				<?php if ($this->product->getUrl()):?><li><a href="<?php echo $this->product->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Описание производителя</a></li><?php endif;?>
+				<?php if ($this->product->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Описание производителя</a></li><?php endif;?>
+				<li>
+					<form method="post" action="" id="ratings" style="display: block;">
+						<input type="submit" value="Rate it!" style="display: none;">
+						<div class="ui-stars-star ui-stars-star-on"><a title="">1</a></div>
+						<div class="ui-stars-star ui-stars-star-on"><a title="">2</a></div>
+						<div class="ui-stars-star ui-stars-star-on"><a title="">3</a></div>
+						<div class="ui-stars-star ui-stars-star-on"><a title="">4</a></div>
+						<div class="ui-stars-star"><a title="">5</a></div>
+						<input type="hidden" value="4" name="rate">
+					</form>
+				</li>
 			</ul>
 		</div>
 		</noindex>
@@ -67,6 +94,8 @@
 		</div>
 	</div>
 </div>
+
+
 <?php //Zend_Registry::get('logger')->err($this->product->getCustomFields()->getProductGroups());?>
 
 <?php if ($this->product->getShortDescr()):?>
