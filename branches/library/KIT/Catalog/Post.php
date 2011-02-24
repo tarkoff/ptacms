@@ -56,8 +56,9 @@ class KIT_Catalog_Post extends KIT_Model_Abstract
 		return $this->_author;
 	}
 	
-	public function setAuthor($id)
+	public function setAuthor($author)
 	{
-		$this->_author = (int)$id;
+		$this->_author = $author;
 	}
+	
 }

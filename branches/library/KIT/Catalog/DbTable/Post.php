@@ -28,7 +28,7 @@ class KIT_Catalog_DbTable_Post extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$productsTable    = self::get('KIT_Default_DbTable_Product');
+		$productsTable = self::get('KIT_Catalog_DbTable_Product');
 		$brandsTable   = self::get('KIT_Catalog_DbTable_Brand');
 		
 		$select = $this->getAdapter()->select();
@@ -41,14 +41,14 @@ class KIT_Catalog_DbTable_Post extends KIT_Db_Table_Abstract
 										  . $brandsTable->getFieldByAlias('title') . ', '
 										  . $productsTable->getFieldByAlias('title') . ')',
 				$this->getFieldByAlias('postDate'),
-				$this->getFieldByAlias('post'),
+				'POST_POST' => 'LEFT(' . $this->getFieldByAlias('post') . ', 40)',
 				$this->getFieldByAlias('author')
 			)
 		);
 
 		$select->join(
 			array('prods' => $productsTable->getTableName()),
-			'prods.PRODUCTS_ID = pc.' . $this->getFieldByAlias('productId'),
+			'prods.PRODUCTS_ID = posts.' . $this->getFieldByAlias('productId'),
 			array()
 		);
 

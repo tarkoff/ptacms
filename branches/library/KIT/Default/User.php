@@ -30,7 +30,7 @@ class KIT_Default_User extends KIT_Model_Abstract implements Zend_Acl_Role_Inter
 	const STATUS_ACTIVE = 1;
 
 	const ADMINISTRATOR_ID = 1;
-	const GUeST_ID = 2;
+	const GUEST_ID = 2;
 
 	public static function getUserStatuses()
 	{
