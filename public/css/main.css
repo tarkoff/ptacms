@@ -161,15 +161,20 @@ a.ico-more {padding:5px 7px; border:0 !important;}
 .ftitle, .fvalue { color:#5F5F5F; font-weight:bold; }
 .ftitle { float:left; width:300px; font-style:italic;}
 
-#filterbox {color:#5F5F5F;}
+#filterbox, #commentForm {color:#5F5F5F; margin-bottom:2em; border-bottom:1px solid #DFDFDF; padding-bottom:10px;}
 #filterbox div.col30 {height:55px;}
-#filterbox dl {margin:0;}
-#filterbox dd {margin-left:5px;}
-#filterbox {margin-bottom:2em; border-bottom:1px solid #DFDFDF; padding-bottom:10px;}
-#filterbox select {border:1px solid #FF7F00;}
-#filterbox input {padding:2px 4px; font:normal 100%/1.2 "arial",sans-serif; border:1px solid #FF7F00; background:#FFF; color:#7F7F7F;}
+#filterbox dl, #commentForm dl {margin:0;}
+#filterbox dd, #commentForm dd {margin:.5em .5em 1em .5em;}
+#filterbox select, #commentForm select {border:1px solid #FF7F00;}
+#filterbox input, #commentForm input[type=text], #commentForm textarea {padding:2px 4px; font:normal 100%/1.2 "arial",sans-serif; border:1px solid #FF7F00; background:#FFF; color:#7F7F7F;}
 #filterbox #submit {background:#FF7F00;color:#FFF;}
 
 #mixkt_4294933393 table { margin:0;}
 #mixkt_4294933393 table th { color:#FF7F00; }
 #mixkt_4294933393 table td { padding:3px; font-size:.95em;}
+
+#prodInfo #commentForm textarea { width:30em; height:4em; }
+#comments ul { list-style: none;}
+#comments ul li {  border-bottom: 1px solid #DFDFDF; }
+#comments ul li dt { color: #5F5F5F; font-size:.8em;}
+#comments ul li dt em { color: #1C94C4; }
