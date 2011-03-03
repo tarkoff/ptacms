@@ -46,21 +46,53 @@
 		<?php else:?>
 			<img class="nom" alt="Изображение временно отсутствует" src="/images/image-02.gif" title="Изображение временно отсутствует" width="150" height="110" />
 		<?php endif;?>
+			<div id="avgRating" style="width:100%;">
+				<select disabled="disabled">
+					<option value="1">Очень плохо</option>
+					<option value="2">Плохо</option>
+					<option value="3">Нормально</option>
+					<option value="4">Хорошо</option>
+					<option value="5">Отлично</option>
+				</select>
+			</div>
+
 		</div>
 		<noindex>
 		<div class="col30 margin robots-nocontent">
 
 			<script type="text/javascript">
 				$(function(){
-					$("#ratings").children().not(":radio").hide();
+					$("#ratings").submit(function(event) {
+						  event.preventDefault();
+						  return false;
+					});
+
+					$("#ratings").children().not("select").hide();
+
+					// Create target element for onHover titles
+					$caption = $("<span/>");
+
 					$("#ratings").stars({
+						inputType: "select",
+						captionEl: $caption, // point to our newly created element
 						callback: function(ui, type, value)
 						{
-							$.post("demo1.php", {rate: value}, function(data)
-							{
-								$("#ajax_response").html(data);
-							});
+							$.post(
+									"/catalog/products/rate/product/<?php echo $this->product->getAlias();?>/format/json",
+									{rate: value},
+									function(data) {
+										$("#ajax_response").html(data);
+									}
+							);
 						}
+
+					});
+
+					// Make it available in DOM tree
+					$caption.appendTo("#ratings");
+
+					$("#avgRating").stars({
+						inputType: "select"
 					});
 				});
 			</script>
@@ -72,13 +104,15 @@
 				<?php if ($this->product->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Описание производителя</a></li><?php endif;?>
 				<li>
 					<form method="post" action="" id="ratings" style="display: block;">
-						<input type="submit" value="Rate it!" style="display: none;">
-						<div class="ui-stars-star ui-stars-star-on"><a title="">1</a></div>
-						<div class="ui-stars-star ui-stars-star-on"><a title="">2</a></div>
-						<div class="ui-stars-star ui-stars-star-on"><a title="">3</a></div>
-						<div class="ui-stars-star ui-stars-star-on"><a title="">4</a></div>
-						<div class="ui-stars-star"><a title="">5</a></div>
-						<input type="hidden" value="4" name="rate">
+						&nbsp;<span id="stars-cap"></span>
+						 <select>
+							<option value="1">Очень плохо</option>
+							<option value="2">Плохо</option>
+							<option value="3">Нормально</option>
+							<option value="4">Хорошо</option>
+							<option value="5">Отлично</option>
+						 </select>
+						<div id="ajax_response"></div>
 					</form>
 				</li>
 			</ul>
@@ -138,11 +172,10 @@
 		$( "#prodInfo" ).tabs({
 			ajaxOptions: {
 				error: function( xhr, status, index, anchor ) {
-					$( anchor.hash ).html(
-						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
-						"If this wouldn't be a demo." );
+					$( anchor.hash ).html("В данный момент страница не загружается. Мы сипрваим это в ближайшее время.");
 				}
-			}
+			},
+			select: function(event, ui) { $("#prodInfo div.ui-tabs-panel[id!=descr]").html("Загрузка..."); }
 		});
 	});
 </script>
