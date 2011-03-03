@@ -28,6 +28,7 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
         $ajaxContext->addActionContext('prices', 'html')
                     ->addActionContext('comments', 'html')
                     ->addActionContext('newcomment', 'json')
+                    ->addActionContext('rate', 'json')
                     ->initContext();
 	}
 
@@ -163,5 +164,42 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 	{
 
 		
+	}
+	
+	public function rateAction()
+	{
+		$productAlias = strtolower($this->_getParam('product'));
+		$isAjax = $this->getRequest()->isXmlHttpRequest();
+		
+		$prodsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
+		$this->view->product = KIT_Model_Abstract::get('KIT_Catalog_Product');
+
+		$data = $prodsTable->fetchRow(
+			$prodsTable->getFieldByAlias('alias')
+			. $prodsTable->getAdapter()->quoteInto(' = ?', $productAlias)
+		);
+
+		if ($data instanceof Zend_Db_Table_Row_Abstract) {
+			$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
+			$this->view->product->setOptions($data);
+		} else {
+			$this->_redirect('/');
+		}
+		
+		$this->view->form = new Catalog_Form_Products_Rate($this->view->product->getId());
+		//$this->view->form->setAction('/catalog/products/comments/product/' 
+		//							 . $this->view->product->getAlias() . '/format/json');
+		
+		if ($this->view->form->submit()) {
+			if ($isAjax) {
+				$this->_helper->json(1);
+			} else {
+				$this->_redirect('/catalog/products/view/product/' . $this->view->product->getAlias());
+			}
+		} else {
+			if ($isAjax) {
+				$this->_helper->json(0);
+			}
+		}
 	}
 }

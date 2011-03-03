@@ -193,13 +193,41 @@ abstract class KIT_Model_Abstract
 	{
 		$id = (int)$id;
 		if (!empty($id) && ($this->_id != $id)) {
-			$table = $this->getDbTable();
-			$data = $table->fetchRow($table->getPrimary() . ' = ' . $id);
-			if ($data instanceof Zend_Db_Table_Row_Abstract) {
-				$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
-				$this->setOptions($data);
-			}
+			return $this->loadByFields(array('id' => $id));
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Load object by custom fields
+	 *
+	 * @param array $params
+	 * @return KIT_Model_Abstract
+	 */
+	public function loadByFields($params)
+	{
+		$params = (array)$params;
+
+		if (empty($params)) {
+			return false;
+		}
+
+		$table = $this->getDbTable();
+		$adapter = $table->getAdapter();
+
+		$where = array();
+		foreach ($params as $alias => $value) {
+			$where[] = $adapter->quoteInto($table->getFieldByAlias($alias) . ' = ?', $value);
+		}
+
+		$data = $table->fetchRow(implode(' AND ', $where));
+
+		if ($data instanceof Zend_Db_Table_Row_Abstract) {
+			$data = KIT_Db_Table_Abstract::dbFieldsToAlias($data->toArray());
+			$this->setOptions($data);
+		}
+
 		return $this;
 	}
 
