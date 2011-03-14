@@ -46,7 +46,7 @@
 		<?php else:?>
 			<img class="nom" alt="Изображение временно отсутствует" src="/images/image-02.gif" title="Изображение временно отсутствует" width="150" height="110" />
 		<?php endif;?>
-			<div id="avgRating" style="width:100%;">
+			<div id="avgRating" style="margin-left:70px;">
 				<select disabled="disabled">
 					<option value="1">Очень плохо</option>
 					<option value="2">Плохо</option>
@@ -60,42 +60,6 @@
 		<noindex>
 		<div class="col30 margin robots-nocontent">
 
-			<script type="text/javascript">
-				$(function(){
-					$("#ratings").submit(function(event) {
-						  event.preventDefault();
-						  return false;
-					});
-
-					$("#ratings").children().not("select").hide();
-
-					// Create target element for onHover titles
-					$caption = $("<span/>");
-
-					$("#ratings").stars({
-						inputType: "select",
-						captionEl: $caption, // point to our newly created element
-						callback: function(ui, type, value)
-						{
-							$.post(
-									"/catalog/products/rate/product/<?php echo $this->product->getAlias();?>/format/json",
-									{rate: value},
-									function(data) {
-										$("#ajax_response").html(data);
-									}
-							);
-						}
-
-					});
-
-					// Make it available in DOM tree
-					$caption.appendTo("#ratings");
-
-					$("#avgRating").stars({
-						inputType: "select"
-					});
-				});
-			</script>
 
 			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
 			<ul class="ul-list box">
@@ -118,6 +82,43 @@
 			</ul>
 		</div>
 		</noindex>
+		<script type="text/javascript">
+			$(function(){
+				$("#ratings").submit(function(event) {
+					  event.preventDefault();
+					  return false;
+				});
+
+				$("#ratings").children().not("select").hide();
+
+				// Create target element for onHover titles
+				$caption = $("<span/>");
+
+				$("#ratings").stars({
+					inputType: "select",
+					captionEl: $caption, // point to our newly created element
+					callback: function(ui, type, value)
+					{
+						$.post(
+								"/catalog/products/rate/product/<?php echo $this->product->getAlias();?>/format/json",
+								{rate: value},
+								function(data) {
+									$("#ajax_response").html(data);
+								}
+						);
+					}
+				});
+
+				// Make it available in DOM tree
+				$caption.appendTo("#ratings");
+
+				$("#avgRating").stars({
+					inputType: "select",
+					disabled: true
+				});
+				$("#avgRating").stars("select", <?php echo $this->rating->getRating() / ($this->rating->getRatesCnt() ? $this->rating->getRatesCnt() : 1);?>);
+			});
+		</script>
 		<div class="col30" style="width:336px;">
 			<script type="text/javascript"><!--
 			google_ad_client = "pub-1610147099732550";

@@ -23,7 +23,7 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 			 ->addActionContext('comments', 'html')
 			 ->initContext();
 */
-			 
+
 		$ajaxContext = $this->_helper->getHelper('AjaxContext');
         $ajaxContext->addActionContext('prices', 'html')
                     ->addActionContext('comments', 'html')
@@ -49,6 +49,7 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		$brandsTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Brand');
 		$photosTable   = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Photo');
 		$statsTable    = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product_Stat');
+		$ratingsTable  = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Rating');
 
 		$this->view->product = KIT_Model_Abstract::get('KIT_Catalog_Product');
 
@@ -68,20 +69,23 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 			'KIT_Catalog_Brand',
 			$this->view->product->getBrandId()
 		);
-		
+
 		$this->view->photos = $photosTable->fetchAll(
 			$photosTable->getFieldByAlias('productId')
 			. ' = ' . $this->view->product->getId()
 		);
-		
+
 		$this->view->category = KIT_Model_Abstract::get(
 			'KIT_Catalog_Category',
 			$this->view->product->getCategoryId()
 		);
-		
+
+		$this->view->rating = KIT_Model_Abstract::get('KIT_Catalog_Rating');
+		$this->view->rating->loadByFields(array('productId' => $this->view->product->getId()));
+
 		$statsTable->updateStat($this->view->product->getId());
 	}
-	
+
 	public function commentsAction()
 	{
 		$productAlias = $this->_getParam('product');
@@ -94,10 +98,10 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 				$this->_helper->html('err');
 			}
 		}
-		
+
 		$prodsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
 		$postsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Post');
-		
+
 		$this->view->product = KIT_Model_Abstract::get('KIT_Catalog_Product');
 
 		$data = $prodsTable->fetchRow(
@@ -111,22 +115,22 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		} else {
 			$this->_redirect('/');
 		}
-		
+
 		$this->view->comments = $postsTable->findByFields(
 			array('productId' => $this->view->product->getId())
 		);
-		
+
 		$this->view->form = new Catalog_Form_Products_Comment($this->view->product->getId());
-		$this->view->form->setAction('/catalog/products/newcomment/product/' 
+		$this->view->form->setAction('/catalog/products/newcomment/product/'
 									 . $this->view->product->getAlias() . '/format/json');
-											 
+
 	}
-	
+
 	public function newcommentAction()
 	{
 		$productAlias = strtolower($this->_getParam('product'));
 		$isAjax = $this->getRequest()->isXmlHttpRequest();
-		
+
 		$prodsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
 		$this->view->product = KIT_Model_Abstract::get('KIT_Catalog_Product');
 
@@ -141,11 +145,11 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		} else {
 			$this->_redirect('/');
 		}
-		
+
 		$this->view->form = new Catalog_Form_Products_Comment($this->view->product->getId());
-		//$this->view->form->setAction('/catalog/products/comments/product/' 
+		//$this->view->form->setAction('/catalog/products/comments/product/'
 		//							 . $this->view->product->getAlias() . '/format/json');
-		
+
 		if ($this->view->form->submit()) {
 			if ($isAjax) {
 				$this->_helper->json(1);
@@ -157,20 +161,20 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 				$this->_helper->json(0);
 			}
 		}
-		
+
 	}
-	
+
 	public function pricesAction()
 	{
 
-		
+
 	}
-	
+
 	public function rateAction()
 	{
 		$productAlias = strtolower($this->_getParam('product'));
 		$isAjax = $this->getRequest()->isXmlHttpRequest();
-		
+
 		$prodsTable = KIT_Db_Table_Abstract::get('KIT_Catalog_DbTable_Product');
 		$this->view->product = KIT_Model_Abstract::get('KIT_Catalog_Product');
 
@@ -185,11 +189,11 @@ class Catalog_ProductsController extends KIT_Controller_Action_Backend_Abstract
 		} else {
 			$this->_redirect('/');
 		}
-		
+
 		$this->view->form = new Catalog_Form_Products_Rate($this->view->product->getId());
-		//$this->view->form->setAction('/catalog/products/comments/product/' 
+		//$this->view->form->setAction('/catalog/products/comments/product/'
 		//							 . $this->view->product->getAlias() . '/format/json');
-		
+
 		if ($this->view->form->submit()) {
 			if ($isAjax) {
 				$this->_helper->json(1);
