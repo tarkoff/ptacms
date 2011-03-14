@@ -74,6 +74,7 @@ class KIT_Catalog_Rate extends KIT_Model_Abstract
 	 */
 	public function save($data = null)
 	{
+		$this->_rateDate = null;
 		if (parent::save($data)) {
 			$rating = self::get('KIT_Catalog_Rating');
 			$rating->loadByFields(array('productId' => $this->getProductId()));
