@@ -309,9 +309,9 @@ abstract class KIT_Db_Table_Abstract extends Zend_Db_Table_Abstract
 		foreach ($fields as $fieldName => $condition) {
 			$fieldName = strtolower($fieldName);
 			if (isset($tableFields[$fieldName])) {
-				$select->where($tableFields[$fieldName] . ' = ' . trim($condition));
+				$select->where($tableFields[$fieldName] . ' = ?', trim($condition));
 			} else if (($index = array_search($fieldName, $tableFields))) {
-				$select->where($tableFields[$index] . ' = ' . trim($condition));
+				$select->where($tableFields[$index] . ' = ?', trim($condition));
 			}
 		}
 
