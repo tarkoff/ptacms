@@ -40,28 +40,15 @@ class Default_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 				current(
 					$resourceTable->findByFields(
 						array(
-							'module'	 => $db->quoteInto('= ?', $module),
-							'controller' => $db->quoteInto('= ?', $controller),
-							'action'	 => $db->quoteInto('= ?', $action)
+							'module'	 => $module,
+							'controller' => $controller,
+							'action'	 => $action
 						)
 					)
 				),
 				true
 			);
-/*
-			$activeItems = array();
-			if ($resource->getId()) {
-				$activeMenuItems = $menuTable->findByFields(
-					array('resourceId' => '=' . $resource->getId())
-				);
-				$menuIdField = $menuTable->getPrimary();
-				foreach ($activeMenuItems as $menuItem) {
-					$activeItems[$menuItem[$menuIdField]] = $menuItem[$menuIdField];
-				}
-			}
 
-			Zend_Registry::set('activeMenuItems', $activeItems);
-*/
 			Zend_Registry::set('resource', $resource);
 			Zend_Registry::set(
 				'userMenu',

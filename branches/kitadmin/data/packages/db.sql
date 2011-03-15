@@ -18,6 +18,9 @@
 -- Create schema satdevic_satdevice
 --
 
+CREATE DATABASE IF NOT EXISTS satdevic_satdevice;
+USE satdevic_satdevice;
+
 --
 -- Definition of table `CATALOG_BRANDS`
 --
@@ -256,7 +259,7 @@ CREATE TABLE `CATALOG_RATINGS` (
   PRIMARY KEY (`RATING_ID`),
   KEY `RATING_PRODUCTID` (`RATING_PRODUCTID`),
   CONSTRAINT `CATALOG_RATINGS_ibfk_1` FOREIGN KEY (`RATING_PRODUCTID`) REFERENCES `CATALOG_PRODUCTS` (`PRODUCTS_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 --
@@ -290,7 +293,7 @@ CREATE TABLE `MENUS` (
   KEY `MENUS_RESOURCEID` (`MENUS_RESOURCEID`),
   KEY `tree_key` (`MENUS_LEFT`,`MENUS_RIGHT`,`MENUS_LEVEL`),
   CONSTRAINT `MENUS_ibfk_1` FOREIGN KEY (`MENUS_RESOURCEID`) REFERENCES `RESOURCES` (`RESOURCES_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `MENUS`
@@ -325,7 +328,7 @@ CREATE TABLE `RESOURCES` (
   `RESOURCES_ACTION` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`RESOURCES_ID`),
   UNIQUE KEY `resource` (`RESOURCES_MODULE`,`RESOURCES_CONTROLLER`,`RESOURCES_ACTION`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `RESOURCES`
@@ -372,6 +375,10 @@ INSERT INTO `RESOURCES` (`RESOURCES_ID`,`RESOURCES_MODULE`,`RESOURCES_CONTROLLER
  (31,'catalog','products','edit'),
  (28,'catalog','products','index'),
  (29,'catalog','products','list'),
+ (70,'catalog','ratings','delete'),
+ (69,'catalog','ratings','edit'),
+ (67,'catalog','ratings','index'),
+ (68,'catalog','ratings','view'),
  (2,'default','auth','login'),
  (3,'default','auth','logout'),
  (1,'default','index','index'),
