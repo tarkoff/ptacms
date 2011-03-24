@@ -95,11 +95,11 @@
 			modal: true,
 			show: 'scale',
 			buttons: {
-				'Cancel': function() {
-					$(this).dialog('close');
-				},
 				'Add Value': function() {
 					$("#fieldsValuesEditForm").submit();
+					$(this).dialog('close');
+				},
+				'Cancel': function() {
 					$(this).dialog('close');
 				}
 			},
