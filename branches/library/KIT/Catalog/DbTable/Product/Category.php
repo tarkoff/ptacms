@@ -133,7 +133,10 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 
 		$select = $this->select()->from(
 			array('fields' => $fieldsTable->getTableName()),
-			$fieldsTable->getFields(false)
+			array_merge(
+				$fieldsTable->getFields(false),
+				array('gf.' . $groupFieldsTable->getFieldByAlias('inFilter'))
+			)
 		);
 		$select->setIntegrityCheck(false);
 
@@ -155,11 +158,11 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 			'cg.' . $categoryGroupsTable->getFieldByAlias('categoryId')
 			. ' = ' . $categoryId
 		);
-
+/*
 		if ($onlyFilterFields) {
 			$select->where($groupFieldsTable->getFieldByAlias('inFilter') . ' = 1');
 		}
-
+*/
 		$select->order(
 			array(
 				'cg.' . $categoryGroupsTable->getFieldByAlias('sortOrder'),

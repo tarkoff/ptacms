@@ -86,6 +86,7 @@ class KIT_Catalog_Product_Custom_Fields
 			$this->_groupFieldsIds[$fieldAlias] = $field->$groupFieldPrimary;
 			$feieldData = array();
 			$feieldData['title'] = $field->$fieldTitleField;
+			$feieldData['alias'] = $field->$fieldAliasField;
 
 			foreach ($productValues as $value) {
 				if ($value->$groupFieldIdField == $field->$groupFieldPrimary) {
