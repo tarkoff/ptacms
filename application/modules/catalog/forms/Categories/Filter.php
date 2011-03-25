@@ -92,11 +92,13 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 		$valueIdField         = $fieldValuesTable->getPrimary();
 		$fieldValueField	  = $fieldValuesTable->getFieldByAlias('value');
 		$valueFieldIdField	  = $fieldValuesTable->getFieldByAlias('fieldId');
+		$inFilterField		  = $groupFieldsTable->getFieldByAlias('inFilter');
 
 
 		foreach ($productCategoryTable->getCategoryFields($this->_category->getId(), true) as $field) {
 			$this->_fields[$field->$fieldIdField]['alias'] = $field->$fieldAliasField;
 			$this->_fields[$field->$fieldIdField]['title'] = $field->$fieldTitleField;
+			$this->_fields[$field->$fieldIdField]['inFilter'] = $field->$inFilterField;
 			$this->_fields[$field->$fieldIdField]['values'] = array(0 => ' ');
 		}
 
@@ -106,9 +108,11 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 				 = $value->$fieldValueField;
 			}
 		}
-//Zend_Registry::get('logger')->err($this->_fields);
 
 		foreach ($this->_fields as $field) {
+			if (!$field['inFilter']) {
+				continue;
+			}
 			$element = new Zend_Form_Element_Select($field['alias']);
 			$element->setLabel($field['title'])
 				 ->setRequired(false)
@@ -127,7 +131,8 @@ class Catalog_Form_Categories_Filter extends KIT_Form_Abstract
 
 	public function submit()
 	{
-		$formData = $this->getValidValues($_GET);
+		//$formData = $this->getValidValues($_GET);
+		$formData = $_GET;
 		if (isset($formData['submit'])) {
 			unset($formData['submit']);
 		}
