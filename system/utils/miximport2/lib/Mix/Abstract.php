@@ -18,7 +18,7 @@ abstract class Mix_Abstract
 	 * @var Zend_Db_Adapter_Abstract
 	 */
 	protected $_db;
-
+	
 
 	/**
 	 * Database and other settings
@@ -41,34 +41,10 @@ abstract class Mix_Abstract
 	 */
 	protected function _initDb()
 	{
-		if (!($this->_db instanceof Zend_Db)) {
-			$this->_db = Zend_Db::factory($this->_config->database);
-			is_object($this->_db) || trigger_error('Database connection error.', E_USER_ERROR);
-			$this->_db->query('SET NAMES UTF8');
-		}
-
-		return $this->_db;
-	}
-
-	/**
-	 * Get database instance
-	 *
-	 * @return Zend_D
-	 */
-	public function getDB()
-	{
-		$this->_initDb();
-		return $this->_db;
-	}
-
-	/**
-	 * Set database adapter
-	 *
-	 * @param Zend_Db $db
-	 */
-	public function setDb(Zend_Db $db)
-	{
-		$this->_db = $db;
+		$this->_db = Zend_Db::factory($this->_config->database);
+		is_object($this->_db) || trigger_error('Database connection error.', E_USER_ERROR);
+		$this->_db->query('SET NAMES UTF8');
+		return true;
 	}
 
 	public function disableKeys()
