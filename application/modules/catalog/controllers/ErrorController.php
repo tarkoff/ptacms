@@ -22,7 +22,8 @@ class Catalog_ErrorController extends KIT_Controller_Action_Backend_Abstract
         $errors = $this->_getParam('error_handler');
         
         switch ($errors->type) {
-            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
+            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ROUTE:
+        	case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
         
                 // 404 error -- controller or action not found
