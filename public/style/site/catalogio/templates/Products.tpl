@@ -46,6 +46,7 @@
 {assign var="priceField" value=$fields.price}
 {assign var="descrField" value=$fields.descr}
 {assign var="dateToField" value=$fields.dateTo}
+{assign var="captcha" value=$fields.captcha}
 {assign var="submitField" value=$fields.submit}
 
 {literal}
@@ -106,7 +107,7 @@
 									<p class="success">Ваше обьявление успешно добавлено!</p>
 								{/if}
 							{/if}
-							<div id="newPriceForm" style="display:none;">
+							<div id="newPriceForm">
 								{assign var="formName" value=$priceForm->name}
 								<form enctype="{$priceForm->enctype}" method="{$priceForm->method}" action="{$priceForm->action}" id="{$formName}" name="{$formName}">
 									<fieldset>
@@ -132,6 +133,10 @@
 												<input type="text" value="" readonly="readonly" id="{$dateToField->name}" name="{$dateToField->name}" class="prpiceInput" />
 												<div id="datepicker"></div>
 											</dd>
+										</dl>
+										<dl>
+											<dt><label for="{$captcha->name}">2,5 + 1,5 =</label></dt>
+											<dd><input type="text" value="" id="{$captcha->name}" name="{$captcha->name}" class="prpiceInput" /></dd>
 										</dl>
 										<dl>
 											<dt style="text-align: center;"><input type="submit" value="Добавить" id="{$submitField->name}" name="{$submitField->name}" class="prpiceInput" /></dt>

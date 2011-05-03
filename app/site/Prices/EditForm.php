@@ -49,6 +49,10 @@ class Prices_EditForm extends PTA_Control_Form
 		$dateTo->setSortOrder(350);
 		$this->addVisual($dateTo);
 
+		$captcha = new PTA_Control_Form_Text('captcha', 'Captcha', true);
+		$captcha->setSortOrder(360);
+		$this->addVisual($captcha);
+		
 		$submit = new PTA_Control_Form_Submit('submit', 'Save', true, 'Save');
 		$submit->setSortOrder(400);
 		$this->addVisual($submit);
@@ -64,8 +68,11 @@ class Prices_EditForm extends PTA_Control_Form
 	public function onSubmit(&$data)
 	{
 		$data->descr = $this->quote($data->descr);
+		$captcha = (int)$data->captcha;
+var_dump($captcha);
 		if (
-			!$this->_price->getProductId() 
+			4 != $captcha
+			|| !$this->_price->getProductId() 
 			|| !$this->_price->getUserId()
 			|| empty($data->descr)
 			|| empty($data->price)
