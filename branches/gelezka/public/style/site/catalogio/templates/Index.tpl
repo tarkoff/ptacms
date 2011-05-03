@@ -85,7 +85,7 @@
 {/literal}
 	{include file="Footer.tpl"}
 </div> <!-- /main -->
-{include file="debuger.tpl" app=$Gelezka}
+{* include file="debuger.tpl" app=$Gelezka *}
 {literal}
 	<script type="text/javascript">
 		//MiXmarket Catalog context goods
