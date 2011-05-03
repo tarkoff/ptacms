@@ -69,7 +69,6 @@ class Prices_EditForm extends PTA_Control_Form
 	{
 		$data->descr = $this->quote($data->descr);
 		$captcha = (int)$data->captcha;
-var_dump($captcha);
 		if (
 			4 != $captcha
 			|| !$this->_price->getProductId() 
