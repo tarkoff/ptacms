@@ -89,13 +89,13 @@
 {literal}
 	<script type="text/javascript">
 		//MiXmarket Catalog context goods
-		if (document.getElementById('mixkt_4294945452')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/show/4294945452/&div=mixkt_4294945452{/literal}{if !empty($Gelezka->mixCategory)}&cat_id={$Gelezka->mixCategory}{else}&cat_id=91491{/if}{literal}&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
+		if (document.getElementById('mixkt_4294945452')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://4294945452.kt.mixmarket.biz/show/4294945452/?div=mixkt_4294945452{/literal}{if !empty($Gelezka->mixCategory)}&cat_id={$Gelezka->mixCategory}{else}&cat_id=91491{/if}{literal}&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
 		//MixMarket Product context goods
-		if (document.getElementById('mixkt_4294944591')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/show/4294944591/&div=mixkt_4294944591{/literal}{if !empty($Gelezka->mixCategory)}&cat_id={$Gelezka->mixCategory}{else}&cat_id=91491{/if}{literal}&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
+		if (document.getElementById('mixkt_4294944591')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://4294944591.kt.mixmarket.biz/show/4294944591/?div=mixkt_4294944591{/literal}{if !empty($Gelezka->mixCategory)}&cat_id={$Gelezka->mixCategory}{else}&cat_id=91491{/if}{literal}&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
 		//MixMarket partner
-		if (document.getElementById('mix_block_12949300631294932579')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294932579/&div=mix_block_12949300631294932579&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+		if (document.getElementById('mix_block_12949300631294932579')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://1294930063.us.mixmarket.biz/uni/us/1294930063/1294932579/?div=mix_block_12949300631294932579&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
 		//Luxclub
-		if (document.getElementById('mix_block_12949300631294926753')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://mixmarket.biz/uni/us/1294930063/1294926753/?div=mix_block_12949300631294926753&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+		if (document.getElementById('mix_block_12949300631294926753')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://1294930063.us.mixmarket.biz/uni/us/1294930063/1294926753/?div=mix_block_12949300631294926753&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
 	</script>
 
 	<script type="text/javascript">
