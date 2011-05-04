@@ -12,6 +12,7 @@
 class PTA_MixMarket_Advertizer extends PTA_DB_Object
 {
 	private $_title;
+	private $_updated;
 
 	public function getTitle()
 	{
@@ -21,5 +22,15 @@ class PTA_MixMarket_Advertizer extends PTA_DB_Object
 	public function setTitle($title)
 	{
 		$this->_title = $title;
+	}
+
+	public function getUpdated()
+	{
+		return $this->_updated;
+	}
+
+	public function setUpdated($updated)
+	{
+		$this->_updated = (boolean)$updated;
 	}
 }
