@@ -14,3 +14,14 @@ $parser->clearTables();
 $parser->disableKeys();
 $parser->parse();
 $parser->enableKeys();
+
+$db = $parser->getDB();
+$db->query('UPDATE MIXMART_ADVERTIZERS SET ADVERTIZERS_UPDATED = 0');
+
+require 'Mix/Port.php';
+
+$parser = new Mix_Port();
+
+$parser->init();
+$parser->portCategories();
+$parser->portBrands();

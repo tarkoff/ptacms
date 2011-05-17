@@ -18,7 +18,7 @@ abstract class Mix_Abstract
 	 * @var Zend_Db_Adapter_Abstract
 	 */
 	protected $_db;
-	
+
 
 	/**
 	 * Database and other settings
@@ -45,6 +45,17 @@ abstract class Mix_Abstract
 		is_object($this->_db) || trigger_error('Database connection error.', E_USER_ERROR);
 		$this->_db->query('SET NAMES UTF8');
 		return true;
+	}
+
+	/**
+	 * Get database instance
+	 *
+	 * @return Zend_Db
+	 */
+	public function getDB()
+	{
+		$this->_initDb();
+		return $this->_db;
 	}
 
 	public function disableKeys()
