@@ -10,6 +10,6 @@ require 'Mix/Port.php';
 $parser = new Mix_Port();
 
 $parser->init();
-$parser->portCategories();
-$parser->portBrands();
+//$parser->portCategories();
+//$parser->portBrands();
 $parser->portOffers();

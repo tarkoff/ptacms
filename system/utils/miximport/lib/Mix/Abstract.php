@@ -53,7 +53,7 @@ abstract class Mix_Abstract
 	/**
 	 * Get database instance
 	 *
-	 * @return Zend_D
+	 * @return Zend_Db
 	 */
 	public function getDB()
 	{

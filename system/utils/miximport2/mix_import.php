@@ -15,18 +15,30 @@ is_object($db) || trigger_error('Database connection error.', E_USER_ERROR);
 $db->query('SET NAMES UTF8');
 
 $select = $db->select()->from('MIXMART_ADVERTIZERS', array('ADVERTIZERS_ID', 'ADVERTIZERS_URL'));
-$select->where('ADVERTIZERS_UPDATED = 0');
+$select->where('ADVERTIZERS_UPDATED = 0')->limit(1);
 
-foreach ($db->fetchAssoc($select) as $shopId => $shopUrl) {
+foreach ($db->fetchPairs($select) as $shopId => $shopUrl) {
+	$xmlRead = fopen($shopUrl, "r");
+	$xmlWrite = fopen('mixml.plx', "w");
+	if ($xmlRead && $xmlWrite) {
+		while (!feof($xmlRead)) {
+			//$buffer = iconv('Windows-1251', 'UTF-8', fgets($xmlRead, 4096));
+			$buffer = fgets($xmlRead, 4096);
+			fwrite($xmlWrite, $buffer);
+		}
+	}
+	fclose($xmlRead);
+	fclose($xmlWrite);
+
+	$parser = new Mix_Parser('mixml.plx');
+	$parser->init();
+//	$parser->disableKeys();
+	if ($parser->parse()) {
+		$db->query('UPDATE MIXMART_ADVERTIZERS SET ADVERTIZERS_UPDATED = 1 WHERE ADVERTIZERS_ID = ' . $shopId);
+	}
+//	$parser->enableKeys();
+	unset($parser);
+
 	var_dump($shopUrl);
 }
-exit(0);
-$parser = new Mix_Parser('mixml.plx');
 
-$parser->init();
-
-
-//$parser->clearTables();
-$parser->disableKeys();
-$parser->parse();
-$parser->enableKeys();

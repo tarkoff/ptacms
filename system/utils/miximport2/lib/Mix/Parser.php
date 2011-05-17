@@ -30,6 +30,8 @@ class Mix_Parser extends Mix_Abstract
 	protected $_currentTagAttrs;
 	protected $_currentText;
 
+	protected $_shopId = 0;
+
 	const SECTION_INIT = 0;
 	const SECTION_RUN = 1;
 	const SECTION_FLUSH = 2;
@@ -125,6 +127,8 @@ class Mix_Parser extends Mix_Abstract
 			case 'url':
 				if ('adv' == $this->_section) {
 					$this->_parseAdvertizers($attrs, self::SECTION_INIT);
+				} else if ('offer' == $this->_section) {
+					$this->_parseOffers($attrs, self::SECTION_INIT);
 				}
 			break;
 
@@ -140,10 +144,36 @@ class Mix_Parser extends Mix_Abstract
 				}
 			break;
 
+			case 'shop':
+				$this->_parseShop($attrs, self::SECTION_INIT);
+			break;
+
+			case 'regions_delivery':
+				$this->_section = 'regions_delivery';
+				$this->_parseRegionsDelivery($attrs, self::SECTION_INIT);
+			break;
+
+			case 'rd':
+				if ('regions_delivery' == $this->_section) {
+					$this->_parseRegionsDelivery($attrs, self::SECTION_INIT);
+				}
+			break;
+
 			case 'offer':
 				$this->_section = 'offer';
 				$this->_parseOffers($attrs, self::SECTION_INIT);
 			break;
+
+			case 'vendor':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers($attrs, self::SECTION_INIT);
+				}
+			break;
+
+			case 'picture':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers($attrs, self::SECTION_INIT);
+				}
 		}
 	}
 
@@ -174,12 +204,55 @@ class Mix_Parser extends Mix_Abstract
 			case 'url':
 				if ('adv' == $this->_section) {
 					$this->_parseAdvertizers(array(), self::SECTION_RUN);
+				} else if ('offer' == $this->_section) {
+					$this->_parseOffers(array(), self::SECTION_RUN);
 				}
+			break;
+
+			case 'regions_delivery':
+				$this->_section = null;
+				$this->_parseRegionsDelivery(array(), self::SECTION_FLUSH);
 			break;
 
 			case 'offer':
 				$this->_parseOffers(array(), self::SECTION_FLUSH);
 				$this->_section = null;
+			break;
+
+			case 'price':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers(array(), self::SECTION_RUN);
+				}
+			break;
+
+			case 'currencyId':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers(array(), self::SECTION_RUN);
+				}
+			break;
+
+			case 'categoryId':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers(array(), self::SECTION_RUN);
+				}
+			break;
+
+			case 'model':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers(array(), self::SECTION_RUN);
+				}
+			break;
+
+			case 'description':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers(array(), self::SECTION_RUN);
+				}
+			break;
+
+			case 'picture':
+				if ('offer' == $this->_section) {
+					$this->_parseOffers(array(), self::SECTION_RUN);
+				}
 			break;
 		}
 
@@ -200,17 +273,22 @@ class Mix_Parser extends Mix_Abstract
 		}
 	}
 
-	protected function _parseAdvertizers($attrs = array(), $mode = self::SECTION_INIT)
+	protected function _parseShop($attrs = array(), $mode = self::SECTION_INIT)
+	{
+		$this->_shopId = (int)$attrs['id'];
+	}
+
+	protected function _parseOffers($attrs = array(), $mode = self::SECTION_INIT)
 	{
 		static $values = array(), $geotargets = array();
-		$table = $this->_config->tables->advertizers;
-		$geoTargetTable = $this->_config->tables->adv_region_geotarget;
+		$table = $this->_config->tables->offers;
 
 		switch ($this->_currentTag) {
 			case 'offer':
 				if (self::SECTION_INIT == $mode) {
 					$values = array();
 					$values['OFFERS_ID'] = (int)$attrs['id'];
+					$values['OFFERS_ADVID'] = $this->_shopId;
 				} else if (self::SECTION_FLUSH == $mode) {
 					$this->_insertOrUpdate($table->name, $values);
 				}
@@ -229,35 +307,46 @@ class Mix_Parser extends Mix_Abstract
 			break;
 
 			case 'vendor':
-				$values['OFFERS_BRANDID'] = (int)$attrs['id'];;
-			break;
-
-			case 'categoryId':
-				$values['OFFERS_ADVID'] = (int)trim($this->_currentText);
+				$values['OFFERS_BRANDID'] = (int)$attrs['id'];
 			break;
 
 			case 'categoryId':
 				$values['OFFERS_CATID'] = (int)trim($this->_currentText);
 			break;
 
-			case 'categoryId':
-				$values['OFFERS_CATID'] = (int)trim($this->_currentText);
+			case 'picture':
+				if (self::SECTION_INIT == $mode) {
+					$values['OFFERS_IMGW'] = (int)$attrs['w'];
+					$values['OFFERS_IMGH'] = (int)$attrs['h'];
+				} else if (self::SECTION_RUN == $mode) {
+					$values['OFFERS_IMG'] = trim($this->_currentText);
+				}
+			break;
+
+			case 'model':
+				$values['OFFERS_NAME'] = trim($this->_currentText);
+			break;
+
+			case 'description':
+				$values['OFFERS_DESC'] = trim($this->_currentText);
 			break;
 		}
 	}
 
-	protected function _parseOffers($attrs = array(), $mode = self::SECTION_INIT)
+	protected function _parseAdvertizers($attrs = array(), $mode = self::SECTION_INIT)
 	{
-		static $values = array(), $shopId = 0;
+		static $values = array(), $geotargets = array(), $shopId = 0;
 		$table = $this->_config->tables->advertizers;
+		$geoTargetTable = $this->_config->tables->adv_region_geotarget;
 
 		switch ($this->_currentTag) {
-			case 'offer':
+			case 'adv':
 				if (self::SECTION_INIT == $mode) {
 					$values = array();
-					$values[''] = (int)$attrs['id'];
+					$values['ADVERTIZERS_ID'] = (int)$attrs['id'];
 					$values['ADVERTIZERS_PRICEMARKUP'] = (int)$attrs['price_markup'];
 					$values['ADVERTIZERS_UPDATED'] = 0;
+					$geotargets = array();
 				} else if (self::SECTION_FLUSH == $mode) {
 					$this->_insertOrUpdate($table->name, $values);
 					foreach ($geotargets as $geo) {
@@ -287,6 +376,33 @@ class Mix_Parser extends Mix_Abstract
 			break;
 		}
 	}
+
+	protected function _parseRegionsDelivery($attrs = array(), $mode = self::SECTION_INIT)
+	{
+		static $deliveries = array();
+		$table = $this->_config->tables->advertizers;
+		$advDeliveryTable = $this->_config->tables->adv_region_delivery;
+
+		switch ($this->_currentTag) {
+			case 'regions_delivery':
+				if (self::SECTION_INIT == $mode) {
+					$deliveries = array();
+				} else if (self::SECTION_FLUSH == $mode) {
+					foreach ($deliveries as $geo) {
+						$this->_insertOrUpdate($advDeliveryTable->name, $geo);
+					}
+				}
+			break;
+
+			case 'rd':
+				$deliveries[] = array(
+					'ADVREGIONDELIVERY_ADVID' => $this->_shopId,
+					'ADVREGIONDELIVERY_RDID'  => (int)$attrs['id']
+				);
+			break;
+		}
+	}
+
 
 	/**
 	 * Save parsed data to database
@@ -338,8 +454,8 @@ class Mix_Parser extends Mix_Abstract
 		$this->_db->beginTransaction();
 
 		$sql .= implode(', ', $updateValues);
-		$this->_db->query($sql);
 		$this->alert($sql);
+		$this->_db->query($sql);
 
 		return $this->_db->commit();
 	}
