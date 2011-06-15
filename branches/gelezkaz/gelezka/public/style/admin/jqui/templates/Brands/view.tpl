@@ -1,1 +1,0 @@
-{include file="generic/view.tpl" view=$data filterForm = $Brands->Common_FilterForm}
