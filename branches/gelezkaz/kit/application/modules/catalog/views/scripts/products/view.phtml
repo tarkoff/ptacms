@@ -1,0 +1,180 @@
+<?php $productFullName = $this->brand->getTitle() . ' ' . $this->product->getTitle();?>
+<?php $categoryTitle = $this->category->getTitle();?>
+
+<?php $this->headTitle()->append($categoryTitle); ?>
+<?php $this->headTitle()->append($productFullName); ?>
+<?php $this->description[] = $productFullName;?>
+<?php array_push($this->keywords, $productFullName, $categoryTitle);?>
+<?php $this->activeCategory = $this->category->getAlias();?>
+
+<?php $this->headLink()->appendStylesheet('/css/ui/jquery-ui.css'); ?>
+<?php $this->headLink()->appendStylesheet('/js/jquery/stars/jquery.ui.stars.min.css'); ?>
+<?php $this->headLink()->appendStylesheet('/js/jquery/lightbox/css/jquery.lightbox-0.5.css'); ?>
+
+<?php $this->headScript()->appendFile('/js/jquery/ui/jquery-ui.min.js'); ?>
+<?php $this->headScript()->appendFile('/js/jquery/stars/jquery.ui.stars.min.js'); ?>
+<?php $this->headScript()->appendFile('/js/jquery/lightbox/js/jquery.lightbox-0.5.min.js'); ?>
+
+<script type="text/javascript">
+    $(function() {
+        $('#gallery a').lightBox({
+        	imageLoading: '/js/jquery/lightbox/images/lightbox-ico-loading.gif',
+        	imageBtnClose: '/js/jquery/lightbox/images/lightbox-btn-close.gif',
+        	imageBtnPrev: '/js/jquery/lightbox/images/lightbox-btn-prev.gif',
+        	imageBtnNext: '/js/jquery/lightbox/images/lightbox-btn-next.gif',
+        	imageBlank: '/js/jquery/lightbox/images/lightbox-blank.gif',
+        	containerResizeSpeed: 350,
+        	txtImage: 'Фото',
+        	txtOf: 'из'
+           });
+    });
+</script>
+<h4 class="hx-style01"><span><?php echo $categoryTitle . ' :: ' . $productFullName;?></span></h4>
+<div class="box">
+	<div id="standard">
+		<div class="col30" id="gallery" style="width:250px">
+		<?php if (count($this->photos)):?>
+			<?php foreach ($this->photos as $photo):?>
+				<?php if (empty($photo->PHOTOS_ISDEFAULT)):?>
+					<a href="<?php echo $photo->PHOTOS_FILE;?>" class="noscreen" title="<?php echo $productFullName;?>"></a>
+				<?php else:?>
+					<a href="<?php echo $photo->PHOTOS_FILE;?>" title="<?php echo $productFullName;?>">
+						<img src="/timthumb/timthumb.php?src=<?php echo $photo->PHOTOS_FILE;?>&w=220&zc=0" width="220" alt="" />
+					</a>
+				<?php endif;?>
+			<?php endforeach;?>
+		<?php else:?>
+			<img class="nom" alt="Изображение временно отсутствует" src="/images/image-02.gif" title="Изображение временно отсутствует" width="150" height="110" />
+		<?php endif;?>
+			<div id="avgRating" style="margin-left:70px;">
+				<select disabled="disabled">
+					<option value="1">Очень плохо</option>
+					<option value="2">Плохо</option>
+					<option value="3">Нормально</option>
+					<option value="4">Хорошо</option>
+					<option value="5">Отлично</option>
+				</select>
+			</div>
+
+		</div>
+		<noindex>
+		<div class="col30 margin robots-nocontent">
+
+
+			<h4 class="hx-style01"><span>Все для <?php echo $productFullName;?></span></h4>
+			<ul class="ul-list box">
+				<?php if ($this->product->getDriversUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getDriversUrl();?>" class="ico-more" rel="nofollow" target="_blank">Прошивки</a></li><?php endif;?>
+				<?php if ($this->brand->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->brand->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Сайт производителя</a></li><?php endif;?>
+				<?php if ($this->product->getUrl()):?><li style="margin:0 0 12px;"><a href="<?php echo $this->product->getUrl();?>" class="ico-more" rel="nofollow" target="_blank">Описание производителя</a></li><?php endif;?>
+				<li>
+				  <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+				  <div class="yashare-auto-init" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir"></div>
+				</li>
+				<li>
+					<form method="post" action="" id="ratings" style="display: block;">
+						&nbsp;<span id="stars-cap"></span>
+						 <select>
+							<option value="1">Очень плохо</option>
+							<option value="2">Плохо</option>
+							<option value="3">Нормально</option>
+							<option value="4">Хорошо</option>
+							<option value="5">Отлично</option>
+						 </select>
+						<div id="ajax_response"></div>
+					</form>
+				</li>
+			</ul>
+		</div>
+		</noindex>
+		<script type="text/javascript">
+			$(function(){
+				$("#ratings").submit(function(event) {
+					  event.preventDefault();
+					  return false;
+				});
+
+				$("#ratings").children().not("select").hide();
+
+				// Create target element for onHover titles
+				$caption = $("<span/>");
+
+				$("#ratings").stars({
+					inputType: "select",
+					captionEl: $caption, // point to our newly created element
+					callback: function(ui, type, value)
+					{
+						$.post(
+								"/catalog/products/rate/product/<?php echo $this->product->getAlias();?>/format/json",
+								{rate: value},
+								function(data) {
+									$("#ajax_response").html(data);
+								}
+						);
+					}
+				});
+
+				// Make it available in DOM tree
+				$caption.appendTo("#ratings");
+
+				$("#avgRating").stars({
+					inputType: "select",
+					disabled: true
+				});
+				$("#avgRating").stars("select", <?php echo $this->rating->getRating() / ($this->rating->getRatesCnt() ? $this->rating->getRatesCnt() : 1);?>);
+			});
+		</script>
+		<div class="col30" style="width:336px;">
+			<!-- Gde kupit -->
+			<div id="mixgk_4294931640"></div>
+			<script type="text/javascript">document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://4294931640.gk.mixmarket.biz/4294931640/?type=vert&pagesize=3&brand=<?php echo $this->brand->getTitle();?>&model=<?php echo $this->product->getTitle();?>&cat_id=&div=mixgk_4294931640&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');</script>
+		</div>
+	</div>
+</div>
+
+
+<?php //Zend_Registry::get('logger')->err($this->product->getCustomFields()->getProductGroups());?>
+
+<div id="prodInfo">
+	<ul>
+		<li><a href="#descr">Описание</a></li>
+		<li><a href="/catalog/products/prices/product/<?php echo $this->product->getAlias();?>/format/html">Цены</a></li>
+		<li><a href="/catalog/products/comments/product/<?php echo $this->product->getAlias();?>/format/html">Коментарии</a></li>
+	</ul>
+	<div id="descr">
+		<?php if ($this->product->getShortDescr()):?>
+			<hr class="noscreen" />
+			<h4 class="hx-style01"><span>Описание</span></h4>
+			<div class="box"><?php echo $this->product->getShortDescr();?></div>
+		<?php endif;?>
+
+		<hr class="noscreen" />
+
+		<div id="props">
+		<?php foreach ($this->product->getCustomFields()->getProductGroups() as $index => $group):?>
+			<h4 class="hx-style01"><span><?php echo $group['title'];?></span></h4>
+			<ul class="ul-list box">
+			<?php foreach ($group['fields'] as $field):?>
+				<?php if (!empty($field['values'])):?>
+					<li>
+						<div class="ftitle t-left"><?php echo $field['title'];?></div>
+						<div class="fvalue"><?php foreach ($field['values'] as $valueId => $value):?><a href="<?php echo $this->url(array('module' => 'catalog', 'controller'=>'categories', 'action'=>'list'), null, true);?>/category/<?php echo $this->category->getAlias();?>?<?php echo $field['alias'];?>=<?php echo $valueId;?>" title="<?php echo $field['title'];?>"><?php echo $value;?></a><?php if (end($field['values']) != $value) echo ' | '; endforeach;?></div>
+					</li>
+				<?php endif;?>
+			<?php endforeach;?>
+			</ul>
+		<?php endforeach;?>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$( "#prodInfo" ).tabs({
+			ajaxOptions: {
+				error: function( xhr, status, index, anchor ) {
+					$( anchor.hash ).html("В данный момент страница не загружается. Мы сипрваим это в ближайшее время.");
+				}
+			},
+			select: function(event, ui) { $("#prodInfo div.ui-tabs-panel[id!=descr]").html("Загрузка..."); }
+		});
+	});
+</script>
