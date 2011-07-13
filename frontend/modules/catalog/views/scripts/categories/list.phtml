@@ -1,0 +1,31 @@
+<?php $this->description[] = $this->category->getTitle();?>
+		<div class="title01-top"></div>
+		<div class="title01">
+			<div class="title01-in">
+				<h3 class="ico-info">
+					<?php echo $this->category->getTitle();?>
+				</h3>
+			</div>
+		</div>
+		<div class="title01-bottom"></div>
+		<p class="bb">
+			<a href="/">Главная</a> &raquo;
+			<?php if (!empty($this->parentCategory)):?>
+				<a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true);?>/category/<?php echo $this->parentCategory->getAlias();?>"><?php echo $this->parentCategory->getTitle();?></a> &raquo;
+			<?php endif;?>
+			<strong><?php echo $this->category->getTitle();?></strong>
+		</p>
+
+<?php if (!empty($this->childrenCategories)):?>
+	<!-- Subcategories -->
+	<h4>Подразделы:</h4>
+	<ul class="ul-categories box">
+	<?php foreach ($this->childrenCategories as $category):?>
+		<?php $this->description[] = $category->CATEGORIES_TITLE;?>
+		<?php $this->keywords[] = $category->CATEGORIES_TITLE;?>
+		<li><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true);?>/category/<?php echo $category->CATEGORIES_ALIAS;?>"><?php echo $category->CATEGORIES_TITLE;?></a> (<?php echo isset($this->catsProdsCnt[$category->CATEGORIES_ID]) ? $this->catsProdsCnt[$category->CATEGORIES_ID] : 0;?>)</li>
+	<?php endforeach;?>
+	</ul>
+<?php endif;?>
+
+<?php echo $this->render('catalog.phtml');?>

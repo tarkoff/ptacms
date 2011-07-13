@@ -1,0 +1,165 @@
+<?php if (!empty($this->cats)):?>
+<div class="ui-widget kit-form">
+	<div class="ui-widget-header">Please, Select Product Category</div>
+	<div class="ui-widget-content">
+		Please, Select Product Category:
+		<select id="catId">
+			<?php foreach ($this->cats as $catId => $catTitle):?>
+				<option value="<?php echo $catId;?>"><?php echo $catTitle;?></option>
+			<?php endforeach;?>
+		</select>
+		&nbsp;
+		<button id="catSelect">Select</button>
+		<script type="text/javascript">
+			$('#catSelect').button();
+			$('#catSelect').click(function() {
+				document.location.href = '<?php echo  $this->url(array('module' => 'catalog', 'controller'=>'products', 'action'=>'add'), null, true)?>/catId/' + $('#catId').val();
+				return false;
+			});
+		</script>
+	</div>
+</div>
+<?php else:?>
+<style type="text/css">
+	.add, .apply { margin:0 2px; }
+	.fieldValue {margin:-10px 5px -10px 0;}
+</style>
+<div class="ui-widget kit-form">
+	<div class="ui-widget-header ui-corner-all"><?php echo $this->form->getLegend();?></div>
+	<div class="ui-widget-content">
+		<form name="<?php echo $this->form->getName();?>" action="<?php echo $this->form->getAction();?>" method="<?php echo $this->form->getMethod();?>">
+		<?php foreach ($this->form->getDisplayGroups() as $group):?>
+			<div class="ui-widget">
+				<div class="ui-widget-header ui-corner-all">
+					<span class="ui-icon ui-icon-circle-arrow-s"></span><?php echo $group->getLegend(); ?>
+				</div>
+				<div class="ui-widget-content">
+				<?php $groupAlias = $group->getName();?>
+				<?php foreach ($group->getElements() as $element):?>
+					<dl <?php if ('standard' != $groupAlias):?>class="customFields"<?php endif;?>>
+						<?php echo $element->render();?>
+					</dl>
+					<?php $fieldId = $element->getView()->{$element->getName()};?>
+					<div id="<?php echo $element->getName();?>-values">
+						<input type="hidden" id="<?php echo $element->getName();?>-fieldId" value="<?php echo $fieldId;?>" />
+					<?php if (isset($this->selectValues[$fieldId])):?>
+						<?php foreach ($this->selectValues[$fieldId] as $valueId => $value):?>
+							<em class="fieldValue">
+								<?php echo $value;?>;
+								<input type="hidden" id="<?php echo $element->getName();?>[]" name="<?php echo $element->getName();?>[]" value="<?php echo $valueId;?>" />
+							</em>
+						<?php endforeach;?>
+					<?php endif;?>
+					</div>
+				<?php endforeach;?>
+				</div>
+			</div>
+		<?php endforeach;?>
+			<center><dl><?php echo $this->form->getElement('submit')->render();?></dl></center>
+		</form>
+	</div>
+</div>
+<div id="newValueForm" title="Add new value" class="newValueForm">
+	<form name="fieldsValuesEditForm" id="fieldsValuesEditForm" action="#" method="post">
+	<fieldset>
+		<label for="value">New Value</label>
+		<input type="text" name="value" id="value" class="text ui-widget-content ui-corner-all" />
+		<input type="hidden" name="fieldId" id="fieldId" value="0" />
+	</fieldset>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		$(".customFields > dd").each(function(index) {
+			var fieldName  = $(this).attr('id').split("-")[0];
+			var fieldAlias = $("#" + fieldName + "-label").text().split("-")[0];
+
+			$("#" + fieldName).attr('name', fieldName + '_').attr('id', fieldName + '_');
+			$(this).append('<button class="apply" id="' + fieldName +'-apply">Apply "' + fieldAlias + '" Value</button>');
+			$(this).append('<button class="add" id="' + fieldName +'-add">New "' + fieldAlias + '" Value</button>');
+		});
+
+		$("button.add").button({
+			icons: { primary: 'ui-icon-plusthick' },
+			text: false
+		});
+		$("button.apply").button({
+			icons: { primary: 'ui-icon-check' },
+			text: false
+		});
+
+		$("#newValueForm").dialog({
+			bgiframe: true,
+			autoOpen: false,
+			modal: true,
+			show: 'scale',
+			buttons: {
+				'Add Value': function() {
+					$("#fieldsValuesEditForm").submit();
+					$(this).dialog('close');
+				},
+				'Cancel': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function() {
+			}
+		});
+
+		$("#fieldsValuesEditForm").submit(function() {
+			$.post(
+				$(this).attr("action"),
+				$(this).serialize(),
+				function(data) {
+					var fieldSelect = $("#" + window.fieldName + "_");
+					$.getJSON(
+						'/catalog/fields/fieldvalues/format/json/fid/' + window.fieldId,
+						function(values) {
+							var select = $("#" + window.fieldName + "_");
+							select.empty();
+							for (valueId in values) {
+								select.append('<option value="' + valueId + '" label="' + values[valueId] + '">' + values[valueId] + '</option>');
+							}
+						}
+					);
+				}
+			);
+			return false;
+		});
+
+		$("button.add").click(function() {
+			window.fieldName = $(this).attr('id').split("-")[0];
+			window.fieldId = $("#" + fieldName + "-fieldId").val();
+			$("#fieldsValuesEditForm").attr({action: '/catalog/fields/valuesadd/fid/' + window.fieldId});
+			$("#fieldsValuesEditForm #fieldId").val(window.fieldId);
+			$('#newValueForm').dialog('open');
+			return false;
+		});
+
+		$("button.apply").click(function() {
+			var fieldName  = $(this).attr('id').split("-")[0];
+			var fieldSelect = $("#" + fieldName + "_");
+			$('#' + fieldName + '_ option:selected').each(function () {
+				$("#" + fieldName + "-values").append('<em class="fieldValue"><input type="hidden" name="' + fieldName + '[]" id="' + fieldName + '[]" value="' + $(this).val() + '" />' + $(this).text() + ';</em>');
+			});
+			valuesRemove();
+			return false;
+		});
+
+		valuesRemove();
+
+		function valuesRemove()
+		{
+			$('em.fieldValue').dblclick(function(e) {
+				$(this).fadeOut(
+					"slow",
+					function () {
+						$(this).remove();
+					}
+				);
+			});
+		}
+	});
+</script>
+<?php endif;?>

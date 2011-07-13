@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-language" content="en" />
+  <meta name="robots" content="index,follow,noodp,noydir" />
+
+  <meta name="copyright" lang="en" content="KiT Studio" />
+
+  <meta name="description" content="<?php echo implode(', ', (array)$this->description);?>" />
+  <meta name="keywords" content="<?php if (!empty($this->keywords)): foreach (array_unique($this->keywords) as $keyword) {echo 'описание ' . $keyword, ', купить ' . $keyword, ', цена ' . $keyword, ', Драйвера ' . $keyword;} else:?>Gelezka,Телефоны,смартфоны,ноутбуки,Описание,Цены,Обзор,Драйвера<?php endif;?>" />
+
+  <link rel="icon" href="/images/catalogio/favicon.ico" type="image/gif" />
+  <link rel="shortcut icon" href="/images/catalogio/favicon.ico" type="image/gif" />
+
+  <?php echo $this->headLink();?>
+  <link type="text/css" rel="stylesheet" href="/js/jquery/ui/css/catalogio/jquery-ui.css" />
+  <link rel="stylesheet" media="screen,projection" type="text/css" href="/css/catalogio/main.css" />
+  <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/css/catalogio/main-msie.css" /><![endif]-->
+  <link rel="stylesheet" media="print" type="text/css" href="/css/catalogio/print.css" />
+
+  <link type="text/css" rel="stylesheet" href="http://mixmarket.biz/uni/partner.css" />
+
+  <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/ui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/ui/i18n/jquery.ui.datepicker-ru.js"></script>
+  <?php echo $this->headScript();?>
+  <script type="text/javascript" src="/js/catalogio/custom.js"></script>
+  <?php echo $this->headTitle();?>
+</head>
+<body>
+<?php
+/*
+    if (!defined('_SAPE_USER')){
+        define('_SAPE_USER', '21b99478bb701693f0193b8c156df761');
+    }
+    require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php');
+
+    //$o[ 'force_show_code' ] = true;
+    $o['charset'] = 'UTF-8';
+    //$o['verbose'] = true;
+    $o['request_uri'] = $_SERVER['REQUEST_URI'];
+    $sape = new SAPE_client($o);
+    */
+?>
+<div class="img1px">
+<script type="text/javascript">
+	document.write('<img src="http://mixmarket.biz/t.php?id=3539779&uid=1294931752&r=' + escape(document.referrer) + '&t=' + (new Date()).getTime() + '" width="1" height="1"/>');
+	var mix_tracker_shown=true;
+	var uni_tracker_shown=true;
+</script>
+<noscript><img src="http://mixmarket.biz/t.php?id=3539779&uid=1294931752" width="1" height="1"/></noscript>
+</div>
+
+<div id="main">
+
+	<!-- Header -->
+	<div id="header">
+		<div class="f-left" style="padding-top:15px;">
+			<h1 id="logo"><a href="/" title="На главную"><img width="210" height="56" src="/images/catalogio/logo.gif" alt="На главную" /></a></h1>
+		</div>
+		<div class="f-right">
+			<!-- Luxclub --><div id="mix_block_12949300631294926753"></div>
+		</div>
+	</div>
+	<hr class="noscreen" />
+	<!-- /header -->
+
+	<!-- Tabs -->
+	<div id="search-tabs">
+		<ul id="search-type">
+			<li><a href="#s01"><span>Каталог</span></a></li>
+			<li><a href="#s02"><span>Интернет</span></a></li>
+		</ul>
+		<div id="search-top"></div>
+		<div id="search">
+			<div id="search-in">
+				<div id="s01">
+    			<?php if (!empty($this->searchForm)):?>
+					<form name="<?php echo $this->searchForm->getName();?>" action="<?php echo $this->searchForm->getAction();?>" method="<?php echo $this->searchForm->getMethod();?>" enctype="<?php echo $this->searchForm->getEncType();?>">
+						<p class="nom t-center">
+							<?php $queryElement = $this->searchForm->getElement('q');?>
+							<?php $submit = $this->searchForm->getElement('submit');?>
+							<label for="<?php echo $queryElement->getName();?>">По Каталогу:</label>
+							<input type="text" size="75" id="<?php echo $queryElement->getName();?>" name="<?php echo $queryElement->getName();?>" class="nonhigh search-input" value="<?php if (!$queryElement->getValue()):?>поиск по производителю или модели...<?php else: echo $queryElement->getValue(); endif;?>" onblur="if (this.value == '') {this.value = 'поиск по производителю или модели...';}" onfocus="if (this.value == 'поиск по производителю или модели...') {this.value = '';}" />
+							<input type="submit" id="<?php echo $submit->getName();?>" name="<?php echo $submit->getName();?>" value="&#x041f;&#x043e;&#x0438;&#x0441;&#x043a;" class="search-submit" />
+						</p>
+					</form>
+				<?php endif;?>
+				</div>
+				<div id="s02">
+					<form action="http://www.google.com.ua/cse" id="cse-search-box" target="_blank">
+						<p class="nom t-center">
+							<input type="hidden" name="cx" value="partner-pub-1610147099732550:9g2e57-4f5f" />
+							<input type="hidden" name="ie" value="UTF-8" />
+							<label for="q">В Интернете:</label>
+							<input type="text" name="q" size="75" class="search-input" />
+							<input type="submit" class="search-submit" name="sa" value="&#x041f;&#x043e;&#x0438;&#x0441;&#x043a;" />
+						</p>
+					</form>
+					<script type="text/javascript" src="http://www.google.com.ua/cse/brand?form=cse-search-box&amp;lang=ru"></script>
+				</div>
+				<hr class="noscreen" />
+			</div> <!-- /search-in -->
+		</div> <!-- /search -->
+		<div id="search-bottom"></div>
+	</div> <!-- /search-tabs -->
+
+
+
+
+	<div class="box">
+		<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=701&encoding=utf8&limit=5"></script>
+	</div>
+	<!-- Content -->
+	<div id="page" class="box">
+		<?php echo $this->layout()->content ?>
+	</div> <!-- /page -->
+
+	<div id="adsense_bottomh" class="big_hor" style="text-align:center;">
+		<script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=701&encoding=utf8&limit=5"></script>
+	</div>
+
+<!-- Footer -->
+	<div id="footer">
+		<ul>
+			<li>
+				<div id="counters" class="ui-widget-shadow" style="background:#fff">
+					<!--LiveInternet counter--><script type="text/javascript"><!--
+					document.write("<a href='http://www.liveinternet.ru/click' "+
+					"target=_blank><img src='//counter.yadro.ru/hit?t27.20;r"+
+					escape(document.referrer)+((typeof(screen)=="undefined")?"":
+					";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+					screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+					";"+Math.random()+
+					"' alt='' title='LiveInternet: показано количество просмотров и"+
+					" посетителей' "+
+					"border='0' width='88' height='120'><\/a>")
+					//--></script><!--/LiveInternet-->
+				</div>
+			</li>
+		 	<li>
+				<span>
+					Copyrighted &copy;&nbsp;2009 - 2011 Gelezka - Описания, Цены, Обзоры, Драйвера<br />
+					Поддержка сайта support@gelezka.net<br />
+					<span id="plinks"><?php //$sape->return_links();?></span><br />
+					<span id="copy">
+						<noindex><a rel=”nofollow” target="_blank" href="http://www.nuviotemplates.com/">Free web templates</a></noindex> by <noindex><a rel=”nofollow” href="http://www.qartin.cz/">Qartin</a></noindex><br />
+						<span class="smaller">Visit <noindex><a target="_blank" rel=”nofollow” href="http://www.southpadre.net/" title="South Padre Island">South Padre Island</a></noindex></span>
+					</span>
+				</span>
+			</li>
+		</ul>
+	</div>
+<!-- /footer -->
+</div> <!-- /main -->
+
+<script type="text/javascript">
+	//MiXmarket Catalog context goods
+	if (document.getElementById('mixkt_4294945452')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://4294945452.kt.mixmarket.biz/show/4294945452/?div=mixkt_4294945452<?php if (!empty($this->mixCategory)) {echo '&cat_id=' . $this->mixCategory;} else {echo '&cat_id=91491';}?>&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
+	//MixMarket Product context goods
+	if (document.getElementById('mixkt_4294944591')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://4294944591.kt.mixmarket.biz/show/4294944591/?div=mixkt_4294944591<?php if (!empty($this->mixCategory)) {echo '&cat_id=' . $this->mixCategory;} else {echo '&cat_id=91491';}?>&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="UTF-8"><' + '/scr' + 'ipt>');
+	//MixMarket partner
+	if (document.getElementById('mix_block_12949300631294932579')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://1294930063.us.mixmarket.biz/uni/us/1294930063/1294932579/?div=mix_block_12949300631294932579&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+	//Luxclub
+	if (document.getElementById('mix_block_12949300631294926753')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://1294930063.us.mixmarket.biz/uni/us/1294930063/1294926753/?div=mix_block_12949300631294926753&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+</script>
+
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	try {
+		var pageTracker = _gat._getTracker("UA-9266190-2");
+		pageTracker._trackPageview();
+	} catch(err) {}
+</script>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-9266190-2";
+</script>
+<!--Openstat--><span id="openstat2099657"></span>
+<script type="text/javascript">
+	var openstat = { counter: 2099657, part: 'mag',next: openstat }; document.write(unescape("%3Cscript%20src=%22http" +
+	(("https:" == document.location.protocol) ? "s" : "") +
+	"://openstat.net/cnt.js%22%20defer=%22defer%22%3E%3C/script%3E"));
+</script><!--/Openstat-->
+
+</body>
+</html>
