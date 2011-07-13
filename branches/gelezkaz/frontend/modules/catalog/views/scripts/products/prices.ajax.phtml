@@ -1,0 +1,47 @@
+<div id="prices">
+	<?php foreach ($this->mixOffers as $offer):?>
+		<div class="bb" style="margin:5px 0;font-size:0.9em;">
+			<table>
+				<tr>
+					<td rowspan="6" width="100px">
+						<a href="<?php echo $offer->OFFERS_URL?>" rel=”nofollow” target="_blank"><img src="<?php echo empty($offer->OFFERS_IMG) ? '/images/catalogio/noImg90.jpg' : $offer->OFFERS_IMG?>" width="<?php echo empty($offer->OFFERS_IMGW) ? 90 : $offer->OFFERS_IMGW;?>" height="<?php echo empty($offer->OFFERS_IMGH) ? 67 : $offer->OFFERS_IMGH;?>" /></a>
+					</td>
+					<th style="text-align:left;">
+						<a href="<?php echo $offer->OFFERS_URL?>" rel=”nofollow” target="_blank" class="bigger strong high"><?php echo $offer->OFFERS_NAME?></a>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<?php
+							if ($offer->OFFERS_CURRENCYID == 'RUB') {
+								$currencyShorter = ' руб.';
+							} elseif ($offer->OFFERS_CURRENCYID == 'UAH') {
+								$currencyShorter = ' грн.';
+							} else {
+								$currencyShorter = '$';
+							}
+						?>
+						<em>Цена</em>: <a href="<?php echo $offer->OFFERS_URL?>" rel=”nofollow” target="_blank" class="bigger strong"><?php echo $offer->OFFERS_PRICE . $currencyShorter;?></a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<em>Магазин</em>: <a href="<?php echo $offer->OFFERS_URL?>" rel=”nofollow” target="_blank">{$offer.ADVERTIZERS_TITLE}</a>
+					</td>
+				</tr>
+				<?php if (!empty($offer->REGIONSGEOTAGRET_TITLE)):?>
+					<tr><td><em>Регион</em>: <b><?php echo $offer->REGIONSGEOTAGRET_TITLE;?></b></td></tr>
+				<?php endif;?>
+				<tr>
+					<td>
+						<em>Описание</em>: <?php echo empty($offer->OFFERS_DESC) ? $offer->OFFERS_NAME : mb_substr($offer->OFFERS_DESC, 0, 400, 'utf-8');?>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="<?php echo $offer->OFFERS_URL?>" rel=”nofollow” target="_blank">Купить в магазине <b><?php echo $offer->ADVERTIZERS_TITLE;?></b> >></a></td>
+				</tr>
+			</table>
+		</div>
+	<?php endforeach;?>
+	<div class="bb" style="margin:5px 0;"><script type="text/javascript" language="Javascript" src="http://a.ava.com.ua/a/showA.js?partner=335&block=700&search=<?php echo str_replace('_', '+', $this->product->getAlias());?>&encoding=utf8&limit=20"></script></div>
+</div>

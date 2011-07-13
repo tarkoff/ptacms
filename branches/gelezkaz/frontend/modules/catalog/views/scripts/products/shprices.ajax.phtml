@@ -1,0 +1,63 @@
+<div id="shprices">
+	<?php echo $this->form ?>
+	<?php foreach ($this->offers as $offer):?>
+		<div class="bb" style="margin:5px 0;font-size:0.9em;">
+			<table>
+				<tr>
+					<td><em class="bigger strong high"><?php echo $offer->PRICE_AUTHOR?></em>&nbsp;|&nbsp;<em class="nonhigh">Актуально до: <?php echo date('j.m.Y', strtotime($offer->PRICE_ACTUALTO));?></em></td>
+				</tr>
+				<tr>
+					<td>
+						<?php
+							switch ($offer->PRICE_CURRENCYID) {
+								case '1':
+									$currencyShorter = ' грн.';
+								break;
+								case '2':
+									$currencyShorter = ' руб.';
+								break;
+								case '3':
+									$currencyShorter = '$';
+								break;
+								default: $currencyShorter = ' euro';
+							}
+						?>
+						<em>Цена</em>: <em class="bigger strong"><?php echo $offer->PRICE_COST . $currencyShorter;?></em>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<em>Описание</em>: <?php echo mb_substr($offer->PRICE_DESCR, 0, 500, 'utf-8');?>
+					</td>
+				</tr>
+			</table>
+		</div>
+	<?php endforeach;?>
+</div>
+<script type="text/javascript">
+	$("input:submit, input:button, button").button();
+	$("#actualto").datepicker($.datepicker.regional['ru']);
+	$("#actualto").datepicker('option', {dateFormat:'yy-mm-dd'});
+	$("#shpricetForm").submit(function() {
+		var cont = $("#shprices").parent();
+		$.post(
+			$(this).attr("action"),
+			$(this).serialize(),
+			function(data) {
+				$.get(
+					'/catalog/products/shprices/product/<?php echo $this->product->getAlias();?>/format/html',
+					function(data) {
+						$("#shprices").slideUp('slow', function() {
+							$("#shprices").detach();
+						});
+						cont.html(data);
+						$("#shprices").slideDown('slow');
+					}
+				);
+			}
+		);
+		cont.html('Добавление цены...');
+		return false;
+	});
+
+</script>
