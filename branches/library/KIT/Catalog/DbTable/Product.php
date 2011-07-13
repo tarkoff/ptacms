@@ -152,7 +152,7 @@ class KIT_Catalog_DbTable_Product extends KIT_Db_Table_Abstract
 			array($catsTable->getFieldByAlias('alias'), $catsTable->getFieldByAlias('title'))
 		);
 
-		//$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
+		$select->where('pc.' . $prodCatsTable->getFieldByAlias('isDefault') . ' = 1');
 
 		return $select;
 	}

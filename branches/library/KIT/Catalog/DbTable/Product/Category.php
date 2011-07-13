@@ -204,4 +204,49 @@ class KIT_Catalog_DbTable_Product_Category extends KIT_Db_Table_Abstract
 		}
 		return false;
 	}
+
+	public function getProductCategories($productId)
+	{
+		$productId = (int)$productId;
+
+		if (empty($productId)) {
+			return false;
+		}
+
+		$categoryTable = self::get('KIT_Catalog_DbTable_Category');
+
+		$select = $this->select()->from(array('prodCat' => $this->getTableName()));
+		$select->join(
+			array('cats' => $categoryTable->getTableName()),
+			'prodCat.' . $this->getFieldByAlias('categoryId')
+			. ' = cats.' . $categoryTable->getPrimary()
+		);
+		$select->where($this->getFieldByAlias('productId') . ' = ' . $productId);
+		$select->setIntegrityCheck(false);
+
+		return $this->fetchAll($select);
+	}
+
+	/**
+	 * Calculate how much products in category
+	 *
+	 * @param array $catsId
+	 */
+	public function getCategoryProductsCount($catsId)
+	{
+		$catsId = (array)$catsId;
+
+		$categoryIdField = $this->getFieldByAlias('categoryId');
+		$select = $this->select()->from(
+			$this->getTableName(),
+			array($categoryIdField, 'count(*) as PRODUCTS_CNT')
+		);
+
+		if (!empty($catsId)) {
+			$select->group($categoryIdField)
+				   ->having($categoryIdField . ' in (?)', $catsId);
+		}
+
+		return $this->getAdapter()->fetchPairs($select);
+	}
 }

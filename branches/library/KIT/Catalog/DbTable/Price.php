@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Post Database Table
+ * Catalog Price Database Table
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * @version    $Id: Field.php 397 2010-05-04 20:46:34Z TPavuk $
  */
 
-class KIT_Catalog_DbTable_Post extends KIT_Db_Table_Abstract
+class KIT_Catalog_DbTable_PRice extends KIT_Db_Table_Abstract
 {
-	protected $_name = 'CATALOG_POSTS';
-	protected $_primary = 'POST_ID';
+	protected $_name = 'CATALOG_PRICES';
+	protected $_primary = 'PRICE_ID';
 
     /**
      * Initialize object
@@ -28,27 +28,30 @@ class KIT_Catalog_DbTable_Post extends KIT_Db_Table_Abstract
      */
 	public function init()
 	{
-		$productsTable = self::get('KIT_Catalog_DbTable_Product');
-		$brandsTable   = self::get('KIT_Catalog_DbTable_Brand');
+		$productsTable   = self::get('KIT_Catalog_DbTable_Product');
+		$brandsTable     = self::get('KIT_Catalog_DbTable_Brand');
+		$currenciesTable = self::get('KIT_Catalog_DbTable_Currency');
 
 		$select = $this->getAdapter()->select();
 
 		$select->from(
-			array('posts' => $this->_name),
+			array('prices' => $this->_name),
 			array(
 				$this->getPrimary(),
-				'POST_PRODUCTID' => "CONCAT_WS(' ', brands."
+				'PRICE_PRODUCTID' => "CONCAT_WS(' ', brands."
 										  . $brandsTable->getFieldByAlias('title') . ', '
 										  . $productsTable->getFieldByAlias('title') . ')',
-				$this->getFieldByAlias('postDate'),
-				'POST_POST' => 'LEFT(' . $this->getFieldByAlias('post') . ', 40)',
+				$this->getFieldByAlias('cost'),
+				$this->getFieldByAlias('currencyId') => 'currency.' . $currenciesTable->getFieldByAlias('reduction'),
+				$this->getFieldByAlias('createDate'),
+				$this->getFieldByAlias('actualTo'),
 				$this->getFieldByAlias('author')
 			)
 		);
 
 		$select->join(
 			array('prods' => $productsTable->getTableName()),
-			'prods.PRODUCTS_ID = posts.' . $this->getFieldByAlias('productId'),
+			'prods.PRODUCTS_ID = prices.' . $this->getFieldByAlias('productId'),
 			array()
 		);
 
@@ -58,17 +61,24 @@ class KIT_Catalog_DbTable_Post extends KIT_Db_Table_Abstract
 			array()
 		);
 
+		$select->join(
+			array('currency' => $currenciesTable->getTableName()),
+			'currency.' . $currenciesTable->getPrimary()
+			. ' = prices.' . $this->getFieldByAlias('currencyId'),
+			array()
+		);
+
 		$this->setViewSelect($select);
 	}
 
 	/**
-	 * Get product comments
+	 * Get product prices
 	 *
 	 * @param int $productId
 	 * @param boolean $orderAsc
 	 * @return Zend_Db_Table_Rowset_Abstract
 	 */
-	public function getPosts($productId, $orderAsc = true)
+	public function getPrices($productId, $orderAsc = true)
 	{
 		$productId = (int)$productId;
 		if (empty($productId)) {
@@ -77,7 +87,7 @@ class KIT_Catalog_DbTable_Post extends KIT_Db_Table_Abstract
 
 		return $this->fetchAll(
 					$this->getFieldByAlias('productId') . ' = ' . $productId,
-					array($this->getFieldByAlias('postDate') . ($orderAsc ? ' ASC' : ' DESC'))
+					array($this->getFieldByAlias('createDate') . ($orderAsc ? ' ASC' : ' DESC'))
 			   );
 	}
 }
