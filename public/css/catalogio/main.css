@@ -205,8 +205,8 @@ option { background:#FFF; padding-left:15px; color:#2F2F2F;}
 
 /* ----------- Products ----------------------------------------------------- */
 .imgBox { width:200px; }
-#comments form input, #comments form textarea { border:1px solid #ccc; }
-#comments form textarea { width:95%; height:5em;}
+#comments form input, #comments form textarea, #shprices  form input, #shprices form textarea { border:1px solid #ccc; }
+#comments form textarea, #shprices form textarea { width:95%; height:5em;}
 #commentsData {list-style:none;}
 #commentsData li {padding:9px 0 6px 0;}
 .prpiceInput{ border:1px solid #CCCCCC; width:90%; padding:5px 5px; line-height:1em; font-size:1.1em; }
