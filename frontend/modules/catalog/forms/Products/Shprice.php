@@ -14,6 +14,8 @@
  * @version    $Id: Edit.php 304 2010-04-19 19:07:18Z TPavuk $
  */
 
+Zend_Loader::loadFile('recaptchalib.php', APPLICATION_PATH . '/../public/recaptcha/');
+
 class Catalog_Form_Products_Shprice extends KIT_Form_Abstract
 {
 	/**
@@ -80,24 +82,23 @@ class Catalog_Form_Products_Shprice extends KIT_Form_Abstract
 			  ->addFilter('StringTrim');
 		$this->addElement($post);
 
-		$captcha = new Zend_Form_Element_Text('captcha');
-		$captcha->setLabel('Для добавления комментария ответьте на вопрос: "Два сапога?"')
-			  ->setRequired(true)
-			  ->addFilter('StripTags')
-			  ->addFilter('StringTrim');
-		$this->addElement($captcha);
-
 		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setLabel('Отправить');
+		$submit->setLabel('Добавить');
 		$this->addElement($submit);
-
 	}
 
 	public function submit()
 	{
-		if ($this->isPost()) {
+		if ($this->isPost() && !empty($_POST["recaptcha_response_field"])) {
+			$resp = null;
+			$resp = recaptcha_check_answer(
+				Zend_Registry::get('config')->recaptcha->privatekey,
+				$_SERVER["REMOTE_ADDR"],
+				$_POST["recaptcha_challenge_field"],
+				$_POST["recaptcha_response_field"]
+			);
+
 			$formData = (array)$this->getPost();
-			$captcha = mb_strtolower(isset($formData['captcha']) ? $formData['captcha'] : '', 'UTF-8');
 			if ($this->isXmlHttpRequest()) {
 				$newData = array();
 				if (isset($formData['id']) && is_numeric($formData['id'])) {
@@ -113,12 +114,11 @@ class Catalog_Form_Products_Shprice extends KIT_Form_Abstract
 				$formData = $newData;
 			}
 
-			$validCaptcha = array('para', 'пара');
-			$formData['captcha'] = $captcha;
-			if ($this->isValid($formData) && (array_search($captcha, $validCaptcha) !== false)) {
+			if ($this->isValid($formData) && $resp->is_valid) {
 				$this->_price->setOptions($this->getValues());
 				return $this->_price->save();
 			} else {
+				$this->setAttrib('recaptcha_err', $resp->error);
 				$this->populate($formData);
 			}
 		}
