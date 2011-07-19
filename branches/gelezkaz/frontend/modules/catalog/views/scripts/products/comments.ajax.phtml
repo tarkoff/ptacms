@@ -1,5 +1,13 @@
 <div id="comments">
-<?php echo $this->form ?>
+<?php //echo $this->form ?>
+	<form method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" enctype="<?php echo $this->form->getEncType();?>" id="<?php echo $this->form->getName();?>">
+		<dl class="zend_form">
+			<?php echo $this->form->getElement('author');?>
+			<?php echo $this->form->getElement('post');?>
+			<dt>&nbsp;</dt>
+			<dd><div id="captcha_div"></div></dd>
+			<?php echo $this->form->getElement('submit');?>
+		</dl></form>
 <?php if (!empty($this->comments)):?>
 	<ul id="commentsData">
 	<?php foreach ($this->comments as $comment):?>
@@ -37,4 +45,13 @@
 		return false;
 	});
 
+	Recaptcha.create(
+		"<?php echo Zend_Registry::get('config')->recaptcha->publickey;?>",
+		"captcha_div",
+		{
+		  theme: "red",
+		  lang: "ru",
+		  callback: Recaptcha.focus_response_field
+		}
+	);
 </script>

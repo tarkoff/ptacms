@@ -1,5 +1,16 @@
 <div id="shprices">
-	<?php echo $this->form ?>
+	<?php //echo $this->form ?>
+	<form method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" enctype="<?php echo $this->form->getEncType();?>" id="<?php echo $this->form->getName();?>">
+		<dl class="zend_form">
+			<?php echo $this->form->getElement('author');?>
+			<?php echo $this->form->getElement('cost');?>
+			<?php echo $this->form->getElement('currencyid');?>
+			<?php echo $this->form->getElement('actualto');?>
+			<?php echo $this->form->getElement('descr');?>
+			<dt>&nbsp;</dt>
+			<dd><div id="captcha_div"></div></dd>
+			<?php echo $this->form->getElement('submit');?>
+		</dl></form>
 	<?php foreach ($this->offers as $offer):?>
 		<div class="bb" style="margin:5px 0;font-size:0.9em;">
 			<table>
@@ -34,11 +45,13 @@
 		</div>
 	<?php endforeach;?>
 </div>
+
 <script type="text/javascript">
 	$("input:submit, input:button, button").button();
 	$("#actualto").datepicker($.datepicker.regional['ru']);
 	$("#actualto").datepicker('option', {dateFormat:'yy-mm-dd'});
-	$("#shpricetForm").submit(function() {
+	$("#<?php echo $this->form->getName();?>").submit(function(event) {
+		event.preventDefault();
 		var cont = $("#shprices").parent();
 		$.post(
 			$(this).attr("action"),
@@ -56,8 +69,24 @@
 				);
 			}
 		);
+/*		$.post(
+			"http://www.google.com/recaptcha/api/verify",
+			{ privatekey: "<?php echo Zend_Registry::get('config')->recaptcha->privatekey;?>", remoteip: getUserIP(), challenge: $("#recaptcha_challenge_field").val(), response: $("#recaptcha_response_field").val()},
+			function(data) {
+				alert("Data Loaded: " + data);
+			}
+		);*/
 		cont.html('Добавление цены...');
 		return false;
 	});
 
+	Recaptcha.create(
+		"<?php echo Zend_Registry::get('config')->recaptcha->publickey;?>",
+		"captcha_div",
+		{
+		  theme: "red",
+		  lang: "ru",
+		  callback: Recaptcha.focus_response_field
+		}
+	);
 </script>

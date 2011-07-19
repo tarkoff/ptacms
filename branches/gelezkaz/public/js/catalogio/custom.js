@@ -14,3 +14,9 @@ $(document).ready(function() {
 
 
 });
+
+function getUserIP() {
+	$.getJSON("http://jsonip.appspot.com?callback=?",function(ipadd){
+		return ipadd.ip;
+	});
+}
