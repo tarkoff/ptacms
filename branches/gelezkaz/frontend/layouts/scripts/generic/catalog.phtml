@@ -10,10 +10,37 @@
 </script>
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 </div>
-
-
+<?php $this->form->clearDecorators();?>
+<?php $elements = $this->form->getElements();?>
+<?php if (count($elements) > 1):?>
+<div id="filterbox">
+	<div class="title03-top"></div>
+	<div class="title03">
+		<h3 class="nom">Фильтр</h3>
+		<form name="<?php echo $this->form->getName();?>" action="<?php echo $this->form->getAction();?>" method="<?php echo $this->form->getMethod();?>" enctype="<?php echo $this->form->getEncType();?>">
+			<?php $pos = 0;?>
+			<?php $this->form->getElement('title')->setLabel('Модель');?>
+			<?php $this->form->getElement('brand')->setLabel('Производитель');?>
+			<?php $this->form->getElement('submit')->setLabel(' Подобрать ');?>
+			<table>
+				<tr>
+			<?php foreach ($elements as $element):?>
+				<?php $pos++;?>
+				<?php if ($element->getName() != 'submit'):?>
+					<td><dl><?php echo $element;?></dl></td><?php if ($pos % 3 == 0):?></tr><tr><?php endif;?>
+				<?php endif;?>
+			<?php endforeach;?>
+				</tr>
+			<tr><td colspan="3" align="center"><?php echo $this->form->getElement('submit');?></td></tr>
+			</table>
+		</form>
+	</div>
+	<div class="title03-bottom"></div>
+</div>
+<hr class="noscreen" />
+<?php endif;?>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
-<!-- <p>Показано <strong>1 - 10</strong> из <strong>520</strong>.</p> -->
+<!-- <p>Показано <strong>1 - 12</strong> из <strong>58</strong>.</p> -->
 <!-- Sponsored links -->
 	<div class="title03-top"></div>
 	<div class="title03">

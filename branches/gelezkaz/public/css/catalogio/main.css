@@ -166,6 +166,9 @@ dl.cat dd a:hover {color:#404040;}
 .cat-results li h4 span {font-size:85%; font-weight:normal;}
 .cat-results .high {color:#490;}
 
+#filterbox form table {width:100%;}
+#filterbox form input, #filterbox form select { border:1px solid #66BB00;}
+#filterbox form label {font-weight:bold;}
 /* ----------- Page: Results ------------------------------------------------ */
 
 .pagination {clear:both; text-align:center; font-size:120%;}
