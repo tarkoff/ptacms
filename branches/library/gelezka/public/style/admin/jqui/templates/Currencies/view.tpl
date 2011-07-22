@@ -1,0 +1,1 @@
+{include file="generic/view.tpl" view=$data filterForm = $Currencies->Common_FilterForm}

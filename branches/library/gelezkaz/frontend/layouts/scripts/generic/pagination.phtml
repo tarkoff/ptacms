@@ -1,0 +1,31 @@
+<?php if ($this->pageCount): ?>
+<div class="title01-top"></div>
+<div class="title01">
+	<div class="title01-in">
+		<p class="pagination">
+			<?php if (isset($this->previous)): ?>
+				<a href="<?php echo $this->url(array('page' => $this->previous)); if (!empty($_SERVER['QUERY_STRING'])) echo '?' . $_SERVER['QUERY_STRING'];?>">&lt; Предыдущая</a> |
+			<?php else: ?>
+				<span class="disabled">&lt; Предыдущая</span> |
+			<?php endif; ?>
+
+			<!-- Numbered page links -->
+			<?php foreach ($this->pagesInRange as $page): ?>
+				<?php if ($page != $this->current): ?>
+					<a href="<?php echo $this->url(array('page' => $page)); if (!empty($_SERVER['QUERY_STRING'])) echo '?' . $_SERVER['QUERY_STRING'];?>"><?php echo $page; ?></a> |
+				<?php else: ?>
+					<strong><?php echo $page; ?></strong> |
+				<?php endif; ?>
+			<?php endforeach; ?>
+
+			<!-- Next page link -->
+			<?php if (isset($this->next)): ?>
+				<a href="<?php echo $this->url(array('page' => $this->next)); if (!empty($_SERVER['QUERY_STRING'])) echo '?' . $_SERVER['QUERY_STRING'];?>">Следующая &gt;</a>
+			<?php else: ?>
+				<span class="disabled">Следующая &gt;</span>
+			<?php endif; ?>
+		</p>
+	</div>
+</div>
+<div class="title01-bottom"></div>
+<?php endif; ?>

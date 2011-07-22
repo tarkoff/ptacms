@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-language" content="en" />
+  <meta name="robots" content="index,follow,noodp,noydir" />
+
+  <meta name="author" lang="en" content="All: SatDevice [www.satdevice.com];" />
+  <meta name="copyright" lang="en" content="KiT Studio" />
+
+  <meta name="description" content="<?php echo implode(', ', (array)$this->description);?>" />
+  <meta name="keywords" content="
+  								<?php if (!empty($this->keywords)):?>
+  									<?php foreach (array_unique($this->keywords) as $keyword):?>
+  										описание <?php echo $keyword;?>, купить <?php echo $keyword;?>, цена <?php echo $keyword;?>,
+  									<?php endforeach;?>
+  								<?php else:?>
+  									SatDevice - Все для спутникового телевидения, Ресиверы, Конверторы, Телевизоры
+  								<?php endif;?>
+  								" />
+
+  <link rel="icon" href="/images/favicon.gif" type="image/gif" />
+  <link rel="shortcut icon" href="/images/favicon.gif" type="image/gif" />
+
+  <?php echo $this->headLink();?>
+  <link rel="stylesheet" media="screen,projection" type="text/css" href="/css/main.css" />
+  <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/css/main-msie.css" /><![endif]-->
+  <link rel="stylesheet" media="screen,projection" type="text/css" href="/css/scheme.css" />
+  <link rel="stylesheet" media="print" type="text/css" href="/css/print.css" />
+
+  <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery.cookie.min.js"></script>
+  <?php echo $this->headScript();?>
+  <script type="text/javascript" src="/js/custom.js"></script>
+  <?php echo $this->headTitle();?>
+</head>
+<?php
+    if (!defined('_SAPE_USER')){
+        define('_SAPE_USER', '21b99478bb701693f0193b8c156df761');
+    }
+    require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php');
+
+    //$o[ 'force_show_code' ] = true;
+    $o['charset'] = 'UTF-8';
+    /* $o['verbose'] = true; */
+    $o['request_uri'] = $_SERVER['REQUEST_URI'];
+    $sape = new SAPE_client($o);
+?>
+<body>
+<script>if (mix_tracker_shown===undefined) { document.write('<img src="http://mixmarket.biz/t.php?id=3553688&r=' + escape(document.referrer) + '&t=' + (new Date()).getTime() + '" width="1" height="1"/>');var mix_tracker_shown=true; }</script>
+<noscript><img src="http://mixmarket.biz/t.php?id=3553688" width="1" height="1"/></noscript>
+<div id="main">
+  <!-- Header -->
+  <div id="header" class="box">
+      <div>
+          <a href="/" title="SatDevice - Все для спутникового телевидения"><img style="float:left;margin:0 15px 0 0;" src="/images/logo781.gif" alt="SatDevice - Все для спутникового телевидения" /></a>
+          <h1 id="logo"><a href="/" title="SatDevice - Все для спутникового телевидения">SatDevice</a></h1>
+          <p id="slogan">Все для спутникового телевидения</p>
+      </div>
+      <hr class="noscreen" />
+    <?php if (!empty($this->searchForm)):?>
+      <!-- Search -->
+      <div id="search">
+          <form name="<?php echo $this->searchForm->getName();?>" action="<?php echo $this->searchForm->getAction();?>" method="<?php echo $this->searchForm->getMethod();?>" enctype="<?php echo $this->searchForm->getEncType();?>">
+              <div>
+                  <span class="noscreen">Поиск:</span>
+                  <?php $queryElement = $this->searchForm->getElement('q');?>
+                  <input type="text" size="30" name="<?php echo $queryElement->getName();?>" id="search-input" value="<?php echo $queryElement->getValue();?>" />
+                  <input type="submit" value="Поиск" id="search-submit" name="<?php echo $this->searchForm->getElement('submit')->getName();?>" />
+              </div>
+          </form>
+      </div> <!-- /search -->
+    <?php endif;?>
+  </div> <!-- /header -->
+
+  <hr class="noscreen" />
+
+  <!-- Navigation -->
+  <div id="nav" class="box">
+      <h3 class="noscreen">Разделы</h3>
+      <ul>
+          <li <?php if ($this->activeCategory == 'index'):?>id="nav-active"<?php endif;?>><a href="/" title="На главную">Главная</a></li>
+      <?php foreach ($this->categories as $categoryAlias => $categoryTitle):?>
+          <li <?php if ($this->activeCategory == $categoryAlias):?>id="nav-active"<?php endif;?>><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true); ?>/category/<?php echo $categoryAlias;?>" title="<?php echo $categoryTitle; ?>"><?php echo $categoryTitle; ?></a></li>
+      <?php endforeach;?>
+          <li <?php if ($this->activeCategory == 'contacts'):?>id="nav-active"<?php endif;?>><a href="/contacts" title="Контакты">Контакты</a></li>
+      </ul>
+  </div> <!-- /nav -->
+
+  <hr class="noscreen" />
+
+  <div class="box h-ads">
+	<!-- Mixmarket context ads -->
+	<div id="mixkt_4294933393"></div>
+  </div>
+
+  <hr class="noscreen" />
+
+  <!-- Main content -->
+  <div id="content" class="box">
+    <?php echo $this->layout()->content ?>
+  </div> <!-- /content -->
+
+  <hr class="noscreen" />
+
+  <h4 class="hx-style01"><span>Предложения партнеров</span></h4>
+  <div class="box h-ads">
+      <script type="text/javascript"><!--
+      google_ad_client = "pub-1610147099732550";
+      /* satdevice_horizontal_bottom */
+      google_ad_slot = "0339052731";
+      google_ad_width = 728;
+      google_ad_height = 90;
+      //-->
+      </script>
+      <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+  </div>
+
+  <hr class="noscreen" />
+
+<!-- Mixmarket context horizontal -->
+<script type="text/javascript">
+  if (document.getElementById('mixkt_4294933393')) document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="http://4294933393.kt.mixmarket.biz/show/4294933393/?div=mixkt_4294933393&r=' + escape(document.referrer) + '&rnd=' + Math.round(Math.random() * 100000) + '" charset="windows-1251"><' + '/scr' + 'ipt>');
+</script>
+
+  <!-- Footer -->
+  <div id="footer">
+      <div class="f-left" style="margin:0 5px 0 0;">
+      <!--LiveInternet counter--><script type="text/javascript"><!--
+      document.write("<a href='http://www.liveinternet.ru/click' rel='nofollow'"+
+      "target=_blank><img src='//counter.yadro.ru/hit?t27.7;r"+
+      escape(document.referrer)+((typeof(screen)=="undefined")?"":
+      ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+      screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+      ";"+Math.random()+
+      "' alt='' title='LiveInternet: показано количество просмотров и"+
+      " посетителей' "+
+      "border='0' width='88' height='120'><\/a>")
+      //--></script><!--/LiveInternet-->
+      </div>
+      <div>
+          <p>Copyrighted &copy;&nbsp;2010 - 2011 <a href="/">SatDevice.com</a> - Все для спутникового телевидения</p>
+          <p id="support">Напишите нам: <a href=""></a></p>
+           <noindex><p class="robots-nocontent"><a href="http://www.nuviotemplates.com/" rel="nofollow">Free web templates</a> presented by <a href="http://www.qartin.cz/" rel="nofollow">QARTIN</a>, vacation <a href="http://www.puntacana.net/" rel="nofollow">Punta Cana</a></p></noindex>
+      </div>
+      <div><? echo $sape->return_links(); ?> </div>
+  </div> <!-- /footer -->
+</div> <!-- /main -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-9266190-4");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>

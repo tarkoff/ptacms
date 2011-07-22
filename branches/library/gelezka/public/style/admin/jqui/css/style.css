@@ -1,0 +1,255 @@
+.ui-widget-header {
+	font-weight: bold;
+	font-size:0.9em;
+	margin:0.4em;
+	padding:7px;
+}
+
+.portlet {
+	margin:0 1em 1em 0;
+}
+
+.portlet-content {
+	margin:0;
+	padding:7px;
+}
+
+.portlet-header .ui-icon { 
+	float:right;
+	margin-top:-2px;
+}
+
+	/* Accordion */
+.ui-accordion .ui-accordion-header {cursor:pointer; position: relative; margin-top: 1px; zoom: 1; }
+.ui-accordion .ui-accordion-li-fix { display: inline; }
+.ui-accordion .ui-accordion-header-active { border-bottom: 0 !important; }
+.ui-accordion .ui-accordion-header a { display: block; font-size: 1em; padding: .5em .5em .5em 2.2em; }
+.ui-accordion .ui-accordion-header .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
+.ui-accordion .ui-accordion-content { padding:10px; border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow: auto; display: none; }
+.ui-accordion .ui-accordion-content-active { display: block; }
+
+
+/* ----------------------- Top Menu ------------------------------------------*/
+.themeswitcher select, .topMenu{
+	color:#646464;
+	font-size:0.9em;
+}
+.topMenu{
+	background:#252525;
+	font-weight:bold;
+	height:28px;
+	padding:0 5px;
+	line-height:28px;
+	text-align:right;
+}
+.topMenu a, span{
+	color:#E6E6E6;
+	text-decoration:none;
+}
+.topMenu a:hover{
+	color:#fff;
+}
+.themeswitcher{
+	float:left;
+//	margin:2px;
+}
+/* ----------------------- Site logo ------------------------------------------*/
+.siteLogo{
+	color:#fff;
+	background:#555;
+	border-top:1px solid #777;
+	border-bottom:1px solid #252525;
+	padding:0 5px;
+	line-height:40px;
+}
+.siteLogo a{
+	color:#AAA;
+	text-decoration:none;
+}
+/* ------------------------ SideBar -------------------------------------------*/
+.sidebar{
+	padding:0 2px;
+}
+.divSpace{
+	padding:2px;
+	margin:2px;
+}
+.menuList{
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	width:100%;
+}
+.menuList li{
+	border-bottom:1px dotted #8F8F8F;
+	display:block;
+	padding:5px 0 2px 0;
+}
+.menuList li a{
+	color:#616161;
+	display:block;
+	text-decoration:none;
+}
+.menuList li:hover{
+	background-color:#F5F5F5;
+}
+
+/* ------------------------- Content ------------------------------------------*/
+.span-24{
+	min-width: 800px;
+	padding:3px;
+	width:auto !Important;
+}
+.actions{
+	height:50px;
+	line-height:50px;
+	padding:3px;
+}
+.btn{
+	padding:0.4em 1em 0.4em 20px;
+	position:relative;
+	text-decoration:none;
+}
+.btn span.ui-icon {
+	left:0.2em;
+	margin:-8px 5px 0 0;
+	position:absolute;
+	top:50%;
+}
+.btn_no_text {
+	cursor:pointer;
+	float:left;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:2px;
+	padding:4px;
+	position:relative;
+}
+.btn_vertical{
+	text-decoration:none;
+	text-align:center;
+	width:16px;
+}
+/* ---------------------- Content View ----------------------------------------*/
+.view table {
+	margin:0;
+	background:#fff;
+	width:100%;
+	border:1px solid #dedede;
+	border-bottom:none;
+}
+
+.view thead td, .view thead th {
+	background-color:#e6e6e6;
+}
+
+.view tr td, .view thead th {
+	border-left:1px solid #ccc;
+	text-align:left;
+	padding:8px;
+	color:#616161;
+	vertical-align:middle;
+}
+
+.view thead td, .view thead th {
+	font-weight:bold;
+	padding:10px 6px;
+	text-align:center;
+}
+
+.view th, .view td {
+	border-bottom:1px solid #dedede;
+}
+.view tbody th {
+	padding:8px 8px;
+	text-align:left;
+}
+
+.view tbody tr.alt td, .view tbody tr.odd td {
+	color:#464646;
+}
+
+.view tbody tr.alt td, .view tbody tr.alt th, .view tbody tr.odd {
+	background-color:#f5f5f5;
+}
+.view tbody tr:hover td, .view tbody tr:hover th {
+	background-color:#FFFFCF;
+}
+
+.headerSortDown, .headerSortUp {
+	background-repeat:no-repeat;
+	background-color:#dcdcdc!important;
+	color:#404040!important;
+}
+
+.view tr .center {
+	padding:15px;
+	width:5px;
+}
+
+.view table a.btn span.ui-icon {
+	left:0.1em;
+}
+
+	/* Tables Pagination */
+.rpp {
+	margin:5px;
+	float: left;
+}
+
+	/* Pagination */
+.pagination{
+	margin:5px 0;
+	padding:2px 0;
+	font-size:0.8em;
+}
+.pagination ul li {
+	margin:2px;
+	position:relative;
+	cursor:pointer;
+	float:left;
+	list-style:none;
+}
+.pagination .unactive, .pagination ul li a {
+	padding:2px 8px;
+	display:block;
+}
+
+/* ---------------- Froms -----------------------------------------------------*/
+.form{
+	width:auto;
+}
+.fieldTitle{
+	text-align:right;
+	width:30%;
+}
+.fieldValue{
+	text-align:left;
+	width:70%;
+}
+.fieldValue select { margin:4px; }
+.comActions{
+	float:left;
+}
+.quicksearch{
+	display:block;
+	float:right;
+	margin:auto 5px;
+	padding:0;
+}
+
+.form input.text, .form textarea.text { width:95%; padding: .4em; }
+
+/* ----- New field value form ------ */
+.newValueForm fieldset{
+	width:auto;
+	marin:5px;
+}
+/* --------------- Modal forms --------------------*/
+.ui-dialog-content input { width:95%; }
+
+/* --------------- Product Edit Fotm --------------*/
+.cvt { float:left; color:#333333 !Important; margin:2px 5px; max-width:600px; }

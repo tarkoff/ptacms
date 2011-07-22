@@ -1,0 +1,89 @@
+<div style="text-align:center;">
+<script type="text/javascript">
+<!--
+	google_ad_client = "pub-1610147099732550";
+	/* gelezka_links_block_728x15 */
+	google_ad_slot = "2235711311";
+	google_ad_width = 728;
+	google_ad_height = 15;
+//-->
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+</div>
+<?php $this->form->clearDecorators();?>
+<?php $elements = $this->form->getElements();?>
+<?php if (count($elements) > 1):?>
+<div id="filterbox">
+	<div class="title03-top"></div>
+	<div class="title03">
+		<h3 class="nom">Фильтр</h3>
+		<form name="<?php echo $this->form->getName();?>" action="<?php echo $this->form->getAction();?>" method="<?php echo $this->form->getMethod();?>" enctype="<?php echo $this->form->getEncType();?>">
+			<?php $pos = 0;?>
+			<?php $this->form->getElement('title')->setLabel('Модель');?>
+			<?php $this->form->getElement('brand')->setLabel('Производитель');?>
+			<?php $this->form->getElement('submit')->setLabel(' Подобрать ');?>
+			<table>
+				<tr>
+			<?php foreach ($elements as $element):?>
+				<?php $pos++;?>
+				<?php if ($element->getName() != 'submit'):?>
+					<td><dl><?php echo $element;?></dl></td><?php if ($pos % 3 == 0):?></tr><tr><?php endif;?>
+				<?php endif;?>
+			<?php endforeach;?>
+				</tr>
+			<tr><td colspan="3" align="center"><?php echo $this->form->getElement('submit');?></td></tr>
+			</table>
+		</form>
+	</div>
+	<div class="title03-bottom"></div>
+</div>
+<hr class="noscreen" />
+<?php endif;?>
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
+<!-- <p>Показано <strong>1 - 12</strong> из <strong>58</strong>.</p> -->
+<!-- Sponsored links -->
+	<div class="title03-top"></div>
+	<div class="title03">
+		<h3 class="nom">Лучшие предложения партнеров:</h3>
+		<div id="mixkt_4294945452"></div>
+		<div id="mix_block_12949300631294932579"></div>
+	</div>
+	<div class="title03-bottom"></div>
+
+<?php $products = $this->paginator->getCurrentItems();?>
+<?php $prodsCount = count($products);?>
+<?php if (!empty($prodsCount)):?>
+<ol class="cat-results">
+<?php foreach ($products as $prodIndx => $product):?>
+	<?php array_push($this->keywords, $product['BRANDS_TITLE'] . ' ' . $product['PRODUCTS_TITLE'], $product['CATEGORIES_TITLE']);?>
+		<?php if (($prodIndx + 1) == 6):?>
+		<li>
+			<script type="text/javascript">
+			<!--
+			google_ad_client = "pub-1610147099732550";
+			/* 728x90, gelezka_horizontal_inner */
+			google_ad_slot = "8022780154";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+			</script>
+			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+		</li>
+		<?php endif;?>
+		<li>
+			<h4>
+				<a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'products', 'action' => 'view'), null, true); ?>/product/<?php echo $product['PRODUCTS_ALIAS'];?>" title="<?php echo $product['BRANDS_TITLE'] . ' ' . $product['PRODUCTS_TITLE'];?>"><?php echo $product['BRANDS_TITLE'] . ' ' . $product['PRODUCTS_TITLE'];?></a> &ndash;
+				<span>
+					<a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'products', 'action' => 'view'), null, true); ?>/product/<?php echo $product['PRODUCTS_ALIAS'];?>" class="high ico-card">Подробнее...</a>&nbsp;
+					(<a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true); ?>/category/<?php echo $product['CATEGORIES_ALIAS'];?>" title="<?php echo $product['CATEGORIES_TITLE'];?>" class="folder"><?php echo $product['CATEGORIES_TITLE'];?></a>)
+				</span>
+			</h4>
+			<p><?php echo mb_substr($product['PRODUCTS_SHORTDESCR'], 0, 400, 'utf-8');?></p>
+		</li>
+<?php endforeach;?>
+</ol>
+<?php else:?>
+Ничего не найдено
+<?php endif;?>
+<!-- Pagination -->
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>

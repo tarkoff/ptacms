@@ -1,0 +1,219 @@
+﻿@charset "utf-8";
+body{
+	background:#CCCCCC none repeat scroll 0 0;
+}
+hr.space{
+	color:#CCCCCC !Important;
+	background:#CCCCCC none repeat scroll 0 0 !Important
+}
+/* ================== Main Menu ============================================ */
+.mainMenu{
+	border:none;
+	border:0px;
+	margin:0px;
+	padding:0px;
+	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+}
+.mainMenu ul{
+	background:#333333;
+	height:35px;
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+.mainMenu li{
+	float:left;
+	padding:0px;
+}
+.mainMenu li a{
+	background:#333333 url("../img/mtb/seperator.gif") bottom right no-repeat;
+	color:#cccccc;
+	display:block;
+	font-weight:normal;
+	line-height:35px;
+	margin:0px;
+	padding:0px 25px;
+	text-align:center;
+	text-decoration:none;
+}
+.mainMenu li a:hover, .mainMenu ul li:hover a{
+	background: #2580a2 url("../img/mtb/hover.gif") bottom center no-repeat;
+	color:#FFFFFF;
+	text-decoration:none;
+}
+.mainMenu li ul{
+	background:#333333;
+	display:none;
+	height:auto;
+	padding:0px;
+	margin:0px;
+	border:0px;
+	position:absolute;
+	width:225px;
+	z-index:200;
+	/*top:1em;
+	/*left:0;*/
+}
+.mainMenu li:hover ul{
+	display:block;
+}
+.mainMenu li li {
+	background:url('../img/mtb/sub_sep.gif') bottom left no-repeat;
+	display:block;
+	float:none;
+	margin:0px;
+	padding:0px;
+	width:225px;
+}
+.mainMenu li:hover li a{
+	background:none;
+}
+.mainMenu li ul a{
+	display:block;
+	height:35px;
+	font-size:12px;
+	font-style:normal;
+	margin:0px;
+	padding:0px 10px 0px 15px;
+	text-align:left;
+}
+.mainMenu li ul a:hover, .mainMenu li ul li:hover a{
+	background:#2580a2 url('../img/mtb/hover_sub.gif') center left no-repeat;
+	border:0px;
+	color:#ffffff;
+	text-decoration:none;
+}
+.mainMenu p{
+	clear:left;
+}
+/* ================== View ================================================== */
+.viewDiv{
+	background:#F2F2E6 none repeat scroll 0 0;
+	border:2px solid #9DA2A6;
+}
+.actions{
+	padding:2px 5px;
+}
+form.quicksearch{
+	display:block;
+	float:right;
+}
+input.qs_input{
+	border:1px solid #9DA2A6;
+	font-size:110%;
+	line-height:130%;
+	margin:0.7em 0.5em 0.7em 0;
+	padding:5px 10px 5px 7px;
+}
+.viewTable {
+	width: 100%;
+//	border: 1px solid #CCCCCC;
+}
+
+.viewTable tr{
+	height: 30px;
+	
+}
+
+.viewTable td{
+	padding: 0 3px;
+	//font-size:12px;
+}
+
+.viewTable tr:hover{
+	background: #D9EBF5;
+}
+.columnNames {
+	background: #FAFAFA url('../img/view/head/bck_column_names.gif') repeat-x scroll center bottom;
+	border-width:0 1px 1px;
+	border-color: #CCCCCC #CCCCCC #FFFFFF;
+	border-style:none solid solid;
+	padding: 0 3px;
+}
+/* ================== Navigation Bar ======================================== */
+.nav {
+	height: 30px;
+	background: #F0F0F0 url('../img/mtb/bck_toolbar.gif') repeat-x scroll center top;
+	border: 1px solid #CCCCCC;
+}
+
+.nav div {
+	display: table-cell;
+	float: left;
+	height: 100%;
+	margin: auto 5px;
+	vertical-align: middle;
+}
+.nav div img{
+	top:3px;
+}
+/* ================== Edit Form ======================================== */
+fieldset {
+	background:#f2f2e6;
+	padding:10px;
+	border:1px solid #fff;
+	border-color:#fff #666661 #666661 #fff;
+	margin:0 auto;
+	width:600px;
+}
+input, textarea, select {
+	font:12px/12px Arial, Helvetica, sans-serif;
+	padding:0;
+}
+fieldset.action {
+	background:#9da2a6;
+	border-color:#e5e5e5 #797c80 #797c80 #e5e5e5;
+	//margin-top:-20px;
+}
+legend {
+	background:#707175;
+	color:#fff;
+	font:17px/21px Calibri, Arial, Helvetica, sans-serif;
+	padding:0 10px;
+	margin:-26px 0 0 -11px;
+	font-weight:bold;
+	border:1px solid #fff;
+	border-color:#e5e5c3 #505014 #505014 #e5e5c3;
+}
+label {
+	font-size:11px;
+	font-weight:bold;
+	color:#666;
+}
+label.opt {
+	font-weight:normal;
+}
+dl {
+	clear:both;
+}
+dt {
+	float:left;
+	text-align:right;
+	width:160px;
+	line-height:25px;
+	margin:0 10px 10px 0;
+}
+dd {
+	float:left;
+	width:405px;
+	line-height:25px;
+	margin:0 0 10px 0;
+}
+/* ================== Messages =============================================== */
+.removed, .added{
+	padding:5px;
+	margin:2px 0;
+}
+.removed{
+	border:1px solid #400000;
+}
+.added{
+	border:1px solid #002800;
+}
+
+/* ================== Debuger =============================================== */
+.appDebuger{
+	margin:10px 0;
+}

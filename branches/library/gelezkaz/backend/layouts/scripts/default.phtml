@@ -1,0 +1,78 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <?php echo $this->headMeta(); ?>
+  <?php echo $this->headTitle(); ?>
+
+  <meta name="robots" content="noindex,nofollow,noodp,noydir" />
+
+  <link href="/css/blueprint/screen.css" media="screen" rel="stylesheet" type="text/css" />
+  <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+  <link href="/js/jquery/ui/css/redmond/jquery-ui-1.8.14.custom.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="/js/jquery/jqGrid/css/ui.jqgrid.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="/css/backend/global.css" media="screen" rel="stylesheet" type="text/css" />
+
+  <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/ui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/jqGrid/js/i18n/grid.locale-en.js"></script>
+  <script type="text/javascript" src="/js/jquery/jqGrid/js/jquery.jqGrid.min.js"></script>
+  <script type="text/javascript" src="/js/backend/custom.js"></script>
+</head>
+<body>
+<?php if (Zend_Auth::getInstance()->hasIdentity()):?>
+<div id="header" class="container">
+	<div class="ui-widget ui-widget-content" style="padding:.5em;margin-top:0;">
+		<span class="first column" style="width: 78%;">KiT CMS Admin Panel</span>
+		<span class="last">
+			<span class="append-1">Logged in as <b><?php echo Zend_Auth::getInstance()->getIdentity()->getLogin(); ?></b></span>
+			<a title="My account" href="#">My account</a>&nbsp;|&nbsp;
+			<a title="Logout" href="<?php echo $this->url(array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>">Logout</a>
+		</span>
+	</div>
+<?php if (Zend_Registry::isRegistered('userMenu')):?>
+	<?php $userMenu = Zend_Registry::get('userMenu')->toArray();?>
+	<?php /*$activeMenuItems = Zend_Registry::get('activeMenuItems');*/?>
+	<?php $resource = Zend_Registry::get('resource');?>
+	<?php $selectedTab = 0;?>
+	<div id="topMenu">
+		<ul>
+		<?php foreach ($userMenu as $rootKey => $rootItem):?>
+			<?php if (empty($rootItem['MENUS_PARENTID'])):?>
+				<li>
+					<a href="#<?php echo $rootItem['MENUS_ALIAS'];?>"><?php echo $rootItem['MENUS_TITLE'];?></a>
+				</li>
+			<?php endif;?>
+		<?php endforeach;?>
+		</ul>
+		<?php foreach ($userMenu as $rootKey => $rootItem):?>
+			<?php if (empty($rootItem['MENUS_PARENTID'])):?>
+				<?php if ($resource->getModule() == $rootItem['RESOURCES_MODULE']) $selectedTab = $rootKey; ?>
+				<div id="<?php echo $rootItem['MENUS_ALIAS'];?>">
+				<?php foreach ($userMenu as $childKey => $childItem):?>
+					<?php if ($childItem['MENUS_PARENTID'] == $rootItem['MENUS_ID']):?>
+						<a href="<?php echo $this->url(array('module' => $childItem['RESOURCES_MODULE'], 'controller' => $childItem['RESOURCES_CONTROLLER'], 'action' => ('index' == strtolower($childItem['RESOURCES_ACTION']) ? '' : $childItem['RESOURCES_ACTION'])), null, true) ?>" class="menuItem <?php if ($resource->getController() == $childItem['RESOURCES_CONTROLLER']) echo 'ui-state-disabled'; else echo 'default';?>" style="font-weight:bold;"><?php echo $childItem['MENUS_TITLE'];?></a>
+						<?php unset($userMenu[$childKey]);?>
+					<?php endif;?>
+				<?php endforeach;?>
+				</div>
+				<?php unset($userMenu[$rootKey]);?>
+			<?php endif;?>
+		<?php endforeach;?>
+	</div>
+<?php endif;?>
+</div>
+<script type="text/javascript">
+$(function() {
+	var tabs = $("#topMenu").tabs();
+	tabs.tabs('option', 'selected', <?php echo $selectedTab;?>);
+});
+</script>
+<?php endif;?>
+
+<div id="content" class="container">
+	<?php echo $this->layout()->content ?>
+</div>
+<div id="footer" class="container"></div>
+</body>
+</html>
