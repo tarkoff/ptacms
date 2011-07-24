@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ~/app//data/utils/geoimport
+
 # Doenload compressed xml file
 wget --output-document=geo.tar.gz "http://ipgeobase.ru/files/db/Main/db_files.tar.gz"
 
