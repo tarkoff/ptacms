@@ -29,6 +29,7 @@ foreach ($db->fetchPairs($select) as $shopId => $shopUrl) {
 	}
 	fclose($xmlRead);
 	fclose($xmlWrite);
+	exec('iconv -f windows-1251 -t UTF-8 mixml.plx > mixml_.plx');
 
 	$parser = new Mix_Parser('mixml.plx');
 	$parser->init();
