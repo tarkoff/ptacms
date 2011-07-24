@@ -1,8 +1,10 @@
 #!/bin/bash
 
+cd ~/app/data/utils/backup
+
 CURDATE=$(date +"%Y%m%d")
 DUMPDIR="./daylly"
-CONTENTDIR="/home/gelezkan/public_html/public/images/catalog"
+CONTENTDIR="/home/gelezkan/public_html/images/catalog"
 
 ONEMONTHAGO=$(date --date='7 days ago' +"%Y%m%d")
 for i in $( ls $DUMPDIR); do

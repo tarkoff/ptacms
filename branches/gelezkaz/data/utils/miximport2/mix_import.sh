@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ~/app/data/utils/miximport2
+
 # Download compressed xml file
 # wget --output-document=mixml_.plx.gz "http://mixmarket.biz/mixml.plx?id=4294945418&zip=1"
 
