@@ -30,13 +30,18 @@ foreach ($db->fetchPairs($select) as $shopId => $shopUrl) {
 	fclose($xmlRead);
 	fclose($xmlWrite);
 	exec('iconv -f windows-1251 -t UTF-8 mixml.plx > mixml_.plx');
-
+	
+	$db->query('UPDATE MIXMART_ADVERTIZERS SET ADVERTIZERS_UPDATED = 1 WHERE ADVERTIZERS_ID = ' . $shopId);
+	
 	$parser = new Mix_Parser('mixml_.plx');
 	$parser->init();
+	$parser->parse();
 //	$parser->disableKeys();
+/*
 	if ($parser->parse()) {
 		$db->query('UPDATE MIXMART_ADVERTIZERS SET ADVERTIZERS_UPDATED = 1 WHERE ADVERTIZERS_ID = ' . $shopId);
 	}
+	*/
 //	$parser->enableKeys();
 	unset($parser);
 }
