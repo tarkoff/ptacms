@@ -5,6 +5,11 @@ AddDefaultCharset UTF-8
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^satdevice\.com$ [NC]
 RewriteRule ^(.*)$ http://www.satdevice.com/$1 [R=301,L]
+RewriteRule ^Brands/View/Brand/(.*) / [R=301,L]
+RewriteRule ^Products/View/Product/(.*) /catalog/products/view/product/$1 [R=301,L]
+RewriteRule ^Catalog/List/Category/(.*)/page/(.*) /catalog/categories/list/category/$1/page/$2 [R=301,L]
+RewriteRule ^Catalog/Filter/Value / [R=301,L]
+
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
