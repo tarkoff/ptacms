@@ -324,7 +324,7 @@ class Mix_Parser extends Mix_Abstract
 	 */
 	protected function textData($parser, $text)
 	{
-		if (strlen($this->_currentText) < 500) {
+		if (strlen($this->_currentText) < 400) {
 			$this->_currentText .= str_replace(array('__-xxx-__amp;', '__-xxx-__'), '&', $text);
 		}
 	}
