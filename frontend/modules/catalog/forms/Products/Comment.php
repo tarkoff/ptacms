@@ -14,7 +14,7 @@
  * @version    $Id: Edit.php 304 2010-04-19 19:07:18Z TPavuk $
  */
 
-Zend_Loader::loadFile('recaptchalib.php', APPLICATION_PATH . '/../public/recaptcha/');
+Zend_Loader::loadFile('recaptchalib.php', $_SERVER['DOCUMENT_ROOT'] . '/recaptcha/');
 
 class Catalog_Form_Products_Comment extends KIT_Form_Abstract
 {
