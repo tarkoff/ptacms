@@ -10,6 +10,7 @@
 </script>
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 </div>
+<?php if (!empty($this->form) && $this->form instanceof Zend_Form):?>
 <?php $elements = $this->form->getElements();?>
 <?php if (count($elements) > 1):?>
 <div id="filterbox">
@@ -36,6 +37,7 @@
 	</div>
 	<div class="title03-bottom"></div>
 </div>
+<?php endif;?>
 <hr class="noscreen" />
 <?php endif;?>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
