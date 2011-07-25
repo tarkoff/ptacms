@@ -324,7 +324,7 @@ class Mix_Parser extends Mix_Abstract
 	 */
 	protected function textData($parser, $text)
 	{
-		if (strlen($this->_currentText) < 400) {
+		if (strlen($this->_currentText) < 300) {
 			$this->_currentText .= str_replace(array('__-xxx-__amp;', '__-xxx-__'), '&', $text);
 		}
 	}
@@ -377,6 +377,7 @@ class Mix_Parser extends Mix_Abstract
 					foreach ($currencies as $currency) {
 						$this->_insertOrUpdate($table->name, $currency);
 					}
+					$currencies = array();
 				}
 			break;
 			case 'currency':
@@ -390,7 +391,7 @@ class Mix_Parser extends Mix_Abstract
 
 	protected function _parseOffers($attrs = array(), $mode = self::SECTION_INIT)
 	{
-		static $values = array(), $geotargets = array();
+		static $values = array();
 		$table = $this->_config->tables->offers;
 
 		switch ($this->_currentTag) {
@@ -401,6 +402,7 @@ class Mix_Parser extends Mix_Abstract
 					$values['OFFERS_ADVID'] = $this->_shopId;
 				} else if (self::SECTION_FLUSH == $mode) {
 					$this->_insertOrUpdate($table->name, $values);
+					$values = array();
 				}
 			break;
 
@@ -474,6 +476,7 @@ class Mix_Parser extends Mix_Abstract
 						$this->_insertOrUpdate($geoTargetTable->name, $geo['geotarget']);
 						$this->_insertOrUpdate($advGeoTargetTable->name, $geo['adv_geotarget']);
 					}
+					$geotargets = $values = array();
 				}
 			break;
 
@@ -527,6 +530,7 @@ class Mix_Parser extends Mix_Abstract
 						$this->_insertOrUpdate($deliveryTable->name, $geo['delivery_geo']);
 						$this->_insertOrUpdate($advDeliveryTable->name, $geo['delivery_adv']);
 					}
+					$deliveries = array();
 				}
 			break;
 

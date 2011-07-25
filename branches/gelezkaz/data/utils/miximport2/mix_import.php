@@ -15,7 +15,7 @@ is_object($db) || trigger_error('Database connection error.', E_USER_ERROR);
 $db->query('SET NAMES UTF8');
 
 $select = $db->select()->from('MIXMART_ADVERTIZERS', array('ADVERTIZERS_ID', 'ADVERTIZERS_URL'));
-$select->where('ADVERTIZERS_UPDATED = 0')->limit(1);
+$select->where('ADVERTIZERS_UPDATED = 0');//->limit(1);
 
 foreach ($db->fetchPairs($select) as $shopId => $shopUrl) {
 	$xmlRead = fopen($shopUrl, "r");
