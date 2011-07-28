@@ -1,9 +1,11 @@
-<?php $this->description[] = $this->category->getTitle();?>
+<?php $categoryTitle = $this->category->getTitle();?>
+<?php $this->description[] = $categoryTitle;?>
+
 		<div class="title01-top"></div>
 		<div class="title01">
 			<div class="title01-in">
 				<h3 class="ico-info">
-					<?php echo $this->category->getTitle();?>
+					<?php echo $categoryTitle;?>
 				</h3>
 			</div>
 		</div>
@@ -11,11 +13,14 @@
 		<p class="bb">
 			<a href="/">Главная</a> &raquo;
 			<?php if (!empty($this->parentCategory)):?>
+			<?php $this->description[] = $this->parentCategory->getTitle();?>
+				<?php $this->headTitle()->append($this->parentCategory->getTitle()); ?>
 				<a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true);?>/category/<?php echo $this->parentCategory->getAlias();?>"><?php echo $this->parentCategory->getTitle();?></a> &raquo;
 			<?php endif;?>
-			<strong><?php echo $this->category->getTitle();?></strong>
+			<strong><?php echo $categoryTitle;?></strong>
 		</p>
 
+<?php $this->headTitle()->append($categoryTitle); ?>
 <?php if (!empty($this->childrenCategories)):?>
 	<!-- Subcategories -->
 	<h4>Подразделы:</h4>
