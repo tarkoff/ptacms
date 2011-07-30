@@ -19,8 +19,7 @@ class Mix_Port extends Mix_Abstract
 
 		$db = $this->getDB();
 		$catalogCategories = $db->fetchPairs(
-			'select CATEGORIES_ID, CATEGORIES_TITLE '
-				. 'from CATALOG_CATEGORIES'
+			'select CATEGORIES_ID, CATEGORIES_TITLE from CATALOG_CATEGORIES'
 		);
 
 		$insertValues = array();
