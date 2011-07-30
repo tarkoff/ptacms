@@ -17,7 +17,7 @@ class Mix_Port extends Mix_Abstract
 	{
 		$this->alert('Categories porting started');
 
-		$db = $this->_db;
+		$db = $this->getDB();
 		$catalogCategories = $db->fetchPairs(
 			'select CATEGORIES_ID, CATEGORIES_TITLE from CATALOG_CATEGORIES'
 		);
@@ -71,7 +71,7 @@ class Mix_Port extends Mix_Abstract
 	{
 		$this->alert('Brands porting started');
 
-		$db = $this->_db;
+		$db = $this->getDB();
 		$catalogBrands = $db->fetchPairs(
 			'select BRANDS_ID, BRANDS_TITLE from CATALOG_BRANDS'
 		);
@@ -127,7 +127,7 @@ class Mix_Port extends Mix_Abstract
 	{
 		$this->alert('Offers porting started');
 
-		$db = $this->_db;
+		$db = $this->getDB();
 
 		$sql = 'select prods.PRODUCTS_ID, prods.PRODUCTS_BRANDID, cats.PRODUCTCATEGORIES_CATEGORYID, prods.PRODUCTS_TITLE, prodSet.PRODUCTSETTINGS_SETTINGS '
 			. 'from CATALOG_PRODUCTS as prods '
@@ -139,13 +139,15 @@ class Mix_Port extends Mix_Abstract
 		$prods = array();
 		$bulkPos = 1;
 		$insertValues = array();
+		$linked = array();
 		while ($prods = $db->fetchAll($sql . $offset . ',' . self::QUERY_LIMIT)) {
 			foreach ($prods as $product) {
 				$mixProdSql = 'select mo.OFFERS_ID from MIXMARKET_OFFERS as mo '
 					. ' inner join MIXMARKET_LINKCATEGORIES as mlc on mo.OFFERS_CATID = mlc.LINKCATEGORIES_MIXID '
 					. ' inner join MIXMARKET_LINKBRANDS as mlb on mo.OFFERS_BRANDID = mlb.LINKBRANDS_MIXID '
 						. ' where mlb.LINKBRANDS_CATALOGID = ' . $product['PRODUCTS_BRANDID']
-						. ' and mlc.LINKCATEGORIES_CATALOGID = ' . $product['PRODUCTCATEGORIES_CATEGORYID'] . ' and ';
+						. ' and mlc.LINKCATEGORIES_CATALOGID = ' . $product['PRODUCTCATEGORIES_CATEGORYID']
+						. ' and mo.OFFERS_LINKED = 0 and ';
 				$settings = $keywords = $stopKeywords = array();
 				if (!empty($product['PRODUCTSETTINGS_SETTINGS'])) {
 					$settings = (array)unserialize($product['PRODUCTSETTINGS_SETTINGS']);
@@ -176,6 +178,7 @@ class Mix_Port extends Mix_Abstract
 				$this->alert($mixProdSql);
 				foreach ($db->fetchAll($mixProdSql) as $mixId) {
 					$insertValues[] = "({$product['PRODUCTS_ID']}, {$mixId['OFFERS_ID']})";
+					$linked[] = $mixId['OFFERS_ID'];
 					$bulkPos++;
 				}
 
@@ -185,12 +188,17 @@ class Mix_Port extends Mix_Abstract
 						. '(LINKOFFERS_CATALOGID, LINKOFFERS_MIXID) values '
 						. implode(', ', $insertValues)
 					);
+					$db->query('update MIXMARKET_OFFERS set OFFERS_LINKED = 1'
+							   . ' where OFFERS_ID in (' . implode(', ', $linked) . ')');
+					$linked = array();
 					$insertValues = array();
 					$bulkPos = 1;
 				}
 			}
 			$offset += self::QUERY_LIMIT + 1;
 		}
+
+
 
 		$this->alert('Offers porting finished');
 	}
