@@ -19,8 +19,7 @@ class Mix_Port extends Mix_Abstract
 
 		$db = $this->_db;
 		$catalogCategories = $db->fetchPairs(
-			'select CATEGORIES_ID, CATEGORIES_TITLE '
-				. 'from CATALOG_CATEGORIES where CATEGORIES_ISPUBLIC = 1'
+			'select CATEGORIES_ID, CATEGORIES_TITLE from CATALOG_CATEGORIES'
 		);
 
 		$insertValues = array();
@@ -67,7 +66,7 @@ class Mix_Port extends Mix_Abstract
 		}
 		$this->alert('Categories porting finished');
 	}
-	
+
 	public function portBrands()
 	{
 		$this->alert('Brands porting started');
@@ -123,7 +122,7 @@ class Mix_Port extends Mix_Abstract
 
 		$this->alert('Brands porting finished');
 	}
-	
+
 	public function portOffers()
 	{
 		$this->alert('Offers porting started');
