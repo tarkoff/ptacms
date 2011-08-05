@@ -59,11 +59,11 @@
 			<?php if (!empty($this->photos)):?>
 				<?php foreach ($this->photos as $photo):?>
 					<?php if ($photo->PHOTOS_ISDEFAULT):?>
-					<a href="/<?php echo $photo->PHOTOS_FILE?>" rel="photos" title="<?php echo $productFullName;?>">
+					<a href="<?php echo $photo->PHOTOS_FILE?>" rel="photos" title="<?php echo $productFullName;?>">
 					<img src="/timthumb/timthumb.php?src=<?php echo $photo->PHOTOS_FILE?>&w=180&zc=0" alt="<?php echo $productFullName;?>"/>
 					</a>
 					<?php else:?>
-					<a href="/<?php echo $photo->PHOTOS_FILE?>" rel="photos" title="<?php echo $productFullName;?>"></a>
+					<a href="<?php echo $photo->PHOTOS_FILE?>" rel="photos" title="<?php echo $productFullName;?>"></a>
 					<?php endif;?>
 				<?php endforeach;?>
 			<?php else:?>
