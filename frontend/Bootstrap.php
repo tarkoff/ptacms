@@ -52,7 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$view->addScriptPath(APPLICATION_PATH . '/layouts/scripts/generic/');
 
 		$view->headTitle()->setSeparator(' :: ');
-		$view->headTitle('Gelezka - Описания, Цены, Обзоры, Драйвера');
+		$view->headTitle('Gelezka');
 		$view->keywords = array();
 		$view->description = array('Gelezka - Описания, Цены, Обзоры, Драйвера');
 	}

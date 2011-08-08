@@ -25,6 +25,22 @@
 			<table>
 				<tr>
 			<?php foreach ($elements as $element):?>
+				<?php
+					if ($element->getValue()) {
+						switch (get_class($element)) {
+							case 'Zend_Form_Element_Select':
+								$selectValue = $element->getValue();
+								foreach ($element->getMultiOptions() as $key => $value) {
+									if ($selectValue == $key) {
+										$this->headTitle($element->getLabel() . ' -> ' . $value);
+									}
+								}
+							break;
+							default:
+								$this->headTitle($element->getLabel() . ' -> ' . $element->getValue());
+						}
+					}
+				?>
 				<?php $pos++;?>
 				<?php if ($element->getName() != 'submit'):?>
 					<td><dl><?php echo $element;?></dl></td><?php if ($pos % 3 == 0):?></tr><tr><?php endif;?>
