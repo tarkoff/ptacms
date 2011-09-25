@@ -63,19 +63,22 @@ class Catalog_Form_Photos_Upload extends KIT_Form_Abstract
 				$this->_photo->setProductId($this->_protuct->getId());
 				$this->_photo->setIsDefault(true);
 				$oldFileName = $this->photo->getFileName();
-				$fileProperties = pathinfo($oldFileName);
-				$newFileName = $fileProperties['dirname']
-							   . '/' .  $this->_protuct->getAlias()
-							   . '_' . substr(md5(date("r")), 0, 16)
-							   . '.' . $fileProperties['extension'];
+				if (is_string($oldFileName)) {
+					$fileProperties = pathinfo($oldFileName);
+					$newFileName = $fileProperties['dirname']
+								   . '/' .  $this->_protuct->getAlias()
+								   . '_' . substr(md5(date("r")), 0, 16)
+								   . '.' . $fileProperties['extension'];
 
-				if (rename($oldFileName, $newFileName)) {
-					$fileName = str_replace($_SERVER['DOCUMENT_ROOT'], '', $newFileName);
-				} else {
-					$fileName = str_replace($_SERVER['DOCUMENT_ROOT'], '', $oldFileName);
+					if (rename($oldFileName, $newFileName)) {
+						$fileName = str_replace($_SERVER['DOCUMENT_ROOT'], '', $newFileName);
+					} else {
+						$fileName = str_replace($_SERVER['DOCUMENT_ROOT'], '', $oldFileName);
+					}
+					$this->_photo->setFile($fileName);
+					return $this->_photo->save();
 				}
-				$this->_photo->setFile($fileName);
-				return $this->_photo->save();
+				return false;
 			} else {
 				$this->populate($this->getValues());
 			}
