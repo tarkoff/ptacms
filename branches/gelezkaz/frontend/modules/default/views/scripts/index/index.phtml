@@ -27,9 +27,11 @@
 			<?php foreach ($this->categories[1] as $category):?>
 				<dt><a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true);?>/category/<?php echo $category['CATEGORIES_ALIAS'];?>" title="<?php echo $category['CATEGORIES_TITLE'];?>"><?php echo $category['CATEGORIES_TITLE']; ?></a></dt>
 				<dd>
+				<?php if (!empty($category['childs'])):?>
 				<?php foreach ($category['childs'] as $childCategory):?>
 					<a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'categories', 'action' => 'list'), null, true);?>/category/<?php echo $childCategory['CATEGORIES_ALIAS'];?>" title="<?php echo $childCategory['CATEGORIES_TITLE'];?>"><?php echo $childCategory['CATEGORIES_TITLE'];?></a>,
 				<?php endforeach;?>
+				<?php endif;?>
 				</dd>
 			<?php endforeach;?>
 			</dl>
