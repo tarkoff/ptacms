@@ -20,13 +20,16 @@ $select->where('ADVERTIZERS_UPDATED = 0');//->limit(1);
 foreach ($db->fetchPairs($select) as $shopId => $shopUrl) {
 	$xmlRead = fopen($shopUrl, "r");
 	$xmlWrite = fopen('mixml.plx', "w");
-	if ($xmlRead && $xmlWrite) {
-		while (!feof($xmlRead)) {
-			//$buffer = iconv('Windows-1251', 'UTF-8', fgets($xmlRead, 4096));
-			$buffer = fgets($xmlRead, 4096);
-			fwrite($xmlWrite, $buffer);
-		}
+	if (!is_resource($xmlRead) || !is_resource($xmlWrite)) {
+		continue;
 	}
+	
+	while (!feof($xmlRead)) {
+		//$buffer = iconv('Windows-1251', 'UTF-8', fgets($xmlRead, 4096));
+		$buffer = fgets($xmlRead, 4096);
+		fwrite($xmlWrite, $buffer);
+	}
+	
 	fclose($xmlRead);
 	fclose($xmlWrite);
 	exec('iconv -f windows-1251 -t UTF-8 mixml.plx > mixml_.plx');

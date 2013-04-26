@@ -7,11 +7,11 @@ set_include_path(
 
 require 'Mix/Parser.php';
 
-$parser = new Mix_Parser('advs.plx');
+$parser = new Mix_Parser('advs_.plx');
 
 $parser->init();
-$parser->clearTables();
 $parser->disableKeys();
+$parser->clearTables();
 $parser->parse();
 $parser->enableKeys();
 

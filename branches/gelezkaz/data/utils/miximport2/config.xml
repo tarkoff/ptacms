@@ -5,8 +5,8 @@
 		<params>
 			<host>127.0.0.1</host>
 			<username>root</username>
-			<password></password>
-			<dbname>GELEZKAZ</dbname>
+			<password>passwd</password>
+			<dbname>gelezkan_gz</dbname>
 		</params>
 	</database>
 	<tables>
