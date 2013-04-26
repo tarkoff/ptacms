@@ -25,14 +25,14 @@ foreach ($db->fetchPairs($select) as $shopId => $shopUrl) {
 	}
 	
 	while (!feof($xmlRead)) {
-		//$buffer = iconv('Windows-1251', 'UTF-8', fgets($xmlRead, 4096));
-		$buffer = fgets($xmlRead, 4096);
+		$buffer = iconv('Windows-1251', 'UTF-8', fgets($xmlRead, 4096));
+		//$buffer = fgets($xmlRead, 4096);
 		fwrite($xmlWrite, $buffer);
 	}
 	
 	fclose($xmlRead);
 	fclose($xmlWrite);
-	exec('iconv -f windows-1251 -t UTF-8 mixml.plx > mixml_.plx');
+	//exec('iconv -f windows-1251 -t UTF-8 mixml.plx > mixml_.plx');
 	
 	$db->query('UPDATE MIXMART_ADVERTIZERS SET ADVERTIZERS_UPDATED = 1 WHERE ADVERTIZERS_ID = ' . $shopId);
 	
