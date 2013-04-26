@@ -36,7 +36,7 @@ foreach ($db->fetchPairs($select) as $shopId => $shopUrl) {
 	
 	$db->query('UPDATE MIXMART_ADVERTIZERS SET ADVERTIZERS_UPDATED = 1 WHERE ADVERTIZERS_ID = ' . $shopId);
 	
-	$parser = new Mix_Parser('mixml_.plx');
+	$parser = new Mix_Parser('mixml.plx');
 	$parser->init();
 	$parser->parse();
 //	$parser->disableKeys();
