@@ -606,6 +606,7 @@ class Mix_Parser extends Mix_Abstract
 		$sql .= implode(', ', $updateValues);
 		$this->alert($sql);
 		$this->_db->query($sql);
+		usleep(10000);
 
 		return $this->_db->commit();
 	}
