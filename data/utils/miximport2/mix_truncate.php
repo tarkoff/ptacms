@@ -7,7 +7,7 @@ set_include_path(
 
 require 'Mix/Parser.php';
 
-$parser = new Mix_Parser('advs_.plx');
+$parser = new Mix_Parser('advs.plx');
 
 $parser->init();
 $parser->disableKeys();
