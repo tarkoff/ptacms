@@ -65,6 +65,7 @@ abstract class Mix_Abstract
 		}
 
 		$this->_db->beginTransaction();
+		$this->_db->query(' SET FOREIGN_KEY_CHECKS=0');
 		foreach ($this->_config->tables as $table) {
 			if (!empty($table->name)) {
 				$this->_db->query('ALTER TABLE ' . $table->name . ' DISABLE KEYS');
@@ -80,6 +81,7 @@ abstract class Mix_Abstract
 		}
 
 		$this->_db->beginTransaction();
+		$this->_db->query(' SET FOREIGN_KEY_CHECKS=1');
 		foreach ($this->_config->tables as $table) {
 			if (!empty($table->name)) {
 				$this->_db->query('ALTER TABLE ' . $table->name . ' ENABLE KEYS');
@@ -126,7 +128,7 @@ abstract class Mix_Abstract
 
 		$this->_db->beginTransaction();
 		foreach ($this->_config->tables as $table) {
-			if (!empty($table->name) && !empty($table->clear)) {
+			if (!empty($table->name) && !empty($table->clear)) {var_dump($table->name);
 				$this->_db->query('truncate table ' . $table->name);
 				$this->alert('Table ' . $table->name . ' truncated');
 			}
